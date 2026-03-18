@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>海克斯大乱斗 · AI教练符文推荐 Demo</title>
+<style>
+  /* ========== Reset & Base ========== */
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: #0a0e1a;
+    color: #e0e6f0;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ========== Background Layer (simulated game) ========== */
+  .game-bg {
+    position: fixed; inset:0;
+    background: linear-gradient(135deg, #0d1321 0%, #1a1f3a 40%, #0d1321 100%);
+    z-index: 0;
+  }
+  .game-bg::before {
+    content:''; position:absolute; inset:0;
+    background: radial-gradient(ellipse at 50% 80%, rgba(30,60,120,0.3) 0%, transparent 70%);
+  }
+  .game-bg-text {
+    position: absolute; top:50%; left:50%; transform: translate(-50%,-50%);
+    font-size: 28px; color: rgba(255,255,255,0.06); letter-spacing: 8px;
+    text-transform: uppercase; user-select:none;
+  }
+
+  /* ========== Overlay (the selection modal) ========== */
+  .hex-overlay {
+    position: fixed; inset:0; z-index: 10;
+    background: rgba(6,10,22,0.92);
+    backdrop-filter: blur(12px);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.4s ease;
+  }
+  @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+  /* ========== Header ========== */
+  .hex-header {
+    text-align: center; margin-bottom: 8px;
+  }
+  .hex-header h1 {
+    font-size: 22px; font-weight: 700;
+    background: linear-gradient(90deg, #c9a84c, #f0d678, #c9a84c);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    letter-spacing: 4px;
+  }
+  .hex-header .subtitle {
+    font-size: 13px; color: #7a8399; margin-top: 4px;
+  }
+  .hero-info {
+    display: flex; align-items: center; gap: 8px;
+    justify-content: center; margin: 8px 0 4px;
+  }
+  .hero-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 2px solid #c9a84c; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, #1a2744, #2a3a5c);
+    font-size: 18px;
+  }
+  .hero-name { font-size: 14px; color: #c9a84c; font-weight: 600; }
+  .hero-role { font-size: 12px; color: #7a8399; }
+  .stage-badge {
+    display: inline-block; padding: 2px 10px; border-radius: 10px;
+    background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.3);
+    font-size: 11px; color: #c9a84c; margin-top: 4px;
+  }
+
+  /* ========== Cards Container ========== */
+  .cards-row {
+    display: flex; gap: 20px; margin: 16px 0 12px;
+    justify-content: center; flex-wrap: wrap;
+  }
+  /* 品质标题 — 显示在卡片组上方 */
+  .quality-title {
+    text-align: center; margin-bottom: 4px;
+    font-size: 13px; font-weight: 600; letter-spacing: 2px;
+  }
+  .quality-title.silver { color: #8a9aaa; }
+  .quality-title.gold { color: #daa520; }
+  .quality-title.prismatic { color: #b388ff; }
+
+  /* ========== Rune Card — 参考真实游戏卡牌风格 ========== */
+  .rune-card {
+    width: 240px; border-radius: 14px; overflow: hidden;
+    background: linear-gradient(180deg, #111926 0%, #0c1220 60%, #0a0f1a 100%);
+    cursor: pointer; transition: all 0.3s ease;
+    position: relative;
+    display: flex; flex-direction: column;
+  }
+  /* 卡片外框 — 按品质变色 */
+  .rune-card.quality-silver {
+    border: 2px solid #4a5060;
+    box-shadow: 0 4px 20px rgba(100,110,130,0.15);
+  }
+  .rune-card.quality-gold {
+    border: 2px solid #8a7330;
+    box-shadow: 0 4px 20px rgba(180,150,50,0.15);
+  }
+  .rune-card.quality-prismatic {
+    border: 2px solid #7a5aaa;
+    box-shadow: 0 4px 20px rgba(160,100,220,0.15);
+  }
+  .rune-card:hover { transform: translateY(-6px); }
+  .rune-card.quality-silver:hover { box-shadow: 0 8px 30px rgba(100,110,130,0.3); border-color: #6a7080; }
+  .rune-card.quality-gold:hover { box-shadow: 0 8px 30px rgba(200,170,60,0.3); border-color: #c9a84c; }
+  .rune-card.quality-prismatic:hover { box-shadow: 0 8px 30px rgba(160,100,220,0.3); border-color: #b388ff; }
+  .rune-card.selected.quality-silver { border-color: #8a9aaa; box-shadow: 0 0 24px rgba(130,150,180,0.4); }
+  .rune-card.selected.quality-gold { border-color: #ffd700; box-shadow: 0 0 24px rgba(255,215,0,0.4); }
+  .rune-card.selected.quality-prismatic { border-color: #d8a0ff; box-shadow: 0 0 24px rgba(200,140,255,0.4); }
+
+  /* 卡片顶部装饰角 — 模拟游戏中的金属边角 */
+  .card-corner-tl, .card-corner-tr {
+    position: absolute; top: 0; width: 28px; height: 28px; z-index: 3;
+  }
+  .card-corner-tl { left: 0; border-top: 2px solid; border-left: 2px solid; border-radius: 14px 0 0 0; }
+  .card-corner-tr { right: 0; border-top: 2px solid; border-right: 2px solid; border-radius: 0 14px 0 0; }
+  .quality-silver .card-corner-tl, .quality-silver .card-corner-tr { border-color: #6a7888; }
+  .quality-gold .card-corner-tl, .quality-gold .card-corner-tr { border-color: #c9a84c; }
+  .quality-prismatic .card-corner-tl, .quality-prismatic .card-corner-tr { border-color: #b388ff; }
+
+  /* Grade badge */
+  .grade-badge {
+    position: absolute; top: 10px; right: 10px;
+    width: 30px; height: 30px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 900; z-index: 4;
+  }
+  .grade-A { background: linear-gradient(135deg, #ffd700, #ff9500); color: #1a0e00; box-shadow: 0 0 12px rgba(255,215,0,0.5); }
+  .grade-S { background: linear-gradient(135deg, #ffd700, #ff6b00, #ffd700); color: #1a0e00; box-shadow: 0 0 18px rgba(255,180,0,0.7); animation: shimmer 1.5s infinite; }
+  .grade-B { background: linear-gradient(135deg, #4a90d9, #6db3f2); color: #0a1a30; }
+  .grade-C { background: rgba(255,255,255,0.15); color: #aab4c8; }
+  .grade-D { background: rgba(80,80,90,0.15); color: #555; }
+
+  /* ? icon for runes needing extra explanation */
+  .help-icon {
+    position: absolute; top: 10px; right: 46px;
+    width: 22px; height: 22px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; z-index: 4;
+    cursor: pointer; transition: all 0.2s;
+    background: rgba(255,255,255,0.1);
+    color: #8a94a8; border: 1px solid rgba(255,255,255,0.15);
+  }
+  .help-icon:hover { background: rgba(255,255,255,0.2); color: #c9a84c; border-color: rgba(201,168,76,0.4); }
+
+  /* A级卡牌光晕 */
+  .rune-card.glow-a::before {
+    content:''; position:absolute; inset:-2px; border-radius:16px;
+    background: linear-gradient(135deg, rgba(255,215,0,0.12), transparent 40%, rgba(255,215,0,0.12));
+    z-index:0; animation: shimmer 2.5s infinite;
+  }
+  /* S级天胡卡牌光晕 — 更强烈 */
+  .rune-card.glow-s::before {
+    content:''; position:absolute; inset:-3px; border-radius:16px;
+    background: linear-gradient(135deg, rgba(255,180,0,0.2), rgba(255,100,0,0.1), rgba(255,215,0,0.2));
+    z-index:0; animation: shimmer 1.5s infinite;
+  }
+  .rune-card.glow-s::after {
+    content:''; position:absolute; inset:-1px; border-radius:16px;
+    background: linear-gradient(45deg, transparent 40%, rgba(255,215,0,0.08) 50%, transparent 60%);
+    z-index:0; animation: shine 2s infinite linear;
+  }
+  @keyframes shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  @keyframes shimmer {
+    0%,100% { opacity:0.3 } 50% { opacity:0.9 }
+  }
+  .rune-card.glow-b::before {
+    content:''; position:absolute; inset:-2px; border-radius:16px;
+    background: linear-gradient(135deg, rgba(74,144,217,0.08), transparent 40%, rgba(74,144,217,0.08));
+    z-index:0; animation: shimmer 3s infinite;
+  }
+
+  /* Reroll rate display */
+  .reroll-rate {
+    display: flex; align-items: center; justify-content: center; gap: 4px;
+    font-size: 11px; padding: 4px 14px;
+    position: relative; z-index: 1;
+  }
+  .reroll-rate .label { color: #6a7488; }
+  .reroll-rate .value { font-weight: 600; }
+  .reroll-rate .value.high { color: #ffa500; }
+  .reroll-rate .value.low { color: #555; }
+  .reroll-rate .value.mid { color: #7aa0cc; }
+
+  /* 品质顶部条纹 */
+  .quality-stripe {
+    height: 3px; width: 100%;
+  }
+  .quality-silver { background: linear-gradient(90deg, transparent, #6a7888, #9aa8b8, #6a7888, transparent); }
+  .quality-gold { background: linear-gradient(90deg, transparent, #8a6a20, #ffd700, #8a6a20, transparent); }
+  .quality-prismatic { background: linear-gradient(90deg, transparent, #ff6b6b, #ffd700, #6bff6b, #6bb5ff, #d76bff, transparent); }
+
+  /* 图标区域 — 更大更突出 */
+  .rune-icon-area {
+    height: 120px; display: flex; align-items: center; justify-content: center;
+    position: relative; z-index: 1;
+    background: radial-gradient(ellipse at 50% 60%, rgba(30,40,70,0.5) 0%, transparent 70%);
+  }
+  .rune-icon {
+    width: 72px; height: 72px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 34px;
+    position: relative;
+    transition: transform 0.3s;
+  }
+  .rune-card:hover .rune-icon { transform: scale(1.08); }
+  .rune-icon.silver { background: radial-gradient(circle, #3a4060 0%, #1e2438 100%); border: 2px solid #5a6878; box-shadow: 0 0 20px rgba(100,120,150,0.2); }
+  .rune-icon.gold { background: radial-gradient(circle, #3a3010 0%, #1e1a08 100%); border: 2px solid #b8960b; box-shadow: 0 0 20px rgba(200,170,50,0.2); }
+  .rune-icon.prismatic { background: radial-gradient(circle, #2a1a3a 0%, #1a1030 100%); border: 2px solid #9b59b6; box-shadow: 0 0 20px rgba(155,89,182,0.25); }
+  /* 图标光圈 */
+  .rune-icon::after {
+    content: ''; position: absolute; inset: -6px; border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* 卡片内容 */
+  .rune-body { padding: 0 14px 10px; text-align:center; position:relative; z-index:1; flex: 1; }
+  .rune-name { font-size: 16px; font-weight: 700; margin-bottom: 4px; letter-spacing: 1px; }
+  .rune-type-label {
+    display: inline-block; padding: 2px 10px; border-radius: 10px;
+    font-size: 11px; font-weight: 600; margin-bottom: 8px;
+  }
+  .rune-type-label.silver { background: rgba(100,120,150,0.15); color: #8a9aaa; border: 1px solid rgba(100,120,150,0.2); }
+  .rune-type-label.gold { background: rgba(200,170,50,0.12); color: #daa520; border: 1px solid rgba(200,170,50,0.2); }
+  .rune-type-label.prismatic { background: rgba(180,130,255,0.12); color: #b388ff; border: 1px solid rgba(180,130,255,0.2); }
+  .rune-desc {
+    font-size: 12px; color: #8a94a8; line-height: 1.6;
+    min-height: 40px;
+  }
+  .rune-desc strong { color: #b0c4de; }
+
+  /* Tags */
+  .rune-tags {
+    display: flex; flex-wrap: wrap; gap: 4px; justify-content: center;
+    padding: 8px 14px; position: relative; z-index: 1;
+  }
+  .tag {
+    display: inline-flex; align-items: center; gap: 3px;
+    padding: 2px 8px; border-radius: 10px;
+    font-size: 11px; font-weight: 500; cursor: default;
+    transition: all 0.2s;
+  }
+  .tag:hover { transform: scale(1.05); }
+  .tag-strong { background: rgba(255,215,0,0.15); color: #ffd700; border: 1px solid rgba(255,215,0,0.3); }
+  .tag-godtier { background: linear-gradient(90deg, rgba(255,180,0,0.2), rgba(255,100,0,0.15)); color: #ffaa00; border: 1px solid rgba(255,180,0,0.4); animation: pulse 1.5s infinite; font-weight: 700; }
+  .tag-hack { background: rgba(0,255,170,0.12); color: #00ffaa; border: 1px solid rgba(0,255,170,0.25); }
+  .tag-bond { background: rgba(100,150,255,0.12); color: #88bbff; border: 1px solid rgba(100,150,255,0.25); }
+  .tag-hot { background: rgba(255,100,50,0.12); color: #ff8844; border: 1px solid rgba(255,100,50,0.2); }
+  .tag-cold { background: rgba(100,180,255,0.1); color: #77aadd; border: 1px solid rgba(100,180,255,0.15); }
+  .tag-skip { background: rgba(255,200,50,0.1); color: #ccaa44; border: 1px solid rgba(255,200,50,0.15); }
+  .tag-type { background: rgba(255,255,255,0.06); color: #8a94a8; border: 1px solid rgba(255,255,255,0.1); }
+
+  /* ========== Per-card Refresh Button — 仿游戏底部按钮 ========== */
+  .card-refresh-btn {
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+    width: 56px; height: 32px;
+    margin: 0 auto 12px;
+    border-radius: 6px;
+    font-size: 16px; font-weight: 700; cursor: pointer;
+    border: 1.5px solid; transition: all 0.25s;
+    background: rgba(20,30,50,0.9); position: relative; z-index: 1;
+    letter-spacing: 0;
+  }
+  .card-refresh-btn.suggest {
+    border-color: #ffa500; color: #ffa500;
+    animation: pulse 1.5s infinite;
+    background: rgba(255,165,0,0.08);
+  }
+  @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,165,0,0.3)} 50%{box-shadow:0 0 12px 4px rgba(255,165,0,0.15)} }
+  .card-refresh-btn.neutral {
+    border-color: #4a6080; color: #7aa0cc;
+    background: rgba(40,60,100,0.3);
+  }
+  .card-refresh-btn.dimmed {
+    border-color: #2a3040; color: #444; cursor: default; pointer-events: none;
+    background: rgba(20,25,35,0.5);
+  }
+  .card-refresh-btn:not(.dimmed):hover { transform: scale(1.08); background: rgba(255,255,255,0.06); }
+  .refresh-summary {
+    display: flex; align-items: center; gap: 8px;
+    justify-content: center; margin-bottom: 12px;
+    font-size: 12px; color: #7a8399;
+  }
+  .refresh-summary .highlight { color: #ffa500; font-weight: 600; }
+
+  /* ========== Coach Panel ========== */
+  .coach-panel {
+    width: 720px; max-width: 95vw;
+    background: linear-gradient(180deg, rgba(20,28,50,0.95), rgba(12,18,35,0.98));
+    border: 1px solid #2a3454;
+    border-radius: 12px; overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  .coach-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px;
+    background: rgba(201,168,76,0.06);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    cursor: pointer;
+  }
+  .coach-header:hover { background: rgba(201,168,76,0.1); }
+  .coach-title {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 600; color: #c9a84c;
+  }
+  .coach-avatar {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: linear-gradient(135deg, #c9a84c, #8a6a2a);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  .coach-toggle {
+    font-size: 18px; color: #7a8399; transition: transform 0.3s;
+  }
+  .coach-toggle.collapsed { transform: rotate(180deg); }
+  .coach-body {
+    padding: 12px 16px; line-height: 1.7;
+    max-height: 200px; overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+  }
+  .coach-body.collapsed { max-height: 0; padding: 0 16px; }
+  .coach-recommend {
+    display: flex; align-items: flex-start; gap: 6px;
+    margin-bottom: 8px;
+  }
+  .coach-recommend .icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+  .coach-recommend .text { font-size: 13px; }
+  .coach-recommend .highlight { color: #ffd700; font-weight: 600; }
+  .coach-recommend .secondary { color: #8a94a8; }
+  .coach-sub {
+    font-size: 12px; color: #6a7488; padding-left: 22px;
+    border-left: 2px solid #2a3454; margin: 4px 0 4px 8px;
+    padding-top: 2px; padding-bottom: 2px;
+  }
+
+  /* ========== Select Button ========== */
+  .select-area {
+    display: flex; justify-content: center; margin-top: 14px;
+  }
+  .select-btn {
+    padding: 10px 48px; border-radius: 8px;
+    font-size: 15px; font-weight: 700;
+    background: linear-gradient(135deg, #c9a84c, #a08030);
+    color: #1a0e00; border: none; cursor: pointer;
+    transition: all 0.2s; letter-spacing: 2px;
+  }
+  .select-btn:hover { transform: scale(1.03); box-shadow: 0 4px 20px rgba(201,168,76,0.3); }
+  .select-btn:disabled { background: #333; color: #666; cursor: default; transform: none; box-shadow:none; }
+
+  /* ========== Scenario Switcher ========== */
+  .scenario-bar {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(10,14,26,0.95);
+    border-bottom: 1px solid #1a2040;
+    display: flex; align-items: center;
+    padding: 8px 20px; gap: 12px;
+    backdrop-filter: blur(8px);
+  }
+  .scenario-bar label {
+    font-size: 12px; color: #7a8399; flex-shrink:0;
+  }
+  .scenario-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+  .scenario-tab {
+    padding: 4px 14px; border-radius: 6px;
+    font-size: 12px; cursor: pointer;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #8a94a8; transition: all 0.2s;
+  }
+  .scenario-tab:hover { background: rgba(255,255,255,0.1); }
+  .scenario-tab.active {
+    background: rgba(201,168,76,0.15);
+    border-color: rgba(201,168,76,0.4);
+    color: #c9a84c;
+  }
+
+  /* ========== Bond Popup ========== */
+  .bond-popup {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    z-index: 200; background: rgba(15,20,38,0.98);
+    border: 1px solid #3a4a6a; border-radius: 14px;
+    padding: 24px 28px; max-width: 380px; width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    display: none;
+  }
+  .bond-popup.show { display: block; animation: fadeIn 0.2s ease; }
+  .bond-popup h3 { font-size: 15px; color: #88bbff; margin-bottom: 12px; display:flex; align-items:center; gap:6px; }
+  .bond-progress {
+    display: flex; gap: 6px; margin: 10px 0;
+  }
+  .bond-dot {
+    width: 32px; height: 6px; border-radius: 3px;
+    background: #2a3454;
+  }
+  .bond-dot.filled { background: linear-gradient(90deg, #4a90d9, #6db3f2); }
+  .bond-effect { font-size: 12px; color: #8a94a8; margin-top: 8px; line-height: 1.6; }
+  .bond-effect strong { color: #88bbff; }
+  .bond-close {
+    position: absolute; top: 10px; right: 14px;
+    font-size: 18px; color: #555; cursor: pointer;
+    background: none; border: none;
+  }
+  .bond-close:hover { color: #aaa; }
+
+  /* ========== Hack Popup ========== */
+  .hack-popup {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    z-index: 200; background: rgba(10,22,20,0.98);
+    border: 1px solid #1a5a4a; border-radius: 14px;
+    padding: 24px 28px; max-width: 400px; width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    display: none;
+  }
+  .hack-popup.show { display: block; animation: fadeIn 0.2s ease; }
+  .hack-popup h3 { font-size: 15px; color: #00ffaa; margin-bottom: 10px; display:flex; align-items:center; gap:6px; }
+  .hack-chain {
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    margin: 12px 0;
+  }
+  .hack-node {
+    padding: 6px 12px; border-radius: 8px;
+    background: rgba(0,255,170,0.08);
+    border: 1px solid rgba(0,255,170,0.2);
+    font-size: 12px; color: #00ffaa;
+  }
+  .hack-node.owned { background: rgba(0,255,170,0.2); font-weight: 600; }
+  .hack-arrow { color: #1a5a4a; font-size: 16px; }
+  .hack-desc { font-size: 12px; color: #8a94a8; line-height: 1.6; }
+  .hack-close {
+    position: absolute; top: 10px; right: 14px;
+    font-size: 18px; color: #555; cursor: pointer;
+    background: none; border: none;
+  }
+  .hack-close:hover { color: #aaa; }
+
+  /* ========== Equip Popup ========== */
+  .equip-popup {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    z-index: 200; background: rgba(15,18,35,0.98);
+    border: 1px solid #5a4a2a; border-radius: 14px;
+    padding: 24px 28px; max-width: 420px; width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    display: none;
+  }
+  .equip-popup.show { display: block; animation: fadeIn 0.2s ease; }
+  .equip-popup h3 { font-size: 15px; color: #daa520; margin-bottom: 12px; display:flex; align-items:center; gap:6px; }
+  .equip-close {
+    position: absolute; top: 10px; right: 14px;
+    font-size: 18px; color: #555; cursor: pointer;
+    background: none; border: none;
+  }
+  .equip-close:hover { color: #aaa; }
+  .equip-category { margin-bottom: 14px; }
+  .equip-category-title {
+    font-size: 13px; font-weight: 600; color: #c9a84c;
+    margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+  }
+  .equip-grid {
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .equip-item {
+    display: flex; align-items: center; gap: 4px;
+    padding: 4px 10px; border-radius: 6px;
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.2);
+    font-size: 12px; color: #c9a84c;
+  }
+  .equip-item .equip-icon { font-size: 14px; }
+  .equip-hint {
+    font-size: 11px; color: #6a7488; margin-top: 10px;
+    padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.05);
+    line-height: 1.5;
+  }
+
+  /* Equipment tag style */
+  .tag-equip { background: rgba(201,168,76,0.12); color: #daa520; border: 1px solid rgba(201,168,76,0.25); cursor: pointer; }
+
+  /* ========== Backdrop ========== */
+  .popup-backdrop {
+    position: fixed; inset:0; z-index: 150;
+    background: rgba(0,0,0,0.4);
+    display: none;
+  }
+  .popup-backdrop.show { display: block; }
+
+  /* ========== Help Popup (? icon detail) ========== */
+  .help-popup {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    z-index: 200; background: rgba(15,20,38,0.98);
+    border: 1px solid #3a4a6a; border-radius: 14px;
+    padding: 24px 28px; max-width: 400px; width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    display: none;
+  }
+  .help-popup.show { display: block; animation: fadeIn 0.2s ease; }
+  .help-popup h3 { font-size: 15px; color: #c9a84c; margin-bottom: 12px; display:flex; align-items:center; gap:6px; }
+  .help-popup .help-detail { font-size: 13px; color: #b0c4de; line-height: 1.7; margin-bottom: 12px; }
+  .help-popup .help-scenario { font-size: 12px; color: #8a94a8; line-height: 1.6; padding: 10px 12px; background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px solid rgba(255,255,255,0.06); }
+  .help-popup .help-scenario strong { color: #c9a84c; }
+  .help-close {
+    position: absolute; top: 10px; right: 14px;
+    font-size: 18px; color: #555; cursor: pointer;
+    background: none; border: none;
+  }
+  .help-close:hover { color: #aaa; }
+
+  /* ========== Responsive ========== */
+  @media (max-width: 768px) {
+    .cards-row { flex-direction: column; align-items: center; }
+    .rune-card { width: 300px; }
+    .coach-panel { width: 300px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Scenario Switcher -->
+<div class="scenario-bar">
+  <label>演示场景：</label>
+  <div class="scenario-tabs" id="scenarioTabs"></div>
+</div>
+
+<!-- Game Background -->
+<div class="game-bg">
+  <div class="game-bg-text">GAME IN PROGRESS</div>
+</div>
+
+<!-- Hex Selection Overlay -->
+<div class="hex-overlay" id="hexOverlay">
+  <div class="hex-header">
+    <h1>海克斯强化符文选择</h1>
+    <div class="subtitle" id="stageText"></div>
+    <div class="hero-info">
+      <div class="hero-avatar" id="heroAvatar"></div>
+      <div>
+        <div class="hero-name" id="heroName"></div>
+        <div class="hero-role" id="heroRole"></div>
+      </div>
+    </div>
+    <div class="stage-badge" id="stageBadge"></div>
+  </div>
+
+  <div class="cards-row" id="cardsRow"></div>
+
+  <div class="refresh-summary" id="refreshSummary"></div>
+
+  <div class="coach-panel" id="coachPanel">
+    <div class="coach-header" id="coachHeader">
+      <div class="coach-title">
+        <div class="coach-avatar">🤖</div>
+        <span>AI 教练推荐</span>
+      </div>
+      <div class="coach-toggle" id="coachToggle">▲</div>
+    </div>
+    <div class="coach-body" id="coachBody"></div>
+  </div>
+
+  <div class="select-area">
+    <button class="select-btn" id="selectBtn" disabled>确认选择</button>
+  </div>
+</div>
+
+<!-- Popups -->
+<div class="popup-backdrop" id="popupBackdrop"></div>
+<div class="bond-popup" id="bondPopup">
+  <button class="bond-close" id="bondClose">✕</button>
+</div>
+<div class="hack-popup" id="hackPopup">
+  <button class="hack-close" id="hackClose">✕</button>
+</div>
+<div class="equip-popup" id="equipPopup">
+  <button class="equip-close" onclick="closePopups()">✕</button>
+</div>
+<div class="help-popup" id="helpPopup">
+  <button class="help-close" onclick="closePopups()">✕</button>
+</div>
+
+<script>
+// ============================================================
+// EQUIPMENT KNOWLEDGE BASE — 装备分类知识库
+// ============================================================
+const EQUIP_KNOWLEDGE = {
+  '头戴式装备': {
+    icon: '👒',
+    desc: '佩戴在头部的装备，通常提供防御或法术属性',
+    items: [
+      { name: '兰顿之兆', icon: '🔴', stat: '护甲+生命值，减速光环' },
+      { name: '日炎圣盾', icon: '☀️', stat: '护甲+生命值，灼烧效果' },
+      { name: '荆棘之甲', icon: '🌿', stat: '护甲，反弹伤害' },
+      { name: '骑士之誓', icon: '⚜️', stat: '生命值，绑定队友分担伤害' },
+      { name: '钢铁烈阳之匣', icon: '📦', stat: '护甲+魔抗，团队护盾' },
+    ]
+  },
+  '帽子类装备': {
+    icon: '🎩',
+    desc: '以帽子为核心的法术装备，通常大幅提升法术伤害',
+    items: [
+      { name: '灭世者的死亡之帽', icon: '🧙', stat: '120法强，法强提升35%' },
+      { name: '巫妖之祸', icon: '💀', stat: '法强+技能急速，释放技能后强化普攻' },
+      { name: '虚空之杖', icon: '🔮', stat: '法强+40%法穿' },
+      { name: '中娅沙漏', icon: '⏳', stat: '法强+护甲，主动金身' },
+      { name: '灵光披风', icon: '✨', stat: '法强+法力值+技能急速' },
+    ]
+  },
+  '鞋子类装备': {
+    icon: '👟',
+    desc: '提供移速加成的鞋子，每人只能穿一双',
+    items: [
+      { name: '明朗之靴', icon: '💨', stat: '技能急速+移速' },
+      { name: '水银之靴', icon: '🧲', stat: '魔抗+韧性+移速' },
+      { name: '铁板靴', icon: '🛡️', stat: '护甲+移速' },
+      { name: '狂战士胫甲', icon: '⚔️', stat: '攻速+移速' },
+      { name: '法师之靴', icon: '🔮', stat: '法穿+移速' },
+    ]
+  },
+  '暴击装备': {
+    icon: '💥',
+    desc: '提供暴击几率或暴击伤害的攻击装备',
+    items: [
+      { name: '无尽之刃', icon: '🗡️', stat: '攻击力+暴击，暴击伤害提升' },
+      { name: '急速火炮', icon: '⚡', stat: '攻速+暴击，蓄能远程攻击' },
+      { name: '飓风', icon: '🌪️', stat: '攻速+暴击，分裂弹幕' },
+      { name: '纳沃利之疾刃', icon: '🌀', stat: '攻击力+暴击+技能急速' },
+      { name: '守护天使', icon: '👼', stat: '攻击力+护甲，复活被动' },
+    ]
+  },
+  '穿甲装备': {
+    icon: '🔪',
+    desc: '提供护甲穿透效果的物理装备',
+    items: [
+      { name: '幽梦之灵', icon: '👻', stat: '攻击力+穿甲+移速' },
+      { name: '暗影之刃', icon: '🌑', stat: '攻击力+穿甲+暴击' },
+      { name: '塞瑞尔达的怨恨', icon: '❄️', stat: '攻击力+穿甲+减速' },
+      { name: '黑色切割者', icon: '⚫', stat: '攻击力+生命值+破甲叠层' },
+    ]
+  }
+};
+
+// ============================================================
+// MOCK DATA — simulated from real game data patterns
+// ============================================================
+
+const SCENARIOS = [
+  {
+    id: 'lux_start',
+    label: '拉克丝 · 开局首选',
+    hero: { name: '拉克丝', role: '远程法师', avatar: '🌟', type: 'mage' },
+    stage: '开局选择（Lv.1）',
+    stageIndex: 1,
+    quality: 'gold',
+    runes: [
+      {
+        id: 'cycle', name: '循环往复', quality: 'gold', icon: '🔁',
+        desc: '获得 +50 技能极速，技能冷却大幅缩短',
+        grade: 'S', winRate: 57.2, rerollRate: 5,
+        tags: [
+          { type: 'godtier', text: '🌟 天胡' },
+          { type: 'strong', text: '⭐ 强力单卡' }
+        ],
+        typeTag: '🔁 技能加速',
+        coachLine: '天胡符文！技能转得飞快，拉克丝的 Q 和 E 能不停丢，开局碰到就拿别犹豫。',
+        refreshAdvice: 'dimmed',
+      },
+      {
+        id: 'magic_missile', name: '魔法飞弹', quality: 'gold', icon: '✨',
+        desc: '技能命中后额外发射一枚魔法飞弹，造成法术伤害',
+        grade: 'B', winRate: 53.1, rerollRate: 14,
+        tags: [{ type: 'strong', text: '⭐ 强力单卡' }],
+        typeTag: '🗡️ 输出增幅',
+        coachLine: '每次技能命中都多打一发弹幕，法师拿了特别爽，拉克丝 E 能多炸一下。',
+        refreshAdvice: 'dimmed',
+      },
+      {
+        id: 'shrink', name: '缩小射线', quality: 'gold', icon: '🔬',
+        desc: '技能命中使敌人缩小，降低护甲和魔抗 3 秒',
+        grade: 'C', winRate: 50.8, rerollRate: 32,
+        tags: [{ type: 'hack', text: '🧪 黑科技：巨人收割' }],
+        typeTag: '🧲 控制/干扰',
+        coachLine: '命中让敌人变脆，适合守塔反杀，但需要先命中技能才有效果。',
+        refreshAdvice: 'neutral',
+        hackCombo: {
+          name: '巨人收割',
+          nodes: ['缩小射线', '巨人杀手'],
+          owned: [],
+          desc: '缩小降低护甲魔抗 + 巨人杀手按比例打伤害，打坦克效果拔群。'
+        }
+      }
+    ],
+    coachMain: { idx: 0, reason: '开局就天胡了，碰到别犹豫直接拿！' },
+    coachSubs: [
+      '魔法飞弹也可以：法师多一发弹幕，稳定加伤害',
+      '缩小射线：让敌人变脆，后面碰到巨人杀手能凑黑科技'
+    ]
+  },
+  {
+    id: 'garen_7',
+    label: '盖伦 · 7级选择',
+    hero: { name: '盖伦', role: '近战战士/坦克', avatar: '⚔️', type: 'fighter' },
+    stage: '第 2 次选择（Lv.7）',
+    stageIndex: 2,
+    quality: 'silver',
+    ownedRunes: ['坦克引擎'],
+    runes: [
+      {
+        id: 'cheat_recall', name: '作弊我能回城', quality: 'silver', icon: '🏠',
+        desc: '解锁回城功能，可在泉水回血并购买装备',
+        grade: 'S', winRate: 56.8, rerollRate: 5,
+        needHelp: true,
+        helpDetail: '大乱斗模式下默认不能回城，只有死亡后才能购买装备。这个符文打破了这个规则，让你可以像普通模式一样按B回城。',
+        helpScenario: '配合心之钢（一件靠近敌人叠加血量的装备），你可以反复回城购买并叠加属性，让自己越来越肉。',
+        tags: [
+          { type: 'godtier', text: '🌟 天胡' },
+          { type: 'hack', text: '🧪 黑科技：不死坦克' }
+        ],
+        typeTag: '🎲 特殊机制',
+        coachLine: '天胡！破例让你能回城买装备！配上你已有的坦克引擎，可以回城叠心之钢无限变肉，这套叫"不死坦克"，非常离谱。',
+        refreshAdvice: 'dimmed',
+        hackCombo: {
+          name: '不死坦克',
+          nodes: ['坦克引擎', '作弊我能回城', '心之钢（装备）'],
+          owned: ['坦克引擎'],
+          desc: '回城叠心之钢无限增长血量 + 坦克引擎放大收益，盖伦能变成真正的不死铁墙。'
+        }
+      },
+      {
+        id: 'vampire', name: '吸血习性', quality: 'silver', icon: '🧛',
+        desc: '获得 12% 全能吸血，造成伤害即可回血',
+        grade: 'C', winRate: 51.2, rerollRate: 25,
+        tags: [],
+        typeTag: '❤️‍🩹 续航回复',
+        coachLine: '持续偷血保命，但盖伦已经有被动回血了，收益不是最大化。',
+        refreshAdvice: 'neutral',
+      },
+      {
+        id: 'goliath', name: '歌利亚巨人', quality: 'silver', icon: '🗿',
+        desc: '每次参与击杀永久增加 60 最大生命值',
+        grade: 'C', winRate: 48.5, rerollRate: 45,
+        tags: [
+          { type: 'bond', text: '🔗 羁绊：俯冲炸弹 ①/④' }
+        ],
+        typeTag: '🛡️ 生存增强',
+        coachLine: '叠血量的符文，但需要大量击杀才能起效，前期体验一般。',
+        refreshAdvice: 'suggest',
+        bondInfo: {
+          name: '俯冲炸弹',
+          total: 4, current: 0,
+          members: ['歌利亚巨人', '俯冲轰炸', '小丑学院', '亡魂复仇'],
+          effects: [
+            { count: 2, text: '复活倒计时减少 40%' },
+            { count: 3, text: '复活倒计时减少 40%，复活后短暂无敌' },
+            { count: 4, text: '复活倒计时减少 40%，复活后无敌 + 范围爆炸' }
+          ]
+        }
+      }
+    ],
+    coachMain: { idx: 0, reason: '天胡+黑科技双重成型！配上你的坦克引擎，"不死坦克"要起飞了！' },
+    coachSubs: [
+      '吸血习性也能用，但你已经有被动回血，不是最优',
+      '歌利亚巨人属于俯冲炸弹套装，但目前不急着凑'
+    ]
+  },
+  {
+    id: 'jinx_11',
+    label: '金克丝 · 11级选择',
+    hero: { name: '金克丝', role: '远程射手', avatar: '💥', type: 'adc' },
+    stage: '第 3 次选择（Lv.11）',
+    stageIndex: 3,
+    quality: 'gold',
+    ownedRunes: ['循环往复', '易损'],
+    runes: [
+      {
+        id: 'crit_rhythm', name: '暴击律动', quality: 'gold', icon: '⚡',
+        desc: '获得 25% 暴击几率，暴击后提升 15% 攻速 3 秒',
+        grade: 'A', winRate: 53.8, rerollRate: 11,
+        tags: [{ type: 'strong', text: '⭐ 强力单卡' }],
+        typeTag: '🎯 攻击特效',
+        coachLine: '暴击 + 攻速双加，金克丝的火箭炮形态暴击特别猛，配你已有的易损更强。',
+        refreshAdvice: 'dimmed',
+      },
+      {
+        id: 'blade_waltz', name: '利刃华尔兹', quality: 'gold', icon: '🗡️',
+        desc: '替换一个召唤师技能，获得一段突进 + 范围伤害',
+        grade: 'C', winRate: 51.5, rerollRate: 28,
+        needHelp: true,
+        helpDetail: '选择后会替换你的一个召唤师技能（闪现或治疗），变成一个有冷却的短距突进，突进终点会造成范围伤害。',
+        helpScenario: '适合近战刺客/战士使用，可以当作额外的突脸手段。但射手用了会失去闪现保命手段，风险较高。',
+        tags: [],
+        typeTag: '💨 机动性',
+        coachLine: '给你一段位移，但金克丝是站桩输出，位移不是最需要的，操作要求也高。',
+        refreshAdvice: 'suggest',
+      },
+      {
+        id: 'cake', name: '当心小蛋糕', quality: 'gold', icon: '🎂',
+        desc: '参与击杀后掉落蛋糕，食用回复血量并获得金币',
+        grade: 'B', winRate: 52.6, rerollRate: 16,
+        tags: [
+          { type: 'bond', text: '🔗 羁绊：金币雨 ①/④' }
+        ],
+        typeTag: '💰 经济收益',
+        coachLine: '回血 + 赚钱，属于金币雨套装，后面再碰到同套的能激活额外经济加成。',
+        refreshAdvice: 'neutral',
+        bondInfo: {
+          name: '金币雨',
+          total: 4, current: 0,
+          members: ['当心小蛋糕', '红包', '捐赠', '夺金'],
+          effects: [
+            { count: 2, text: '每次击杀额外 +20 金币' },
+            { count: 3, text: '每次击杀额外 +20 金币，队伍共享 +10' },
+            { count: 4, text: '每次击杀额外 +40 金币，全队 +20，装备折扣' }
+          ]
+        }
+      }
+    ],
+    coachMain: { idx: 0, reason: '金克丝最爱暴击，配上易损伤害爆炸' },
+    coachSubs: [
+      '当心小蛋糕也不错：回血+赚钱，属于金币雨套装能凑',
+      '利刃华尔兹不太适合金克丝，射手不需要突脸'
+    ]
+  },
+  {
+    id: 'thresh_weak',
+    label: '锤石 · 全弱建议刷新',
+    hero: { name: '锤石', role: '辅助/坦克', avatar: '⛓️', type: 'support' },
+    stage: '开局选择（Lv.1）',
+    stageIndex: 1,
+    quality: 'silver',
+    runes: [
+      {
+        id: 'erosion', name: '侵蚀', quality: 'silver', icon: '💀',
+        desc: '伤害敌人叠加击碎效果，降低护甲和魔抗',
+        grade: 'C', winRate: 47.8, rerollRate: 52,
+        tags: [],
+        typeTag: '🗡️ 输出增幅',
+        coachLine: '叠层降防，但锤石伤害低很难叠起来，效果一般。',
+        refreshAdvice: 'suggest',
+      },
+      {
+        id: 'warmup', name: '热身动作', quality: 'silver', icon: '🔥',
+        desc: '引导后每秒提升 3% 伤害，最多 30%',
+        grade: 'D', winRate: 44.2, rerollRate: 68,
+        needHelp: true,
+        helpDetail: '选择后获得一个引导技能，站定不动引导蓄力，每秒伤害提升3%，最多叠到30%。移动或被控制会打断引导。',
+        helpScenario: '适合站桩型法师（如泽拉斯、维迦），在安全位置蓄力后释放技能伤害很高。但需要持续站立不动，大乱斗中很难找到安全时机。',
+        tags: [],
+        typeTag: '🗡️ 输出增幅',
+        coachLine: '需要站着不动蓄力，大乱斗节奏太快了用不上。',
+        refreshAdvice: 'suggest',
+      },
+      {
+        id: 'frost_ghost', name: '冰霜幽灵', quality: 'silver', icon: '👻',
+        desc: '每 8 秒自动禁锢附近敌人 1 秒',
+        grade: 'C', winRate: 48.1, rerollRate: 48,
+        tags: [],
+        typeTag: '🧲 控制/干扰',
+        coachLine: '自动控人还行，但 8 秒一次太久了，聊胜于无。',
+        refreshAdvice: 'suggest',
+      }
+    ],
+    coachMain: { idx: null, reason: '' },
+    coachSubs: []
+  },
+  {
+    id: 'vayne_equip',
+    label: '薇恩 · 装备类海克斯',
+    hero: { name: '薇恩', role: '远程射手', avatar: '🏹', type: 'adc' },
+    stage: '第 2 次选择（Lv.7）',
+    stageIndex: 2,
+    quality: 'gold',
+    ownedRunes: ['暴击律动'],
+    runes: [
+      {
+        id: 'headgear', name: '头戴式装备大师', quality: 'gold', icon: '👒',
+        desc: '你装备的所有头戴式装备属性提升 40%',
+        grade: 'B', winRate: 53.5, rerollRate: 18,
+        needHelp: true,
+        helpDetail: '大乱斗中的装备按部位分类（头部、帽子、鞋子等）。"头戴式装备"主要是坦克防御装，如兰顿之兆、日炎圣盾等。这个符文让你穿的头部装备属性全部提升40%。',
+        helpScenario: '如果你是坦克/战士英雄且打算出头部防御装备，这个符文收益很高。射手/法师通常不出头部装备。',
+        tags: [
+          { type: 'strong', text: '⭐ 强力单卡' }
+        ],
+        typeTag: '🛡️ 装备增幅',
+        coachLine: '如果你有兰顿之兆、日炎圣盾等头部装备，属性直接翻1.4倍。但薇恩很少出坦装，收益一般。',
+        refreshAdvice: 'neutral',
+        equipInfo: {
+          category: '头戴式装备',
+          tip: '该符文会将你身上所有头戴式装备的属性提升 40%，出的头部装备越多收益越大。适合坦克/战士。'
+        }
+      },
+      {
+        id: 'hat_master', name: '帽子收藏家', quality: 'gold', icon: '🎩',
+        desc: '帽子类装备冷却缩短 30%，效果增强 25%',
+        grade: 'A', winRate: 56.2, rerollRate: 6,
+        needHelp: true,
+        helpDetail: '"帽子类装备"是法师的核心装备，如灭世者的死亡之帽（大帽子）、中娅沙漏等。这个符文让所有帽子装备冷却缩短、效果增强。',
+        helpScenario: '法师英雄出2-3件帽子装备时收益最大。物理英雄（射手/刺客）通常不出帽子装备，收益很低。',
+        tags: [
+          { type: 'strong', text: '⭐ 强力单卡' }
+        ],
+        typeTag: '🧙 法术增幅',
+        coachLine: '帽子类装备效果全面增强。不过薇恩是AD射手，通常不出帽子装，不太适合。',
+        refreshAdvice: 'neutral',
+        equipInfo: {
+          category: '帽子类装备',
+          tip: '帽子类装备的冷却缩短30%、效果增强25%。法师出大帽子/中娅等效果非常好，AP英雄优先考虑。'
+        }
+      },
+      {
+        id: 'crit_master', name: '暴击专精', quality: 'gold', icon: '💥',
+        desc: '每件暴击装备额外提供 10% 暴击伤害',
+        grade: 'A', winRate: 55.9, rerollRate: 7,
+        tags: [
+          { type: 'strong', text: '⭐ 强力单卡' }
+        ],
+        typeTag: '🎯 攻击特效',
+        coachLine: '每件暴击装备多10%暴击伤害！薇恩通常出2-3件暴击装，配合你已有的暴击律动，伤害爆炸！',
+        refreshAdvice: 'dimmed',
+        equipInfo: {
+          category: '暴击装备',
+          tip: '每持有一件暴击装备就多10%暴击伤害。射手通常出2-3件暴击装，收益非常高。配合暴击律动更强。'
+        }
+      }
+    ],
+    coachMain: { idx: 2, reason: '薇恩必出暴击装，暴击专精完美匹配！' },
+    coachSubs: [
+      '帽子收藏家虽然评级高，但薇恩是AD英雄，帽子装备用不到',
+      '头戴式装备大师：薇恩不出坦装，收益较低，建议刷新这个'
+    ]
+  }
+];
+
+// ============================================================
+// APP STATE
+// ============================================================
+let currentScenario = 0;
+let selectedCard = -1;
+let coachCollapsed = false;
+// Per-card refresh state: { scenarioId: { cardIndex: true/false } }
+let cardRefreshUsed = {};
+
+// Per-card replacement runes for refresh demo (品质与场景一致)
+const CARD_REFRESH_POOL = {
+  'thresh_weak': {
+    0: {
+      id: 'tank_engine', name: '坦克引擎', quality: 'silver', icon: '🛡️',
+      desc: '获得额外 500 生命值、20 护甲、20 魔抗',
+      grade: 'S', winRate: 57.1, rerollRate: 4,
+      tags: [
+        { type: 'godtier', text: '🌟 天胡' },
+        { type: 'strong', text: '⭐ 强力单卡' }
+      ],
+      typeTag: '🛡️ 生存增强',
+      coachLine: '天胡符文！锤石作为前排拿了就是铁墙一块，碰到就拿别犹豫。',
+      refreshAdvice: 'dimmed',
+    },
+    1: {
+      id: 'teamheal', name: '风语者的祝福', quality: 'silver', icon: '💚',
+      desc: '周围友军持续回复生命值，治疗量随等级增长',
+      grade: 'B', winRate: 52.9, rerollRate: 15,
+      tags: [{ type: 'strong', text: '⭐ 强力单卡' }],
+      typeTag: '🤝 团队增益',
+      coachLine: '给周围队友持续回血，辅助拿了全队受益，锤石站前排效果最好。',
+      refreshAdvice: 'dimmed',
+    },
+    2: {
+      id: 'zhongling', name: '中亚显灵', quality: 'silver', icon: '⏸️',
+      desc: '获得主动金身效果，使用后 2.5 秒无敌但无法行动',
+      grade: 'C', winRate: 50.3, rerollRate: 22,
+      needHelp: true,
+      helpDetail: '选择后获得一个主动技能，按下后你进入2.5秒的"金身"状态：期间完全无敌，但你也无法移动、攻击或使用任何技能。',
+      helpScenario: '适合前排开团后保命，或者被刺客突脸时争取队友支援时间。注意金身期间自己也不能动。',
+      tags: [],
+      typeTag: '🛡️ 生存增强',
+      coachLine: '给你一个金身保命，开团后金身等技能 CD 再打一轮。',
+      refreshAdvice: 'neutral',
+    }
+  },
+  'lux_start': {
+    2: {
+      id: 'science', name: '科学狂人', quality: 'gold', icon: '🧪',
+      desc: '技能命中降低目标 12% 最大生命值（每个目标 10 秒冷却）',
+      grade: 'A', winRate: 54.0, rerollRate: 10,
+      tags: [{ type: 'strong', text: '⭐ 强力单卡' }],
+      typeTag: '🗡️ 输出增幅',
+      coachLine: '百分比掉血神技，打坦克特别爽，拉克丝 E 轻松触发。',
+      refreshAdvice: 'dimmed',
+    }
+  },
+  'garen_7': {
+    2: {
+      id: 'boots_master', name: '鞋子发烧友', quality: 'silver', icon: '👟',
+      desc: '鞋子类装备额外提供 20 护甲和 20 魔抗',
+      grade: 'B', winRate: 52.8, rerollRate: 14,
+      tags: [
+        { type: 'strong', text: '⭐ 强力单卡' }
+      ],
+      typeTag: '🛡️ 装备增幅',
+      coachLine: '人人都有鞋子，相当于白送一层防御，盖伦出铁板靴直接翻倍收益。',
+      refreshAdvice: 'dimmed',
+      equipInfo: {
+        category: '鞋子类装备',
+        tip: '穿任意鞋子即可获得额外20护甲+20魔抗，相当于白送半件防装。所有英雄都有鞋子，稳赚不亏。'
+      }
+    }
+  },
+  'jinx_11': {
+    1: {
+      id: 'armor_pen', name: '穿甲利刃', quality: 'gold', icon: '🔪',
+      desc: '每件穿甲装备额外提供 5% 总护甲穿透',
+      grade: 'B', winRate: 53.2, rerollRate: 13,
+      tags: [
+        { type: 'strong', text: '⭐ 强力单卡' }
+      ],
+      typeTag: '🔪 穿透增幅',
+      coachLine: '穿甲叠穿透，不过金克丝更适合暴击流而非穿甲流，收益一般。',
+      refreshAdvice: 'neutral',
+      equipInfo: {
+        category: '穿甲装备',
+        tip: '每持有一件穿甲装备额外获得5%总护甲穿透。适合刺客/物理刺客英雄，射手通常走暴击路线。'
+      }
+    }
+  },
+  'vayne_equip': {
+    0: {
+      id: 'boots_master2', name: '鞋子发烧友', quality: 'gold', icon: '👟',
+      desc: '鞋子类装备额外提供 20 护甲和 20 魔抗',
+      grade: 'B', winRate: 52.8, rerollRate: 14,
+      tags: [
+        { type: 'strong', text: '⭐ 强力单卡' }
+      ],
+      typeTag: '🛡️ 装备增幅',
+      coachLine: '人人都有鞋子，白送一层防御。薇恩出狂战士胫甲还能多20双抗，非常实用。',
+      refreshAdvice: 'dimmed',
+      equipInfo: {
+        category: '鞋子类装备',
+        tip: '穿任意鞋子即可获得额外20护甲+20魔抗，所有英雄都穿鞋，稳赚不亏。'
+      }
+    }
+  }
+};
+
+// ============================================================
+// RENDER
+// ============================================================
+function render() {
+  const sc = SCENARIOS[currentScenario];
+  // Init per-card refresh state for this scenario if needed
+  if (!cardRefreshUsed[sc.id]) {
+    cardRefreshUsed[sc.id] = {};
+  }
+  renderScenarioTabs();
+  renderHeader(sc);
+  renderCards(sc);
+  renderRefreshSummary(sc);
+  renderCoach(sc);
+  selectedCard = -1;
+  document.getElementById('selectBtn').disabled = true;
+}
+
+function renderScenarioTabs() {
+  const container = document.getElementById('scenarioTabs');
+  container.innerHTML = SCENARIOS.map((s, i) =>
+    `<div class="scenario-tab ${i === currentScenario ? 'active' : ''}" onclick="switchScenario(${i})">${s.label}</div>`
+  ).join('');
+}
+
+function renderHeader(sc) {
+  document.getElementById('stageText').textContent = `请选择一个强化符文 · ${sc.stage}`;
+  document.getElementById('heroAvatar').textContent = sc.hero.avatar;
+  document.getElementById('heroName').textContent = sc.hero.name;
+  document.getElementById('heroRole').textContent = sc.hero.role;
+  const owned = sc.ownedRunes ? `已拥有：${sc.ownedRunes.join('、')}` : '首次选择';
+  const quality = sc.quality || sc.runes[0].quality;
+  const qualityName = qualityLabel(quality);
+  document.getElementById('stageBadge').textContent = `第 ${sc.stageIndex}/4 次选择 · ${qualityName} · ${owned}`;
+}
+
+function renderTags(tags, cardIdx) {
+  return tags.map(function(t) {
+    if (t.type === 'bond') return '<span class="tag tag-' + t.type + '" onclick="event.stopPropagation();showBond(' + cardIdx + ')">' + t.text + '</span>';
+    if (t.type === 'hack') return '<span class="tag tag-' + t.type + '" onclick="event.stopPropagation();showHack(' + cardIdx + ')">' + t.text + '</span>';
+    if (t.type === 'equip') return '<span class="tag tag-' + t.type + '" onclick="event.stopPropagation();showEquip(' + cardIdx + ')">' + t.text + '</span>';
+    return '<span class="tag tag-' + t.type + '">' + t.text + '</span>';
+  }).join('');
+}
+
+function renderCards(sc) {
+  const row = document.getElementById('cardsRow');
+  const used = cardRefreshUsed[sc.id] || {};
+  const quality = sc.quality || sc.runes[0].quality;
+  
+  row.innerHTML = sc.runes.map((r, i) => {
+    const glowClass = r.grade === 'S' ? 'glow-s' : r.grade === 'A' ? 'glow-a' : r.grade === 'B' ? 'glow-b' : '';
+    const selClass = selectedCard === i ? 'selected' : '';
+    const isUsed = !!used[i];
+    const refreshClass = isUsed ? 'dimmed' : (r.refreshAdvice || 'neutral');
+    const refreshText = isUsed ? '—' : 'C';
+    const helpIcon = r.needHelp ? `<div class="help-icon" onclick="event.stopPropagation();showHelp(${i})" title="点击了解详细机制">?</div>` : '';
+    const rerollRateClass = r.rerollRate >= 40 ? 'high' : r.rerollRate < 15 ? 'low' : 'mid';
+    return `
+      <div class="rune-card quality-${quality} ${glowClass} ${selClass}" 
+           onclick="selectRune(${i})"
+           onmouseenter="hoverRune(${i})"
+           onmouseleave="unhoverRune()">
+        <div class="card-corner-tl"></div>
+        <div class="card-corner-tr"></div>
+        ${helpIcon}
+        <div class="grade-badge grade-${r.grade}">${r.grade}</div>
+        <div class="quality-stripe quality-${quality}"></div>
+        <div class="rune-icon-area">
+          <div class="rune-icon ${quality}">${r.icon}</div>
+        </div>
+        <div class="rune-body">
+          <div class="rune-name">${r.name}</div>
+          <div class="rune-type-label ${quality}">${r.typeTag}</div>
+          <div class="rune-desc">${r.desc}</div>
+        </div>
+        <div class="rune-tags">
+          ${renderTags(r.tags, i)}
+        </div>
+        <div class="reroll-rate">
+          <span class="label">刷新指数：</span>
+          <span class="value ${rerollRateClass}">${r.rerollRate}%</span>
+        </div>
+        <button class="card-refresh-btn ${refreshClass}" onclick="event.stopPropagation();doCardRefresh(${i})"
+                title="${isUsed ? '已刷新' : '刷新此符文 (每个符文可刷新一次)'}">
+          ${refreshText}
+        </button>
+      </div>`;
+  }).join('');
+}
+
+function qualityLabel(q) {
+  return { silver: '银色品质', gold: '金色品质', prismatic: '棱彩品质' }[q] || '';
+}
+
+function renderRefreshSummary(sc) {
+  const area = document.getElementById('refreshSummary');
+  const used = cardRefreshUsed[sc.id] || {};
+  const totalRefreshes = sc.runes.length;
+  const usedCount = Object.keys(used).length;
+  const remaining = totalRefreshes - usedCount;
+  
+  // Check coach suggestion
+  const suggestCount = sc.runes.filter((r, i) => !used[i] && r.refreshAdvice === 'suggest').length;
+  const hasSGrade = sc.runes.some(r => r.grade === 'S');
+  
+  let hint = '';
+  if (hasSGrade) {
+    hint = `<span class="highlight" style="color:#ffaa00">🌟 有天胡符文！别刷新，直接拿</span>`;
+  } else if (suggestCount > 0) {
+    hint = `<span class="highlight">教练建议：有 ${suggestCount} 个符文值得刷新</span>`;
+  } else if (remaining === 0) {
+    hint = '所有符文刷新机会已用完';
+  } else {
+    hint = '每个符文各有一次独立刷新机会，按需使用';
+  }
+  area.innerHTML = `💡 剩余刷新次数：${remaining}/${totalRefreshes} · ${hint}`;
+}
+
+function renderCoach(sc) {
+  const body = document.getElementById('coachBody');
+  if (sc.coachMain.idx === null) {
+    body.innerHTML = `
+      <div class="coach-recommend">
+        <span class="icon">⚠️</span>
+        <span class="text">这三个都比较弱，<span class="highlight">建议逐个刷新试试运气</span>。每个符文都有独立的刷新机会，可以一个一个刷。</span>
+      </div>
+    `;
+  } else {
+    const mainRune = sc.runes[sc.coachMain.idx];
+    const gradeIcon = mainRune.grade === 'S' ? '🌟' : '💡';
+    const gradeLabel = mainRune.grade === 'S' ? '<span style="color:#ffaa00;font-weight:700">天胡！</span> ' : '';
+    body.innerHTML = `
+      <div class="coach-recommend">
+        <span class="icon">${gradeIcon}</span>
+        <span class="text">${gradeLabel}推荐选 <span class="highlight">【${mainRune.name}】</span> — ${sc.coachMain.reason}</span>
+      </div>
+      <div class="coach-recommend" style="margin-top:4px;">
+        <span class="icon" style="opacity:0">${gradeIcon}</span>
+        <span class="text secondary" style="font-size:12px">"${mainRune.coachLine}"</span>
+      </div>
+      ${sc.coachSubs.map(s => `<div class="coach-sub">${s}</div>`).join('')}
+    `;
+  }
+  coachCollapsed = false;
+  document.getElementById('coachBody').classList.remove('collapsed');
+  document.getElementById('coachToggle').classList.remove('collapsed');
+}
+
+// ============================================================
+// INTERACTIONS
+// ============================================================
+function switchScenario(i) {
+  currentScenario = i;
+  render();
+}
+
+function selectRune(i) {
+  selectedCard = i;
+  document.querySelectorAll('.rune-card').forEach((c, idx) => {
+    c.classList.toggle('selected', idx === i);
+  });
+  document.getElementById('selectBtn').disabled = false;
+}
+
+function hoverRune(i) {
+  const sc = SCENARIOS[currentScenario];
+  const r = sc.runes[i];
+  const body = document.getElementById('coachBody');
+  if (coachCollapsed) return;
+  
+  let equipHint = '';
+  if (r.equipInfo) {
+    const eq = EQUIP_KNOWLEDGE[r.equipInfo.category];
+    if (eq) {
+      equipHint = `<div class="coach-sub" style="border-left-color:#daa520;color:#c9a84c">📦 涉及装备类型：${r.equipInfo.category}（${eq.items.length}件） — 点击标签查看完整列表</div>`;
+    }
+  }
+  
+  body.innerHTML = `
+    <div class="coach-recommend">
+      <span class="icon">🔍</span>
+      <span class="text"><span class="highlight">【${r.name}】</span>详细解读</span>
+    </div>
+    <div class="coach-recommend" style="margin-top:4px">
+      <span class="icon" style="opacity:0">🔍</span>
+      <span class="text secondary" style="font-size:12px">"${r.coachLine}"</span>
+    </div>
+    <div class="coach-sub">效果类型：${r.typeTag} · 品质：${qualityLabel(sc.quality || r.quality)} · 推荐指数：${r.grade} · 刷新指数：${r.rerollRate}%</div>
+    ${equipHint}
+  `;
+}
+
+function unhoverRune() {
+  const sc = SCENARIOS[currentScenario];
+  if (coachCollapsed) return;
+  renderCoach(sc);
+}
+
+document.getElementById('coachHeader').addEventListener('click', () => {
+  coachCollapsed = !coachCollapsed;
+  document.getElementById('coachBody').classList.toggle('collapsed', coachCollapsed);
+  document.getElementById('coachToggle').classList.toggle('collapsed', coachCollapsed);
+});
+
+// Per-card refresh
+function doCardRefresh(cardIdx) {
+  const sc = SCENARIOS[currentScenario];
+  if (!cardRefreshUsed[sc.id]) cardRefreshUsed[sc.id] = {};
+  if (cardRefreshUsed[sc.id][cardIdx]) return;
+  
+  cardRefreshUsed[sc.id][cardIdx] = true;
+  const quality = sc.quality || sc.runes[0].quality;
+  
+  // Check if there's a replacement rune
+  const pool = CARD_REFRESH_POOL[sc.id];
+  if (pool && pool[cardIdx]) {
+    const replacement = pool[cardIdx];
+    replacement.quality = quality; // 确保品质一致
+    sc.runes[cardIdx] = replacement;
+  } else {
+    // Random upgrade simulation: bump grade by one level
+    const r = sc.runes[cardIdx];
+    const grades = ['D', 'C', 'B', 'A'];
+    const curIdx = grades.indexOf(r.grade);
+    if (curIdx < grades.length - 1) {
+      r.grade = grades[curIdx + 1];
+      r.winRate = Math.min(r.winRate + 3.5, 58);
+    }
+    r.quality = quality; // 确保品质一致
+    r.refreshAdvice = 'dimmed';
+  }
+  
+  // Update coach if the main recommended card changed
+  updateCoachAfterRefresh(sc);
+  
+  renderCards(sc);
+  renderRefreshSummary(sc);
+  renderCoach(sc);
+  selectedCard = -1;
+  document.getElementById('selectBtn').disabled = true;
+}
+
+function updateCoachAfterRefresh(sc) {
+  // Find the best grade card
+  const grades = { 'S': 5, 'A': 4, 'B': 3, 'C': 2, 'D': 1 };
+  let bestIdx = 0, bestScore = 0;
+  sc.runes.forEach((r, i) => {
+    const score = (grades[r.grade] || 0) * 10 + r.winRate;
+    if (score > bestScore) { bestScore = score; bestIdx = i; }
+  });
+  if (sc.coachMain.idx !== null) {
+    sc.coachMain.idx = bestIdx;
+  }
+}
+
+// Equip popup
+function showEquip(i) {
+  const sc = SCENARIOS[currentScenario];
+  const r = sc.runes[i];
+  if (!r.equipInfo) return;
+  const eq = EQUIP_KNOWLEDGE[r.equipInfo.category];
+  if (!eq) return;
+  
+  const popup = document.getElementById('equipPopup');
+  popup.innerHTML = `
+    <button class="equip-close" onclick="closePopups()">✕</button>
+    <h3>${eq.icon} ${r.equipInfo.category}</h3>
+    <div style="font-size:12px;color:#8a94a8;margin-bottom:12px;line-height:1.5">${eq.desc}</div>
+    <div class="equip-category">
+      <div class="equip-category-title">${eq.icon} 包含以下装备（共 ${eq.items.length} 件）：</div>
+      <div class="equip-grid">
+        ${eq.items.map(item => `
+          <div class="equip-item">
+            <span class="equip-icon">${item.icon}</span>
+            <span>${item.name}</span>
+            <span style="color:#6a7488;font-size:11px">· ${item.stat}</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    <div class="equip-hint">
+      💡 <strong style="color:#c9a84c">教练提示：</strong>${r.equipInfo.tip}
+    </div>
+  `;
+  popup.classList.add('show');
+  document.getElementById('popupBackdrop').classList.add('show');
+}
+
+// Bond popup
+function showBond(i) {
+  const sc = SCENARIOS[currentScenario];
+  const r = sc.runes[i];
+  if (!r.bondInfo) return;
+  const b = r.bondInfo;
+  const popup = document.getElementById('bondPopup');
+  popup.innerHTML = `
+    <button class="bond-close" onclick="closePopups()">✕</button>
+    <h3>🔗 ${b.name}套装</h3>
+    <div style="font-size:12px;color:#6a7488;margin-bottom:8px">
+      成员：${b.members.map(m => `<span style="color:${m === r.name ? '#88bbff' : '#8a94a8'}">${m}</span>`).join(' · ')}
+    </div>
+    <div style="font-size:12px;color:#88bbff;margin-bottom:6px">当前进度：${b.current}/${b.total}</div>
+    <div class="bond-progress">
+      ${Array.from({length: b.total}, (_, j) => `<div class="bond-dot ${j < b.current ? 'filled' : ''}"></div>`).join('')}
+    </div>
+    <div class="bond-effect">
+      ${b.effects.map(e => `<div style="margin:4px 0"><strong>${e.count}件：</strong>${e.text}</div>`).join('')}
+    </div>
+  `;
+  popup.classList.add('show');
+  document.getElementById('popupBackdrop').classList.add('show');
+}
+
+// Hack popup
+function showHack(i) {
+  const sc = SCENARIOS[currentScenario];
+  const r = sc.runes[i];
+  if (!r.hackCombo) return;
+  const h = r.hackCombo;
+  const popup = document.getElementById('hackPopup');
+  popup.innerHTML = `
+    <button class="hack-close" onclick="closePopups()">✕</button>
+    <h3>🧪 黑科技：${h.name}</h3>
+    <div class="hack-chain">
+      ${h.nodes.map((n, j) => `
+        ${j > 0 ? '<span class="hack-arrow">+</span>' : ''}
+        <span class="hack-node ${h.owned.includes(n) ? 'owned' : ''}">${n}${h.owned.includes(n) ? ' ✓' : ''}</span>
+      `).join('')}
+    </div>
+    <div class="hack-desc">${h.desc}</div>
+  `;
+  popup.classList.add('show');
+  document.getElementById('popupBackdrop').classList.add('show');
+}
+
+// Help popup (? icon)
+function showHelp(i) {
+  const sc = SCENARIOS[currentScenario];
+  const r = sc.runes[i];
+  if (!r.needHelp) return;
+  
+  const popup = document.getElementById('helpPopup');
+  popup.innerHTML = `
+    <button class="help-close" onclick="closePopups()">✕</button>
+    <h3>❓ ${r.name} — 详细解读</h3>
+    <div class="help-detail">${r.helpDetail || r.desc}</div>
+    ${r.helpScenario ? `<div class="help-scenario"><strong>使用场景：</strong>${r.helpScenario}</div>` : ''}
+  `;
+  popup.classList.add('show');
+  document.getElementById('popupBackdrop').classList.add('show');
+}
+
+function closePopups() {
+  document.getElementById('bondPopup').classList.remove('show');
+  document.getElementById('hackPopup').classList.remove('show');
+  document.getElementById('equipPopup').classList.remove('show');
+  document.getElementById('helpPopup').classList.remove('show');
+  document.getElementById('popupBackdrop').classList.remove('show');
+}
+document.getElementById('popupBackdrop').addEventListener('click', closePopups);
+
+document.getElementById('selectBtn').addEventListener('click', () => {
+  if (selectedCard < 0) return;
+  const sc = SCENARIOS[currentScenario];
+  const r = sc.runes[selectedCard];
+  alert(`✅ 已选择【${r.name}】\n\n这是 Demo 演示，实际游戏中此时符文生效并关闭选择界面。`);
+});
+
+// ============================================================
+// INIT
+// ============================================================
+render();
+</script>
+</body>
+</html>

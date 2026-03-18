@@ -1,0 +1,26 @@
+# CaloriSnap OCR 测试依赖
+# Phase 0 技术验证用
+
+# 腾讯云 OCR SDK
+tencentcloud-sdk-python>=3.0.0
+
+# OpenAI / 兼容 API 调用（用于 LLM 结构化提取）
+openai>=1.0.0
+
+# 图像处理
+Pillow>=10.0.0
+
+# HTTP 请求
+requests>=2.31.0
+
+# 数据处理
+pandas>=2.0.0
+
+# 命令行参数
+click>=8.0.0
+
+# 进度条
+tqdm>=4.65.0
+
+# JSON Schema 校验
+jsonschema>=4.17.0

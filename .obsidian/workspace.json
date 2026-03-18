@@ -1,0 +1,320 @@
+{
+  "main": {
+    "id": "747ccaa5219b0447",
+    "type": "split",
+    "children": [
+      {
+        "id": "4eac2e446e3594ba",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "608cb7ca128a07a4",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "99_Templates/tpl_daily_note.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "tpl_daily_note"
+            }
+          },
+          {
+            "id": "7a5615f6a6043bac",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "10_Work/skills_weekly_reports/_latest_report.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "_latest_report"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "7173a090c087621e",
+    "type": "split",
+    "children": [
+      {
+        "id": "bb3afbd2d8303182",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f61491b9579e6c67",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
+            }
+          },
+          {
+            "id": "8ae5db40d0759b9c",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "fbb3b5e47f3e40ac",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 242.5
+  },
+  "right": {
+    "id": "442b6c44983753c1",
+    "type": "split",
+    "children": [
+      {
+        "id": "7087aca46a6bb086",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f0f10215fccfb6a0",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "10_Work/skills_weekly_reports/_latest_report.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "_latest_report 的反向链接列表"
+            }
+          },
+          {
+            "id": "600b9db511ed538c",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "10_Work/skills_weekly_reports/_latest_report.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "_latest_report 的出链列表"
+            }
+          },
+          {
+            "id": "37501e7b43c00111",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": true,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "9b87e321dd6def4f",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
+          },
+          {
+            "id": "3549650182207a61",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "10_Work/skills_weekly_reports/_latest_report.md",
+                "followCursor": false,
+                "showSearch": true,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "_latest_report 的大纲"
+            }
+          },
+          {
+            "id": "10f363841ef74cc6",
+            "type": "leaf",
+            "state": {
+              "type": "calendar",
+              "state": {},
+              "icon": "calendar-with-checkmark",
+              "title": "Calendar"
+            }
+          },
+          {
+            "id": "a683a659a07b12f6",
+            "type": "leaf",
+            "state": {
+              "type": "footnotes",
+              "state": {
+                "file": "10_Work/skills_weekly_reports/_latest_report.md"
+              },
+              "icon": "lucide-file-signature",
+              "title": "脚注"
+            }
+          },
+          {
+            "id": "e6a58f2dc0400ceb",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
+          }
+        ],
+        "currentTab": 7
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:新建数据库": false,
+      "obsidian-git:Open Git source control": false,
+      "obsidian-importer:Open Importer": false,
+      "publish:发布更改": false,
+      "workspaces:管理工作区布局": false,
+      "random-note:开始漫游笔记": false,
+      "zk-prefixer:创建时间戳笔记": false,
+      "markdown-importer:打开 Markdown 格式转换器": false,
+      "templater-obsidian:Templater": false
+    }
+  },
+  "floating": {
+    "id": "afdfaee9ecb8f262",
+    "type": "floating",
+    "children": [
+      {
+        "id": "3c50d56a50bf0697",
+        "type": "window",
+        "children": [
+          {
+            "id": "c594ee4f8e1a424c",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "7b9007922d3741fe",
+                "type": "leaf",
+                "state": {
+                  "type": "webviewer",
+                  "state": {
+                    "url": "https://publish.obsidian.md/git-doc/Authentication",
+                    "title": "Authentication - Git Documentation - Obsidian Publish",
+                    "mode": "webview"
+                  },
+                  "icon": "globe-2",
+                  "title": "Authentication - Git Documentation - Obsidian Publish"
+                }
+              }
+            ]
+          }
+        ],
+        "direction": "vertical",
+        "x": 352,
+        "y": 95,
+        "width": 1024,
+        "height": 800,
+        "maximize": false,
+        "zoom": 0
+      }
+    ]
+  },
+  "active": "7a5615f6a6043bac",
+  "lastOpenFiles": [
+    "10_Work/uc 王也 npc/知识库/~$一人之下_IP知识补充_爬取整理.xlsx",
+    "10_Work/skills_weekly_reports/_latest_report.md",
+    "10_Work/uc 王也 npc/知识库/一人之下_IP知识补充_爬取整理.xlsx",
+    "10_Work/uc 王也 npc/generate_knowledge.py",
+    "10_Work/uc 王也 npc/知识库/~$处理后数据 (3).xlsx",
+    "10_Work/uc 王也 npc/知识库/所有异人资料.xlsx",
+    "10_Work/uc 王也 npc/知识库/异人之下道具介绍.xlsx",
+    "10_Work/uc 王也 npc/知识库/异人之下各门派介绍.xlsx",
+    "10_Work/uc 王也 npc/知识库/大事件.xlsx",
+    "10_Work/uc 王也 npc/知识库/处理后数据 (3).xlsx",
+    "10_Work/uc 王也 npc/知识库",
+    "10_Work/uc 王也 npc/通识知识库/道教.txt",
+    "00_Inbox/未命名.md",
+    "00_Inbox/_README.md",
+    "40_Projects/CaloriSnap/_README.md",
+    "10_Work/skills_weekly_reports/Skills周报_W12_2026_0316.md",
+    "10_Work/skills_weekly_reports/_README.md",
+    "40_Projects/CaloriSnap/01_产品设计/产品原型说明.md",
+    "40_Projects/CaloriSnap/02_技术方案/数据库建模-SQL.md",
+    "40_Projects/CaloriSnap/02_技术方案/Phase0-技术验证方案.md",
+    "40_Projects/CaloriSnap/02_技术方案/热量数据库-种子数据.md",
+    "40_Projects/_README.md",
+    "20_Study/游戏策划/读书笔记/快乐之道.md",
+    "20_Study/游戏策划/读书笔记/游戏设计艺术.md",
+    "20_Study/游戏策划/_README.md",
+    "10_Work/海克斯大乱斗/海克斯大乱斗_AI教练设计方案.md",
+    "10_Work/海克斯大乱斗/海克斯大乱斗_AI教练_PRD.md",
+    "20_Study/_README.md",
+    "30_Common/_README.md",
+    "10_Work/_README.md",
+    "00_Inbox/_Launcher.md.md",
+    "99_Templates/Template_Research.md",
+    "99_Templates/Template_Project.md",
+    "99_Templates/Template_Note.md",
+    "99_Templates/Template_Meeting.md",
+    "99_Templates/Template_Interview.md",
+    "未命名.canvas"
+  ]
+}

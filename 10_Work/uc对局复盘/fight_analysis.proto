@@ -1,0 +1,111 @@
+// cs protocol
+syntax = "proto3";
+
+package corepb;
+option go_package = "git.woa.com/uc-backend/game-proto/corepb";
+
+import "corepb/common.proto";
+import "google/protobuf/any.proto";
+
+// 柱状图数据类型
+enum BarType {
+  BAR_TYPE_INVALID          = 0;
+  BAR_TYPE_TOTAL_DAMAGE     = 1;  // 伤害量
+  BAR_TYPE_CONTROL_DURATION = 2;  // 控制时间
+  BAR_TYPE_HIT_RATE         = 3;  // 普攻命中率
+  BAR_TYPE_SKILL_HIT_RATE   = 4;  // 技能命中率
+}
+
+// 雷达图维度类型
+enum RadarDimension {
+  RADAR_DIMENSION_INVALID       = 0;
+  RADAR_DIMENSION_INITIATIVE    = 1;  // 先手能力
+  RADAR_DIMENSION_DAMAGE        = 2;  // 输出能力
+  RADAR_DIMENSION_DEFENSE       = 3;  // 防守能力
+  RADAR_DIMENSION_STRATEGY      = 4;  // 博弈能力
+  RADAR_DIMENSION_RESOURCE_MGMT = 5;  // 资源管理能力
+}
+
+enum RadarSubDimension {
+  RADAR_SUB_DIMENSION_INVALID = 0;
+  // 先手能力
+  RADAR_SUB_DIMENSION_FIRST_HIT_COUNT = 1;  // 有效先手次数
+  RADAR_SUB_DIMENSION_NORMAL_ACCURACY = 2;  // 普通命中率
+  RADAR_SUB_DIMENSION_SKILL_ACCURACY  = 3;  // 技能命中率
+  RADAR_SUB_DIMENSION_CATCH_ACCURACY  = 4;  // 投技命中率
+  RADAR_SUB_DIMENSION_EX_ACCURACY     = 5;  // 绝技命中率
+  RADAR_SUB_DIMENSION_PRESSURE_CNT    = 6;  // 成功压起身次数
+  // 输出能力
+  RADAR_SUB_DIMENSION_AVERAGE_DURATION = 11;  // 平均连段时长
+  RADAR_SUB_DIMENSION_AVERAGE_DAMAGE   = 12;  // 平均连段伤害
+  RADAR_SUB_DIMENSION_MAX_DURATION     = 13;  // 最大连段时长
+  RADAR_SUB_DIMENSION_MAX_DAMAGE       = 14;  // 最大连段伤害
+  RADAR_SUB_DIMENSION_COMBO_ACCURACY   = 15;  // 连段成功率
+  // 防守能力
+  RADAR_SUB_DIMENSION_BEFENSE_CNT        = 21;  // 防御成功次数
+  RADAR_SUB_DIMENSION_DEF_ATK_CNT        = 22;  // 防反成功次数
+  RADAR_SUB_DIMENSION_DASH_CNT           = 23;  // 闪避成功次数
+  RADAR_SUB_DIMENSION_ESCAPE_SAFETY_RATE = 24;  // 脱身后安全率
+  // 博弈能力
+  RADAR_SUB_DIMENSION_SWITCH_LEAD_CNT = 31;  // 变招先手次数
+  RADAR_SUB_DIMENSION_PRIOR_LEAD_CNT  = 32;  // 打断招数先手次数
+  RADAR_SUB_DIMENSION_CLASH_CNT       = 33;  // 势均力敌次数
+  // 资源管理能力
+  RADAR_SUB_DIMENSION_NO_RECOVERY_TIME = 41;  // 体力不恢复时间
+  RADAR_SUB_DIMENSION_NO_ESC_TIME      = 42;  // 无法脱出（体力值小于3或脱出冷却）的总受击的时间
+  RADAR_SUB_DIMENSION_ENERGY_OVERFLOW  = 43;  // 能量溢出
+  RADAR_SUB_DIMENSION_ASSIST_CD        = 44;  // 身外身冷却空转时间
+}
+
+// AiFightAnalysis 储存ai的分析结果
+message AiFightAnalysis {
+  repeated Section sections = 1;
+
+  message Section {
+    string content             = 1;  // AI report content
+    repeated int64 jump_points = 2;  // Jump points (ids)
+    bool is_rule               = 3;  // 是否是规则返回
+    int64 label_id             = 4;  // Label id
+  }
+}
+
+// FightAnalysisRecord 储存一局游戏的数据
+message FightAnalysisRecord {
+  int64 game_trace_id        = 1;
+  map<int64, Player> players = 2;  // player gid -> player statistics
+  int64 current_gid          = 3;  // llm评价时使用，当前关注的玩家gid
+
+  message Player {
+    int64 gid              = 1;
+    int64 arena_phase      = 2;  // 段位
+    int64 sub_phase        = 3;  // 子段位
+    RadarChart radar_chart = 4;
+    repeated Round rounds  = 5;
+
+    message Round {
+      int64 team_id                             = 1;  // 所属teamid
+      int64 yiren_id                            = 2;  // 异人ID
+      int64 win_team_id                         = 3;  // 胜利teamid
+      repeated corepb.SimpleKV kvs              = 4;  // k < 1000 为自定义，技能ID-命中且造成伤害的次数*1000000+命中次数*1000+释放次数}
+      repeated corepb.SimpleKV first_hit_counts = 5;  // 先手命中次数
+      repeated corepb.SimpleKVList kv_lists     = 6;  // 用于记录PVPBattleListKey相关数据
+
+      int64 combo_duration     = 7;   // 连击总持续时间，单位毫秒
+      int64 combo_damage       = 8;   // 连击总伤害
+      int64 combo_count        = 9;   // 连击总次数
+      int64 combo_max_duration = 10;  // 连击最大持续时间，单位毫秒
+      int64 combo_max_damage   = 11;  // 连击最大伤害
+
+      map<int64, int64> bar_chart = 12;  // 柱状图，详细数据
+    }
+
+    message RadarChart {
+      map<int64, Dimension> dimension = 1;  // RadarDimension -> Dimension
+
+      message Dimension {
+        int64 value               = 1;
+        map<int64, int64> details = 2;  // RadarSubDimension -> int64
+      }
+    }
+  }
+}
