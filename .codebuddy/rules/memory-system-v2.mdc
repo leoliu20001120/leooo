@@ -1,0 +1,55 @@
+---
+description: 
+alwaysApply: true
+enabled: true
+updatedAt: 2026-03-19T13:19:59.246Z
+provider: 
+---
+
+# 🧠 记忆系统 v2.1 操作规范
+
+## 文件结构
+
+```
+.codebuddy/memory/
+├── MEMORY.md              ← 启动文件（每次会话必读，读完即可工作）
+├── semantic/
+│   ├── context.md         ←   项目+领域+人物（按需读取）
+│   └── tech_stack.md      ←   技术偏好（按需读取）
+├── procedural/
+│   ├── skills.md          ←   工作流+错题本+代码约定（按需读取）
+│   └── tools.md           ←   工具配置（按需读取）
+├── episodic/
+│   └── YYYY-MM-DD.md      ←   每日日志
+└── working/
+    └── current.md         ←   未完成任务（空=无待续）
+```
+
+## 启动协议（新会话）
+
+1. **必读** `MEMORY.md` — 读完即可工作，不需要跳转其他文件
+2. **必读** `working/current.md` — 有未完成任务？接着做
+3. **按需** 其他文件 — 仅当任务涉及特定项目细节/工作流/工具时
+
+> 设计原则：MEMORY.md 是自给自足的弹药库，不是指路牌。
+
+## 写入规则（完成工作后）
+
+**两步搞定**：
+
+1. **追加** `episodic/当天.md` — 记录做了什么（如不存在则创建）
+2. **按需更新**（只在信息有持久价值时）：
+   - 新项目/项目重大变化 → `semantic/context.md`
+   - 新技术偏好 → `semantic/tech_stack.md`
+   - 新教训/新工作流 → `procedural/skills.md`
+   - 工具配置变化 → `procedural/tools.md`
+   - 活跃项目变化 → `MEMORY.md`
+
+> 不要为了写记忆而写记忆。只记录对**未来会话**有价值的信息。
+
+## 禁止事项
+
+- ❌ 不存储密码、API Key
+- ❌ 不追加重复内容到长期记忆文件（原地更新）
+- ❌ 不在 working/current.md 中记录已完成任务（那是 episodic 的职责）
+- ❌ 不创建没有消费者的文件（索引、架构文档等）
