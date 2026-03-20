@@ -45,6 +45,7 @@
 | 日期 | 坑 | 教训 |
 |------|-----|------|
 | 03-19 | macOS crontab 睡眠不执行 | **永远用 launchd**，配置 plist |
+| 03-19 | launchd 后台执行 `Operation not permitted` | macOS TCC 限制 → `/bin/bash` 需要**完全磁盘访问**权限才能访问 `~/Documents/` |
 
 ### 产品设计
 | 日期 | 坑 | 教训 |
