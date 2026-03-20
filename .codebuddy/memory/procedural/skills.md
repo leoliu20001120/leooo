@@ -46,6 +46,7 @@
 |------|-----|------|
 | 03-19 | macOS crontab 睡眠不执行 | **永远用 launchd**，配置 plist |
 | 03-19 | launchd 后台执行 `Operation not permitted` | macOS TCC 限制 → `/bin/bash` 需要**完全磁盘访问**权限才能访问 `~/Documents/` |
+| 03-20 | 给 `/bin/bash` 加 FDA 权限需手动 GUI 操作 | **用 `osascript -e "do shell script ..."`** 绕过 TCC，比加 FDA 权限更可靠 |
 
 ### 产品设计
 | 日期 | 坑 | 教训 |
