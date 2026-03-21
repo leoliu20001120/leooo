@@ -78,15 +78,33 @@ def get_last_week_range():
 
 
 def read_memory_files(start_date, end_date):
-    """读取指定日期范围内的所有 memory 文件"""
+    """读取指定日期范围内的所有 memory 文件
+    
+    兼容两种目录结构：
+    - 旧路径: .codebuddy/memory/YYYY-MM-DD.md
+    - 新路径: .codebuddy/memory/episodic/YYYY-MM-DD.md
+    新路径优先（内容更完整），同日期去重。
+    """
     memory_dir = get_memory_dir()
+    episodic_dir = memory_dir / "episodic"
     entries = []
+    seen_dates = set()
     
     current = start_date
     while current <= end_date:
         filename = f"{current.strftime('%Y-%m-%d')}.md"
-        filepath = memory_dir / filename
-        if filepath.exists():
+        
+        # 优先读取 episodic/ 目录（新路径，内容更完整）
+        filepath_new = episodic_dir / filename
+        filepath_old = memory_dir / filename
+        
+        filepath = None
+        if filepath_new.exists():
+            filepath = filepath_new
+        elif filepath_old.exists():
+            filepath = filepath_old
+        
+        if filepath and current not in seen_dates:
             with open(filepath, "r", encoding="utf-8") as f:
                 content = f.read()
             entries.append({
@@ -94,6 +112,8 @@ def read_memory_files(start_date, end_date):
                 "content": content,
                 "filename": filename,
             })
+            seen_dates.add(current)
+        
         current += timedelta(days=1)
     
     return entries

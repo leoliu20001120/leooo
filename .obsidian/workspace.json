@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "10_Work/异人之下AI营销创意脑暴.md",
+                "file": "10_Work/skills_weekly_reports/_latest_report.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "异人之下AI营销创意脑暴"
+              "title": "_latest_report"
             }
           }
         ],
@@ -279,8 +279,18 @@
   },
   "active": "7a5615f6a6043bac",
   "lastOpenFiles": [
-    "10_Work/异人之下AI营销活动方案.md",
     "10_Work/异人之下AI营销创意脑暴.md",
+    "10_Work/uc对局复盘/jsontest/analyze.py",
+    "10_Work/uc对局复盘/jsontest/radar_highlight.py",
+    "10_Work/uc对局复盘/jsontest/radar_simple.py",
+    "10_Work/uc对局复盘/jsontest/radar_table.py",
+    "10_Work/uc对局复盘/jsontest/radar_analysis.py",
+    "10_Work/uc对局复盘/jsontest/calc_score_v2.py",
+    "10_Work/uc对局复盘/jsontest/~$result.xlsx",
+    "10_Work/uc对局复盘/jsontest/calc_score_summary.py",
+    "10_Work/uc对局复盘/jsontest/calc_score.py",
+    "10_Work/uc对局复盘/jsontest/35.json",
+    "10_Work/异人之下AI营销活动方案.md",
     "10_Work/景德镇/AI_NPC/数字人周会沉淀.md",
     "10_Work/景德镇/老板汇报沉淀.md",
     "10_Work/景德镇/_README.md",
@@ -288,22 +298,12 @@
     "10_Work/景德镇/景德镇游戏/_README.md",
     "10_Work/skills_weekly_reports/_latest_report.md",
     "20_Study/游戏策划/读书笔记/游戏设计艺术_课程/第03章_体验发生于场景.md",
-    "00_Inbox/20260319150556-转写_【周会】景德镇-进度同步-纪要-1.txt",
-    "00_Inbox/20260318155821-转写_景德镇数字人周会-纪要-1.txt",
-    "00_Inbox/20260318135950-【景德镇游戏】游戏方案（御窑&制瓷分工体系）讨论-纪要-1.txt",
-    "00_Inbox/20260318135950-转写_【景德镇游戏】游戏方案（御窑&制瓷分工体系）讨论-纪要-1.txt",
-    "00_Inbox/20260311155810-转写_景德镇数字人周会-纪要-1.txt",
-    "00_Inbox/20260319165811-转写_景德镇 - 游戏项目进展汇报-纪要-1.txt",
     "10_Work/景德镇/AI_NPC/_README.md",
-    "10_Work/景德镇/景德镇游戏",
-    "10_Work/景德镇/AI_NPC",
-    "10_Work/景德镇",
     "20_Study/游戏策划/读书笔记/游戏设计艺术_课程/第04章_体验从游戏中诞生.md",
     "20_Study/游戏策划/读书笔记/游戏设计艺术_课程/第02章_设计师创造体验.md",
     "00_Inbox/未命名.md",
     "00_Inbox/_README.md",
     "20_Study/游戏策划/读书笔记/游戏设计艺术_课程/第01章_太初之时有设计师.md",
-    "10_Work/uc 王也 npc/知识库/~$一人之下_知识库大规模扩充_v2.xlsx",
     "20_Study/游戏策划/读书笔记/游戏设计艺术_课程/第34章_每个设计师都有目标.md",
     "20_Study/游戏策划/读书笔记/游戏设计艺术_课程/附录_113个透镜速查表.md",
     "20_Study/游戏策划/读书笔记/游戏设计艺术_课程/第33章_设计师的责任.md",
@@ -314,7 +314,6 @@
     "20_Study/游戏策划/读书笔记/游戏设计艺术_课程/第30章_推销你的想法.md",
     "20_Study/游戏策划/读书笔记/游戏设计艺术_课程/第27章_通过试玩创造好游戏.md",
     "20_Study/游戏策划/读书笔记/游戏设计艺术_课程/第26章_文档沟通.md",
-    "20_Study/游戏策划/读书笔记/游戏设计艺术_课程/第25章_团队合作.md",
     "未命名.canvas"
   ]
 }
