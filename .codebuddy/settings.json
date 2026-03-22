@@ -1,5 +1,6 @@
 {
   "enabledPlugins": {
-    "find-skills@codebuddy-plugins-official": true
+    "find-skills@codebuddy-plugins-official": true,
+    "agent-team-agile-workflow@codebuddy-plugins-official": true
   }
 }
