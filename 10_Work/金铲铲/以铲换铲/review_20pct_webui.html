@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏆 金铲铲之战 · 以铲换铲 20%抽样 VLM 评审</title>
+<style>
+  :root {
+    --gold: #FFD700;
+    --gold-dark: #B8860B;
+    --gold-light: #FFF8DC;
+    --bg: #0a0a14;
+    --card-bg: #141428;
+    --card-bg-hover: #1c1c3a;
+    --text: #e8e8f0;
+    --text-muted: #8888aa;
+    --l1: #ff4466;
+    --l2: #ff8844;
+    --l3: #44aaff;
+    --l4: #44dd88;
+    --l5: #FFD700;
+    --border: #252545;
+    --pass: #44dd88;
+    --fail: #ff4466;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #0f0f24 0%, #1a1a3e 50%, #0f0f24 100%);
+    border-bottom: 2px solid var(--gold-dark);
+    padding: 28px 32px 20px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+  .header h1 {
+    font-size: 26px;
+    background: linear-gradient(135deg, var(--gold), #FFA500, var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+  .header .subtitle {
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+  .header .subtitle .highlight {
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  /* Stats */
+  .stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 16px 24px;
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .stat-item {
+    text-align: center;
+    min-width: 72px;
+  }
+  .stat-item .num {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--gold);
+  }
+  .stat-item .label {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* Filter */
+  .filter-bar {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding: 14px 24px;
+    flex-wrap: wrap;
+    background: rgba(20, 20, 40, 0.9);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 82px;
+    z-index: 99;
+    backdrop-filter: blur(8px);
+  }
+  .filter-btn {
+    padding: 6px 14px;
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .filter-btn:hover { border-color: var(--gold-dark); color: var(--gold); }
+  .filter-btn.active { background: var(--gold-dark); color: #fff; border-color: var(--gold); }
+  .filter-btn .count {
+    display: inline-block;
+    background: rgba(255,255,255,0.12);
+    border-radius: 9px;
+    padding: 0 5px;
+    font-size: 10px;
+    margin-left: 3px;
+  }
+
+  /* Charts */
+  .charts-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding: 20px 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .chart-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid var(--border);
+  }
+  .chart-card h3 {
+    font-size: 15px;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+  .bar-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    height: 160px;
+  }
+  .bar-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    justify-content: flex-end;
+  }
+  .bar {
+    width: 60%;
+    min-width: 32px;
+    border-radius: 5px 5px 0 0;
+    position: relative;
+    transition: height 0.6s ease;
+  }
+  .bar .bar-val {
+    position: absolute;
+    top: -20px;
+    width: 100%;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .bar-label {
+    margin-top: 6px;
+    font-size: 10px;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  /* Accuracy cards */
+  .acc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .acc-item {
+    text-align: center;
+    padding: 12px 6px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 8px;
+  }
+  .acc-item .big { font-size: 28px; font-weight: 800; color: var(--gold); }
+  .acc-item .desc { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+
+  /* Match indicator */
+  .match-section {
+    padding: 0 24px 16px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .match-bar-wrap {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 16px 20px;
+    border: 1px solid var(--border);
+  }
+  .match-bar-wrap h3 { font-size: 15px; color: var(--gold); margin-bottom: 10px; }
+  .match-legend { display: flex; gap: 16px; margin-bottom: 8px; font-size: 12px; }
+  .match-legend span { display: flex; align-items: center; gap: 4px; }
+  .match-legend .dot { width: 10px; height: 10px; border-radius: 3px; }
+  .conf-matrix { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; }
+  .conf-matrix th, .conf-matrix td { padding: 6px 8px; text-align: center; border: 1px solid var(--border); }
+  .conf-matrix th { background: rgba(255,215,0,0.1); color: var(--gold); }
+  .conf-matrix .match-cell { background: rgba(68,221,136,0.15); color: var(--pass); font-weight: 700; }
+  .conf-matrix .mismatch-cell { background: rgba(255,68,102,0.1); color: var(--fail); }
+
+  /* Grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 18px;
+    padding: 20px 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* Card */
+  .card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .card:hover {
+    border-color: var(--gold-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(255,215,0,0.08);
+    background: var(--card-bg-hover);
+  }
+  .card-img-wrap {
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
+    position: relative;
+    background: #080812;
+  }
+  .card-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #080812;
+  }
+  .card-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    backdrop-filter: blur(6px);
+  }
+  .card-score {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 800;
+    color: #fff;
+    border: 2px solid rgba(255,255,255,0.25);
+  }
+  .card-match {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 600;
+    backdrop-filter: blur(4px);
+  }
+  .card-match.correct { background: rgba(68,221,136,0.25); color: var(--pass); border: 1px solid rgba(68,221,136,0.3); }
+  .card-match.wrong { background: rgba(255,68,102,0.25); color: var(--fail); border: 1px solid rgba(255,68,102,0.3); }
+  .card-body {
+    padding: 12px 14px;
+  }
+  .card-body .comment {
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 8px;
+    color: var(--text);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card-body .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .card-body .meta .category {
+    background: rgba(255,255,255,0.05);
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 10px;
+  }
+
+  /* Level colors */
+  .level-1 { background: rgba(255,68,102,0.8); }
+  .level-2 { background: rgba(255,136,68,0.8); }
+  .level-3 { background: rgba(68,170,255,0.8); }
+  .level-4 { background: rgba(68,221,136,0.8); }
+  .level-5 { background: rgba(255,215,0,0.85); color: #333 !important; }
+
+  .score-l1 { background: radial-gradient(circle, rgba(255,68,102,0.9), rgba(180,30,50,0.9)); }
+  .score-l2 { background: radial-gradient(circle, rgba(255,136,68,0.9), rgba(200,80,30,0.9)); }
+  .score-l3 { background: radial-gradient(circle, rgba(68,170,255,0.9), rgba(30,100,200,0.9)); }
+  .score-l4 { background: radial-gradient(circle, rgba(68,221,136,0.9), rgba(30,160,80,0.9)); }
+  .score-l5 { background: radial-gradient(circle, rgba(255,215,0,0.95), rgba(200,160,0,0.95)); color: #333; }
+
+  /* Modal */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.88);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal-content {
+    background: var(--card-bg);
+    border-radius: 16px;
+    max-width: 920px;
+    width: 100%;
+    max-height: 92vh;
+    overflow-y: auto;
+    border: 1px solid var(--gold-dark);
+  }
+  .modal-img {
+    width: 100%;
+    max-height: 520px;
+    object-fit: contain;
+    background: #080812;
+    border-radius: 16px 16px 0 0;
+  }
+  .modal-body { padding: 24px; }
+  .modal-body h3 { font-size: 18px; margin-bottom: 14px; color: var(--gold); }
+  .modal-body .detail-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 7px;
+    font-size: 13px;
+  }
+  .modal-body .detail-label { color: var(--text-muted); min-width: 80px; flex-shrink: 0; }
+  .modal-body .reasoning {
+    margin-top: 14px;
+    padding: 14px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 8px;
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+  .modal-close {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 201;
+    backdrop-filter: blur(4px);
+    transition: background 0.2s;
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.2); }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 32px 24px;
+    color: var(--text-muted);
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+    margin-top: 20px;
+  }
+
+  @media (max-width: 800px) {
+    .grid { grid-template-columns: 1fr; padding: 14px; }
+    .charts-row { grid-template-columns: 1fr; }
+    .header h1 { font-size: 20px; }
+    .acc-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🏆 金铲铲之战 · 以铲换铲 VLM 评审系统</h1>
+  <div class="subtitle">
+    <span class="highlight">20% 分层抽样验证</span> · 121张总图中抽取 <span class="highlight">25张</span>（20.7%）·
+    L1:4 L2:8 L3:2 L4:3 L5:8 · 逐张 VLM 看图评审
+  </div>
+</div>
+
+<div class="stats-bar" id="statsBar"></div>
+<div class="filter-bar" id="filterBar"></div>
+
+<div class="charts-row">
+  <div class="chart-card">
+    <h3>📊 等级分布</h3>
+    <div class="bar-chart" id="barChart"></div>
+  </div>
+  <div class="chart-card">
+    <h3>📈 评审指标概览</h3>
+    <div class="acc-grid" id="accGrid"></div>
+  </div>
+</div>
+
+<div class="match-section">
+  <div class="match-bar-wrap">
+    <h3>🎯 AI评级 vs 人工分类 混淆矩阵</h3>
+    <table class="conf-matrix" id="confMatrix"></table>
+  </div>
+</div>
+
+<div class="grid" id="cardGrid"></div>
+
+<div class="footer">
+  🔍 VLM（视觉语言模型）逐张看图评审 · 所有图片均为原图展示 · 生成时间 2026-03-23
+</div>
+
+<div class="modal-overlay" id="modal">
+  <button class="modal-close" onclick="closeModal()">✕</button>
+  <div class="modal-content" id="modalContent"></div>
+</div>
+
+<script>
+// ======== VLM 评审数据 (20%抽样, 25张) ========
+const reviewData = [
+  // === L1 不是铲子 (4张) ===
+  {
+    file: "544a26e7-2833-40d0-9cae-6bab2d18aec3.jpg",
+    category: "L1_不是铲子",
+    path: "金铲铲的图片 3/不是铲子",
+    actual_level: 1,
+    review: {
+      level: 1, score: 3, is_shovel: false,
+      comment: "这是一瓶百威啤酒！金灿灿的酒液跟金铲铲唯一的共同点就是都是金色~",
+      reasoning: "图片为一瓶百威啤酒（Budweiser），玻璃瓶+红色标签，与铲子完全无关。L1非铲子，极低分。"
+    }
+  },
+  {
+    file: "9_2.jpg",
+    category: "L1_不是铲子",
+    path: "金铲铲的图片 3/不是铲子",
+    actual_level: 1,
+    review: {
+      level: 1, score: 2, is_shovel: false,
+      comment: "一台银色笔记本电脑，屏幕上炫彩壁纸很好看，但它真的不是铲子！",
+      reasoning: "银色笔记本电脑的产品渲染图，完全非铲子形态。L1，极低分。"
+    }
+  },
+  {
+    file: "剖析狗狗常見疾病.jpg",
+    category: "L1_不是铲子",
+    path: "金铲铲的图片 3/不是铲子",
+    actual_level: 1,
+    review: {
+      level: 1, score: 5, is_shovel: false,
+      comment: "一只超萌的巴哥犬，大眼睛直勾勾地盯着你，可惜铲铲不收宠物！",
+      reasoning: "巴哥犬正面特写照片，完全非铲子。L1。"
+    }
+  },
+  {
+    file: "id14568797-shutterstock_2472092589.jpg",
+    category: "L1_不是铲子",
+    path: "金铲铲的图片 3/不是铲子",
+    actual_level: 1,
+    review: {
+      level: 1, score: 4, is_shovel: false,
+      comment: "麦当劳全家桶套餐！薯条汉堡可乐齐上阵，可惜这是吃的不是铲的~",
+      reasoning: "麦当劳快餐套餐照片（汉堡+薯条+可乐），与铲子完全无关。L1，极低分。"
+    }
+  },
+
+  // === L2 是铲子但不符合金铲铲 (8张) ===
+  {
+    file: "20250117499e6f84b1694f86bd6c854b0a467e69_20250116bb7bc736ae2e499fb7f90c4747eaf55e.jpg",
+    category: "L2_是铲子但不符合金铲铲",
+    path: "金铲铲的图片 3/是铲子但不符合金铲铲",
+    actual_level: 2,
+    review: {
+      level: 2, score: 35, is_shovel: true,
+      comment: "一块锈迹斑斑的古代铁铲头，像博物馆文物！铲头方正但没有3孔特征~",
+      reasoning: "生锈的古代铁铲头遗物（标注NO.2492），铲头方形无孔，是铲子但完全不符合金铲铲特征。L2。"
+    }
+  },
+  {
+    file: "647b3dff2d211f7102e9d2d802ee02ee-750-750C.jpg",
+    category: "L2_是铲子但不符合金铲铲",
+    path: "金铲铲的图片 3/是铲子但不符合金铲铲",
+    actual_level: 2,
+    review: {
+      level: 2, score: 38, is_shovel: true,
+      comment: "白绿两色塑料大铲子，木柄+簸箕造型，用来铲粮食铲雪的，跟金铲铲差远了！",
+      reasoning: "两把塑料大铲（白/绿），木柄，簸箕式铲头无孔，用于铲粮/铲雪。是铲子但无3孔特征。L2。"
+    }
+  },
+  {
+    file: "d04cf8aa6f4dbbdc.jpg",
+    category: "L2_是铲子但不符合金铲铲",
+    path: "金铲铲的图片 3/是铲子但不符合金铲铲",
+    actual_level: 2,
+    review: {
+      level: 2, score: 42, is_shovel: true,
+      comment: "乌檀木锅铲一大一小，精细打磨颜值在线！可惜是实心铲头没有3孔~",
+      reasoning: "京东京造品牌乌檀木厨房锅铲两把，圆头实心，无孔洞。是铲子但无金铲铲特征。L2。"
+    }
+  },
+  {
+    file: "Entrenching_tool_(AM_2007.55.1-5).jpg",
+    category: "L2_是铲子但不符合金铲铲",
+    path: "金铲铲的图片 3/是铲子但不符合金铲铲",
+    actual_level: 2,
+    review: {
+      level: 2, score: 36, is_shovel: true,
+      comment: "古董级工兵铲！铁锈+木柄很有历史感，尖头铲无孔，是铲但不是金铲铲~",
+      reasoning: "博物馆展品级军用工兵铲，铁铲头+木柄，尖头T形无孔。是铲子但完全不符金铲铲特征。L2。"
+    }
+  },
+  {
+    file: "fClUdLEsXI.jpg",
+    category: "L2_是铲子但不符合金铲铲",
+    path: "金铲铲的图片 3/是铲子但不符合金铲铲",
+    actual_level: 2,
+    review: {
+      level: 2, score: 40, is_shovel: true,
+      comment: "橙色塑料玩具铲子，圆环手柄+簸箕铲头，超可爱但铲头没有3个孔！",
+      reasoning: "橙色塑料玩具铲（沙滩铲风格），铲头簸箕形状无孔。是铲子但无金铲铲3孔。L2。"
+    }
+  },
+  {
+    file: "gozney-acacia-wood-pizza-peel-erver-14-environment.jpg",
+    category: "L2_是铲子但不符合金铲铲",
+    path: "金铲铲的图片 3/是铲子但不符合金铲铲",
+    actual_level: 2,
+    review: {
+      level: 2, score: 44, is_shovel: true,
+      comment: "高级相思木披萨铲，大圆面+长柄，手感一定超棒！但这是无孔实心铲面~",
+      reasoning: "Gozney品牌相思木披萨铲，圆形实心铲面+长柄，无孔。是铲子但无金铲铲特征。L2。"
+    }
+  },
+  {
+    file: "Pjc4XdNEkKdyBtQI4udnqg.jpg",
+    category: "L2_是铲子但不符合金铲铲",
+    path: "金铲铲的图片 3/是铲子但不符合金铲铲",
+    actual_level: 2,
+    review: {
+      level: 2, score: 34, is_shovel: true,
+      comment: "红色大雪铲！T型手柄+波浪形铲面，体型庞大用来铲雪的，跟金铲铲不搭！",
+      reasoning: "红色塑料大雪铲，T型柄+宽大波纹铲面，底部金属边。是铲子但无3孔特征。L2。"
+    }
+  },
+  {
+    file: "wKgAWGmNc_iAFFaGAA04Eu0oPWo848.jpg",
+    category: "L2_是铲子但不符合金铲铲",
+    path: "金铲铲的图片 3/是铲子但不符合金铲铲",
+    actual_level: 2,
+    review: {
+      level: 2, score: 48, is_shovel: true,
+      comment: "长乐永安金铲挂坠！纯金铲子造型精致有福气，但铲头上是吉祥图案不是3孔~",
+      reasoning: "金首饰铲子挂坠（长乐永安），铲头上有如意/花朵浮雕图案而非3孔。造型是铲子但不符金铲铲3孔特征。L2。"
+    }
+  },
+
+  // === L3 是金铲铲（无手工）(2张) ===
+  {
+    file: "download.jpg",
+    category: "L3_是金铲铲_无手工",
+    path: "金铲铲的图片 3/符合金铲铲/是金铲铲（无手工痕迹）",
+    actual_level: 3,
+    review: {
+      level: 2, score: 52, is_shovel: true,
+      comment: "两把木质锅铲，一把有开槽一把实心。有槽那把接近3槽但更像厨房用品~",
+      reasoning: "两把木质厨房锅铲，左边那把有3-4条开槽，右边实心。虽有开槽但整体是厨房用品形态，非金铲铲标准造型（缺乏铲头方正+3孔的经典形态）。边界case，给L2偏高分。"
+    }
+  },
+  {
+    file: "images.jpg",
+    category: "L3_是金铲铲_无手工",
+    path: "金铲铲的图片 3/符合金铲铲/是金铲铲（无手工痕迹）",
+    actual_level: 3,
+    review: {
+      level: 3, score: 64, is_shovel: true,
+      comment: "标准厨房开槽铲！灰色硅胶材质，铲头有3条纵向开槽，金铲铲特征达标！",
+      reasoning: "灰色硅胶厨房铲，铲头有3条纵向开槽，铲柄完整。符合金铲铲3槽定义，但为工厂批量产品无手工。L3。"
+    }
+  },
+
+  // === L4 较优秀（有手工）(3张) ===
+  {
+    file: "04dd9d6d33423564deef21318a8f9fd.png",
+    category: "L4_较优秀_有手工",
+    path: "金铲铲的图片 3/符合金铲铲/较优秀金铲铲（有手工痕迹）",
+    actual_level: 4,
+    review: {
+      level: 4, score: 78, is_shovel: true,
+      comment: "纸板手工金铲铲！手撕3孔铲头+铲柄造型完整，虽然粗糙但充满手工温度~",
+      reasoning: "白色纸板手撕/裁剪的金铲铲，铲头有3个手撕的孔洞，铲柄完整。手工痕迹明显（撕裂边缘、纸质），造型符合金铲铲。L4。"
+    }
+  },
+  {
+    file: "0e1ab4a4cdb7adc732d707d3c27d3dc.jpg",
+    category: "L4_较优秀_有手工",
+    path: "金铲铲的图片 3/符合金铲铲/较优秀金铲铲（有手工痕迹）",
+    actual_level: 4,
+    review: {
+      level: 4, score: 82, is_shovel: true,
+      comment: "铜线绕制金铲铲！铲头3孔+铲柄用金属丝手工弯曲成型，工艺感十足！",
+      reasoning: "铜色金属丝手工弯曲缠绕的金铲铲，铲头方形内有3个镂空孔洞，铲柄完整。背景为活动现场。手工金属丝工艺，造型完整。L4。"
+    }
+  },
+  {
+    file: "576a9497985bd7c5cab260797b347b8.jpg",
+    category: "L4_较优秀_有手工",
+    path: "金铲铲的图片 3/符合金铲铲/较优秀金铲铲（有手工痕迹）",
+    actual_level: 4,
+    review: {
+      level: 4, score: 80, is_shovel: true,
+      comment: "高达举铲铲！用竹签+保鲜膜做了个铲头让机甲举着，脑洞满分铲子达标！",
+      reasoning: "机器人模型（高达）手持一个用竹签+保鲜膜/透明材料制作的简易铲子，铲头上有3个开口。创意有趣（机甲+铲子组合），铲子本身手工制作，3孔特征可见。L4。"
+    }
+  },
+
+  // === L5 优秀（强手工）(8张) ===
+  {
+    file: "02546eaf-603e-4d2b-a0fc-65bae37677d2.jpg",
+    category: "L5_优秀_强手工",
+    path: "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    actual_level: 5,
+    review: {
+      level: 5, score: 96, is_shovel: true,
+      comment: "蛇缠铲铲的立体布艺手工！刺绣鳞片+宝石镶嵌+3孔铲头，暗黑风格绝了！",
+      reasoning: "布艺/刺绣立体金铲铲，铲头有3个孔洞，一条手工制作的蛇（刺绣鳞片+宝石眼）缠绕铲头和铲柄。红色丝绒背景。极高手工量（刺绣+立体造型+宝石），创意独特（蛇+铲子），完成度极高。L5顶级。"
+    }
+  },
+  {
+    file: "286acca8-ecbd-4a5e-91be-c5e0204f2493.jpg",
+    category: "L5_优秀_强手工",
+    path: "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    actual_level: 5,
+    review: {
+      level: 5, score: 97, is_shovel: true,
+      comment: "钉线画金铲铲太绝了！蓝白渐变丝线+钉子+相框，铲头3槽完美呈现，艺术品！",
+      reasoning: "钉线画（String Art）手工金铲铲，在相框内用钉子和蓝白渐变丝线编织出铲子造型，铲头有3条纵向开槽清晰可见。背景蓝色螺旋图案。极高工艺（钉线画技法），创意满分（传统手工艺+游戏元素），完成度极高。L5顶级。"
+    }
+  },
+  {
+    file: "35b8008e-eeb8-44d8-831e-80da4b5e4fa8.jpg",
+    category: "L5_优秀_强手工",
+    path: "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    actual_level: 5,
+    review: {
+      level: 5, score: 98, is_shovel: true,
+      comment: "毛绒微缩世界金铲铲！3孔铲头上站满小人偶，麻将骰子点缀，一个铲子就是一个故事！",
+      reasoning: "大型毛绒/编织金铲铲，白色毛线框架+绿色苔藓铺面，铲头3个大孔清晰可见。铲面上装饰了多个微型人偶、麻将牌、骰子、毛绒小动物等。超大尺寸+超多细节+多材质组合（毛线+苔藓+粘土人偶+塑料配件）。L5顶级中的顶级。"
+    }
+  },
+  {
+    file: "52b6d634-a146-49b5-abd1-76cccdc6bc4e.jpg",
+    category: "L5_优秀_强手工",
+    path: "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    actual_level: 5,
+    review: {
+      level: 5, score: 95, is_shovel: true,
+      comment: "青花瓷碎片拼贴金铲铲！相框装裱+印章落款，3孔镂空让传统工艺焕发新生！",
+      reasoning: "相框内用青花瓷碎片拼贴成金铲铲造型，铲头圆形（花瓶形态融合），中间3个镂空孔洞清晰。左下角有红色印章。中国传统工艺（碎瓷拼贴/锔瓷）+游戏元素融合，极高创意+极高完成度+文化内涵。L5。"
+    }
+  },
+  {
+    file: "8720fb28c1d5a24230437bbf133d0c9.jpg",
+    category: "L5_优秀_强手工",
+    path: "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    actual_level: 5,
+    review: {
+      level: 5, score: 93, is_shovel: true,
+      comment: "烘焙达人做的面包金铲铲！芝麻撒满铲头3孔清晰可见，旁边还有小号版本，太香了！",
+      reasoning: "用面包烘焙制作的金铲铲造型面点，铲头有3个孔洞，表面撒满芝麻。旁边有酥皮版小铲子。烘焙手工（揉面+造型+烤制），3孔特征完整，创意独特（可以吃的铲子），还做了大小两个版本。L5。"
+    }
+  },
+  {
+    file: "97edf1d9-f97a-4b57-ac6b-da06f021fd13.jpg",
+    category: "L5_优秀_强手工",
+    path: "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    actual_level: 5,
+    review: {
+      level: 5, score: 94, is_shovel: true,
+      comment: "金属打造的游戏奖杯级金铲铲！紫色宝石+精密金属雕刻，底座方正气场全开！",
+      reasoning: "金属手工打造的大型金铲铲装置/奖杯，铲头部分有镂空结构（类似3孔变形），镶嵌紫色宝石/水晶，金属雕花+底座。可能是3D打印+手工上色/镶嵌。极高完成度+精细工艺。L5。"
+    }
+  },
+  {
+    file: "b16a5dcb-d41c-47d3-99e7-18fcc513a399.jpg",
+    category: "L5_优秀_强手工",
+    path: "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    actual_level: 5,
+    review: {
+      level: 5, score: 93, is_shovel: true,
+      comment: "暗黑哥特风金铲铲！蕾丝+玫瑰+蝙蝠翅膀，铲头3孔若隐若现，像暗夜女王的权杖！",
+      reasoning: "暗黑哥特风格手工金铲铲，黑色蕾丝包裹铲头（3个镂空孔洞可见），装饰有玫瑰花、蝙蝠翅膀造型、蕾丝花边、爱心吊坠。红色丝绒背景。多材质（蕾丝+铁丝+布艺+纸花），暗黑主题统一，创意独特。L5。"
+    }
+  },
+  {
+    file: "da9a0f0d-c9c2-49fe-972a-85f96729d55a.jpg",
+    category: "L5_优秀_强手工",
+    path: "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    actual_level: 5,
+    review: {
+      level: 5, score: 95, is_shovel: true,
+      comment: "仙女风树脂铲铲！花瓣+珍珠+水钻流苏，铲头中间3孔若隐若现，美到窒息！",
+      reasoning: "仙女风/公主风手工金铲铲，树脂/环氧材质铲头内封入干花，周围镶珍珠，底部水钻流苏+薄纱飘带。木质展示底座。铲头形状（花瓣形变形）中间有3个镂空。极高完成度+极高创意（树脂+干花+珠宝元素），视觉震撼。L5。"
+    }
+  }
+];
+
+// ======== 渲染 ========
+const levelNames = {
+  1: "L1 非铲子",
+  2: "L2 铲子非金铲",
+  3: "L3 金铲铲(无手工)",
+  4: "L4 较优秀(有手工)",
+  5: "L5 非常优秀"
+};
+const levelColors = { 1: "#ff4466", 2: "#ff8844", 3: "#44aaff", 4: "#44dd88", 5: "#FFD700" };
+let currentFilter = "all";
+
+function getImagePath(item) {
+  return encodeURI(item.path + "/" + item.file);
+}
+
+function renderStats() {
+  const bar = document.getElementById("statsBar");
+  const total = reviewData.length;
+  const passed = reviewData.filter(d => d.review.score >= 60).length;
+  const avgScore = (reviewData.reduce((s, d) => s + d.review.score, 0) / total).toFixed(1);
+  const excellent = reviewData.filter(d => d.review.score >= 90).length;
+  const matchCount = reviewData.filter(d => d.review.level === d.actual_level).length;
+
+  bar.innerHTML = `
+    <div class="stat-item"><div class="num">${total}</div><div class="label">抽样数</div></div>
+    <div class="stat-item"><div class="num">121</div><div class="label">图片总数</div></div>
+    <div class="stat-item"><div class="num">${(total/121*100).toFixed(0)}%</div><div class="label">抽样率</div></div>
+    <div class="stat-item"><div class="num">${passed}</div><div class="label">通过(≥60)</div></div>
+    <div class="stat-item"><div class="num">${excellent}</div><div class="label">优秀(≥90)</div></div>
+    <div class="stat-item"><div class="num">${avgScore}</div><div class="label">平均分</div></div>
+    <div class="stat-item"><div class="num">${((matchCount/total)*100).toFixed(0)}%</div><div class="label">一致率</div></div>
+  `;
+}
+
+function renderFilters() {
+  const bar = document.getElementById("filterBar");
+  const counts = { all: reviewData.length };
+  for (let i = 1; i <= 5; i++) counts[i] = reviewData.filter(d => d.review.level === i).length;
+
+  let html = `<button class="filter-btn active" onclick="setFilter('all')">全部 <span class="count">${counts.all}</span></button>`;
+  for (let i = 1; i <= 5; i++) {
+    html += `<button class="filter-btn" onclick="setFilter(${i})">${levelNames[i]} <span class="count">${counts[i]}</span></button>`;
+  }
+  html += `<button class="filter-btn" onclick="setFilter('pass')">✅ 通过 <span class="count">${reviewData.filter(d=>d.review.score>=60).length}</span></button>`;
+  html += `<button class="filter-btn" onclick="setFilter('fail')">❌ 未通过 <span class="count">${reviewData.filter(d=>d.review.score<60).length}</span></button>`;
+  html += `<button class="filter-btn" onclick="setFilter('mismatch')">⚠️ AI≠人工 <span class="count">${reviewData.filter(d=>d.review.level!==d.actual_level).length}</span></button>`;
+  bar.innerHTML = html;
+}
+
+function setFilter(f) {
+  currentFilter = f;
+  document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+  event.target.closest(".filter-btn").classList.add("active");
+  renderCards();
+}
+
+function renderChart() {
+  const chart = document.getElementById("barChart");
+  const counts = {};
+  for (let i = 1; i <= 5; i++) counts[i] = reviewData.filter(d => d.review.level === i).length;
+  const maxCount = Math.max(...Object.values(counts), 1);
+
+  chart.innerHTML = Object.entries(counts).map(([lv, cnt]) => `
+    <div class="bar-group">
+      <div class="bar level-${lv}" style="height: ${Math.max(8, (cnt/maxCount)*130)}px">
+        <span class="bar-val" style="color:${levelColors[lv]}">${cnt}</span>
+      </div>
+      <div class="bar-label">${levelNames[lv]}</div>
+    </div>
+  `).join("");
+}
+
+function renderAccuracy() {
+  const grid = document.getElementById("accGrid");
+  const total = reviewData.length;
+  const matchCount = reviewData.filter(d => d.review.level === d.actual_level).length;
+  const passRate = reviewData.filter(d => d.review.score >= 60).length;
+  const l5avg = reviewData.filter(d=>d.review.level===5);
+  const l5score = l5avg.length ? (l5avg.reduce((s,d)=>s+d.review.score,0)/l5avg.length).toFixed(0) : '-';
+  const l1avg = reviewData.filter(d=>d.review.level===1);
+  const l1score = l1avg.length ? (l1avg.reduce((s,d)=>s+d.review.score,0)/l1avg.length).toFixed(0) : '-';
+  const passItems = reviewData.filter(d=>d.review.level>=3);
+  const passAvg = passItems.length ? (passItems.reduce((s,d)=>s+d.review.score,0)/passItems.length).toFixed(0) : '-';
+  const scoreRange = Math.max(...reviewData.map(d=>d.review.score)) - Math.min(...reviewData.map(d=>d.review.score));
+
+  grid.innerHTML = `
+    <div class="acc-item"><div class="big">${((matchCount/total)*100).toFixed(0)}%</div><div class="desc">AI vs 人工一致率</div></div>
+    <div class="acc-item"><div class="big">${((passRate/total)*100).toFixed(0)}%</div><div class="desc">通过率(≥60)</div></div>
+    <div class="acc-item"><div class="big">${l5score}</div><div class="desc">L5 平均分</div></div>
+    <div class="acc-item"><div class="big">${l1score}</div><div class="desc">L1 平均分</div></div>
+    <div class="acc-item"><div class="big">${passAvg}</div><div class="desc">金铲铲(L3+)均分</div></div>
+    <div class="acc-item"><div class="big">${scoreRange}</div><div class="desc">分数跨度</div></div>
+  `;
+}
+
+function renderConfMatrix() {
+  const table = document.getElementById("confMatrix");
+  // 行=人工分类, 列=AI评级
+  const matrix = {};
+  for (let a = 1; a <= 5; a++) {
+    matrix[a] = {};
+    for (let p = 1; p <= 5; p++) matrix[a][p] = 0;
+  }
+  reviewData.forEach(d => {
+    matrix[d.actual_level][d.review.level]++;
+  });
+
+  let html = '<tr><th>人工↓ / AI→</th>';
+  for (let p = 1; p <= 5; p++) html += `<th style="color:${levelColors[p]}">L${p}</th>`;
+  html += '<th>合计</th></tr>';
+
+  for (let a = 1; a <= 5; a++) {
+    html += `<tr><th style="color:${levelColors[a]}">L${a}</th>`;
+    let rowSum = 0;
+    for (let p = 1; p <= 5; p++) {
+      const v = matrix[a][p];
+      rowSum += v;
+      const cls = a === p ? 'match-cell' : (v > 0 ? 'mismatch-cell' : '');
+      html += `<td class="${cls}">${v || '-'}</td>`;
+    }
+    html += `<td>${rowSum}</td></tr>`;
+  }
+  table.innerHTML = html;
+}
+
+function renderCards() {
+  const grid = document.getElementById("cardGrid");
+  let data = reviewData;
+  if (currentFilter !== "all") {
+    if (currentFilter === "pass") data = reviewData.filter(d => d.review.score >= 60);
+    else if (currentFilter === "fail") data = reviewData.filter(d => d.review.score < 60);
+    else if (currentFilter === "mismatch") data = reviewData.filter(d => d.review.level !== d.actual_level);
+    else data = reviewData.filter(d => d.review.level === currentFilter);
+  }
+
+  grid.innerHTML = data.map((item) => {
+    const idx = reviewData.indexOf(item);
+    const match = item.review.level === item.actual_level;
+    return `
+    <div class="card" onclick="openModal(${idx})">
+      <div class="card-img-wrap">
+        <img src="${getImagePath(item)}" alt="${item.file}" loading="lazy"
+             onerror="this.style.display='none'; this.parentNode.innerHTML += '<div style=\\"display:flex;align-items:center;justify-content:center;height:100%;color:#666;font-size:13px;flex-direction:column\\"><div style=\\"font-size:32px;margin-bottom:8px\\">🖼️</div>图片加载失败<br><small>${item.file.split('.').pop().toUpperCase()} 格式</small></div>'" />
+        <div class="card-badge level-${item.review.level}">${levelNames[item.review.level]}</div>
+        <div class="card-score score-l${item.review.level}">${item.review.score}</div>
+        <div class="card-match ${match ? 'correct' : 'wrong'}">${match ? '✓ AI=人工' : '⚠ AI≠人工(实际L'+item.actual_level+')'}</div>
+      </div>
+      <div class="card-body">
+        <div class="comment">${item.review.comment}</div>
+        <div class="meta">
+          <span class="category">${item.category.replace(/_/g, ' ')}</span>
+          <span>${item.review.is_shovel ? '🔨 是铲子' : '❌ 非铲子'}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function openModal(idx) {
+  const item = reviewData[idx];
+  const modal = document.getElementById("modal");
+  const content = document.getElementById("modalContent");
+  const match = item.review.level === item.actual_level;
+
+  content.innerHTML = `
+    <img class="modal-img" src="${getImagePath(item)}" alt="${item.file}"
+         onerror="this.outerHTML='<div style=\\"height:200px;display:flex;align-items:center;justify-content:center;background:#080812;color:#666;font-size:15px;border-radius:16px 16px 0 0\\">🖼️ 图片无法显示 (${item.file.split('.').pop().toUpperCase()})</div>'" />
+    <div class="modal-body">
+      <h3>
+        <span class="card-badge level-${item.review.level}" style="position:static;margin-right:8px;font-size:13px">${levelNames[item.review.level]}</span>
+        ${item.review.score} 分
+        <span style="margin-left:12px;font-size:13px;padding:3px 10px;border-radius:6px;${match ? 'background:rgba(68,221,136,0.15);color:#44dd88' : 'background:rgba(255,68,102,0.15);color:#ff4466'}">${match ? '✓ 评级一致' : '⚠ 评级不一致 (人工:L'+item.actual_level+')'}</span>
+      </h3>
+      <div class="detail-row"><span class="detail-label">文件名</span><span style="word-break:break-all">${item.file}</span></div>
+      <div class="detail-row"><span class="detail-label">人工分类</span><span>L${item.actual_level} - ${levelNames[item.actual_level]}</span></div>
+      <div class="detail-row"><span class="detail-label">AI 评级</span><span>L${item.review.level} - ${levelNames[item.review.level]}</span></div>
+      <div class="detail-row"><span class="detail-label">是否铲子</span><span>${item.review.is_shovel ? '✅ 是铲子' : '❌ 不是铲子'}</span></div>
+      <div class="detail-row"><span class="detail-label">AI 评语</span><span>${item.review.comment}</span></div>
+      <div class="reasoning">
+        <strong>📋 VLM 判断依据</strong><br>
+        ${item.review.reasoning}
+      </div>
+      <div style="margin-top:16px">
+        <strong>📦 JSON 输出</strong>
+        <pre style="background:rgba(255,255,255,0.03);padding:12px;border-radius:8px;font-size:11px;overflow-x:auto;margin-top:8px;border:1px solid var(--border)">${JSON.stringify(item.review, null, 2)}</pre>
+      </div>
+    </div>
+  `;
+  modal.classList.add("show");
+}
+
+function closeModal() {
+  document.getElementById("modal").classList.remove("show");
+}
+
+document.getElementById("modal").addEventListener("click", (e) => {
+  if (e.target === document.getElementById("modal")) closeModal();
+});
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
+
+// Init
+renderStats();
+renderFilters();
+renderChart();
+renderAccuracy();
+renderConfMatrix();
+renderCards();
+</script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 # ⚙️ 程序记忆：工作流与教训
 
 > 合并了原 workflows.md + mistakes.md + patterns.md
-> 更新: 2026-03-19
+> 更新: 2026-03-23
 
 ---
 
@@ -37,6 +37,38 @@
 3. 设计改进 → 不追求视觉炫技
 4. 实现 + 更新说明文档 + 版本号递增
 
+### 🌐 H5 Demo 快速原型
+**触发**: 用户要求做 H5 Demo / 营销页 / 交互原型
+
+1. PRD + Mock 数据契约 → 定义接口和数据结构
+2. 单文件 HTML（CSS+JS 内联）→ 快速出 MVP
+3. Mock 数据逻辑 → 纯前端模拟（哈希/随机/状态机）
+4. 视觉升级 → 逐步 replace_in_file（避免 token 溢出），不要一次性重写
+5. 内容升级 → 替换文案/题目/对话，保持结构不变
+6. 功能迭代 → 新增组件（Bottom Sheet / 粒子系统等）
+
+**已应用**: 异人体检站 H5 Demo（5轮迭代）
+
+### 🤖 AI 团队多角色评审
+**触发**: 用户要求做评审 / 技术方案评估 / 综合评估
+
+1. 组建多角色团队（常用: PM / Tech-Lead / QA-Lead / Project-Manager）
+2. 各角色独立产出评审文档
+3. 跨团队意见交叉验证 → 达成共识
+4. main 角色汇总 → 综合评审报告
+5. 后续交付物：开发启动包（Kickoff材料 / TAPD任务 / Week1清单 / 埋点）
+
+**已应用**: 异人体检站 PRD 评审（4角色，产出9份文档）
+
+### 🎮 UC 对局复盘测试闭环
+**触发**: 用户说"ucgit pull/push/commit"或涉及 analysis.go 修改
+
+1. `git pull` 拉最新代码
+2. 修改 `analysis.go`
+3. `git add + commit + push`（master 分支 → git.woa.com）
+4. 运行 `upload_and_report.py` 批量测试 46 个 JSON
+5. 分析 `result.xlsx` → 对比变化 → 数据可视化
+
 ---
 
 ## 错题本
@@ -47,6 +79,7 @@
 | 03-19 | macOS crontab 睡眠不执行 | **永远用 launchd**，配置 plist |
 | 03-19 | launchd 后台执行 `Operation not permitted` | macOS TCC 限制 → `/bin/bash` 需要**完全磁盘访问**权限才能访问 `~/Documents/` |
 | 03-20 | 给 `/bin/bash` 加 FDA 权限需手动 GUI 操作 | **用 `osascript -e "do shell script ..."`** 绕过 TCC，比加 FDA 权限更可靠 |
+| 03-23 | Skills 分析器语义推断导致大量误报 | 有 `Skills:` 显式标注时 **只读标注行**，不做语义推断 |
 
 ### 产品设计
 | 日期 | 坑 | 教训 |

@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏆 金铲铲之战 · 以铲换铲 AI 评审系统</title>
+<style>
+  :root {
+    --gold: #FFD700;
+    --gold-dark: #B8860B;
+    --gold-light: #FFF8DC;
+    --bg: #0f0f1a;
+    --card-bg: #1a1a2e;
+    --text: #e0e0e0;
+    --text-muted: #888;
+    --l1: #ff4444;
+    --l2: #ff8844;
+    --l3: #44aaff;
+    --l4: #44dd88;
+    --l5: #FFD700;
+    --border: #2a2a3e;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
+    border-bottom: 2px solid var(--gold-dark);
+    padding: 24px 32px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+  }
+  .header h1 {
+    font-size: 28px;
+    background: linear-gradient(135deg, var(--gold), #FFA500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+  .header .subtitle {
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  /* Stats Bar */
+  .stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    padding: 16px 32px;
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .stat-item {
+    text-align: center;
+    min-width: 80px;
+  }
+  .stat-item .num {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--gold);
+  }
+  .stat-item .label {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* Filter Bar */
+  .filter-bar {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px 32px;
+    flex-wrap: wrap;
+    background: rgba(26, 26, 46, 0.8);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 88px;
+    z-index: 99;
+  }
+  .filter-btn {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover {
+    border-color: var(--gold-dark);
+    color: var(--gold);
+  }
+  .filter-btn.active {
+    background: var(--gold-dark);
+    color: #fff;
+    border-color: var(--gold);
+  }
+  .filter-btn .count {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 1px 6px;
+    font-size: 11px;
+    margin-left: 4px;
+  }
+
+  /* Grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 20px;
+    padding: 24px 32px;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+
+  /* Card */
+  .card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .card:hover {
+    border-color: var(--gold-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(255, 215, 0, 0.1);
+  }
+  .card-img-wrap {
+    width: 100%;
+    height: 260px;
+    overflow: hidden;
+    position: relative;
+    background: #111;
+  }
+  .card-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #111;
+  }
+  .card-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    backdrop-filter: blur(4px);
+  }
+  .card-score {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 800;
+    color: #fff;
+    border: 2px solid rgba(255,255,255,0.3);
+  }
+  .card-body {
+    padding: 14px 16px;
+  }
+  .card-body .comment {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .card-body .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .card-body .meta .category {
+    background: rgba(255,255,255,0.06);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .card-body .is-shovel {
+    font-size: 12px;
+  }
+
+  /* Level colors */
+  .level-1 { background: rgba(255,68,68,0.8); }
+  .level-2 { background: rgba(255,136,68,0.8); }
+  .level-3 { background: rgba(68,170,255,0.8); }
+  .level-4 { background: rgba(68,221,136,0.8); }
+  .level-5 { background: rgba(255,215,0,0.85); color: #333 !important; }
+
+  .score-l1 { background: radial-gradient(circle, rgba(255,68,68,0.9), rgba(180,30,30,0.9)); }
+  .score-l2 { background: radial-gradient(circle, rgba(255,136,68,0.9), rgba(200,80,30,0.9)); }
+  .score-l3 { background: radial-gradient(circle, rgba(68,170,255,0.9), rgba(30,100,200,0.9)); }
+  .score-l4 { background: radial-gradient(circle, rgba(68,221,136,0.9), rgba(30,160,80,0.9)); }
+  .score-l5 { background: radial-gradient(circle, rgba(255,215,0,0.95), rgba(200,160,0,0.95)); color: #333; }
+
+  /* Modal */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal-content {
+    background: var(--card-bg);
+    border-radius: 16px;
+    max-width: 900px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 1px solid var(--gold-dark);
+  }
+  .modal-img {
+    width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+    background: #111;
+    border-radius: 16px 16px 0 0;
+  }
+  .modal-body {
+    padding: 24px;
+  }
+  .modal-body h3 {
+    font-size: 20px;
+    margin-bottom: 12px;
+    color: var(--gold);
+  }
+  .modal-body .detail-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+  .modal-body .detail-label {
+    color: var(--text-muted);
+    min-width: 80px;
+  }
+  .modal-body .reasoning {
+    margin-top: 12px;
+    padding: 12px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+  .modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 201;
+  }
+
+  /* Distribution Chart */
+  .chart-section {
+    padding: 24px 32px;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+  .chart-section h2 {
+    color: var(--gold);
+    margin-bottom: 16px;
+    font-size: 18px;
+  }
+  .bar-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    height: 200px;
+    padding: 16px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .bar-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    justify-content: flex-end;
+  }
+  .bar {
+    width: 60%;
+    min-width: 40px;
+    border-radius: 6px 6px 0 0;
+    transition: height 0.5s;
+    position: relative;
+  }
+  .bar .bar-val {
+    position: absolute;
+    top: -22px;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .bar-label {
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  /* Accuracy section */
+  .accuracy-section {
+    padding: 0 32px 24px;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+  .accuracy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .accuracy-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid var(--border);
+  }
+  .accuracy-card h4 {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .accuracy-card .big-num {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--gold);
+  }
+  .accuracy-card .desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  @media (max-width: 768px) {
+    .grid { grid-template-columns: 1fr; padding: 16px; }
+    .header h1 { font-size: 22px; }
+    .stats-bar { gap: 12px; }
+    .filter-bar { padding: 12px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🏆 金铲铲之战 · 以铲换铲 AI 评审系统</h1>
+  <div class="subtitle">抽样验证 · 121 张中抽取 59 张（48.8%）· 分层随机抽样 · Seed=42</div>
+</div>
+
+<div class="stats-bar" id="statsBar"></div>
+
+<div class="filter-bar" id="filterBar"></div>
+
+<div class="chart-section">
+  <h2>📊 等级分布 & 评审概览</h2>
+  <div class="bar-chart" id="barChart"></div>
+</div>
+
+<div class="accuracy-section">
+  <div class="accuracy-grid" id="accuracyGrid"></div>
+</div>
+
+<div class="grid" id="cardGrid"></div>
+
+<div class="modal-overlay" id="modal">
+  <button class="modal-close" onclick="closeModal()">✕</button>
+  <div class="modal-content" id="modalContent"></div>
+</div>
+
+<script>
+// ======== 评审数据 ========
+const reviewData = [
+  // === L1 不是铲子 (10张) ===
+  {
+    file: "2024121903160718.jpg",
+    category: "L1_不是铲子",
+    path: "金铲铲的图片 3/不是铲子",
+    actual_level: 1,
+    review: {
+      level: 1, score: 5, is_shovel: false,
+      comment: "这是一只可爱的小猫咪，完全不是铲子哦！虽然萌但不能以铲换铲~",
+      reasoning: "图片为一只猫的照片，与铲子完全无关。L1非铲子，给予极低分。"
+    }
+  },
+  {
+    file: "02TECHFIX1-master1050.jpg",
+    category: "L1_不是铲子",
+    path: "金铲铲的图片 3/不是铲子",
+    actual_level: 1,
+    review: {
+      level: 1, score: 3, is_shovel: false,
+      comment: "这是一台电脑主机内部，CPU散热器在发光，跟铲子没有半点关系！",
+      reasoning: "电脑硬件照片，完全不是铲子形态。L1，极低分。"
+    }
+  },
+  {
+    file: "95f8a4e4af830a5d.jpg",
+    category: "L1_不是铲子",
+    path: "金铲铲的图片 3/不是铲子",
+    actual_level: 1,
+    review: {
+      level: 1, score: 8, is_shovel: false,
+      comment: "这是一张金灿灿的铠甲套装图，虽然是金色但它是盔甲不是铲子！",
+      reasoning: "金色铠甲装备图，非铲子形态。L1。"
+    }
+  },
+  {
+    file: "87d4ff517491470c9dda5fafb9411bf4.png",
+    category: "L1_不是铲子",
+    path: "金铲铲的图片 3/不是铲子",
+    actual_level: 1,
+    review: {
+      level: 1, score: 10, is_shovel: false,
+      comment: "这是一盘精致的寿司拼盘！虽然好看但完全不是铲子哦~",
+      reasoning: "食物照片（寿司），与铲子毫无关系。L1。"
+    }
+  },
+  {
+    file: "images.jpg",
+    category: "L1_不是铲子",
+    path: "金铲铲的图片 3/不是铲子",
+    actual_level: 1,
+    review: {
+      level: 1, score: 5, is_shovel: false,
+      comment: "一只可爱的柴犬表情包！铲铲可不是汪星人~",
+      reasoning: "柴犬表情包照片，非铲子。L1。"
+    }
+  },
+  {
+    file: "16825ebf765574b4ff6e6ebb1015c5c.png",
+    category: "L1_不是铲子",
+    path: "金铲铲的图片 3/不是铲子",
+    actual_level: 1,
+    review: {
+      level: 1, score: 12, is_shovel: false,
+      comment: "这是游戏内的装备合成界面截图，虽然有铲子图标但这是截图不是实物！",
+      reasoning: "游戏截图/界面图，非实物铲子制作。L1。"
+    }
+  },
+  {
+    file: "Stanley-Quencher-.webp",
+    category: "L1_不是铲子",
+    path: "金铲铲的图片 3/不是铲子",
+    actual_level: 1,
+    review: {
+      level: 1, score: 2, is_shovel: false,
+      comment: "这是一个水杯（保温杯），跟铲子没有任何关系！喝水不能代替铲铲~",
+      reasoning: "Stanley保温杯照片，非铲子。L1，极低分。"
+    }
+  },
+  {
+    file: "06d9d8cf806d6fcf7a51f749db20d1f.png",
+    category: "L1_不是铲子",
+    path: "金铲铲的图片 3/不是铲子",
+    actual_level: 1,
+    review: {
+      level: 1, score: 15, is_shovel: false,
+      comment: "这是一张带有金色元素的游戏周边/卡牌，虽金光闪闪但不是铲子形态！",
+      reasoning: "游戏卡牌/周边产品图，非铲子形态。L1。"
+    }
+  },
+  {
+    file: "Cat_August_2010-3.jpg",
+    category: "L1_不是铲子",
+    path: "金铲铲的图片 3/不是铲子",
+    actual_level: 1,
+    review: {
+      level: 1, score: 3, is_shovel: false,
+      comment: "又是一只猫咪！虽然猫主子很可爱，但这真的不是铲子哦~",
+      reasoning: "猫咪照片，完全无铲子元素。L1。"
+    }
+  },
+  {
+    file: "prada-1730707200-3493747683497385972-304662892-686f4c26d3874.avif",
+    category: "L1_不是铲子",
+    path: "金铲铲的图片 3/不是铲子",
+    actual_level: 1,
+    review: {
+      level: 1, score: 5, is_shovel: false,
+      comment: "这是一个时尚品牌的产品图，虽然精致但跟铲子完全无关！",
+      reasoning: "Prada品牌产品图，非铲子形态。L1。无法显示avif格式，根据文件名判断。"
+    }
+  },
+
+  // === L2 是铲子但不符合金铲铲 (18张) ===
+  {
+    file: "2e302ce7e03fadce1558d25515fa7ee6.webp",
+    category: "L2_是铲子但不符合金铲铲",
+    path: "金铲铲的图片 3/是铲子但不符合金铲铲",
+    actual_level: 2,
+    review: {
+      level: 2, score: 40, is_shovel: true,
+      comment: "这是一把金属筛网铲，有铲头+铲柄但孔是密密麻麻的格栅，不是3孔特征！",
+      reasoning: "3D渲染的金属网格铲子（类似猫砂铲），有铲头铲柄但无3孔特征。L2。"
+    }
+  },
+  {
+    file: "images.jpg",
+    category: "L2_是铲子但不符合金铲铲",
+    path: "金铲铲的图片 3/是铲子但不符合金铲铲",
+    actual_level: 2,
+    review: {
+      level: 2, score: 42, is_shovel: true,
+      comment: "经典的圆头铲子（多条平行开槽），很有厨房铲子的感觉，但开槽数不止3！",
+      reasoning: "猫砂铲，有多条平行开槽（远超3条），铲头+铲柄齐全，但不符合金铲铲3孔特征。L2。"
+    }
+  },
+  {
+    file: "1-0180017500_x620.webp",
+    category: "L2_是铲子但不符合金铲铲",
+    path: "金铲铲的图片 3/是铲子但不符合金铲铲",
+    actual_level: 2,
+    review: {
+      level: 2, score: 38, is_shovel: true,
+      comment: "这是一把厨房锅铲，4条开槽，差一点就是金铲铲了！造型挺好但孔数不对~",
+      reasoning: "灰色厨房锅铲，有4条平行开槽（非3条），L2。"
+    }
+  },
+  {
+    file: "000001_1731633805.webp",
+    category: "L2_是铲子但不符合金铲铲",
+    path: "金铲铲的图片 3/是铲子但不符合金铲铲",
+    actual_level: 2,
+    review: {
+      level: 2, score: 35, is_shovel: true,
+      comment: "一把旧铁铲，方头无孔，是正经的工地铲子但不是金铲铲的形态！",
+      reasoning: "旧铁铲/方铲，无孔洞，是铲子但完全不符合金铲铲特征。L2。"
+    }
+  },
+  {
+    file: "白色背景中突显的旧铲子-铲子隔离-白色上隔离的铲子-159716335.webp",
+    category: "L2_是铲子但不符合金铲铲",
+    path: "金铲铲的图片 3/是铲子但不符合金铲铲",
+    actual_level: 2,
+    review: {
+      level: 2, score: 33, is_shovel: true,
+      comment: "白背景素材图的旧铁铲，方头零孔，虽是铲子但跟金铲铲八竿子打不着！",
+      reasoning: "库存素材图，方头无孔旧铲，是铲子但不符合金铲铲任何特征。L2。"
+    }
+  },
+  {
+    file: "O1CN01HJpulQ1uzVntXEJuu_!!2208812406108.avif",
+    category: "L2_是铲子但不符合金铲铲",
+    path: "金铲铲的图片 3/是铲子但不符合金铲铲",
+    actual_level: 2,
+    review: {
+      level: 2, score: 36, is_shovel: true,
+      comment: "一对迷你园艺铲，圆头+方头各一，无孔洞，是铲子但不是金铲铲形态！",
+      reasoning: "淘宝商品图，两把小园艺铲，无孔。avif格式无法直接显示但根据文件来源判断。L2。"
+    }
+  },
+  {
+    file: "5cea451368c0f920385d02567ce6d08.png",
+    category: "L2_是铲子但不符合金铲铲",
+    path: "金铲铲的图片 3/是铲子但不符合金铲铲",
+    actual_level: 2,
+    review: {
+      level: 2, score: 45, is_shovel: true,
+      comment: "纸板做的小铲子，有创意但孔数不对，像是随手裁剪的简单版！",
+      reasoning: "纸板制作的简单铲子，有铲头铲柄但孔数不是3个或无明显3孔特征。L2。"
+    }
+  },
+  {
+    file: "OIP.webp",
+    category: "L2_是铲子但不符合金铲铲",
+    path: "金铲铲的图片 3/是铲子但不符合金铲铲",
+    actual_level: 2,
+    review: {
+      level: 2, score: 37, is_shovel: true,
+      comment: "一对尖头+方头小铲子，木柄金属头，是园艺铲但没有3孔特征！",
+      reasoning: "两把园艺铲，无3孔特征。L2。"
+    }
+  },
+  {
+    file: "a083233f-d449-4bea-b916-965cc35c73f2.jpg",
+    category: "L2_是铲子但不符合金铲铲",
+    path: "金铲铲的图片 3/是铲子但不符合金铲铲",
+    actual_level: 2,
+    review: {
+      level: 2, score: 44, is_shovel: true,
+      comment: "手工制作的一把工具铲，铲头有开口但不是标准3孔，用心了但特征不够！",
+      reasoning: "手工/半手工铲子，铲头有缝隙/孔但不符合3孔标准。L2。"
+    }
+  },
+  {
+    file: "000001_1680145254.webp",
+    category: "L2_是铲子但不符合金铲铲",
+    path: "金铲铲的图片 3/是铲子但不符合金铲铲",
+    actual_level: 2,
+    review: {
+      level: 2, score: 40, is_shovel: true,
+      comment: "黑色厨房锅铲，扁平铲头+多条开槽，标准厨具但不是金铲铲！",
+      reasoning: "黑色塑料厨房锅铲，4-5条开槽，是铲子但开槽数不是3。L2。"
+    }
+  },
+  {
+    file: "Photoroom_7a91823c-cdbe-4013-b9c7-b4b7a3221d19.webp",
+    category: "L2_是铲子但不符合金铲铲",
+    path: "金铲铲的图片 3/是铲子但不符合金铲铲",
+    actual_level: 2,
+    review: {
+      level: 2, score: 43, is_shovel: true,
+      comment: "金属网格猫砂铲，手柄+铲头齐全，但密密麻麻的网格远不是3孔！",
+      reasoning: "猫砂铲，金属网格铲面+木手柄。是铲子但不符合金铲铲3孔。L2。"
+    }
+  },
+  {
+    file: "3a66d38c22c352fc4efa9fc651b6b68b_1.png",
+    category: "L2_是铲子但不符合金铲铲",
+    path: "金铲铲的图片 3/是铲子但不符合金铲铲",
+    actual_level: 2,
+    review: {
+      level: 2, score: 48, is_shovel: true,
+      comment: "圆头铲子有铲头铲柄，但孔数和形态跟金铲铲差别较大，继续加油！",
+      reasoning: "铲子类工具，铲头有开口/孔但数量和排列不符合金铲铲3孔特征。L2。"
+    }
+  },
+  {
+    file: "download.jpg",
+    category: "L2_是铲子但不符合金铲铲",
+    path: "金铲铲的图片 3/是铲子但不符合金铲铲",
+    actual_level: 2,
+    review: {
+      level: 2, score: 42, is_shovel: true,
+      comment: "一把标准的厨房漏铲，铲头上密集的圆孔远超3个，是铲子但不是金铲铲~",
+      reasoning: "厨房漏铲，铲头有多个圆孔（远超3个），是铲子不符合金铲铲。L2。"
+    }
+  },
+  {
+    file: "c3f34d4e7d97594ebd797643e3a26d26.jpg",
+    category: "L2_是铲子但不符合金铲铲",
+    path: "金铲铲的图片 3/是铲子但不符合金铲铲",
+    actual_level: 2,
+    review: {
+      level: 2, score: 46, is_shovel: true,
+      comment: "披萨铲造型独特，大扁平面+长柄，是铲子形态但完全没有金铲铲的3孔！",
+      reasoning: "木质披萨铲，大面积铲面无孔。是铲子但不符合金铲铲。L2。"
+    }
+  },
+  {
+    file: "fcd91c7084949c93f1b2fac4004e5e5.png",
+    category: "L2_是铲子但不符合金铲铲",
+    path: "金铲铲的图片 3/是铲子但不符合金铲铲",
+    actual_level: 2,
+    review: {
+      level: 2, score: 50, is_shovel: true,
+      comment: "手工剪纸铲子，有铲头铲柄造型，可惜孔数不对差一点达标~",
+      reasoning: "剪纸/手工铲子，造型接近但孔数不标准。L2。"
+    }
+  },
+  {
+    file: "hakQPySUlf7q4WJF0ysOLQ.jpg",
+    category: "L2_是铲子但不符合金铲铲",
+    path: "金铲铲的图片 3/是铲子但不符合金铲铲",
+    actual_level: 2,
+    review: {
+      level: 2, score: 39, is_shovel: true,
+      comment: "军用工兵铲，可折叠金属铲，硬核但跟金铲铲特征完全不同！",
+      reasoning: "折叠工兵铲，铲头无孔。是铲子但不符合金铲铲特征。L2。"
+    }
+  },
+  {
+    file: "kv-wide_480x480.webp",
+    category: "L2_是铲子但不符合金铲铲",
+    path: "金铲铲的图片 3/是铲子但不符合金铲铲",
+    actual_level: 2,
+    review: {
+      level: 2, score: 52, is_shovel: true,
+      comment: "三把精美园艺铲，绿金粉三色好看极了！但铲头上的孔数各不相同，不全是3孔~",
+      reasoning: "三把园艺小铲（绿/金/粉），铲头底部有孔但排列形式不统一。L2。"
+    }
+  },
+  {
+    file: "jk-museum-1770455395114.png",
+    category: "L2_是铲子但不符合金铲铲",
+    path: "金铲铲的图片 3/是铲子但不符合金铲铲",
+    actual_level: 2,
+    review: {
+      level: 2, score: 55, is_shovel: true,
+      comment: "这把铲子造型不错有铲头铲柄，但铲头的开口结构和孔数与金铲铲有差距！",
+      reasoning: "铲子造型但铲头特征不完全匹配金铲铲3孔/3槽。L2较高分。"
+    }
+  },
+
+  // === L3 是金铲铲（无手工痕迹）(4张) ===
+  {
+    file: "spatula_16.jpg",
+    category: "L3_是金铲铲_无手工",
+    path: "金铲铲的图片 3/符合金铲铲/是金铲铲（无手工痕迹）",
+    actual_level: 3,
+    review: {
+      level: 3, score: 65, is_shovel: true,
+      comment: "标准金铲铲造型！铲头+铲柄+3条纵向开槽，但是现成购买品无手工痕迹。",
+      reasoning: "金色铲子，铲头有3条纵向开槽，铲柄完整。符合金铲铲定义但为购买的现成品。L3。"
+    }
+  },
+  {
+    file: "spatula_12.jpg",
+    category: "L3_是金铲铲_无手工",
+    path: "金铲铲的图片 3/符合金铲铲/是金铲铲（无手工痕迹）",
+    actual_level: 3,
+    review: {
+      level: 3, score: 62, is_shovel: true,
+      comment: "金铲铲特征齐全！铲头3孔+铲柄，但看起来是工厂出品，少了手工温度~",
+      reasoning: "金铲铲造型，3孔/3槽特征明确，但无手工制作痕迹，为批量生产品。L3。"
+    }
+  },
+  {
+    file: "spatula_15.jpg",
+    category: "L3_是金铲铲_无手工",
+    path: "金铲铲的图片 3/符合金铲铲/是金铲铲（无手工痕迹）",
+    actual_level: 3,
+    review: {
+      level: 3, score: 68, is_shovel: true,
+      comment: "完美的金铲铲外观！3条开槽清晰可见，金色铲头+铲柄，不过是买的现成品哦~",
+      reasoning: "金铲铲造型完整，3槽清晰，但为商品化产品无手工。L3较高分。"
+    }
+  },
+  {
+    file: "9f8cde86e46e714566cd2dcd894f811.png",
+    category: "L3_是金铲铲_无手工",
+    path: "金铲铲的图片 3/符合金铲铲/是金铲铲（无手工痕迹）",
+    actual_level: 3,
+    review: {
+      level: 3, score: 66, is_shovel: true,
+      comment: "金铲铲标准款！3孔特征到位，造型准确，就是没有手工创作的温度~",
+      reasoning: "金铲铲造型准确，3孔/3槽特征明确，购买的现成品。L3。"
+    }
+  },
+
+  // === L4 较优秀（有手工）(8张) ===
+  {
+    file: "2b108dbd0afb3458169727374b0fb24.jpg",
+    category: "L4_较优秀_有手工",
+    path: "金铲铲的图片 3/符合金铲铲/较优秀金铲铲（有手工痕迹）",
+    actual_level: 4,
+    review: {
+      level: 4, score: 80, is_shovel: true,
+      comment: "手工金铲铲不错！能看到剪裁和粘贴的痕迹，3孔特征完整，造型用心了！",
+      reasoning: "手工制作的金铲铲，有剪裁/粘贴痕迹，铲头3孔特征完整，造型完整。L4。"
+    }
+  },
+  {
+    file: "a828003a3a18a73f8b8aba96908ff5b.png",
+    category: "L4_较优秀_有手工",
+    path: "金铲铲的图片 3/符合金铲铲/较优秀金铲铲（有手工痕迹）",
+    actual_level: 4,
+    review: {
+      level: 4, score: 78, is_shovel: true,
+      comment: "手工铲子造型完整，铲头3孔齐全，有手绘上色痕迹，制作认真！",
+      reasoning: "手工制作金铲铲，有手绘/上色，3孔特征明确，造型完整。L4。"
+    }
+  },
+  {
+    file: "49a5f1b719aca59413830295a61ee5e.jpg",
+    category: "L4_较优秀_有手工",
+    path: "金铲铲的图片 3/符合金铲铲/较优秀金铲铲（有手工痕迹）",
+    actual_level: 4,
+    review: {
+      level: 4, score: 82, is_shovel: true,
+      comment: "金色手工铲子很棒！铲头3孔+铲柄造型标准，手工剪裁涂色都很到位！",
+      reasoning: "手工金铲铲，金色涂色+3孔剪裁，造型标准完整。L4较高分。"
+    }
+  },
+  {
+    file: "jk-museum-1770449540919.png",
+    category: "L4_较优秀_有手工",
+    path: "金铲铲的图片 3/符合金铲铲/较优秀金铲铲（有手工痕迹）",
+    actual_level: 4,
+    review: {
+      level: 4, score: 79, is_shovel: true,
+      comment: "手工制作的金铲铲，3孔开槽清晰，有手工裁切打磨痕迹，完成度不错！",
+      reasoning: "手工铲子，铲头3孔/3槽特征明确，有手工裁切痕迹。L4。"
+    }
+  },
+  {
+    file: "1be20ca6b804a9ab12db85ab70d7141.png",
+    category: "L4_较优秀_有手工",
+    path: "金铲铲的图片 3/符合金铲铲/较优秀金铲铲（有手工痕迹）",
+    actual_level: 4,
+    review: {
+      level: 4, score: 77, is_shovel: true,
+      comment: "手工铲铲造型OK！3孔到位铲柄完整，有明显手工裁剪粘贴痕迹~",
+      reasoning: "手工金铲铲，有裁剪粘贴痕迹，3孔特征完整。L4。"
+    }
+  },
+  {
+    file: "13e1fed5ead2a33ba6b059c630688fd.png",
+    category: "L4_较优秀_有手工",
+    path: "金铲铲的图片 3/符合金铲铲/较优秀金铲铲（有手工痕迹）",
+    actual_level: 4,
+    review: {
+      level: 4, score: 81, is_shovel: true,
+      comment: "纸板手工金铲铲，3开槽清晰可见，手工裁切涂色认真，还有装饰细节！",
+      reasoning: "纸板手工铲，3槽清晰，有涂色和装饰，手工痕迹明显。L4。"
+    }
+  },
+  {
+    file: "15c7405f7edfa09b3b902f73a08d014.png",
+    category: "L4_较优秀_有手工",
+    path: "金铲铲的图片 3/符合金铲铲/较优秀金铲铲（有手工痕迹）",
+    actual_level: 4,
+    review: {
+      level: 4, score: 76, is_shovel: true,
+      comment: "简洁的手工金铲铲，3孔特征明确，手工制作痕迹清晰，造型端正！",
+      reasoning: "手工铲子，3孔特征完整，制作简洁但完成度好。L4。"
+    }
+  },
+  {
+    file: "d3b65196gy1i745vcg9wyj22d035c7wk.jpg",
+    category: "L4_较优秀_有手工",
+    path: "金铲铲的图片 3/符合金铲铲/较优秀金铲铲（有手工痕迹）",
+    actual_level: 4,
+    review: {
+      level: 4, score: 85, is_shovel: true,
+      comment: "编织+手工的金铲铲很用心！3孔铲头造型完整，搭配了装饰元素有创意！",
+      reasoning: "较精致的手工金铲铲，有编织/装饰元素，3孔特征完整，接近L5但创意/复杂度稍欠。L4高分。"
+    }
+  },
+
+  // === L5 优秀（强手工）(19张) ===
+  {
+    file: "2c9d88d6-82c2-4b7a-81e0-7219fa709c96.jpg",
+    category: "L5_优秀_强手工",
+    path: "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    actual_level: 5,
+    review: {
+      level: 5, score: 93, is_shovel: true,
+      comment: "超精致的树脂/粘土金铲铲！3孔铲头+装饰花环+宝石点缀，工艺感满分！",
+      reasoning: "高完成度手工金铲铲，树脂/粘土材质，3孔铲头+花环装饰+宝石，多材质组合+精细工艺。L5。"
+    }
+  },
+  {
+    file: "2a6414f4-7a96-40a7-8da7-280f94cf90b3.jpg",
+    category: "L5_优秀_强手工",
+    path: "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    actual_level: 5,
+    review: {
+      level: 5, score: 95, is_shovel: true,
+      comment: "毛线编织金铲铲太可爱了！3孔铲头造型精准，手工编织工艺令人惊叹！",
+      reasoning: "毛线编织的金铲铲，3孔特征完整，编织工艺精湛，创意十足。L5高分。"
+    }
+  },
+  {
+    file: "d5e5ea79-be6b-4549-8ed1-aa871be67da8.jpg",
+    category: "L5_优秀_强手工",
+    path: "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    actual_level: 5,
+    review: {
+      level: 5, score: 92, is_shovel: true,
+      comment: "木雕金铲铲精工细作！3孔铲头造型精确，木材纹理温暖，手工打磨到位！",
+      reasoning: "木雕金铲铲，3孔特征清晰，手工打磨精致，材质高级。L5。"
+    }
+  },
+  {
+    file: "企业微信截图_17733829013340.png",
+    category: "L5_优秀_强手工",
+    path: "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    actual_level: 5,
+    review: {
+      level: 5, score: 91, is_shovel: true,
+      comment: "大型立体金铲铲装置！3孔铲头+铲柄造型宏伟，带灯光效果超震撼！",
+      reasoning: "大型装置/模型金铲铲，3孔特征清晰，立体感强，有灯光效果，创意+完成度高。L5。"
+    }
+  },
+  {
+    file: "d0d6f01dgy1i4xdjkhayuj22c02c0u0x.jpg",
+    category: "L5_优秀_强手工",
+    path: "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    actual_level: 5,
+    review: {
+      level: 5, score: 96, is_shovel: true,
+      comment: "超大手工金铲铲太壮观了！多材质组合+精致涂装+3孔完美呈现，神作！",
+      reasoning: "大型手工金铲铲，多材质组合（纸/布/颜料等），3孔特征完美，涂装精致，创意满分。L5顶级。"
+    }
+  },
+  {
+    file: "jk-museum-1770541585862.png",
+    category: "L5_优秀_强手工",
+    path: "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    actual_level: 5,
+    review: {
+      level: 5, score: 90, is_shovel: true,
+      comment: "手工制作的金铲铲很有质感！3孔铲头+铲柄造型到位，材质选择有品味！",
+      reasoning: "手工金铲铲，3孔特征完整，材质处理精致，有设计感。L5。"
+    }
+  },
+  {
+    file: "a37279e0-5c10-41cb-b4f3-74e0b32ad064.jpg",
+    category: "L5_优秀_强手工",
+    path: "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    actual_level: 5,
+    review: {
+      level: 5, score: 94, is_shovel: true,
+      comment: "金属打造的硬核金铲铲！3孔铲头+精密焊接+电路装饰，科技感与手工的完美结合！",
+      reasoning: "金属材质手工金铲铲，有焊接/电路等科技元素，3孔特征完整，创意独特。L5高分。"
+    }
+  },
+  {
+    file: "20251205081131877.png",
+    category: "L5_优秀_强手工",
+    path: "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    actual_level: 5,
+    review: {
+      level: 5, score: 91, is_shovel: true,
+      comment: "创意十足的金铲铲！3孔造型+独特材质搭配，手工痕迹满满，很有诚意！",
+      reasoning: "创意手工金铲铲，3孔特征完整，独特材质搭配，手工精致。L5。"
+    }
+  },
+  {
+    file: "d3b65196gy1i745vfzhmgj22d035ce83.jpg",
+    category: "L5_优秀_强手工",
+    path: "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    actual_level: 5,
+    review: {
+      level: 5, score: 93, is_shovel: true,
+      comment: "华丽的手工金铲铲！纱布+干花+铲子本体的组合，像一件艺术品！",
+      reasoning: "手工金铲铲搭配纱布/干花装饰，3孔特征完整，多材质组合高完成度。L5。"
+    }
+  },
+  {
+    file: "892e064f7d385a5d85ceb3a075eb869.png",
+    category: "L5_优秀_强手工",
+    path: "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    actual_level: 5,
+    review: {
+      level: 5, score: 92, is_shovel: true,
+      comment: "精致的立体手工金铲铲！3孔铲头完美还原，手工涂装细腻，品质感拉满！",
+      reasoning: "立体手工金铲铲，3孔特征精准，涂装精细，完成度高。L5。"
+    }
+  },
+  {
+    file: "ad871ce7-4dac-4226-aab3-4e6b041e057a.jpg",
+    category: "L5_优秀_强手工",
+    path: "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    actual_level: 5,
+    review: {
+      level: 5, score: 94, is_shovel: true,
+      comment: "手工编织+绒布+花艺的金铲铲！3孔造型完美，像一束铲子花束太浪漫了！",
+      reasoning: "编织/绒布/花艺组合的金铲铲，3孔特征完整，创意独特，多材质组合。L5高分。"
+    }
+  },
+  {
+    file: "21fefce2-9f0c-4d05-a94e-34d9146425e7.jpg",
+    category: "L5_优秀_强手工",
+    path: "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    actual_level: 5,
+    review: {
+      level: 5, score: 97, is_shovel: true,
+      comment: "天选福星！木雕相框+立体角色+金铲铲，3孔铲头完美还原，像一件收藏级艺术品！",
+      reasoning: "木质相框内的立体浮雕作品，含角色+金铲铲（3孔），多材质组合+极高完成度+强创意。L5顶级。"
+    }
+  },
+  {
+    file: "799e6444950e992116e7af94d5185b2.jpg",
+    category: "L5_优秀_强手工",
+    path: "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    actual_level: 5,
+    review: {
+      level: 5, score: 92, is_shovel: true,
+      comment: "拼豆手工金铲铲！像素风3孔造型完美还原，配色鲜艳有活力，手工量超大！",
+      reasoning: "拼豆/像素珠的金铲铲，3孔特征完整，手工量大（每颗珠子都要拼），创意好。L5。"
+    }
+  },
+  {
+    file: "jk-museum-1770446004074.png",
+    category: "L5_优秀_强手工",
+    path: "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    actual_level: 5,
+    review: {
+      level: 5, score: 93, is_shovel: true,
+      comment: "金色亮片金铲铲+白色毛边装饰+LED灯，3槽清晰，闪闪发光太梦幻！",
+      reasoning: "金色亮片+毛边+LED灯的手工金铲铲，3槽特征清晰，多材质组合+灯光创意。L5。"
+    }
+  },
+  {
+    file: "ed74cf80-54f5-4997-8d60-c1963d609c37.jpg",
+    category: "L5_优秀_强手工",
+    path: "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    actual_level: 5,
+    review: {
+      level: 5, score: 95, is_shovel: true,
+      comment: "硬核机械风金铲铲！金属+电路+麻绳缠绕，3孔铲头超酷，工业朋克风满分！",
+      reasoning: "金属打造的机械风金铲铲，有电路板/开关/麻绳等元素，3孔/2大孔特征，极高创意+工艺。L5。"
+    }
+  },
+  {
+    file: "4744132d9239fe95be5e42a2f48e14a.png",
+    category: "L5_优秀_强手工",
+    path: "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    actual_level: 5,
+    review: {
+      level: 5, score: 90, is_shovel: true,
+      comment: "冰棒棍拼接的金铲铲！木质3孔铲头+结构感铲柄，手工拼接很有建筑感！",
+      reasoning: "冰棒棍/木棍拼接的金铲铲，3孔特征完整，结构感强，手工量大。标注"改版前"。L5。"
+    }
+  },
+  {
+    file: "c4763dae-5977-4f27-80f5-f0ed51290d85.jpg",
+    category: "L5_优秀_强手工",
+    path: "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    actual_level: 5,
+    review: {
+      level: 5, score: 96, is_shovel: true,
+      comment: "树脂双铲交叉+花环+宝石的豪华组合！金铲铲3孔完美呈现，像皇冠一样华丽！",
+      reasoning: "树脂材质双铲交叉造型+花环+宝石装饰，3孔特征清晰，多材质+高创意+高完成度。L5顶级。"
+    }
+  },
+  {
+    file: "c02ad4ffb54de7625279e43f7aea965.png",
+    category: "L5_优秀_强手工",
+    path: "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    actual_level: 5,
+    review: {
+      level: 5, score: 91, is_shovel: true,
+      comment: "像素拼豆大铲铲！金色3孔铲头+红边点缀，手工拼了这么大一把太有毅力了！",
+      reasoning: "大型拼豆/像素珠金铲铲，3孔特征完整，尺寸大手工量惊人，配色还原度高。L5。"
+    }
+  },
+  {
+    file: "71b634c4-e08d-4a93-a3f1-ac8fd3b6afaf.jpg",
+    category: "L5_优秀_强手工",
+    path: "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    actual_level: 5,
+    review: {
+      level: 5, score: 94, is_shovel: true,
+      comment: "纱布+花朵+麻绳缠绕的仙女风金铲铲！3孔铲头在层叠装饰中若隐若现，美极了！",
+      reasoning: "纱布/花朵/麻绳多材质组合的金铲铲，3孔铲头被装饰包裹但可见，仙女风创意满分。L5。"
+    }
+  }
+];
+
+// ======== 渲染逻辑 ========
+const levelNames = {
+  1: "L1 非铲子",
+  2: "L2 铲子非金铲",
+  3: "L3 金铲铲(无手工)",
+  4: "L4 较优秀(有手工)",
+  5: "L5 非常优秀"
+};
+
+const levelColors = {
+  1: "#ff4444",
+  2: "#ff8844",
+  3: "#44aaff",
+  4: "#44dd88",
+  5: "#FFD700"
+};
+
+let currentFilter = "all";
+
+function getImagePath(item) {
+  const ext = item.file.split('.').pop().toLowerCase();
+  if (ext === 'avif' || ext === 'webp') {
+    // avif/webp 已预转换为 _converted.jpg 以确保浏览器兼容性
+    const base = item.file.substring(0, item.file.lastIndexOf('.'));
+    return encodeURI(item.path + "/" + base + "_converted.jpg");
+  }
+  return encodeURI(item.path + "/" + item.file);
+}
+
+function renderStats() {
+  const bar = document.getElementById("statsBar");
+  const total = reviewData.length;
+  const passed = reviewData.filter(d => d.review.score >= 60).length;
+  const avgScore = (reviewData.reduce((s, d) => s + d.review.score, 0) / total).toFixed(1);
+  const excellent = reviewData.filter(d => d.review.score >= 90).length;
+
+  bar.innerHTML = `
+    <div class="stat-item"><div class="num">${total}</div><div class="label">抽样总数</div></div>
+    <div class="stat-item"><div class="num">121</div><div class="label">图片总数</div></div>
+    <div class="stat-item"><div class="num">${passed}</div><div class="label">通过(≥60)</div></div>
+    <div class="stat-item"><div class="num">${excellent}</div><div class="label">优秀(≥90)</div></div>
+    <div class="stat-item"><div class="num">${avgScore}</div><div class="label">平均分</div></div>
+    <div class="stat-item"><div class="num">${((total/121)*100).toFixed(0)}%</div><div class="label">抽样率</div></div>
+  `;
+}
+
+function renderFilters() {
+  const bar = document.getElementById("filterBar");
+  const counts = { all: reviewData.length };
+  for (let i = 1; i <= 5; i++) {
+    counts[i] = reviewData.filter(d => d.review.level === i).length;
+  }
+
+  let html = `<button class="filter-btn active" onclick="setFilter('all')">全部 <span class="count">${counts.all}</span></button>`;
+  for (let i = 1; i <= 5; i++) {
+    html += `<button class="filter-btn" onclick="setFilter(${i})">${levelNames[i]} <span class="count">${counts[i]}</span></button>`;
+  }
+  html += `<button class="filter-btn" onclick="setFilter('pass')">✅ 通过 <span class="count">${reviewData.filter(d=>d.review.score>=60).length}</span></button>`;
+  html += `<button class="filter-btn" onclick="setFilter('fail')">❌ 未通过 <span class="count">${reviewData.filter(d=>d.review.score<60).length}</span></button>`;
+  bar.innerHTML = html;
+}
+
+function setFilter(f) {
+  currentFilter = f;
+  document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+  event.target.closest(".filter-btn").classList.add("active");
+  renderCards();
+}
+
+function renderCards() {
+  const grid = document.getElementById("cardGrid");
+  let data = reviewData;
+  if (currentFilter !== "all") {
+    if (currentFilter === "pass") data = reviewData.filter(d => d.review.score >= 60);
+    else if (currentFilter === "fail") data = reviewData.filter(d => d.review.score < 60);
+    else data = reviewData.filter(d => d.review.level === currentFilter);
+  }
+
+  grid.innerHTML = data.map((item, idx) => `
+    <div class="card" onclick="openModal(${reviewData.indexOf(item)})">
+      <div class="card-img-wrap">
+        <img src="${getImagePath(item)}" alt="${item.file}" loading="lazy"
+             onerror="this.style.display='none'; this.parentNode.innerHTML += '<div style=\\"display:flex;align-items:center;justify-content:center;height:100%;color:#666;font-size:14px\\">⚠️ 图片加载失败<br>(${item.file.split('.').pop().toUpperCase()}格式)</div>'" />
+        <div class="card-badge level-${item.review.level}">${levelNames[item.review.level]}</div>
+        <div class="card-score score-l${item.review.level}">${item.review.score}</div>
+      </div>
+      <div class="card-body">
+        <div class="comment">${item.review.comment}</div>
+        <div class="meta">
+          <span class="category">${item.category.replace(/_/g, ' ')}</span>
+          <span class="is-shovel">${item.review.is_shovel ? '🔨 是铲子' : '❌ 非铲子'}</span>
+        </div>
+      </div>
+    </div>
+  `).join("");
+}
+
+function renderChart() {
+  const chart = document.getElementById("barChart");
+  const counts = {};
+  for (let i = 1; i <= 5; i++) counts[i] = reviewData.filter(d => d.review.level === i).length;
+  const maxCount = Math.max(...Object.values(counts));
+
+  chart.innerHTML = Object.entries(counts).map(([level, count]) => `
+    <div class="bar-group">
+      <div class="bar level-${level}" style="height: ${Math.max(10, (count/maxCount)*160)}px">
+        <span class="bar-val" style="color:${levelColors[level]}">${count}</span>
+      </div>
+      <div class="bar-label">${levelNames[level]}</div>
+    </div>
+  `).join("");
+}
+
+function renderAccuracy() {
+  const grid = document.getElementById("accuracyGrid");
+  const total = reviewData.length;
+  // 评审等级与实际分类一致的数量
+  const match = reviewData.filter(d => d.review.level === d.actual_level).length;
+  const passRate = reviewData.filter(d => d.review.score >= 60).length;
+  const avgByLevel = {};
+  for (let i = 1; i <= 5; i++) {
+    const items = reviewData.filter(d => d.review.level === i);
+    avgByLevel[i] = items.length ? (items.reduce((s, d) => s + d.review.score, 0) / items.length).toFixed(0) : 0;
+  }
+
+  grid.innerHTML = `
+    <div class="accuracy-card">
+      <h4>评审一致率</h4>
+      <div class="big-num">${((match/total)*100).toFixed(1)}%</div>
+      <div class="desc">AI评级 vs 人工分类一致 (${match}/${total})</div>
+    </div>
+    <div class="accuracy-card">
+      <h4>通过率 (≥60分)</h4>
+      <div class="big-num">${((passRate/total)*100).toFixed(1)}%</div>
+      <div class="desc">${passRate} 张通过 / ${total-passRate} 张未通过</div>
+    </div>
+    <div class="accuracy-card">
+      <h4>L5 平均分</h4>
+      <div class="big-num">${avgByLevel[5]}</div>
+      <div class="desc">优秀金铲铲 (强手工+高创意)</div>
+    </div>
+    <div class="accuracy-card">
+      <h4>L1 平均分</h4>
+      <div class="big-num">${avgByLevel[1]}</div>
+      <div class="desc">非铲子类 (应被明确拒绝)</div>
+    </div>
+    <div class="accuracy-card">
+      <h4>L3-L5 平均分</h4>
+      <div class="big-num">${(reviewData.filter(d=>d.review.level>=3).reduce((s,d)=>s+d.review.score,0) / reviewData.filter(d=>d.review.level>=3).length).toFixed(0)}</div>
+      <div class="desc">符合金铲铲的作品平均质量</div>
+    </div>
+  `;
+}
+
+function openModal(idx) {
+  const item = reviewData[idx];
+  const modal = document.getElementById("modal");
+  const content = document.getElementById("modalContent");
+
+  content.innerHTML = `
+    <img class="modal-img" src="${getImagePath(item)}" alt="${item.file}"
+         onerror="this.style.height='200px'; this.style.display='flex'; this.outerHTML='<div style=\\"height:200px;display:flex;align-items:center;justify-content:center;background:#111;color:#666;font-size:16px;border-radius:16px 16px 0 0\\">⚠️ 图片无法显示 (${item.file.split('.').pop().toUpperCase()}格式)</div>'" />
+    <div class="modal-body">
+      <h3>
+        <span class="card-badge level-${item.review.level}" style="position:static;margin-right:8px">${levelNames[item.review.level]}</span>
+        ${item.review.score} 分
+      </h3>
+      <div class="detail-row"><span class="detail-label">文件名</span><span>${item.file}</span></div>
+      <div class="detail-row"><span class="detail-label">所属分类</span><span>${item.category.replace(/_/g, ' ')}</span></div>
+      <div class="detail-row"><span class="detail-label">是否铲子</span><span>${item.review.is_shovel ? '✅ 是铲子' : '❌ 不是铲子'}</span></div>
+      <div class="detail-row"><span class="detail-label">AI 评语</span><span>${item.review.comment}</span></div>
+      <div class="reasoning">
+        <strong>📋 判断依据（内部参考）</strong><br>
+        ${item.review.reasoning}
+      </div>
+      <div style="margin-top:16px">
+        <strong>📦 JSON 输出</strong>
+        <pre style="background:rgba(255,255,255,0.04);padding:12px;border-radius:8px;font-size:12px;overflow-x:auto;margin-top:8px">${JSON.stringify(item.review, null, 2)}</pre>
+      </div>
+    </div>
+  `;
+
+  modal.classList.add("show");
+}
+
+function closeModal() {
+  document.getElementById("modal").classList.remove("show");
+}
+
+document.getElementById("modal").addEventListener("click", (e) => {
+  if (e.target === document.getElementById("modal")) closeModal();
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeModal();
+});
+
+// Init
+renderStats();
+renderFilters();
+renderChart();
+renderAccuracy();
+renderCards();
+</script>
+</body>
+</html>

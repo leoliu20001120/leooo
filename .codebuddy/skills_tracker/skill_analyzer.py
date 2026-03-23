@@ -38,6 +38,12 @@ KNOWN_SKILLS = {
     "web-artifacts-builder":{"emoji": "🌐", "category": "开发工具", "alias": ["Web构建"]},
     "webapp-testing":       {"emoji": "🧪", "category": "开发工具", "alias": ["Web测试"]},
     "xlsx":                 {"emoji": "📊", "category": "文档处理", "alias": ["Excel", "表格"]},
+    # 用户自建 Rule Skills
+    "data-analyst":         {"emoji": "📈", "category": "数据分析", "alias": ["数据分析", "数据分析师"]},
+    "product-manager":      {"emoji": "📋", "category": "产品设计", "alias": ["产品经理"]},
+    "game-designer":        {"emoji": "🎮", "category": "产品设计", "alias": ["游戏设计师"]},
+    "marketing-strategist": {"emoji": "📣", "category": "营销策略", "alias": ["营销策略师"]},
+    "project-shepherd":     {"emoji": "🐑", "category": "项目管理", "alias": ["项目牧羊人", "项目管理"]},
 }
 
 CATEGORIES = {
@@ -47,6 +53,10 @@ CATEGORIES = {
     "效率工具": "⚡",
     "沟通协作": "💬",
     "元工具":   "🔩",
+    "数据分析": "📈",
+    "产品设计": "📋",
+    "营销策略": "📣",
+    "项目管理": "🐑",
 }
 
 
@@ -230,10 +240,11 @@ def infer_skills_from_content(section, section_title):
 def extract_skill_usage(entries):
     """从 memory 条目中提取 skill 使用记录
     
-    核心策略：
-    1. 优先检测显式使用标记："使用 xxx skill"、"(xxx skill)"
-    2. 排除清单/安装型段落（列举了大量 skill 名称但并非真正使用）
-    3. 在"解决问题"型段落中匹配 skill 名称
+    核心策略（v2 — 以显式标注为准）：
+    1. 检查整篇日志是否包含 `Skills:` 标注行
+    2. 如果有 → 进入"显式模式"：只读取标注行，未标注的段落视为"无"
+    3. 如果没有 → 进入"推断模式"：使用内容语义推断（兼容旧日志）
+    4. `Skills: 无` → 该段落不计入任何 Skill
     """
     usages = []
     
@@ -244,9 +255,17 @@ def extract_skill_usage(entries):
         patterns.extend(info.get("alias", []))
         skill_patterns[skill_name] = patterns
     
+    # Skills 标注行的正则（行首独立）
+    SKILLS_LINE_RE = re.compile(
+        r'^[-*]?\s*Skills\s*[:：]\s*(.+?)\s*$', re.MULTILINE | re.IGNORECASE
+    )
+    
     for entry in entries:
         content = entry["content"]
         date = entry["date"]
+        
+        # 判断这篇日志是否采用了"显式标注模式"
+        has_any_skills_annotation = bool(SKILLS_LINE_RE.search(content))
         
         # 按 ## 标题分割成段落
         sections = re.split(r'\n(?=## )', content)
@@ -262,47 +281,65 @@ def extract_skill_usage(entries):
             if is_listing_section(section, section_title):
                 continue
             
-            section_lower = section.lower()
             matched_skills = set()
             
-            # ── 策略 1：显式使用标记（高置信度） ──
-            explicit_patterns = [
-                r'使用\s*(\S+?)\s*skill',
-                r'using\s+(\S+?)\s+skill',
-                r'\(使用\s*(\S+?)\s*skill\)',
-                r'\((\S+?)\s+skill\)',
-                r'skill[：:]\s*(\S+)',
-                r'通过\s*(\S+?)\s*skill',
-                r'借助\s*(\S+?)\s*skill',
-                r'调用了?\s*(\S+?)\s*skill',
-            ]
-            for pat in explicit_patterns:
-                matches = re.findall(pat, section_lower)
-                for m in matches:
-                    m_clean = m.strip().lower().replace(" ", "-")
+            # 检查该段落自身是否有 Skills 标注行
+            skills_line_match = SKILLS_LINE_RE.search(section)
+            
+            if skills_line_match:
+                skills_value = skills_line_match.group(1).strip()
+                
+                # 如果标注为 "无" / "none" → 跳过该段落
+                if skills_value.lower() in ("无", "none", "无使用", "n/a", "-"):
+                    continue
+                
+                # 解析逗号分隔的 skill 名称
+                for raw_name in re.split(r'[,，、]', skills_value):
+                    raw_name = raw_name.strip().lower().replace(" ", "-")
+                    if not raw_name:
+                        continue
+                    # 精确匹配已知 skill
                     for skill_name in KNOWN_SKILLS:
-                        if m_clean in skill_name or skill_name in m_clean:
-                            matched_skills.add(skill_name)
-            
-            # ── 策略 2：上下文关联匹配（标题或正文中提及 skill，且段落描述了具体工作） ──
-            has_action_context = any(kw in section_lower for kw in [
-                "创建", "生成", "修改", "更新", "升级", "实现", "完成",
-                "开发", "设计", "构建", "编写", "部署", "测试", "修复",
-                "分析", "整理", "重构", "优化", "新增", "添加",
-                "create", "build", "implement", "update", "fix", "add",
-            ])
-            
-            if has_action_context:
-                for skill_name, patterns in skill_patterns.items():
-                    for pattern in patterns:
-                        if pattern.lower() in section_lower:
+                        if raw_name == skill_name or raw_name in skill_name or skill_name in raw_name:
                             matched_skills.add(skill_name)
                             break
-            
-            # ── 策略 3：基于内容语义的推断（当段落没有直接提及 skill 名称时） ──
-            if has_action_context and not matched_skills:
-                inferred = infer_skills_from_content(section, section_title)
-                matched_skills.update(inferred)
+            elif has_any_skills_annotation:
+                # 该日志有标注体系，但这个段落没有标注 → 视为 "Skills: 无"
+                continue
+            else:
+                # 该日志完全没有标注体系 → 回退到语义推断（兼容旧日志）
+                section_lower = section.lower()
+                
+                has_action_context = any(kw in section_lower for kw in [
+                    "创建", "生成", "修改", "更新", "升级", "实现", "完成",
+                    "开发", "设计", "构建", "编写", "部署", "测试", "修复",
+                    "分析", "整理", "重构", "优化", "新增", "添加",
+                    "create", "build", "implement", "update", "fix", "add",
+                ])
+                
+                if has_action_context:
+                    # 显式使用标记
+                    explicit_patterns = [
+                        r'使用\s*(\S+?)\s*skill',
+                        r'using\s+(\S+?)\s+skill',
+                        r'\(使用\s*(\S+?)\s*skill\)',
+                        r'\((\S+?)\s+skill\)',
+                        r'通过\s*(\S+?)\s*skill',
+                        r'借助\s*(\S+?)\s*skill',
+                        r'调用了?\s*(\S+?)\s*skill',
+                    ]
+                    for pat in explicit_patterns:
+                        matches = re.findall(pat, section_lower)
+                        for m in matches:
+                            m_clean = m.strip().lower().replace(" ", "-")
+                            for skill_name in KNOWN_SKILLS:
+                                if m_clean in skill_name or skill_name in m_clean:
+                                    matched_skills.add(skill_name)
+                    
+                    # 语义推断（仅在无标注体系且无显式提及时）
+                    if not matched_skills:
+                        inferred = infer_skills_from_content(section, section_title)
+                        matched_skills.update(inferred)
             
             if matched_skills:
                 # 提取该段落描述的"解决了什么问题"

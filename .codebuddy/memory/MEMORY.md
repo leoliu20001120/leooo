@@ -1,6 +1,6 @@
 # 🧠 MEMORY.md — AI 启动上下文
 
-> v2.1 | 更新: 2026-03-19
+> v2.2 | 更新: 2026-03-23
 > 设计原则: **读完此文件即可工作，无需跳转**
 
 ---
@@ -36,47 +36,69 @@
 
 ## 活跃项目
 
-### 🎮 UC 王也 NPC `10_Work/uc 王也 npc/`
-- 状态: 知识库建设完成，1125+ 条（7个Excel文件）
-- 核心: 一人之下IP，王也NPC对话系统
-- 亮点: 28条分场景回复模板、甲申之乱23条详解、十佬11人完整档案
+### 🎮 UC 王也 NPC / 异人体检站 `10_Work/uc 王也 npc/`
+- 状态: **已完成评审，Ready for Kick-off**
+- 知识库: 1125+ 条（7个Excel文件），28条分场景回复、甲申之乱23条详解、十佬11人完整档案
+- 异人体检站 H5:
+  - 完整 Demo 已实现（`demo/index.html`），覆盖 STEP 0-4 全流程
+  - 功能: 五行拆字批命 + 7轮争议话题对话 + 六维雷达报告 + 分享
+  - 特色: Canvas粒子系统、玻璃态UI、Story Bottom Sheet、彩蛋ID
+  - AI 团队综合评审完成（A-），评审报告 + 技术评审 + 测试策略 + Mock数据契约 + 开发启动包（73个TAPD任务）
+  - 关键结论: 总工期 5-6周→8-9周，人天45→80-95，团队15-17人
+- 文档索引: `_README.md`（18个文档 + 10个数据文件，5阶段分类）
 - 决策: 新数据独立文件存储，不覆盖原有知识库
+
+### 🎯 UC 对局复盘 `10_Work/uc对局复盘/`
+- 状态: **迭代调优中**
+- 后端仓库: `10_Work/uc对局复盘/ucgit/go_ai_yr_postmatch_analysis_svr/`（git.woa.com）
+- 核心文件: `analysis.go`（复盘分析逻辑）
+- 测试工具: `upload_and_report.py`（批量46个JSON→POST接口→result.xlsx）
+- 数据分析产出:
+  - 交互式分析报告 `analysis_report.html`（Plotly，五维雷达+趋势+角色进步+短板诊断）
+  - label分布分析：「有待提升」集中于脱出反打(43.5%)+防御反击(34.8%)
+  - 指标数字覆盖率：93.5% 无具体数字（模板化问题）
+- 近期修改: jPoints跳转点调整、subdim_behId修复、子维度ID映射(27-30→41-44)
 
 ### 📱 CaloriSnap `40_Projects/CaloriSnap/`
 - 状态: v0.3原型完成，待Phase 0技术验证
 - 定位: 拍照识别奶茶/咖啡标签→计算热量+咖啡因
 - 技术: 微信小程序 + FastAPI + Supabase + OCR/LLM
 - 数据: 7品牌160+SKU，35+小料，8表+2视图+RLS
-- 配色: 焦糖棕#C47A4A(热量) + 翡翠绿#2D8C6F(咖啡因)
-- 设计原则: CTA最突出、水平进度条>环形图、空/错/成功三态全覆盖
 
 ### 🏺 景德镇工作坊 `10_Work/景德镇/`
 - 状态: 中期开发，设计方案与监修（清华）基本对齐
-- AI NPC (`AI_NPC/`): 动画数据驱动+LLM+TTS，数据验收中，延迟7-8s待优化至≤3s
-- 景德镇游戏 (`景德镇游戏/`): 制瓷历史模拟经营（宋→清四幕），美术80-90%，4月初向甲方汇报
+- AI NPC: 动画数据驱动+LLM+TTS，延迟7-8s待优化至≤3s
+- 景德镇游戏: 制瓷历史模拟经营（宋→清四幕），美术80-90%
 - 关键节点: 3月底订单系统+精修数据，4/22 CG片段，6月初成片
 
 ### 📚 游戏策划学习 `20_Study/游戏策划/`
 - 《游戏设计艺术》Jesse Schell → 36文件课程（113个透镜）
 - 《快乐之道》Raph Koster → 16文件课程（快乐=学习理论）
-- 两套课程互相链接
 
 ## 系统配置
 
 - Git自动同步: launchd 每天11:00+23:00（不用crontab，macOS睡眠不执行）
 - Skills: 22个（17官方+5第三方），Skills周报每周一9:00自动生成
-- 同步脚本: `~/.local/bin/obsidian_git_sync.sh`
+- CodeBuddy Rules: 5个专业角色（data-analyst / product-manager / game-designer / marketing-strategist / project-shepherd），全部 requested 类型
+- 同步脚本: `~/.local/bin/obsidian_git_sync.sh`（通过 osascript 绕过 TCC）
+- UC 对局复盘 git: `10_Work/uc对局复盘/ucgit/go_ai_yr_postmatch_analysis_svr/`（master分支，git.woa.com）
 
 ## 关键教训（快速回忆）
 
 1. macOS定时任务 → **永远用launchd**，crontab睡眠不执行
-2. UI设计 → **功能性 > 装饰性**，问自己"服务用户还是设计师审美？"
-3. 状态覆盖 → 每个功能设计 **正常/空/错误** 三种状态
-4. 新数据入库 → **先交叉校验**，标注一致/冲突/新增
-5. CTA → 首页最显眼位置，核心任务为中心
+2. launchd访问~/Documents → 通过 **osascript** 绕过 TCC，比加 FDA 权限更可靠
+3. UI设计 → **功能性 > 装饰性**，问自己"服务用户还是设计师审美？"
+4. 状态覆盖 → 每个功能设计 **正常/空/错误** 三种状态
+5. 新数据入库 → **先交叉校验**，标注一致/冲突/新增
+6. CTA → 首页最显眼位置，核心任务为中心
+7. Skills周报分析器 → **显式标注优先**，有 `Skills:` 行时只读标注行，避免语义误报
+8. AI团队评审 → 多角色协作（PM+Tech+QA+项目管理）产出远超单角色
 
 ## 已验证工作流
 
 - **课程化**: 读笔记→搜原书目录→搜中文解读→拆章节→批量创建（含导航链接+跨书关联）
 - **知识库扩充**: 读现有→Web搜索爬取→交叉校验→Excel多Sheet→独立文件→校验报告
 - **原型迭代**: 第一性原理Review→问题分类(🔴🟡🟠)→从用户任务出发→实现+更新文档
+- **H5 Demo快速原型**: PRD+Mock契约→单文件HTML(CSS+JS)→视觉升级→内容升级→功能迭代（逐步replace_in_file避免token溢出）
+- **AI团队评审**: 组建多角色团队(PM/Tech/QA/PM)→各自产出→跨团队共识→综合报告→开发启动包
+- **UC对局复盘测试**: 修改analysis.go→commit+push→upload_and_report.py批量测试→result.xlsx对比→数据分析

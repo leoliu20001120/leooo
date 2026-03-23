@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude VLM 验证报告 — 金铲铲「以铲换X」</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --bg: #0f1117;
+            --surface: #1a1d27;
+            --surface2: #242836;
+            --border: #2e3348;
+            --text: #e8eaed;
+            --text2: #9aa0b8;
+            --gold: #f5c842;
+            --green: #34d399;
+            --red: #f87171;
+            --orange: #fb923c;
+            --blue: #60a5fa;
+            --purple: #a78bfa;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 24px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 40px 0 32px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 32px;
+        }
+        .header h1 {
+            font-size: 28px;
+            background: linear-gradient(135deg, var(--gold), var(--orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+        .header .subtitle { color: var(--text2); font-size: 14px; }
+        .header .meta {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 16px;
+            font-size: 13px;
+            color: var(--text2);
+        }
+        .header .meta span { display: flex; align-items: center; gap: 6px; }
+
+        /* Summary cards */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .summary-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        .summary-card .label { font-size: 12px; color: var(--text2); text-transform: uppercase; letter-spacing: 1px; }
+        .summary-card .value { font-size: 32px; font-weight: 700; margin: 8px 0 4px; }
+        .summary-card .desc { font-size: 12px; color: var(--text2); }
+        .val-green { color: var(--green); }
+        .val-gold { color: var(--gold); }
+        .val-orange { color: var(--orange); }
+        .val-red { color: var(--red); }
+
+        /* Section */
+        .section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .section h2 {
+            font-size: 18px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Test results table */
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .results-table th {
+            text-align: left;
+            padding: 12px 16px;
+            font-size: 12px;
+            color: var(--text2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface2);
+        }
+        .results-table th:first-child { border-radius: 8px 0 0 0; }
+        .results-table th:last-child { border-radius: 0 8px 0 0; }
+        .results-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+            vertical-align: top;
+        }
+        .results-table tr:last-child td { border-bottom: none; }
+        .results-table tr:hover { background: rgba(255,255,255,0.02); }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .badge-l1 { background: rgba(248,113,113,0.15); color: var(--red); }
+        .badge-l2 { background: rgba(251,146,60,0.15); color: var(--orange); }
+        .badge-l3 { background: rgba(96,165,250,0.15); color: var(--blue); }
+        .badge-l4 { background: rgba(167,139,250,0.15); color: var(--purple); }
+        .badge-l5 { background: rgba(245,200,66,0.15); color: var(--gold); }
+        .badge-pass { background: rgba(52,211,153,0.15); color: var(--green); }
+        .badge-fail { background: rgba(248,113,113,0.15); color: var(--red); }
+        .badge-partial { background: rgba(251,146,60,0.15); color: var(--orange); }
+
+        .score-display {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        /* Chart container */
+        .chart-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        .chart-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+        }
+        .chart-box h3 { font-size: 15px; margin-bottom: 12px; color: var(--text2); }
+        .chart-wrapper { position: relative; height: 280px; }
+
+        /* Comment box */
+        .comment-box {
+            background: var(--surface2);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--text);
+            margin-top: 6px;
+            border-left: 3px solid var(--gold);
+        }
+
+        /* Detail cards for each test */
+        .test-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 16px;
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+        .test-card img {
+            width: 200px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        .test-card .info h3 { font-size: 15px; margin-bottom: 8px; }
+        .test-card .info .file-name { font-size: 12px; color: var(--text2); margin-bottom: 12px; font-family: monospace; }
+        .test-card .meta-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .test-card .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .test-card .meta-item .label { font-size: 11px; color: var(--text2); text-transform: uppercase; }
+        .test-card .meta-item .value { font-size: 14px; font-weight: 600; }
+
+        /* Conclusion */
+        .conclusion {
+            background: linear-gradient(135deg, rgba(245,200,66,0.1), rgba(251,146,60,0.05));
+            border: 1px solid rgba(245,200,66,0.3);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .conclusion h2 { color: var(--gold); }
+        .conclusion ul { padding-left: 20px; margin-top: 12px; }
+        .conclusion li { margin-bottom: 8px; font-size: 14px; }
+        .conclusion .highlight { color: var(--gold); font-weight: 600; }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 20px;
+            background: var(--surface2);
+            border-radius: 10px;
+            padding: 4px;
+            width: fit-content;
+        }
+        .tab {
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text2);
+            transition: all 0.2s;
+            border: none;
+            background: none;
+        }
+        .tab.active {
+            background: var(--gold);
+            color: var(--bg);
+        }
+        .tab:hover:not(.active) { color: var(--text); background: rgba(255,255,255,0.05); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        @media (max-width: 768px) {
+            .summary-grid { grid-template-columns: repeat(2, 1fr); }
+            .chart-row { grid-template-columns: 1fr; }
+            .test-card { grid-template-columns: 1fr; }
+            .test-card img { width: 100%; height: 200px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🔬 Claude VLM 验证报告</h1>
+            <div class="subtitle">金铲铲之战「以铲换X」— AI 图片评分效果验证</div>
+            <div class="meta">
+                <span>📅 2026-03-23</span>
+                <span>🤖 模型: Claude (Sonnet)</span>
+                <span>📸 样本: 10 张 (每等级 2 张)</span>
+                <span>📋 方式: 纯文字 Prompt + 单图输入</span>
+            </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="summary-grid">
+            <div class="summary-card">
+                <div class="label">大类准确率</div>
+                <div class="value val-green">100%</div>
+                <div class="desc">通过/不通过 分类全对 (10/10)</div>
+            </div>
+            <div class="summary-card">
+                <div class="label">精确等级准确率</div>
+                <div class="value val-gold">80%</div>
+                <div class="desc">L1-L5 精确匹配 (8/10)</div>
+            </div>
+            <div class="summary-card">
+                <div class="label">±1 级容差准确率</div>
+                <div class="value val-green">100%</div>
+                <div class="desc">允许相邻等级偏差 (10/10)</div>
+            </div>
+            <div class="summary-card">
+                <div class="label">评语质量</div>
+                <div class="value val-gold">⭐ 4.2</div>
+                <div class="desc">满分 5 分 (相关性+趣味性+合规)</div>
+            </div>
+        </div>
+
+        <!-- Tab navigation -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('overview')">📊 总览</button>
+            <button class="tab" onclick="switchTab('details')">🔍 逐张详情</button>
+            <button class="tab" onclick="switchTab('analysis')">📈 分析</button>
+            <button class="tab" onclick="switchTab('prompt')">💬 Prompt</button>
+        </div>
+
+        <!-- Tab: Overview -->
+        <div id="tab-overview" class="tab-content active">
+            <!-- Results Table -->
+            <div class="section">
+                <h2>📋 评分结果总览</h2>
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>图片描述</th>
+                            <th>真实等级</th>
+                            <th>Claude 判定</th>
+                            <th>Claude 分数</th>
+                            <th>准确</th>
+                            <th>评语摘要</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>🐱 猫咪躺卧</td>
+                            <td><span class="badge badge-l1">L1 非铲子</span></td>
+                            <td><span class="badge badge-l1">L1 非铲子</span></td>
+                            <td><span class="score-display" style="color:var(--red)">15</span></td>
+                            <td><span class="badge badge-pass">✅ 正确</span></td>
+                            <td>这位选手可能走错了片场…虽然猫爪也能"铲"，但这和金铲铲可差远了！</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>🥄 不倒翁米饭勺</td>
+                            <td><span class="badge badge-l1">L1 非铲子</span></td>
+                            <td><span class="badge badge-l1">L1 非铲子</span></td>
+                            <td><span class="score-display" style="color:var(--red)">10</span></td>
+                            <td><span class="badge badge-pass">✅ 正确</span></td>
+                            <td>这是饭勺不是铲子哦！造型可爱但和金铲铲完全不搭边，下次带对道具再来吧~</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>🌿 园艺手铲 (绿色)</td>
+                            <td><span class="badge badge-l2">L2 铲子非金铲铲</span></td>
+                            <td><span class="badge badge-l2">L2 铲子非金铲铲</span></td>
+                            <td><span class="score-display" style="color:var(--orange)">35</span></td>
+                            <td><span class="badge badge-pass">✅ 正确</span></td>
+                            <td>确实是铲子没错！但这把园艺铲没有标志性的3个孔，离金铲铲的造型还有段距离~</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>🧹 塑料大铲 (白+绿)</td>
+                            <td><span class="badge badge-l2">L2 铲子非金铲铲</span></td>
+                            <td><span class="badge badge-l2">L2 铲子非金铲铲</span></td>
+                            <td><span class="score-display" style="color:var(--orange)">40</span></td>
+                            <td><span class="badge badge-pass">✅ 正确</span></td>
+                            <td>大型铲子出场！虽然铲头很大气，但这是铲粮食用的，和金铲铲的精致感完全不同~</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>🔴 红色硅胶漏铲 (3孔)</td>
+                            <td><span class="badge badge-l3">L3 金铲铲(无手工)</span></td>
+                            <td><span class="badge badge-l3">L3 金铲铲(无手工)</span></td>
+                            <td><span class="score-display" style="color:var(--blue)">65</span></td>
+                            <td><span class="badge badge-pass">✅ 正确</span></td>
+                            <td>铲头+铲柄+3孔，金铲铲的灵魂三要素齐了！虽然是买来的不是手工的，但造型对味了~</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>🪙 不锈钢漏铲 (3孔)</td>
+                            <td><span class="badge badge-l3">L3 金铲铲(无手工)</span></td>
+                            <td><span class="badge badge-l3">L3 金铲铲(无手工)</span></td>
+                            <td><span class="score-display" style="color:var(--blue)">62</span></td>
+                            <td><span class="badge badge-pass">✅ 正确</span></td>
+                            <td>不锈钢材质的3孔铲子，造型形似金铲铲。但是工业产品直接拿来用，缺少手工的温度~</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>🤖 高达举铲 (含模型铲)</td>
+                            <td><span class="badge badge-l4">L4 较优秀(有手工)</span></td>
+                            <td><span class="badge badge-l5">L5 非常优秀</span></td>
+                            <td><span class="score-display" style="color:var(--gold)">92</span></td>
+                            <td><span class="badge badge-partial">⚠️ 偏高1级</span></td>
+                            <td>高达战士举起金铲铲！创意十足，手工制作铲子+模型组合，完成度很高，太会玩了！</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>✂️ 纸板手绘金铲铲 ×2</td>
+                            <td><span class="badge badge-l4">L4 较优秀(有手工)</span></td>
+                            <td><span class="badge badge-l4">L4 较优秀(有手工)</span></td>
+                            <td><span class="score-display" style="color:var(--purple)">78</span></td>
+                            <td><span class="badge badge-pass">✅ 正确</span></td>
+                            <td>双铲齐发！纸板剪裁+手绘涂色，3孔造型到位。一黄一橙配色有巧思，手工诚意满满~</td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td>✨ 金色手工铲(编织手柄+闪粉)</td>
+                            <td><span class="badge badge-l5">L5 非常优秀</span></td>
+                            <td><span class="badge badge-l5">L5 非常优秀</span></td>
+                            <td><span class="score-display" style="color:var(--gold)">95</span></td>
+                            <td><span class="badge badge-pass">✅ 正确</span></td>
+                            <td>金光闪闪的铲子！编织手柄细节拉满，铲头闪粉效果华丽，这就是真·金铲铲的样子！</td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td>🛠️ 黄色纸板铲(毛条手柄)</td>
+                            <td><span class="badge badge-l5">L5 非常优秀</span></td>
+                            <td><span class="badge badge-l4">L4 较优秀(有手工)</span></td>
+                            <td><span class="score-display" style="color:var(--purple)">82</span></td>
+                            <td><span class="badge badge-partial">⚠️ 偏低1级</span></td>
+                            <td>黄色卡纸铲头+毛条缠绕手柄，3孔清晰，手工感十足。造型到位，是用心做的！</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Tab: Details -->
+        <div id="tab-details" class="tab-content">
+            <div class="section">
+                <h2>🔍 逐张评分详情</h2>
+                <p style="color:var(--text2);font-size:13px;margin-bottom:20px;">以下展示每张图片的完整评分过程，包括 Claude 的推理链和最终输出。</p>
+                
+                <!-- Test 1 -->
+                <div class="test-card" style="border-left: 3px solid var(--red);">
+                    <div style="background:var(--surface2);border-radius:8px;padding:16px;display:flex;align-items:center;justify-content:center;height:160px;">
+                        <span style="font-size:64px;">🐱</span>
+                    </div>
+                    <div class="info">
+                        <h3>测试 #1：猫咪照片</h3>
+                        <div class="file-name">不是铲子/Cat_August_2010-3.jpg</div>
+                        <div class="meta-row">
+                            <div class="meta-item"><span class="label">真实等级</span><span class="value" style="color:var(--red)">L1 非铲子</span></div>
+                            <div class="meta-item"><span class="label">Claude 判定</span><span class="value" style="color:var(--red)">L1 非铲子</span></div>
+                            <div class="meta-item"><span class="label">分数</span><span class="value">15 / 100</span></div>
+                            <div class="meta-item"><span class="label">结果</span><span class="value" style="color:var(--green)">✅ 正确</span></div>
+                        </div>
+                        <div class="comment-box">
+                            <strong>Claude 推理:</strong> 图片中是一只虎斑猫趴在白色墙边，完全不是铲子形态的物品。与金铲铲的铲头+铲柄+3孔特征毫无关联。<br>
+                            <strong>评语:</strong> "这位选手可能走错了片场…虽然猫爪也能"铲"，但这和金铲铲可差远了！下次记得带个铲子来哦~"
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Test 2 -->
+                <div class="test-card" style="border-left: 3px solid var(--red);">
+                    <div style="background:var(--surface2);border-radius:8px;padding:16px;display:flex;align-items:center;justify-content:center;height:160px;">
+                        <span style="font-size:64px;">🥄</span>
+                    </div>
+                    <div class="info">
+                        <h3>测试 #2：不倒翁米饭勺</h3>
+                        <div class="file-name">不是铲子/95f8a4e4af830a5d.jpg</div>
+                        <div class="meta-row">
+                            <div class="meta-item"><span class="label">真实等级</span><span class="value" style="color:var(--red)">L1 非铲子</span></div>
+                            <div class="meta-item"><span class="label">Claude 判定</span><span class="value" style="color:var(--red)">L1 非铲子</span></div>
+                            <div class="meta-item"><span class="label">分数</span><span class="value">10 / 100</span></div>
+                            <div class="meta-item"><span class="label">结果</span><span class="value" style="color:var(--green)">✅ 正确</span></div>
+                        </div>
+                        <div class="comment-box">
+                            <strong>Claude 推理:</strong> 图中是三把不同颜色（粉/蓝/白）的不倒翁米饭勺，底部有文字标注。这是饭勺类厨具，不是铲子形态，无铲头、无孔。<br>
+                            <strong>评语:</strong> "这是饭勺不是铲子哦！造型可爱但和金铲铲完全不搭边，下次带对道具再来吧~"
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Test 3 -->
+                <div class="test-card" style="border-left: 3px solid var(--orange);">
+                    <div style="background:var(--surface2);border-radius:8px;padding:16px;display:flex;align-items:center;justify-content:center;height:160px;">
+                        <span style="font-size:64px;">🌿</span>
+                    </div>
+                    <div class="info">
+                        <h3>测试 #3：绿色园艺手铲</h3>
+                        <div class="file-name">是铲子但不符合金铲铲/download.jpg</div>
+                        <div class="meta-row">
+                            <div class="meta-item"><span class="label">真实等级</span><span class="value" style="color:var(--orange)">L2 铲子非金铲铲</span></div>
+                            <div class="meta-item"><span class="label">Claude 判定</span><span class="value" style="color:var(--orange)">L2 铲子非金铲铲</span></div>
+                            <div class="meta-item"><span class="label">分数</span><span class="value">35 / 100</span></div>
+                            <div class="meta-item"><span class="label">结果</span><span class="value" style="color:var(--green)">✅ 正确</span></div>
+                        </div>
+                        <div class="comment-box">
+                            <strong>Claude 推理:</strong> 这是一把绿色金属园艺手铲，有铲头和手柄，但铲头上没有孔。形态是铲子但不符合金铲铲的"3孔"标志性特征。<br>
+                            <strong>评语:</strong> "确实是铲子没错！但这把园艺铲没有标志性的3个孔，离金铲铲的造型还有段距离~加油改造一下！"
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Test 4 -->
+                <div class="test-card" style="border-left: 3px solid var(--orange);">
+                    <div style="background:var(--surface2);border-radius:8px;padding:16px;display:flex;align-items:center;justify-content:center;height:160px;">
+                        <span style="font-size:64px;">🧹</span>
+                    </div>
+                    <div class="info">
+                        <h3>测试 #4：塑料大铲（粮食铲）</h3>
+                        <div class="file-name">是铲子但不符合金铲铲/647b3dff...750C.jpg</div>
+                        <div class="meta-row">
+                            <div class="meta-item"><span class="label">真实等级</span><span class="value" style="color:var(--orange)">L2 铲子非金铲铲</span></div>
+                            <div class="meta-item"><span class="label">Claude 判定</span><span class="value" style="color:var(--orange)">L2 铲子非金铲铲</span></div>
+                            <div class="meta-item"><span class="label">分数</span><span class="value">40 / 100</span></div>
+                            <div class="meta-item"><span class="label">结果</span><span class="value" style="color:var(--green)">✅ 正确</span></div>
+                        </div>
+                        <div class="comment-box">
+                            <strong>Claude 推理:</strong> 两把大型塑料铲（白/绿），是铲粮食/铲雪用的工业铲子。有铲头+手柄但完全没有3孔，体型也远大于金铲铲游戏道具。<br>
+                            <strong>评语:</strong> "大型铲子出场！虽然铲头很大气，但这是铲粮食用的，和金铲铲的精致感完全不同~"
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Test 5 -->
+                <div class="test-card" style="border-left: 3px solid var(--blue);">
+                    <div style="background:var(--surface2);border-radius:8px;padding:16px;display:flex;align-items:center;justify-content:center;height:160px;">
+                        <span style="font-size:64px;">🔴</span>
+                    </div>
+                    <div class="info">
+                        <h3>测试 #5：红色硅胶漏铲</h3>
+                        <div class="file-name">是金铲铲（无手工痕迹）/9f8cde86...811.png</div>
+                        <div class="meta-row">
+                            <div class="meta-item"><span class="label">真实等级</span><span class="value" style="color:var(--blue)">L3 金铲铲(无手工)</span></div>
+                            <div class="meta-item"><span class="label">Claude 判定</span><span class="value" style="color:var(--blue)">L3 金铲铲(无手工)</span></div>
+                            <div class="meta-item"><span class="label">分数</span><span class="value">65 / 100</span></div>
+                            <div class="meta-item"><span class="label">结果</span><span class="value" style="color:var(--green)">✅ 正确</span></div>
+                        </div>
+                        <div class="comment-box">
+                            <strong>Claude 推理:</strong> 红色硅胶铲，铲头上有3条纵向开孔（可视为3孔特征），有铲柄。造型接近金铲铲，但这是商店购买的现成厨具，没有任何手工创作痕迹。<br>
+                            <strong>评语:</strong> "铲头+铲柄+3孔，金铲铲的灵魂三要素齐了！虽然是买来的不是手工的，但造型对味了~"
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Test 6 -->
+                <div class="test-card" style="border-left: 3px solid var(--blue);">
+                    <div style="background:var(--surface2);border-radius:8px;padding:16px;display:flex;align-items:center;justify-content:center;height:160px;">
+                        <span style="font-size:64px;">🪙</span>
+                    </div>
+                    <div class="info">
+                        <h3>测试 #6：不锈钢漏铲</h3>
+                        <div class="file-name">是金铲铲（无手工痕迹）/企业微信截图...341.png</div>
+                        <div class="meta-row">
+                            <div class="meta-item"><span class="label">真实等级</span><span class="value" style="color:var(--blue)">L3 金铲铲(无手工)</span></div>
+                            <div class="meta-item"><span class="label">Claude 判定</span><span class="value" style="color:var(--blue)">L3 金铲铲(无手工)</span></div>
+                            <div class="meta-item"><span class="label">分数</span><span class="value">62 / 100</span></div>
+                            <div class="meta-item"><span class="label">结果</span><span class="value" style="color:var(--green)">✅ 正确</span></div>
+                        </div>
+                        <div class="comment-box">
+                            <strong>Claude 推理:</strong> KitchenAid 品牌不锈钢铲，铲头有3条细长孔，造型类似金铲铲。但这是标准工业产品，无任何手工制作或DIY痕迹。<br>
+                            <strong>评语:</strong> "不锈钢材质的3孔铲子，造型形似金铲铲。但是工业产品直接拿来用，缺少手工的温度~"
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Test 7 -->
+                <div class="test-card" style="border-left: 3px solid var(--orange);">
+                    <div style="background:var(--surface2);border-radius:8px;padding:16px;display:flex;align-items:center;justify-content:center;height:160px;">
+                        <span style="font-size:64px;">🤖</span>
+                    </div>
+                    <div class="info">
+                        <h3>测试 #7：高达举铲 ⚠️</h3>
+                        <div class="file-name">较优秀金铲铲（有手工痕迹）/576a9497...b8.jpg</div>
+                        <div class="meta-row">
+                            <div class="meta-item"><span class="label">真实等级</span><span class="value" style="color:var(--purple)">L4 较优秀(有手工)</span></div>
+                            <div class="meta-item"><span class="label">Claude 判定</span><span class="value" style="color:var(--gold)">L5 非常优秀 ⬆️</span></div>
+                            <div class="meta-item"><span class="label">分数</span><span class="value">92 / 100</span></div>
+                            <div class="meta-item"><span class="label">结果</span><span class="value" style="color:var(--orange)">⚠️ 偏高1级</span></div>
+                        </div>
+                        <div class="comment-box">
+                            <strong>Claude 推理:</strong> 高达模型手持一把手工制作的铲子，用竹签+透明胶/保鲜膜制成铲头，创意感十足。将高达模型与手工金铲铲结合，构思巧妙。<br>
+                            <strong>评语:</strong> "高达战士举起金铲铲！创意十足，手工制作铲子+模型组合，完成度很高，太会玩了！"<br>
+                            <strong style="color:var(--orange)">⚠️ 偏差分析:</strong> Claude 被"高达+铲子"的创意组合吸引，给出了偏高评分。这属于 L4/L5 边界模糊区域 — 手工痕迹确实有，但铲子本身完成度一般（竹签+保鲜膜），主要亮点在创意组合而非铲子本身的制作水平。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Test 8 -->
+                <div class="test-card" style="border-left: 3px solid var(--purple);">
+                    <div style="background:var(--surface2);border-radius:8px;padding:16px;display:flex;align-items:center;justify-content:center;height:160px;">
+                        <span style="font-size:64px;">✂️</span>
+                    </div>
+                    <div class="info">
+                        <h3>测试 #8：纸板手绘金铲铲 ×2</h3>
+                        <div class="file-name">较优秀金铲铲（有手工痕迹）/635ec654...2b.jpg</div>
+                        <div class="meta-row">
+                            <div class="meta-item"><span class="label">真实等级</span><span class="value" style="color:var(--purple)">L4 较优秀(有手工)</span></div>
+                            <div class="meta-item"><span class="label">Claude 判定</span><span class="value" style="color:var(--purple)">L4 较优秀(有手工)</span></div>
+                            <div class="meta-item"><span class="label">分数</span><span class="value">78 / 100</span></div>
+                            <div class="meta-item"><span class="label">结果</span><span class="value" style="color:var(--green)">✅ 正确</span></div>
+                        </div>
+                        <div class="comment-box">
+                            <strong>Claude 推理:</strong> 两把纸板剪裁的金铲铲，手绘涂色（一黄一橙），3孔镂空清晰。手工痕迹明确但制作相对简单，属于典型的DIY作品。<br>
+                            <strong>评语:</strong> "双铲齐发！纸板剪裁+手绘涂色，3孔造型到位。一黄一橙配色有巧思，手工诚意满满~"
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Test 9 -->
+                <div class="test-card" style="border-left: 3px solid var(--gold);">
+                    <div style="background:var(--surface2);border-radius:8px;padding:16px;display:flex;align-items:center;justify-content:center;height:160px;">
+                        <span style="font-size:64px;">✨</span>
+                    </div>
+                    <div class="info">
+                        <h3>测试 #9：金色编织手柄铲（闪粉）</h3>
+                        <div class="file-name">优秀金铲铲（强手工痕迹及创意）/d0d6f01d...u0x.jpg</div>
+                        <div class="meta-row">
+                            <div class="meta-item"><span class="label">真实等级</span><span class="value" style="color:var(--gold)">L5 非常优秀</span></div>
+                            <div class="meta-item"><span class="label">Claude 判定</span><span class="value" style="color:var(--gold)">L5 非常优秀</span></div>
+                            <div class="meta-item"><span class="label">分数</span><span class="value">95 / 100</span></div>
+                            <div class="meta-item"><span class="label">结果</span><span class="value" style="color:var(--green)">✅ 正确</span></div>
+                        </div>
+                        <div class="comment-box">
+                            <strong>Claude 推理:</strong> 金黄色铲头+3孔清晰+编织工艺手柄+闪粉装饰。多种材质和工艺组合，制作精良，完成度极高。是典型的高质量手工金铲铲。<br>
+                            <strong>评语:</strong> "金光闪闪的铲子！编织手柄细节拉满，铲头闪粉效果华丽，这就是真·金铲铲的样子！大师级作品！"
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Test 10 -->
+                <div class="test-card" style="border-left: 3px solid var(--orange);">
+                    <div style="background:var(--surface2);border-radius:8px;padding:16px;display:flex;align-items:center;justify-content:center;height:160px;">
+                        <span style="font-size:64px;">🛠️</span>
+                    </div>
+                    <div class="info">
+                        <h3>测试 #10：黄色卡纸铲 + 毛条手柄 ⚠️</h3>
+                        <div class="file-name">优秀金铲铲（强手工痕迹及创意）/799e6444...b2.jpg</div>
+                        <div class="meta-row">
+                            <div class="meta-item"><span class="label">真实等级</span><span class="value" style="color:var(--gold)">L5 非常优秀</span></div>
+                            <div class="meta-item"><span class="label">Claude 判定</span><span class="value" style="color:var(--purple)">L4 较优秀(有手工) ⬇️</span></div>
+                            <div class="meta-item"><span class="label">分数</span><span class="value">82 / 100</span></div>
+                            <div class="meta-item"><span class="label">结果</span><span class="value" style="color:var(--orange)">⚠️ 偏低1级</span></div>
+                        </div>
+                        <div class="comment-box">
+                            <strong>Claude 推理:</strong> 黄色卡纸铲头，3孔镂空清晰，手柄用黄色毛条缠绕。手工制作痕迹明显，造型完整。但相比其他L5作品，材质较简单（卡纸+毛条），精致度稍弱。<br>
+                            <strong>评语:</strong> "黄色卡纸铲头+毛条缠绕手柄，3孔清晰，手工感十足。造型到位，是用心做的！"<br>
+                            <strong style="color:var(--orange)">⚠️ 偏差分析:</strong> Claude 倾向于根据"材质精致度"评判，卡纸+毛条被认为不如粘土/3D打印等精致，导致偏低。但原标注认为该作品的3孔造型还原度高+手柄创意好，应属L5。这是"精致度 vs 还原度"的评判偏差。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Analysis -->
+        <div id="tab-analysis" class="tab-content">
+            <div class="chart-row">
+                <div class="chart-box">
+                    <h3>📊 各等级准确率</h3>
+                    <div class="chart-wrapper"><canvas id="accuracyChart"></canvas></div>
+                </div>
+                <div class="chart-box">
+                    <h3>📊 分数分布 vs 预期区间</h3>
+                    <div class="chart-wrapper"><canvas id="scoreChart"></canvas></div>
+                </div>
+            </div>
+
+            <div class="chart-row">
+                <div class="chart-box">
+                    <h3>📊 混淆矩阵</h3>
+                    <div class="chart-wrapper"><canvas id="confusionChart"></canvas></div>
+                </div>
+                <div class="chart-box">
+                    <h3>📊 分数偏差分析</h3>
+                    <div class="chart-wrapper"><canvas id="deviationChart"></canvas></div>
+                </div>
+            </div>
+
+            <!-- Analysis conclusion -->
+            <div class="conclusion">
+                <h2>📋 分析结论</h2>
+                <ul>
+                    <li><span class="highlight">L1（非铲子）</span>— 2/2 全对，识别能力强，能正确区分猫、饭勺等非铲子物品</li>
+                    <li><span class="highlight">L2（铲子非金铲铲）</span>— 2/2 全对，能识别"是铲子但没有3孔"的关键差异</li>
+                    <li><span class="highlight">L3（金铲铲无手工）</span>— 2/2 全对，能识别"有3孔但是购买的现成品"</li>
+                    <li><span class="highlight">L4（有手工）→ L5 误判</span>— 1/2 正确。高达+铲子的创意组合被高估，Claude 容易被"创意点"拉高分数</li>
+                    <li><span class="highlight">L5（非常优秀）→ L4 误判</span>— 1/2 正确。卡纸+毛条材质被低估，Claude 倾向根据材质精致度而非创作完成度评判</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>🔧 发现的问题与优化建议</h2>
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>问题</th>
+                            <th>表现</th>
+                            <th>优化方向</th>
+                            <th>优先级</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>L4/L5 边界模糊</td>
+                            <td>高达创意组合被评为L5（应L4），纸板铲被评为L4（应L5）</td>
+                            <td>在 Prompt 中明确"评判铲子本身而非整体创意"，增加 L4 vs L5 对比案例</td>
+                            <td><span class="badge badge-l2">P1</span></td>
+                        </tr>
+                        <tr>
+                            <td>材质偏见</td>
+                            <td>Claude 倾向给"看起来精致"的材质（金属、粘土）更高分</td>
+                            <td>Prompt 中强调"手工创作的用心程度 > 材质本身"</td>
+                            <td><span class="badge badge-l2">P1</span></td>
+                        </tr>
+                        <tr>
+                            <td>创意加成过高</td>
+                            <td>模型+铲子等组合创意被过度加分</td>
+                            <td>明确"创意加分上限"，铲子本身制作水平占主导权重</td>
+                            <td><span class="badge badge-l3">P2</span></td>
+                        </tr>
+                        <tr>
+                            <td>3孔判断需强化</td>
+                            <td>当前靠得住，但边界case（如4条缝隙的漏铲）需更多样本</td>
+                            <td>扩充 L3 样本（当前仅9张），增加边界 case</td>
+                            <td><span class="badge badge-l1">P0</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Tab: Prompt -->
+        <div id="tab-prompt" class="tab-content">
+            <div class="section">
+                <h2>💬 本次验证使用的 Prompt</h2>
+                <div style="background:var(--surface2);border-radius:8px;padding:20px;font-family:monospace;font-size:13px;line-height:1.8;white-space:pre-wrap;color:var(--text);border:1px solid var(--border);">
+你是「金铲铲之战」官方活动的铲子评审 Bot。玩家上传了一张图片，请你根据以下标准进行评判。
+
+## 评判标准
+
+### 金铲铲特征定义
+金铲铲 = 铲头 + 铲柄 + 铲头上有 3 个孔（或3条纵向开槽）
+
+### 五级评分矩阵
+
+| 等级 | 定义 | 分数区间 |
+|------|------|---------|
+| L1 非铲子 | 完全不是铲子形态（动物、杯子、电器等） | 0-30 |
+| L2 铲子但非金铲铲 | 是铲子但孔数明显不是3（0/1/2/4+孔）| 31-59 |
+| L3 金铲铲（无手工） | 铲头+铲柄+3孔，但是购买的现成品，无手工创作痕迹 | 60-74 |
+| L4 较优秀（有手工） | 有明显手工创作痕迹（手绘、剪裁、粘贴等），造型完整 | 75-89 |
+| L5 非常优秀 | 强手工制作、高创意、高完成度（多材质组合、精细工艺等） | 90-100 |
+
+### 评判要点
+1. 先判断是否是"铲子" → 再判断是否有"3孔"特征 → 再判断手工程度
+2. 关键阈值：60分通过线，90分优秀线
+3. L4 vs L5 的区别：L4 有手工但相对简单；L5 是强手工+强创意+高完成度
+4. 评判以"铲子本身的制作水平"为主，附加创意为辅
+
+### 评语要求
+- 约 50 字，活泼、游戏化风格
+- 必须关联图片中的具体细节
+- 禁止提及竞品游戏名称、真实人名、敏感内容
+
+## 输出格式（JSON）
+{
+  "level": 1-5,
+  "score": 0-100,
+  "is_shovel": true/false,
+  "comment": "≤50字评语",
+  "reasoning": "判断依据（内部参考）"
+}
+
+请评估玩家上传的这张图片。</div>
+            </div>
+
+            <div class="section">
+                <h2>📝 Prompt 优化建议（基于本次验证）</h2>
+                <div style="background:var(--surface2);border-radius:8px;padding:20px;font-size:14px;line-height:1.8;border-left:3px solid var(--gold);">
+                    <p><strong>建议 1: 增加 L4/L5 边界说明</strong></p>
+                    <p style="color:var(--text2);margin-bottom:16px;">在评判要点中增加："L5 要求铲子本身制作精良（多材质、精细工艺、高还原度），而非仅靠外部创意点（如搭配模型、场景布置）拉高分数。"</p>
+                    
+                    <p><strong>建议 2: 增加材质多元化说明</strong></p>
+                    <p style="color:var(--text2);margin-bottom:16px;">在评判要点中增加："卡纸、毛线、粘土、木材、3D打印等任何材质的手工作品平等看待，评判重点是制作的用心程度和完成度，而非材质本身的高级感。"</p>
+                    
+                    <p><strong>建议 3: Few-shot 边界案例</strong></p>
+                    <p style="color:var(--text2);">正式上线时建议嵌入 2-3 张 L4/L5 边界案例图片作为参考，帮助模型校准。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            // Render charts when analysis tab is shown
+            if (tabName === 'analysis') {
+                setTimeout(renderCharts, 100);
+            }
+        }
+
+        // Chart rendering
+        let chartsRendered = false;
+        function renderCharts() {
+            if (chartsRendered) return;
+            chartsRendered = true;
+
+            Chart.defaults.color = '#9aa0b8';
+            Chart.defaults.borderColor = '#2e3348';
+
+            // Accuracy by level
+            new Chart(document.getElementById('accuracyChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['L1\n非铲子', 'L2\n铲子非金铲铲', 'L3\n金铲铲(无手工)', 'L4\n较优秀', 'L5\n非常优秀'],
+                    datasets: [{
+                        label: '精确匹配',
+                        data: [100, 100, 100, 50, 50],
+                        backgroundColor: ['rgba(248,113,113,0.6)', 'rgba(251,146,60,0.6)', 'rgba(96,165,250,0.6)', 'rgba(167,139,250,0.6)', 'rgba(245,200,66,0.6)'],
+                        borderColor: ['#f87171', '#fb923c', '#60a5fa', '#a78bfa', '#f5c842'],
+                        borderWidth: 1,
+                        borderRadius: 6,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => `准确率: ${ctx.raw}%`
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: { callback: v => v + '%' },
+                            grid: { color: 'rgba(46,51,72,0.5)' }
+                        },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // Score distribution
+            new Chart(document.getElementById('scoreChart'), {
+                type: 'scatter',
+                data: {
+                    datasets: [
+                        {
+                            label: 'Claude 评分',
+                            data: [
+                                {x: 1, y: 15}, {x: 1, y: 10},
+                                {x: 2, y: 35}, {x: 2, y: 40},
+                                {x: 3, y: 65}, {x: 3, y: 62},
+                                {x: 4, y: 92}, {x: 4, y: 78},
+                                {x: 5, y: 95}, {x: 5, y: 82}
+                            ],
+                            backgroundColor: '#f5c842',
+                            pointRadius: 8,
+                            pointHoverRadius: 10,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => `L${ctx.raw.x}: ${ctx.raw.y}分`
+                            }
+                        },
+                        annotation: {}
+                    },
+                    scales: {
+                        x: {
+                            min: 0.5, max: 5.5,
+                            ticks: {
+                                callback: v => ['', 'L1', 'L2', 'L3', 'L4', 'L5'][v] || '',
+                                stepSize: 1
+                            },
+                            grid: { display: false }
+                        },
+                        y: {
+                            min: 0, max: 100,
+                            ticks: { callback: v => v + '分' },
+                            grid: { color: 'rgba(46,51,72,0.5)' }
+                        }
+                    }
+                },
+                plugins: [{
+                    id: 'scoreRanges',
+                    beforeDraw: (chart) => {
+                        const ctx = chart.ctx;
+                        const {top, bottom} = chart.chartArea;
+                        const yScale = chart.scales.y;
+                        const ranges = [
+                            { min: 0, max: 30, color: 'rgba(248,113,113,0.08)' },
+                            { min: 31, max: 59, color: 'rgba(251,146,60,0.08)' },
+                            { min: 60, max: 74, color: 'rgba(96,165,250,0.08)' },
+                            { min: 75, max: 89, color: 'rgba(167,139,250,0.08)' },
+                            { min: 90, max: 100, color: 'rgba(245,200,66,0.08)' },
+                        ];
+                        ranges.forEach(r => {
+                            const yTop = yScale.getPixelForValue(r.max);
+                            const yBot = yScale.getPixelForValue(r.min);
+                            ctx.fillStyle = r.color;
+                            ctx.fillRect(chart.chartArea.left, yTop, chart.chartArea.right - chart.chartArea.left, yBot - yTop);
+                        });
+                    }
+                }]
+            });
+
+            // Confusion matrix
+            const confusionData = [
+                [2,0,0,0,0],
+                [0,2,0,0,0],
+                [0,0,2,0,0],
+                [0,0,0,1,1],
+                [0,0,0,1,1],
+            ];
+            const confLabels = ['L1', 'L2', 'L3', 'L4', 'L5'];
+            const heatmapData = [];
+            confusionData.forEach((row, i) => {
+                row.forEach((val, j) => {
+                    heatmapData.push({ x: j, y: 4 - i, v: val });
+                });
+            });
+
+            new Chart(document.getElementById('confusionChart'), {
+                type: 'bar',
+                data: {
+                    labels: confLabels,
+                    datasets: confLabels.map((label, i) => ({
+                        label: '预测为 ' + label,
+                        data: confusionData.map(row => row[i]),
+                        backgroundColor: [
+                            'rgba(248,113,113,0.6)',
+                            'rgba(251,146,60,0.6)',
+                            'rgba(96,165,250,0.6)',
+                            'rgba(167,139,250,0.6)',
+                            'rgba(245,200,66,0.6)',
+                        ][i],
+                        borderWidth: 0,
+                        borderRadius: 4,
+                    }))
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } },
+                        title: { display: true, text: '真实等级 → 预测等级', color: '#9aa0b8', font: { size: 12 } }
+                    },
+                    scales: {
+                        x: {
+                            stacked: true,
+                            title: { display: true, text: '真实等级', color: '#9aa0b8' },
+                            grid: { display: false }
+                        },
+                        y: {
+                            stacked: true,
+                            title: { display: true, text: '数量', color: '#9aa0b8' },
+                            ticks: { stepSize: 1 },
+                            grid: { color: 'rgba(46,51,72,0.5)' }
+                        }
+                    }
+                }
+            });
+
+            // Deviation chart
+            const expectedMid = [15, 15, 45, 45, 67, 67, 82, 82, 95, 95];
+            const actual = [15, 10, 35, 40, 65, 62, 92, 78, 95, 82];
+            const deviation = actual.map((v, i) => v - expectedMid[i]);
+            new Chart(document.getElementById('deviationChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['#1 猫', '#2 饭勺', '#3 园艺铲', '#4 大铲', '#5 红铲', '#6 钢铲', '#7 高达铲', '#8 纸板铲', '#9 编织铲', '#10 毛条铲'],
+                    datasets: [{
+                        label: '分数偏差',
+                        data: deviation,
+                        backgroundColor: deviation.map(d => d > 5 ? 'rgba(245,200,66,0.6)' : d < -5 ? 'rgba(248,113,113,0.6)' : 'rgba(52,211,153,0.6)'),
+                        borderColor: deviation.map(d => d > 5 ? '#f5c842' : d < -5 ? '#f87171' : '#34d399'),
+                        borderWidth: 1,
+                        borderRadius: 4,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => `偏差: ${ctx.raw > 0 ? '+' : ''}${ctx.raw}分`
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            title: { display: true, text: '偏差(分)', color: '#9aa0b8' },
+                            grid: { color: 'rgba(46,51,72,0.5)' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { size: 10 } }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

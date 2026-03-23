@@ -1,0 +1,96 @@
+{
+  "L1_不是铲子": {
+    "path": "金铲铲的图片 3/不是铲子",
+    "total": 20,
+    "sampled": 10,
+    "files": [
+      "2024121903160718.jpg",
+      "02TECHFIX1-master1050.jpg",
+      "95f8a4e4af830a5d.jpg",
+      "87d4ff517491470c9dda5fafb9411bf4.png",
+      "images.jpg",
+      "16825ebf765574b4ff6e6ebb1015c5c.png",
+      "Stanley-Quencher-.webp",
+      "06d9d8cf806d6fcf7a51f749db20d1f.png",
+      "Cat_August_2010-3.jpg",
+      "prada-1730707200-3493747683497385972-304662892-686f4c26d3874.avif"
+    ]
+  },
+  "L2_是铲子但不符合金铲铲": {
+    "path": "金铲铲的图片 3/是铲子但不符合金铲铲",
+    "total": 37,
+    "sampled": 18,
+    "files": [
+      "2e302ce7e03fadce1558d25515fa7ee6.webp",
+      "images.jpg",
+      "1-0180017500_x620.webp",
+      "000001_1731633805.webp",
+      "白色背景中突显的旧铲子-铲子隔离-白色上隔离的铲子-159716335.webp",
+      "O1CN01HJpulQ1uzVntXEJuu_!!2208812406108.avif",
+      "5cea451368c0f920385d02567ce6d08.png",
+      "OIP.webp",
+      "a083233f-d449-4bea-b916-965cc35c73f2.jpg",
+      "000001_1680145254.webp",
+      "Photoroom_7a91823c-cdbe-4013-b9c7-b4b7a3221d19.webp",
+      "3a66d38c22c352fc4efa9fc651b6b68b_1.png",
+      "download.jpg",
+      "c3f34d4e7d97594ebd797643e3a26d26.jpg",
+      "fcd91c7084949c93f1b2fac4004e5e5.png",
+      "hakQPySUlf7q4WJF0ysOLQ.jpg",
+      "kv-wide_480x480.webp",
+      "jk-museum-1770455395114.png"
+    ]
+  },
+  "L3_是金铲铲_无手工": {
+    "path": "金铲铲的图片 3/符合金铲铲/是金铲铲（无手工痕迹）",
+    "total": 9,
+    "sampled": 4,
+    "files": [
+      "spatula_16.jpg",
+      "spatula_12.jpg",
+      "spatula_15.jpg",
+      "9f8cde86e46e714566cd2dcd894f811.png"
+    ]
+  },
+  "L4_较优秀_有手工": {
+    "path": "金铲铲的图片 3/符合金铲铲/较优秀金铲铲（有手工痕迹）",
+    "total": 16,
+    "sampled": 8,
+    "files": [
+      "2b108dbd0afb3458169727374b0fb24.jpg",
+      "a828003a3a18a73f8b8aba96908ff5b.png",
+      "49a5f1b719aca59413830295a61ee5e.jpg",
+      "jk-museum-1770449540919.png",
+      "1be20ca6b804a9ab12db85ab70d7141.png",
+      "13e1fed5ead2a33ba6b059c630688fd.png",
+      "15c7405f7edfa09b3b902f73a08d014.png",
+      "d3b65196gy1i745vcg9wyj22d035c7wk.jpg"
+    ]
+  },
+  "L5_优秀_强手工": {
+    "path": "金铲铲的图片 3/符合金铲铲/优秀金铲铲（强手工痕迹及创意）",
+    "total": 39,
+    "sampled": 19,
+    "files": [
+      "2c9d88d6-82c2-4b7a-81e0-7219fa709c96.jpg",
+      "2a6414f4-7a96-40a7-8da7-280f94cf90b3.jpg",
+      "d5e5ea79-be6b-4549-8ed1-aa871be67da8.jpg",
+      "企业微信截图_17733829013340.png",
+      "d0d6f01dgy1i4xdjkhayuj22c02c0u0x.jpg",
+      "jk-museum-1770541585862.png",
+      "a37279e0-5c10-41cb-b4f3-74e0b32ad064.jpg",
+      "20251205081131877.png",
+      "d3b65196gy1i745vfzhmgj22d035ce83.jpg",
+      "892e064f7d385a5d85ceb3a075eb869.png",
+      "ad871ce7-4dac-4226-aab3-4e6b041e057a.jpg",
+      "21fefce2-9f0c-4d05-a94e-34d9146425e7.jpg",
+      "799e6444950e992116e7af94d5185b2.jpg",
+      "jk-museum-1770446004074.png",
+      "ed74cf80-54f5-4997-8d60-c1963d609c37.jpg",
+      "4744132d9239fe95be5e42a2f48e14a.png",
+      "c4763dae-5977-4f27-80f5-f0ed51290d85.jpg",
+      "c02ad4ffb54de7625279e43f7aea965.png",
+      "71b634c4-e08d-4a93-a3f1-ac8fd3b6afaf.jpg"
+    ]
+  }
+}
