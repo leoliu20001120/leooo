@@ -1,0 +1,3444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>异人体检站 — 王也 AI 体检</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* ==================== CSS Reset & Variables ==================== */
+:root {
+  --bg-deep: #06060e;
+  --bg-dark: #0a0a14;
+  --bg-card: rgba(16, 16, 32, 0.85);
+  --bg-card-alt: rgba(22, 22, 44, 0.9);
+  --gold: #d4a853;
+  --gold-light: #f0d68a;
+  --gold-dim: #9a7b3a;
+  --gold-glow: rgba(212, 168, 83, 0.3);
+  --cyan: #5ce0d8;
+  --cyan-dim: #2a7a74;
+  --cyan-glow: rgba(92, 224, 216, 0.2);
+  --red: #ff6b6b;
+  --green: #5ce07a;
+  --text-primary: #eaeaf4;
+  --text-secondary: #9898b8;
+  --text-dim: #5a5a78;
+  --text-muted: #3a3a55;
+  --border: rgba(255, 255, 255, 0.06);
+  --border-gold: rgba(212, 168, 83, 0.2);
+  --radius: 14px;
+  --radius-sm: 10px;
+  --radius-lg: 22px;
+  --radius-xl: 28px;
+  /* 五行颜色 */
+  --fire: #ff6b5a;
+  --water: #5a9eff;
+  --wood: #5aff7a;
+  --metal: #ffd76a;
+  --earth: #dea06a;
+  --font-cn: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-title: 'Ma Shan Zheng', 'PingFang SC', cursive;
+  --shadow-gold: 0 4px 30px rgba(212, 168, 83, 0.12);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-cn);
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==================== Canvas Background ==================== */
+#particleCanvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 纹理叠加 */
+.texture-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at 25% 15%, rgba(212, 168, 83, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 75% 85%, rgba(92, 224, 216, 0.03) 0%, transparent 55%);
+}
+
+/* 顶部光晕 */
+.glow-top {
+  position: fixed;
+  top: -200px; left: 50%;
+  transform: translateX(-50%);
+  width: 600px; height: 400px;
+  background: radial-gradient(ellipse, rgba(212, 168, 83, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: glowPulse 8s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* ==================== Background Effects ==================== */
+.bg-particles {
+  display: none;
+}
+
+/* 道家八卦纹 */
+.bagua-watermark {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px; height: 500px;
+  opacity: 0.012;
+  pointer-events: none;
+  z-index: 0;
+  font-size: 350px;
+  line-height: 500px;
+  text-align: center;
+  color: var(--gold);
+  animation: baguaSpin 120s linear infinite;
+}
+
+@keyframes baguaSpin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* ==================== Page Container ==================== */
+.app-container {
+  position: relative;
+  z-index: 1;
+  max-width: 430px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: 0;
+}
+
+/* ==================== Scene Transitions ==================== */
+.scene {
+  display: none;
+  opacity: 0;
+  padding: 20px;
+}
+
+.scene.active {
+  display: block;
+  opacity: 1;
+}
+
+.scene.fade-in {
+  animation: sceneFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes sceneFadeIn {
+  0% { opacity: 0; transform: translateY(40px) scale(0.97); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ==================== Top Bar ==================== */
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(6, 6, 14, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.top-bar__logo {
+  font-size: 13px;
+  color: var(--gold);
+  letter-spacing: 3px;
+  font-weight: 700;
+  text-shadow: 0 0 20px var(--gold-glow);
+}
+
+.top-bar__step {
+  font-size: 11px;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  letter-spacing: 1px;
+  font-weight: 500;
+}
+
+/* ==================== Progress Bar ==================== */
+.progress-bar {
+  height: 2px;
+  background: rgba(255, 255, 255, 0.03);
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar__fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--cyan));
+  transition: width 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  box-shadow: 0 0 12px var(--gold-glow), 0 0 24px var(--cyan-glow);
+}
+
+.progress-bar__fill::after {
+  content: '';
+  position: absolute;
+  right: -2px; top: -3px;
+  width: 8px; height: 8px;
+  background: var(--cyan);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--cyan), 0 0 24px var(--cyan-glow);
+}
+
+/* ==================== STEP 0: Landing ==================== */
+.landing {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px 24px;
+}
+
+.landing__deco-line {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadeIn 1s ease 0.2s forwards;
+}
+
+.landing__icon {
+  font-size: 72px;
+  margin-bottom: 16px;
+  filter: drop-shadow(0 0 30px var(--gold-glow));
+  opacity: 0;
+  animation: iconFloat 4s ease-in-out infinite, fadeIn 0.8s ease 0.3s forwards;
+}
+
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.landing__title {
+  font-family: var(--font-title);
+  font-size: 42px;
+  font-weight: 400;
+  color: var(--gold);
+  margin-bottom: 6px;
+  letter-spacing: 8px;
+  text-shadow: 0 0 40px var(--gold-glow), 0 2px 4px rgba(0,0,0,0.5);
+  opacity: 0;
+  animation: fadeInUp 0.8s ease 0.5s forwards;
+}
+
+.landing__subtitle {
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 8px;
+  margin-bottom: 48px;
+  text-transform: uppercase;
+  font-weight: 300;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease 0.7s forwards;
+}
+
+.landing__dialogue {
+  background: var(--bg-card);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-xl);
+  padding: 28px 24px 24px;
+  margin-bottom: 36px;
+  max-width: 340px;
+  width: 100%;
+  position: relative;
+  text-align: left;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: var(--shadow-gold), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  opacity: 0;
+  animation: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.landing__dialogue::before {
+  content: '☯ 王也';
+  position: absolute;
+  top: -12px; left: 24px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  color: var(--bg-deep);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 12px;
+  letter-spacing: 2px;
+  box-shadow: 0 2px 10px var(--gold-glow);
+}
+
+.landing__dialogue p {
+  font-size: 16px;
+  line-height: 2;
+  color: var(--text-primary);
+  font-weight: 300;
+}
+
+.landing__dialogue .highlight {
+  color: var(--gold-light);
+  font-weight: 600;
+  text-shadow: 0 0 10px var(--gold-glow);
+}
+
+.input-group {
+  width: 100%;
+  max-width: 340px;
+  margin-bottom: 16px;
+  opacity: 0;
+  animation: fadeInUp 0.6s ease 1.1s forwards;
+}
+
+.input-group__input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-lg);
+  padding: 18px 24px;
+  font-size: 17px;
+  color: var(--text-primary);
+  font-family: var(--font-cn);
+  font-weight: 400;
+  outline: none;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: center;
+  letter-spacing: 2px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.input-group__input::placeholder {
+  color: var(--text-dim);
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+.input-group__input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 4px rgba(212, 168, 83, 0.08), 0 0 30px rgba(212, 168, 83, 0.1);
+  background: rgba(212, 168, 83, 0.03);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 36px;
+  border: none;
+  border-radius: var(--radius-lg);
+  font-size: 16px;
+  font-weight: 700;
+  font-family: var(--font-cn);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 2px;
+}
+
+.btn--primary {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  color: var(--bg-deep);
+  width: 100%;
+  max-width: 340px;
+  box-shadow: 0 4px 20px var(--gold-glow);
+  opacity: 0;
+  animation: fadeInUp 0.6s ease 1.3s forwards;
+}
+
+.btn--primary::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.6s;
+}
+
+.btn--primary:hover::before { left: 100%; }
+
+.btn--primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px var(--gold-glow), 0 0 60px rgba(212, 168, 83, 0.12);
+}
+
+.btn--primary:active {
+  transform: translateY(0);
+}
+
+.btn--primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn--secondary {
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  padding: 12px 28px;
+}
+
+.btn--secondary:hover {
+  background: rgba(212, 168, 83, 0.1);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  padding: 10px 20px;
+  font-size: 14px;
+}
+
+.btn--ghost:hover {
+  color: var(--gold);
+}
+
+/* ==================== STEP 1: Fortune Tell ==================== */
+.fortune-loading {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.fortune-loading__spinner {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 24px;
+  position: relative;
+}
+
+.fortune-loading__spinner::before,
+.fortune-loading__spinner::after {
+  content: '☯';
+  position: absolute;
+  font-size: 50px;
+  animation: spinYinYang 2s linear infinite;
+  color: var(--gold);
+}
+
+@keyframes spinYinYang {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.fortune-loading__text {
+  color: var(--text-secondary);
+  font-size: 14px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* 批命卡 */
+.fortune-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-xl);
+  padding: 32px 24px 28px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: var(--shadow-gold);
+  animation: cardReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes cardReveal {
+  0% { opacity: 0; transform: translateY(30px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.fortune-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--cyan), var(--gold));
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+}
+
+.fortune-card::after {
+  content: '';
+  position: absolute;
+  bottom: -50px; left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 100px;
+  background: radial-gradient(ellipse, var(--gold-glow) 0%, transparent 70%);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.fortune-card.element-fire { --element-color: var(--fire); }
+.fortune-card.element-water { --element-color: var(--water); }
+.fortune-card.element-wood { --element-color: var(--wood); }
+.fortune-card.element-metal { --element-color: var(--metal); }
+.fortune-card.element-earth { --element-color: var(--earth); }
+
+.fortune-card.element-fire::before { background: linear-gradient(90deg, var(--fire), var(--gold), var(--fire)); background-size: 200% 100%; animation: shimmer 3s linear infinite; }
+.fortune-card.element-water::before { background: linear-gradient(90deg, var(--water), var(--cyan), var(--water)); background-size: 200% 100%; animation: shimmer 3s linear infinite; }
+.fortune-card.element-wood::before { background: linear-gradient(90deg, var(--wood), var(--cyan), var(--wood)); background-size: 200% 100%; animation: shimmer 3s linear infinite; }
+.fortune-card.element-metal::before { background: linear-gradient(90deg, var(--metal), var(--gold), var(--metal)); background-size: 200% 100%; animation: shimmer 3s linear infinite; }
+.fortune-card.element-earth::before { background: linear-gradient(90deg, var(--earth), var(--gold), var(--earth)); background-size: 200% 100%; animation: shimmer 3s linear infinite; }
+
+.fortune-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.fortune-card__badge {
+  background: var(--element-color, var(--gold));
+  color: var(--bg-deep);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: 20px;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 12px var(--gold-glow);
+}
+
+.fortune-card__element {
+  font-size: 36px;
+  filter: drop-shadow(0 0 15px var(--gold-glow));
+  animation: iconFloat 3s ease-in-out infinite;
+}
+
+.fortune-card__id {
+  font-family: var(--font-title);
+  font-size: 28px;
+  font-weight: 400;
+  margin-bottom: 8px;
+  color: var(--gold-light);
+  text-shadow: 0 0 20px var(--gold-glow);
+}
+
+.fortune-card__tag {
+  display: inline-block;
+  font-size: 12px;
+  color: var(--bg-dark);
+  background: var(--element-color, var(--gold));
+  padding: 2px 10px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.fortune-card__text {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  min-height: 60px;
+}
+
+.fortune-card__text .cursor {
+  display: inline-block;
+  width: 2px;
+  height: 16px;
+  background: var(--gold);
+  margin-left: 2px;
+  animation: blink 0.8s infinite;
+  vertical-align: text-bottom;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.fortune-card__stars {
+  display: flex;
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.star-group {
+  flex: 1;
+}
+
+.star-group__label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.star-group__stars {
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+
+.fortune-card__score {
+  text-align: center;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.fortune-card__score-number {
+  font-size: 56px;
+  font-weight: 900;
+  color: var(--element-color, var(--gold));
+  text-shadow: 0 0 30px var(--gold-glow);
+  line-height: 1;
+}
+
+.fortune-card__score-label {
+  font-size: 12px;
+  color: var(--text-dim);
+  letter-spacing: 3px;
+  margin-top: 4px;
+}
+
+/* 五行拆字分析 */
+.wuxing-analysis {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+  animation: fadeInUp 0.6s ease 0.3s backwards;
+}
+
+.wuxing-analysis__title {
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 3px;
+  margin-bottom: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.wuxing-chars {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.wuxing-char {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  min-width: 52px;
+  transition: all 0.3s;
+}
+
+.wuxing-char:hover {
+  border-color: var(--border-gold);
+  background: rgba(212, 168, 83, 0.04);
+}
+
+.wuxing-char__text {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.wuxing-char__el {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 8px;
+  border-radius: 8px;
+  letter-spacing: 1px;
+}
+
+.wuxing-char__el.el-金 { color: var(--metal); background: rgba(255, 215, 106, 0.1); }
+.wuxing-char__el.el-木 { color: var(--wood); background: rgba(90, 255, 122, 0.1); }
+.wuxing-char__el.el-水 { color: var(--water); background: rgba(90, 158, 255, 0.1); }
+.wuxing-char__el.el-火 { color: var(--fire); background: rgba(255, 107, 90, 0.1); }
+.wuxing-char__el.el-土 { color: var(--earth); background: rgba(222, 160, 106, 0.1); }
+
+.wuxing-bar {
+  display: flex;
+  gap: 3px;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.wuxing-bar__segment {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  min-width: 0;
+}
+
+.wuxing-bar__segment.el-金 { background: var(--metal); }
+.wuxing-bar__segment.el-木 { background: var(--wood); }
+.wuxing-bar__segment.el-水 { background: var(--water); }
+.wuxing-bar__segment.el-火 { background: var(--fire); }
+.wuxing-bar__segment.el-土 { background: var(--earth); }
+
+.wuxing-legend {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.wuxing-legend__item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.wuxing-legend__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.wuxing-legend__dot.el-金 { background: var(--metal); }
+.wuxing-legend__dot.el-木 { background: var(--wood); }
+.wuxing-legend__dot.el-水 { background: var(--water); }
+.wuxing-legend__dot.el-火 { background: var(--fire); }
+.wuxing-legend__dot.el-土 { background: var(--earth); }
+
+.wuxing-relation {
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: linear-gradient(135deg, rgba(212, 168, 83, 0.04), rgba(92, 224, 216, 0.02));
+  border: 1px solid rgba(212, 168, 83, 0.1);
+  border-radius: var(--radius-sm);
+}
+
+.wuxing-relation__text {
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  font-weight: 300;
+}
+
+.wuxing-relation__text .wx-hl {
+  color: var(--gold-light);
+  font-weight: 600;
+}
+
+/* 体检完整度 */
+.completion-bar {
+  margin: 16px 0;
+}
+
+.completion-bar__header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.completion-bar__track {
+  height: 6px;
+  background: var(--bg-dark);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.completion-bar__fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--cyan));
+  border-radius: 3px;
+  transition: width 1s ease;
+}
+
+/* 操作按钮区域 */
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.action-buttons .btn {
+  flex: 1;
+}
+
+/* ==================== STEP 2: Chat ==================== */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 80px);
+  padding: 0 16px 20px;
+}
+
+.chat-round-indicator {
+  text-align: center;
+  padding: 14px 0;
+  font-size: 12px;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+  position: relative;
+}
+
+.chat-round-indicator::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 20%; right: 20%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-gold), transparent);
+}
+
+.chat-round-indicator span {
+  color: var(--gold);
+  font-weight: 700;
+  text-shadow: 0 0 10px var(--gold-glow);
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 20px;
+  scroll-behavior: smooth;
+}
+
+.message {
+  margin-bottom: 18px;
+  animation: messageIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes messageIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.message--ai {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.message--ai__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+  box-shadow: 0 0 16px var(--gold-glow), 0 0 0 2px rgba(212, 168, 83, 0.15);
+  animation: avatarPulse 4s ease-in-out infinite;
+}
+
+@keyframes avatarPulse {
+  0%, 100% { box-shadow: 0 0 16px var(--gold-glow), 0 0 0 2px rgba(212, 168, 83, 0.15); }
+  50% { box-shadow: 0 0 24px var(--gold-glow), 0 0 0 4px rgba(212, 168, 83, 0.1); }
+}
+
+.message--ai__bubble {
+  background: var(--bg-card);
+  border: 1px solid var(--border-gold);
+  border-radius: 4px var(--radius) var(--radius) var(--radius);
+  padding: 14px 18px;
+  max-width: 85%;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--text-primary);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.message--ai__bubble::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold-glow), transparent);
+}
+
+.message--user {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.message--user__bubble {
+  background: linear-gradient(135deg, rgba(212, 168, 83, 0.12), rgba(92, 224, 216, 0.06));
+  border: 1px solid rgba(212, 168, 83, 0.25);
+  border-radius: var(--radius) 4px var(--radius) var(--radius);
+  padding: 14px 18px;
+  max-width: 80%;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--gold-light);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 2px 12px rgba(212, 168, 83, 0.08);
+}
+
+/* 选项卡 */
+.options-container {
+  padding: 10px 0;
+  animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.options-container__title {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 12px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.option-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.option-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--gold);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.option-card:hover {
+  border-color: var(--gold);
+  background: rgba(212, 168, 83, 0.06);
+  transform: translateX(6px);
+  box-shadow: 0 4px 20px rgba(212, 168, 83, 0.08);
+}
+
+.option-card:hover::before {
+  opacity: 1;
+}
+
+.option-card:active {
+  transform: translateX(3px);
+}
+
+.option-card__emoji {
+  font-size: 26px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 8px rgba(212, 168, 83, 0.2));
+}
+
+.option-card__text {
+  font-size: 14px;
+  color: var(--text-primary);
+  flex: 1;
+  line-height: 1.5;
+}
+
+.option-card__id {
+  font-size: 11px;
+  color: var(--text-dim);
+  background: rgba(255, 255, 255, 0.04);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.option-card:hover .option-card__id {
+  background: var(--gold);
+  color: var(--bg-deep);
+  border-color: var(--gold);
+}
+
+/* 自由输入 */
+.free-input {
+  display: flex;
+  gap: 10px;
+  padding: 14px 0;
+  animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.free-input__input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  font-size: 14px;
+  color: var(--text-primary);
+  font-family: var(--font-cn);
+  outline: none;
+  transition: all 0.3s;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.free-input__input::placeholder {
+  color: var(--text-dim);
+  font-weight: 300;
+}
+
+.free-input__input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(212, 168, 83, 0.08);
+  background: rgba(212, 168, 83, 0.03);
+}
+
+.free-input__btn {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  color: var(--bg-deep);
+  border: none;
+  border-radius: var(--radius);
+  padding: 14px 20px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-cn);
+  font-size: 14px;
+  letter-spacing: 1px;
+  transition: all 0.3s;
+  box-shadow: 0 2px 12px var(--gold-glow);
+}
+
+.free-input__btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px var(--gold-glow);
+}
+
+.free-input__btn:active {
+  transform: translateY(0);
+}
+
+/* AI 打字动画 */
+.typing-indicator {
+  display: flex;
+  gap: 5px;
+  padding: 10px 4px;
+  align-items: center;
+}
+
+.typing-indicator span {
+  width: 7px;
+  height: 7px;
+  background: var(--gold);
+  border-radius: 50%;
+  animation: typingDot 1.4s infinite;
+  box-shadow: 0 0 8px var(--gold-glow);
+}
+
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingDot {
+  0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-5px); }
+}
+
+/* ==================== STEP 3: Report ==================== */
+.report-generating {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.report-generating__icon {
+  font-size: 64px;
+  margin-bottom: 24px;
+  animation: iconFloat 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 30px var(--gold-glow));
+}
+
+.report-generating__text {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+
+.report-generating__narrative {
+  font-family: var(--font-title);
+  font-size: 18px;
+  color: var(--gold);
+  max-width: 300px;
+  margin: 0 auto;
+  line-height: 1.8;
+  transition: opacity 0.3s;
+  text-shadow: 0 0 20px var(--gold-glow);
+}
+
+.report {
+  padding: 0 4px;
+}
+
+.report__header {
+  text-align: center;
+  padding: 36px 0 28px;
+  position: relative;
+}
+
+.report__header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 15%; right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.report__header-icon {
+  font-size: 44px;
+  margin-bottom: 14px;
+  filter: drop-shadow(0 0 20px var(--gold-glow));
+}
+
+.report__header-title {
+  font-family: var(--font-title);
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--gold);
+  letter-spacing: 6px;
+  text-shadow: 0 0 30px var(--gold-glow), 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.report__header-subtitle {
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 4px;
+  margin-top: 6px;
+  text-transform: uppercase;
+  font-weight: 300;
+}
+
+.report__header-no {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 10px;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 1px;
+}
+
+/* Report Sections */
+.report-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-lg);
+  padding: 26px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+  animation: sectionReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+@keyframes sectionReveal {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.report-section:nth-child(2) { animation-delay: 0.15s; }
+.report-section:nth-child(3) { animation-delay: 0.3s; }
+.report-section:nth-child(4) { animation-delay: 0.45s; }
+.report-section:nth-child(5) { animation-delay: 0.6s; }
+
+.report-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold-glow), transparent);
+}
+
+.report-section__icon {
+  font-size: 20px;
+  margin-right: 10px;
+  filter: drop-shadow(0 0 8px var(--gold-glow));
+}
+
+.report-section__title {
+  font-family: var(--font-title);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--gold);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  letter-spacing: 2px;
+}
+
+/* 第一印象 */
+.first-impression__id {
+  font-family: var(--font-title);
+  font-size: 22px;
+  color: var(--gold-light);
+  margin-bottom: 10px;
+  text-shadow: 0 0 15px var(--gold-glow);
+}
+
+.first-impression__text {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text-primary);
+  padding-left: 14px;
+  border-left: 2px solid var(--gold);
+  font-weight: 300;
+}
+
+/* 格斗画像 */
+.combat-style {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.combat-style__tag {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  color: var(--bg-deep);
+  padding: 8px 20px;
+  border-radius: 22px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 12px var(--gold-glow);
+}
+
+.combat-style__desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 300;
+}
+
+.radar-chart-container {
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto 20px;
+  position: relative;
+}
+
+.dimension-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.dimension-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  transition: all 0.3s;
+}
+
+.dimension-item:hover {
+  border-color: var(--border-gold);
+  background: rgba(212, 168, 83, 0.03);
+}
+
+.dimension-item__name {
+  font-size: 12px;
+  color: var(--text-secondary);
+  min-width: 36px;
+  font-weight: 500;
+}
+
+.dimension-item__bar {
+  flex: 1;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.dimension-item__bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 0 8px currentColor;
+}
+
+.dimension-item__score {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gold);
+  min-width: 22px;
+  text-align: right;
+}
+
+.dimension-item__label {
+  font-size: 11px;
+  color: var(--cyan);
+}
+
+.combat-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.combat-tags__tag {
+  background: rgba(92, 224, 216, 0.08);
+  border: 1px solid rgba(92, 224, 216, 0.2);
+  color: var(--cyan);
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  transition: all 0.3s;
+}
+
+.combat-tags__tag:hover {
+  background: rgba(92, 224, 216, 0.15);
+  box-shadow: 0 0 12px var(--cyan-glow);
+}
+
+/* 异人人格 */
+.alien-profile {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.alien-profile__item {
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: all 0.3s;
+}
+
+.alien-profile__item:hover {
+  border-color: var(--border-gold);
+  background: rgba(212, 168, 83, 0.03);
+}
+
+.alien-profile__item-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+}
+
+.alien-profile__item-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.alien-profile__tags {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 8px;
+}
+
+.alien-profile__tag {
+  background: rgba(212, 168, 83, 0.08);
+  border: 1px solid rgba(212, 168, 83, 0.2);
+  color: var(--gold);
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  transition: all 0.3s;
+}
+
+.alien-profile__tag:hover {
+  background: rgba(212, 168, 83, 0.15);
+  box-shadow: 0 0 12px var(--gold-glow);
+}
+
+/* 深度评语 */
+.deep-comment__text {
+  font-size: 15px;
+  line-height: 2.2;
+  color: var(--text-primary);
+  font-weight: 300;
+  position: relative;
+  padding-left: 16px;
+}
+
+.deep-comment__text::before {
+  content: '"';
+  position: absolute;
+  left: -4px;
+  top: -8px;
+  font-family: var(--font-title);
+  font-size: 48px;
+  color: var(--gold-glow);
+  line-height: 1;
+}
+
+/* 命运预言 */
+.prophecy {
+  background: linear-gradient(135deg, rgba(212, 168, 83, 0.06), rgba(92, 224, 216, 0.04));
+  border: 1px solid rgba(212, 168, 83, 0.2);
+  border-radius: var(--radius-xl);
+  padding: 28px;
+  text-align: center;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.prophecy::before {
+  content: '☯';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 120px;
+  opacity: 0.02;
+  animation: baguaSpin 60s linear infinite;
+  color: var(--gold);
+}
+
+.prophecy__icon {
+  font-size: 36px;
+  margin-bottom: 14px;
+  filter: drop-shadow(0 0 20px var(--gold-glow));
+}
+
+.prophecy__text {
+  font-family: var(--font-title);
+  font-size: 20px;
+  line-height: 2;
+  color: var(--gold-light);
+  text-shadow: 0 0 20px var(--gold-glow);
+  position: relative;
+  z-index: 1;
+}
+
+/* ==================== STEP 4: Share ==================== */
+.share-section {
+  text-align: center;
+  padding: 28px 0;
+}
+
+.share-section__title {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 18px;
+  letter-spacing: 1px;
+}
+
+.share-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.share-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 16px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: center;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.share-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 0; height: 0;
+  background: radial-gradient(circle, var(--gold-glow), transparent);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.5s, height 0.5s;
+  opacity: 0;
+}
+
+.share-btn:hover {
+  border-color: var(--gold);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(212, 168, 83, 0.1);
+}
+
+.share-btn:hover::before {
+  width: 200px; height: 200px;
+  opacity: 0.3;
+}
+
+.share-btn:active {
+  transform: translateY(-1px);
+}
+
+.share-btn__icon {
+  font-size: 32px;
+  margin-bottom: 10px;
+  display: block;
+  filter: drop-shadow(0 0 8px rgba(212, 168, 83, 0.2));
+}
+
+.share-btn__text {
+  font-size: 13px;
+  color: var(--text-primary);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.game-cta {
+  margin-top: 28px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+  position: relative;
+}
+
+.game-cta::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: 20%; right: 20%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-glow), transparent);
+}
+
+.game-cta__coming {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 18px;
+  letter-spacing: 2px;
+  animation: pulse 3s ease-in-out infinite;
+}
+
+/* ==================== Narrative Wait ==================== */
+.narrative-wait {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.narrative-wait__quotes {
+  font-family: var(--font-title);
+  font-size: 18px;
+  color: var(--text-secondary);
+  line-height: 2;
+  max-width: 300px;
+  margin: 0 auto;
+  min-height: 60px;
+}
+
+/* ==================== Toast ==================== */
+.toast {
+  position: fixed;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: rgba(16, 16, 32, 0.95);
+  border: 1px solid var(--gold);
+  color: var(--gold-light);
+  padding: 14px 28px;
+  border-radius: var(--radius-lg);
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 100;
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 4px 30px rgba(212, 168, 83, 0.15), 0 0 60px rgba(212, 168, 83, 0.05);
+  letter-spacing: 1px;
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* ==================== Story Context Bottom Sheet ==================== */
+.story-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 90;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.story-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.story-sheet {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 91;
+  background: linear-gradient(180deg, rgba(18, 18, 36, 0.98) 0%, rgba(10, 10, 20, 0.99) 100%);
+  border-top: 1px solid var(--border-gold);
+  border-radius: 24px 24px 0 0;
+  max-height: 70vh;
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.5), 0 -2px 20px var(--gold-glow);
+  overflow: hidden;
+}
+
+.story-sheet.open {
+  transform: translateY(0);
+}
+
+.story-sheet__handle {
+  padding: 14px 0 6px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.story-sheet__handle-bar {
+  width: 40px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  transition: background 0.3s;
+}
+
+.story-sheet__handle:hover .story-sheet__handle-bar {
+  background: var(--gold-dim);
+}
+
+.story-sheet__content {
+  padding: 8px 24px 36px;
+  overflow-y: auto;
+  max-height: calc(70vh - 50px);
+  -webkit-overflow-scrolling: touch;
+}
+
+.story-sheet__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(212, 168, 83, 0.1);
+  border: 1px solid rgba(212, 168, 83, 0.25);
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 14px;
+  letter-spacing: 1px;
+  margin-bottom: 14px;
+}
+
+.story-sheet__title {
+  font-family: var(--font-title);
+  font-size: 24px;
+  color: var(--gold-light);
+  margin-bottom: 20px;
+  text-shadow: 0 0 20px var(--gold-glow);
+  letter-spacing: 2px;
+}
+
+.story-sheet__characters {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.story-char {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--gold-dim);
+}
+
+.story-char__name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gold);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.story-char__desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+.story-sheet__section-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.story-sheet__story {
+  font-size: 14px;
+  line-height: 2;
+  color: var(--text-primary);
+  font-weight: 300;
+  margin-bottom: 22px;
+}
+
+.story-sheet__crux {
+  background: linear-gradient(135deg, rgba(212, 168, 83, 0.06), rgba(92, 224, 216, 0.03));
+  border: 1px solid rgba(212, 168, 83, 0.15);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 8px;
+}
+
+.story-sheet__crux-label {
+  font-size: 11px;
+  color: var(--gold);
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.story-sheet__crux-text {
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--text-primary);
+  font-weight: 400;
+}
+
+/* AI 气泡底部的故事入口链接 */
+.story-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 10px;
+  padding: 5px 0;
+  font-size: 12px;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: color 0.3s;
+  border: none;
+  background: none;
+  font-family: var(--font-cn);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.story-hint:hover,
+.story-hint:active {
+  color: var(--gold);
+}
+
+.story-hint__icon {
+  font-size: 13px;
+  opacity: 0.7;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.story-hint:hover .story-hint__icon {
+  opacity: 1;
+  transform: translateX(2px);
+}
+
+.story-hint__text {
+  border-bottom: 1px dashed currentColor;
+  padding-bottom: 1px;
+}
+
+/* ==================== Locked Dimension ==================== */
+.dimension-item.locked {
+  opacity: 0.4;
+}
+
+.dimension-item.locked .dimension-item__bar-fill {
+  background: var(--text-dim) !important;
+  box-shadow: none !important;
+}
+
+/* ==================== Responsive ==================== */
+@media (max-width: 375px) {
+  .landing__title { font-size: 36px; letter-spacing: 6px; }
+  .landing__dialogue { padding: 24px 20px 20px; }
+  .landing__dialogue p { font-size: 15px; }
+  .fortune-card { padding: 28px 20px 24px; }
+  .fortune-card__id { font-size: 24px; }
+  .fortune-card__score-number { font-size: 48px; }
+  .report__header-title { font-size: 28px; }
+  .report-section { padding: 22px; }
+  .prophecy__text { font-size: 18px; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="particleCanvas"></canvas>
+<div class="texture-overlay"></div>
+<div class="glow-top"></div>
+<div class="bagua-watermark">☯</div>
+
+<div class="app-container">
+  <!-- Top Bar -->
+  <div class="top-bar" id="topBar" style="display:none;">
+    <div class="top-bar__logo">⚔️ 异人体检站</div>
+    <div class="top-bar__step" id="stepIndicator">STEP 0</div>
+  </div>
+  <div class="progress-bar" id="progressBar" style="display:none;">
+    <div class="progress-bar__fill" id="progressFill" style="width: 0%"></div>
+  </div>
+
+  <!-- ==================== SCENE: STEP 0 — Landing ==================== -->
+  <div class="scene active" id="sceneLanding">
+    <div class="landing">
+      <div class="landing__deco-line"></div>
+      <div class="landing__icon">⚔️</div>
+      <div class="landing__title">异人体检站</div>
+      <div class="landing__subtitle">COMBAT APTITUDE TEST</div>
+      
+      <div class="landing__dialogue">
+        <p>我是<span class="highlight">王也</span>。</p>
+        <p>在你进入异人世界之前，</p>
+        <p>先让我看看你够不够格。</p>
+        <p><span class="highlight">报上名来。</span></p>
+      </div>
+
+      <div class="input-group">
+        <input type="text" class="input-group__input" id="inputId" 
+               placeholder="输入你的 ID / 网名 / 姓名" maxlength="50"
+               autocomplete="off">
+      </div>
+
+      <button class="btn btn--primary" id="btnStart" onclick="startFortune()">
+        开始体检 →
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== SCENE: STEP 1 — Fortune Tell ==================== -->
+  <div class="scene" id="sceneFortune">
+    <!-- Loading State -->
+    <div id="fortuneLoading">
+      <div class="fortune-loading">
+        <div class="fortune-loading__spinner"></div>
+        <div class="fortune-loading__text">王也正在看你的名字…</div>
+      </div>
+    </div>
+
+    <!-- Result State -->
+    <div id="fortuneResult" style="display:none;">
+      <div class="fortune-card" id="fortuneCard">
+        <div class="fortune-card__header">
+          <div>
+            <div class="fortune-card__badge" id="fortuneBadge">王也批命</div>
+          </div>
+          <div class="fortune-card__element" id="fortuneElement">🔥</div>
+        </div>
+
+        <div class="fortune-card__id" id="fortuneId"></div>
+        <div class="fortune-card__tag" id="fortunePersonality"></div>
+
+        <div class="fortune-card__text" id="fortuneText">
+          <span class="cursor"></span>
+        </div>
+
+        <div class="fortune-card__stars">
+          <div class="star-group">
+            <div class="star-group__label">异人潜质</div>
+            <div class="star-group__stars" id="starsAbnormal"></div>
+          </div>
+          <div class="star-group">
+            <div class="star-group__label">格斗直觉</div>
+            <div class="star-group__stars" id="starsCombat"></div>
+          </div>
+        </div>
+
+        <div class="fortune-card__score">
+          <div class="fortune-card__score-number" id="fortuneScore">0</div>
+          <div class="fortune-card__score-label">命数分</div>
+        </div>
+
+        <!-- 五行拆字分析 -->
+        <div class="wuxing-analysis" id="wuxingAnalysis" style="display:none;">
+          <div class="wuxing-analysis__title">☯ 五行拆字</div>
+          <div class="wuxing-chars" id="wuxingChars"></div>
+          <div class="wuxing-bar" id="wuxingBar"></div>
+          <div class="wuxing-legend" id="wuxingLegend"></div>
+          <div class="wuxing-relation" id="wuxingRelation"></div>
+        </div>
+
+        <div class="completion-bar">
+          <div class="completion-bar__header">
+            <span>体检完整度</span>
+            <span id="completionPct">14%</span>
+          </div>
+          <div class="completion-bar__track">
+            <div class="completion-bar__fill" id="completionFill" style="width: 14%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn btn--secondary" onclick="showToast('📸 批命卡已保存！')">
+          📸 保存卡片
+        </button>
+        <button class="btn btn--primary" onclick="startChat()">
+          🔍 深度体检 →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SCENE: STEP 2 — Chat ==================== -->
+  <div class="scene" id="sceneChat">
+    <div class="chat-container">
+      <div class="chat-round-indicator">
+        灵魂拷问 · 第 <span id="chatRoundCurrent">1</span> / <span id="chatRoundTotal">7</span> 问
+      </div>
+
+      <div class="chat-messages" id="chatMessages"></div>
+
+      <div id="chatInputArea"></div>
+    </div>
+  </div>
+
+  <!-- ==================== SCENE: STEP 3 — Report ==================== -->
+  <div class="scene" id="sceneReport">
+    <!-- Generating State -->
+    <div id="reportGenerating">
+      <div class="report-generating">
+        <div class="report-generating__icon">🔮</div>
+        <div class="report-generating__text">王也正在撰写你的体检报告…</div>
+        <div class="report-generating__narrative" id="reportNarrative">
+          "让我仔细看看你这些回答…"
+        </div>
+      </div>
+    </div>
+
+    <!-- Report Content -->
+    <div id="reportContent" style="display:none;">
+      <div class="report">
+        <div class="report__header">
+          <div class="report__header-icon">⚔️</div>
+          <div class="report__header-title">异人体检报告</div>
+          <div class="report__header-subtitle">COMBAT APTITUDE REPORT</div>
+          <div class="report__header-no" id="reportNo">No. #003721 · 2026.03.23</div>
+        </div>
+
+        <!-- 第一印象 -->
+        <div class="report-section">
+          <div class="report-section__title">
+            <span class="report-section__icon">🏷️</span> 第一印象
+          </div>
+          <div class="first-impression__id" id="reportFirstId"></div>
+          <div class="first-impression__text" id="reportFirstText"></div>
+        </div>
+
+        <!-- 格斗画像 -->
+        <div class="report-section">
+          <div class="report-section__title">
+            <span class="report-section__icon">⚔️</span> 格斗画像
+          </div>
+          <div class="combat-style">
+            <div class="combat-style__tag" id="reportCombatStyle"></div>
+            <div class="combat-style__desc" id="reportCombatStyleDesc"></div>
+          </div>
+          <div class="radar-chart-container">
+            <canvas id="radarChart" width="300" height="300"></canvas>
+          </div>
+          <div class="dimension-list" id="dimensionList"></div>
+          <div class="combat-tags" id="combatTags"></div>
+        </div>
+
+        <!-- 异人人格 -->
+        <div class="report-section">
+          <div class="report-section__title">
+            <span class="report-section__icon">🧬</span> 异人人格
+          </div>
+          <div class="alien-profile" id="alienProfile"></div>
+        </div>
+
+        <!-- 王也深度评语 -->
+        <div class="report-section">
+          <div class="report-section__title">
+            <span class="report-section__icon">📝</span> 王也深度评语
+          </div>
+          <div class="deep-comment__text" id="deepComment"></div>
+        </div>
+
+        <!-- 命运预言 -->
+        <div class="prophecy">
+          <div class="prophecy__icon">🔮</div>
+          <div class="prophecy__text" id="prophecyText"></div>
+        </div>
+
+        <!-- 分享 & CTA -->
+        <div class="share-section">
+          <div class="share-section__title">📱 分享给好友，看看TA是什么格斗人格</div>
+          <div class="share-buttons">
+            <div class="share-btn" onclick="showToast('📤 已复制分享链接！')">
+              <div class="share-btn__icon">💬</div>
+              <div class="share-btn__text">发给好友</div>
+            </div>
+            <div class="share-btn" onclick="showToast('📸 报告已保存到相册！')">
+              <div class="share-btn__icon">📸</div>
+              <div class="share-btn__text">保存报告</div>
+            </div>
+            <div class="share-btn" onclick="showToast('📋 已复制分享文案！')">
+              <div class="share-btn__icon">📋</div>
+              <div class="share-btn__text">复制文案</div>
+            </div>
+            <div class="share-btn" onclick="restartTest()">
+              <div class="share-btn__icon">🔄</div>
+              <div class="share-btn__text">再测一次</div>
+            </div>
+          </div>
+
+          <div class="game-cta">
+            <button class="btn btn--primary" onclick="showToast('🎮 已跳转预约页面！')">
+              🎮 预约《一人之下》手游
+            </button>
+            <div class="game-cta__coming">🔮 每日算命 · 即将开放</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Story Context Bottom Sheet -->
+<div class="story-overlay" id="storyOverlay" onclick="closeStorySheet()"></div>
+<div class="story-sheet" id="storySheet">
+  <div class="story-sheet__handle" onclick="closeStorySheet()">
+    <div class="story-sheet__handle-bar"></div>
+  </div>
+  <div class="story-sheet__content" id="storySheetContent"></div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ==================== Mock Data ====================
+
+const MOCK_FORTUNE_RESPONSES = {
+  default: {
+    session_id: "sess_demo_001",
+    fortune_text: "这名字一看就不简单……你这八字里带着点邪乎劲儿，不像普通人啊。行，让我好好看看你。",
+    fortune_card: {
+      title: "的异人体检报告",
+      subtitle: "表面老实人，内心藏着个小怪物",
+      personality_tag: "隐忍型",
+      element: "火",
+      fortune_score: 78,
+      completion_rate: 14,
+      background_style: "fire"
+    },
+    hit_source: "realtime"
+  }
+};
+
+// ==================== 五行拆字体系 ====================
+
+// 中文偏旁 → 五行映射（经典拆字术）
+const RADICAL_WUXING = {
+  // 金：金属、刀刃、坚硬相关
+  '金': '金', '钅': '金', '钊': '金', '刂': '金', '刀': '金', '戈': '金', '矛': '金',
+  '辛': '金', '酉': '金', '申': '金', '兑': '金', '西': '金',
+  // 木：植物、树木相关
+  '木': '木', '艹': '木', '竹': '木', '禾': '木', '米': '木', '耒': '木', '卯': '木',
+  '寅': '木', '东': '木',
+  // 水：水、雨、冰相关
+  '水': '水', '氵': '水', '冫': '水', '雨': '水', '川': '水', '亥': '水', '子': '水',
+  '北': '水',
+  // 火：火、光、热相关
+  '火': '火', '灬': '火', '日': '火', '光': '火', '午': '火', '巳': '火', '丙': '火',
+  '南': '火',
+  // 土：土、石、山相关
+  '土': '土', '石': '土', '山': '土', '阝': '土', '辰': '土', '丑': '土', '未': '土',
+  '戊': '土',
+};
+
+// 常见汉字直接五行表（覆盖高频字）
+const CHAR_WUXING = {
+  // 金
+  '金': '金', '鑫': '金', '铁': '金', '钢': '金', '锋': '金', '锐': '金', '银': '金',
+  '铭': '金', '剑': '金', '刚': '金', '利': '金', '辰': '金', '成': '金', '诚': '金',
+  '超': '金', '翠': '金', '鹏': '金', '齐': '金', '新': '金', '秋': '金', '白': '金',
+  '尚': '金', '世': '金', '正': '金', '思': '金', '信': '金', '小': '金', '少': '金',
+  '石': '金', '星': '金', '仙': '金', '西': '金', '胜': '金', '珍': '金',
+  // 木
+  '木': '木', '林': '木', '森': '木', '杰': '木', '松': '木', '柏': '木', '梅': '木',
+  '桐': '木', '楠': '木', '楚': '木', '荣': '木', '花': '木', '英': '木', '华': '木',
+  '茂': '木', '芳': '木', '蓉': '木', '薇': '木', '兰': '木', '竹': '木', '青': '木',
+  '春': '木', '东': '木', '桃': '木', '叶': '木', '颖': '木', '萌': '木', '蕾': '木',
+  '艺': '木', '莲': '木', '芝': '木', '栋': '木', '彬': '木', '苗': '木',
+  // 水
+  '水': '水', '冰': '水', '泉': '水', '涛': '水', '海': '水', '洋': '水', '江': '水',
+  '河': '水', '湖': '水', '溪': '水', '波': '水', '浩': '水', '淼': '水', '渊': '水',
+  '清': '水', '润': '水', '洁': '水', '深': '水', '鸿': '水', '流': '水', '雨': '水',
+  '雪': '水', '霜': '水', '露': '水', '雷': '水', '雯': '水', '霖': '水', '汉': '水',
+  '泽': '水', '沐': '水', '淳': '水', '漫': '水', '湘': '水', '潇': '水',
+  // 火
+  '火': '火', '炎': '火', '焱': '火', '烈': '火', '煌': '火', '辉': '火', '耀': '火',
+  '明': '火', '光': '火', '亮': '火', '晴': '火', '晨': '火', '旭': '火', '阳': '火',
+  '日': '火', '昊': '火', '照': '火', '炳': '火', '灿': '火', '烟': '火', '焰': '火',
+  '丹': '火', '朱': '火', '红': '火', '彤': '火', '南': '火', '暖': '火', '晖': '火',
+  '昕': '火', '昭': '火', '曦': '火', '晓': '火', '熙': '火', '烁': '火',
+  // 土
+  '土': '土', '地': '土', '坤': '土', '城': '土', '坚': '土', '培': '土', '均': '土',
+  '堃': '土', '垚': '土', '尘': '土', '圣': '土', '域': '土', '基': '土', '墨': '土',
+  '壁': '土', '安': '土', '宇': '土', '宝': '土', '定': '土', '岩': '土', '峰': '土',
+  '崇': '土', '岳': '土', '远': '土', '黄': '土', '维': '土', '伟': '土', '勇': '土',
+  '中': '土', '佳': '土', '磊': '土', '嵩': '土', '坪': '土', '塬': '土',
+};
+
+// 英文字母 → 五行（按字母顺序分5组，融入西方元素论与五行对照）
+const ALPHA_WUXING = {
+  // A-E → 木（生长、开始，对应 Spring / Air）
+  'A': '木', 'B': '木', 'C': '木', 'D': '木', 'E': '木',
+  'a': '木', 'b': '木', 'c': '木', 'd': '木', 'e': '木',
+  // F-J → 火（热情、力量，对应 Summer / Fire）
+  'F': '火', 'G': '火', 'H': '火', 'I': '火', 'J': '火',
+  'f': '火', 'g': '火', 'h': '火', 'i': '火', 'j': '火',
+  // K-O → 土（稳固、中枢，对应 Earth）
+  'K': '土', 'L': '土', 'M': '土', 'N': '土', 'O': '土',
+  'k': '土', 'l': '土', 'm': '土', 'n': '土', 'o': '土',
+  // P-T → 金（锐利、收敛，对应 Autumn / Metal）
+  'P': '金', 'Q': '金', 'R': '金', 'S': '金', 'T': '金',
+  'p': '金', 'q': '金', 'r': '金', 's': '金', 't': '金',
+  // U-Z → 水（流动、智慧，对应 Winter / Water）
+  'U': '水', 'V': '水', 'W': '水', 'X': '水', 'Y': '水', 'Z': '水',
+  'u': '水', 'v': '水', 'w': '水', 'x': '水', 'y': '水', 'z': '水',
+};
+
+// 数字 → 五行（天干地支映射）
+const NUM_WUXING = {
+  '0': '土', '1': '木', '2': '木', '3': '火', '4': '火',
+  '5': '土', '6': '金', '7': '金', '8': '水', '9': '水',
+};
+
+// 五行相生：木→火→土→金→水→木
+const WUXING_SHENG = { '木': '火', '火': '土', '土': '金', '金': '水', '水': '木' };
+// 五行相克：木→土→水→火→金→木
+const WUXING_KE = { '木': '土', '土': '水', '水': '火', '火': '金', '金': '木' };
+
+const ELEMENT_MAP = { '金': 'metal', '木': 'wood', '水': 'water', '火': 'fire', '土': 'earth' };
+const ELEMENT_EMOJI = { '金': '⚔️', '木': '🌿', '水': '🌊', '火': '🔥', '土': '🏔️' };
+
+// 五行属性描述
+const WUXING_TRAITS = {
+  '金': {
+    nature: '刚毅果决',
+    desc: '金主义，性刚直，有肃杀之气',
+    combat: '攻伐凌厉，一招制敌',
+    weakness: '过刚易折，变通不足',
+    personality: '决断型',
+    starBase: { abnormal: 3, combat: 5 },
+  },
+  '木': {
+    nature: '生生不息',
+    desc: '木主仁，性温和，有生发之力',
+    combat: '绵延不绝，越打越强',
+    weakness: '优柔寡断，出手犹豫',
+    personality: '成长型',
+    starBase: { abnormal: 4, combat: 3 },
+  },
+  '水': {
+    nature: '上善若水',
+    desc: '水主智，性灵活，有润泽之德',
+    combat: '以柔克刚，借力打力',
+    weakness: '飘忽不定，缺乏根基',
+    personality: '智谋型',
+    starBase: { abnormal: 5, combat: 3 },
+  },
+  '火': {
+    nature: '炎上光明',
+    desc: '火主礼，性急烈，有燎原之势',
+    combat: '爆发力强，气势压人',
+    weakness: '急躁冒进，持久不足',
+    personality: '爆发型',
+    starBase: { abnormal: 3, combat: 5 },
+  },
+  '土': {
+    nature: '厚德载物',
+    desc: '土主信，性厚重，有承载之量',
+    combat: '稳如磐石，打不死的小强',
+    weakness: '笨拙迟缓，攻击乏力',
+    personality: '磐石型',
+    starBase: { abnormal: 4, combat: 4 },
+  },
+};
+
+// 拆字分析一个字符的五行
+function analyzeCharWuxing(char) {
+  // 1. 直接查表（常见汉字）
+  if (CHAR_WUXING[char]) return { element: CHAR_WUXING[char], method: 'char', detail: `「${char}」字直属${CHAR_WUXING[char]}行` };
+  
+  // 2. 英文字母
+  if (ALPHA_WUXING[char]) return { element: ALPHA_WUXING[char], method: 'alpha', detail: `字母 ${char.toUpperCase()} 归属${ALPHA_WUXING[char]}行` };
+  
+  // 3. 数字
+  if (NUM_WUXING[char]) return { element: NUM_WUXING[char], method: 'num', detail: `数字 ${char} 天干属${NUM_WUXING[char]}` };
+  
+  // 4. 中文但不在表中 → 用 Unicode 编码算
+  const code = char.charCodeAt(0);
+  if (code >= 0x4E00 && code <= 0x9FFF) {
+    // 按笔画数（用 Unicode 近似）分五行
+    const approxStrokes = (code - 0x4E00) % 25 + 1; // 近似笔画 1-25
+    const elements = ['木', '火', '土', '金', '水'];
+    const el = elements[(approxStrokes - 1) % 5]; // 尾数 1/2=木，3/4=火，5/6=土，7/8=金，9/0=水
+    return { element: el, method: 'stroke', detail: `「${char}」约${approxStrokes}画，尾数属${el}` };
+  }
+  
+  // 5. 特殊字符 → 按编码取
+  const elements = ['金', '木', '水', '火', '土'];
+  return { element: elements[code % 5], method: 'code', detail: `符号「${char}」编码属${elements[code % 5]}` };
+}
+
+// 综合分析名字的五行
+function analyzeNameWuxing(name) {
+  const charResults = [];
+  const wuxingCount = { '金': 0, '木': 0, '水': 0, '火': 0, '土': 0 };
+  
+  // 过滤空白符号
+  const chars = [...name].filter(c => c.trim().length > 0);
+  
+  for (const char of chars) {
+    const result = analyzeCharWuxing(char);
+    charResults.push({ char, ...result });
+    wuxingCount[result.element]++;
+  }
+  
+  // 排序找主五行、辅五行
+  const sorted = Object.entries(wuxingCount).sort((a, b) => b[1] - a[1]);
+  const primary = sorted[0][0]; // 主五行
+  const secondary = sorted[1]?.[1] > 0 ? sorted[1][0] : null; // 辅五行
+  
+  // 计算五行平衡度（越平衡越高）
+  const total = chars.length || 1;
+  const maxRatio = sorted[0][1] / total;
+  const balance = Math.round((1 - (maxRatio - 0.2)) * 100); // 平衡度 0-100
+  
+  // 查五行相生相克
+  const shengEl = WUXING_SHENG[primary]; // 主五行所生
+  const keEl = WUXING_KE[primary];       // 主五行所克
+  
+  return {
+    charResults,
+    wuxingCount,
+    primary,
+    secondary,
+    balance: Math.min(95, Math.max(20, balance)),
+    shengEl,
+    keEl,
+    totalChars: chars.length,
+  };
+}
+
+// 基于五行分析生成批命文案
+function generateFortuneText(inputId, analysis) {
+  const { primary, secondary, charResults, balance, wuxingCount, totalChars } = analysis;
+  const trait = WUXING_TRAITS[primary];
+  
+  // 拆字细节（取前3个有趣的）
+  const details = charResults.slice(0, 3).map(r => r.detail).join('，');
+  
+  // 五行分布描述
+  const nonZero = Object.entries(wuxingCount).filter(([, v]) => v > 0);
+  const distStr = nonZero.map(([k, v]) => `${k}${v}`).join(' ');
+  
+  // 根据不同情况组合文案
+  let text = '';
+  
+  if (totalChars <= 1) {
+    text = `就一个字？"${inputId}"——${details}。${trait.nature}，${trait.desc}。单字为名，大道至简，倒有几分修行人的意思。命数分给你算了，不低。`;
+  } else if (secondary && primary === secondary) {
+    // 不可能出现，保底
+    text = `"${inputId}"……${details}。五行之中${primary}气独盛——${trait.nature}。${trait.combat}，但${trait.weakness}。有意思。`;
+  } else if (nonZero.length >= 4) {
+    // 五行多样
+    text = `"${inputId}"，我仔细看了——${details}。五行分布：${distStr}，金木水火土占了${nonZero.length}样。你这名字杂而不乱，有包容万象之相。主属「${primary}」，${trait.nature}——${trait.combat}。`;
+  } else if (wuxingCount[primary] === totalChars) {
+    // 纯一种五行
+    text = `"${inputId}"？${details}。有意思……你这名字，每个字都是「${primary}」。纯${primary}之体，${trait.desc}。${trait.combat}——但${trait.weakness}。太纯了，反而危险。`;
+  } else if (secondary) {
+    const secTrait = WUXING_TRAITS[secondary];
+    const isSheng = WUXING_SHENG[secondary] === primary || WUXING_SHENG[primary] === secondary;
+    const isKe = WUXING_KE[secondary] === primary || WUXING_KE[primary] === secondary;
+    
+    if (isSheng) {
+      text = `"${inputId}"——${details}。主属「${primary}」辅以「${secondary}」，${secondary}生${WUXING_SHENG[secondary]}，五行相生。${trait.nature}加上${secTrait.nature}，这是个好名字。${trait.combat}，还有${secTrait.nature}的底蕴。`;
+    } else if (isKe) {
+      text = `"${inputId}"……${details}。${primary}与${secondary}并存——五行相克。你这名字里自带矛盾：${trait.nature}和${secTrait.nature}互相牵制。好处是内耗出强者，坏处是心不定。格斗场上，心不定的人要么大赢，要么大输。`;
+    } else {
+      text = `"${inputId}"，${details}。主属「${primary}」，${trait.nature}，${trait.desc}。辅以「${secondary}」之气——${trait.combat}，不简单。`;
+    }
+  } else {
+    text = `"${inputId}"——${details}。${trait.nature}，${trait.desc}。命属「${primary}」，${trait.combat}。不过嘛，${trait.weakness}。格斗场上见真章吧。`;
+  }
+  
+  return text;
+}
+
+// 根据 ID 生成 Mock 批命数据（升级版：五行拆字系统）
+function generateFortune(inputId) {
+  // 核心：拆字分析
+  const analysis = analyzeNameWuxing(inputId);
+  const { primary, secondary, balance, charResults } = analysis;
+  const trait = WUXING_TRAITS[primary];
+  
+  // 生成批命文案
+  const fortuneText = generateFortuneText(inputId, analysis);
+  
+  // 命数分 = 基础分 + 五行平衡加成 + 名字长度微调
+  const baseScore = 50;
+  const balanceBonus = Math.round(balance * 0.3);
+  const lengthBonus = Math.min(15, inputId.length * 2);
+  const score = Math.min(95, Math.max(35, baseScore + balanceBonus + lengthBonus + (Math.random() * 6 - 3 | 0)));
+  
+  // 星级
+  const abnormal = trait.starBase.abnormal + (balance > 60 ? 1 : 0);
+  const combat = trait.starBase.combat + (secondary && WUXING_SHENG[secondary] === primary ? 1 : 0);
+  
+  return {
+    session_id: `sess_demo_${Date.now()}`,
+    fortune_text: fortuneText,
+    fortune_card: {
+      title: `${inputId}的异人体检报告`,
+      subtitle: `${trait.nature} · ${trait.personality}`,
+      personality_tag: trait.personality,
+      element: primary,
+      fortune_score: score,
+      completion_rate: 14,
+      background_style: ELEMENT_MAP[primary]
+    },
+    hit_source: "realtime",
+    _element: primary,
+    _elementEmoji: ELEMENT_EMOJI[primary],
+    _elementStyle: ELEMENT_MAP[primary],
+    _abnormalStar: Math.min(5, abnormal),
+    _combatStar: Math.min(5, combat),
+    // 五行拆字结果（供 UI 展示）
+    _analysis: analysis,
+  };
+}
+
+// 7 轮对话 Mock — 基于《一人之下》经典争议选择
+const CHAT_ROUNDS = [
+  {
+    round: 1,
+    title: '陈朵篇 · 测选择权观',
+    aiMessage: "陈朵这事儿你听说过吧。老廖倾尽所有保护她，给她「正常人的生活」——但从没问过她想要什么。你觉得老廖做得对吗？",
+    storyContext: {
+      title: '陈朵与老廖',
+      characters: [
+        { name: '陈朵', desc: '药仙会培育的「炁体」，没有自我意识地活着，一生被当作工具' },
+        { name: '廖忠（老廖）', desc: '公司派去看管陈朵的普通人，却对她产生了父亲般的感情' }
+      ],
+      story: '陈朵从出生起就是药仙会的「产品」——一个活体炁源。她没有名字、没有选择、没有人生。老廖被公司派去监控她，却渐渐把她当亲生女儿。他违抗命令，带她逃跑，给她取名字，送她上学，想让她过「正常人的生活」。但他始终没有问过陈朵一个问题——你自己想要什么？',
+      crux: '老廖用尽一切保护陈朵，但这份保护建立在「我替你决定什么是好的」之上。他给了她温暖，却从未给她选择。'
+    },
+    options: [
+      { id: 'A', text: '对。这是父爱，出发点是为她好', emoji: '🛡️' },
+      { id: 'B', text: '不对。保护和控制只有一线之隔', emoji: '🔗' },
+    ],
+    hasFreeInput: true,
+    responses: {
+      'A': "父爱？呵。老廖确实是个好人。可你想过没有——他替陈朵做了所有决定，跟药仙会的囚禁有什么区别？只不过笼子更漂亮罢了。但话说回来，换了你在那个位置，你能做得更好吗？",
+      'B': "看得挺透。保护变成控制，善意变成枷锁——这世上多少悲剧都是这么来的。不过你要是老廖，眼看着一个孩子随时可能被当工具回收，你真能放手让她自己选？",
+      'free': "有自己的看法，不随大流。不过这个问题没有标准答案——老廖用命给了她最后一次选择权，这已经比大多数人强了。"
+    }
+  },
+  {
+    round: 2,
+    title: '陈朵篇 · 测生死观',
+    aiMessage: "张楚岚告诉陈朵：你要么回公司做一辈子工具人，要么——选择死。他甚至主动提出了「死亡」这个选项。你怎么看？",
+    storyContext: {
+      title: '陈朵的最终选择',
+      characters: [
+        { name: '张楚岚', desc: '本作男主，看似吊儿郎当，实则心思深沉' },
+        { name: '陈朵', desc: '从未拥有过选择权的女孩，一生被他人决定命运' }
+      ],
+      story: '老廖死后，陈朵的命运再次落入他人手中。张楚岚没有像老廖那样试图「拯救」她，而是冷静地摆出了所有选项：回公司继续做工具人，或者——死。他甚至亲手递出了「死亡」这张牌。陈朵最终选择了死亡，在生命的最后一刻说了一个字：「开心」。因为这是她人生中第一次、也是最后一次，自己做了决定。',
+      crux: '张楚岚给了陈朵从未有过的「知情权」和「选择权」。但批评者认为，他的真实目的是利用陈朵之死来团结临时工、保护冯宝宝——尊重与算计，究竟能不能共存？'
+    },
+    options: [
+      { id: 'A', text: '这是最高级的尊重——让她自己决定', emoji: '🕊️' },
+      { id: 'B', text: '这是算计——他在利用陈朵的死', emoji: '🎭' },
+    ],
+    hasFreeInput: true,
+    responses: {
+      'A': "尊重？也许吧。陈朵这辈子从没自己做过主，张楚岚给了她知情权和选择权。她死前说「开心」——因为这是她第一次掌控自己的命运。但你要想清楚：「尊重」和「放弃拯救」之间，界限在哪儿？",
+      'B': "你看到了另一面。张楚岚确实用陈朵的死团结了临时工、保护了宝宝。但你想过没有——如果他不说，陈朵就只有「回去做工具」这一条路。给她选择的权利，和利用她的死……这两件事，真的不能同时存在吗？",
+      'free': "你的角度跟大多数人不一样。陈朵这件事，是全作最沉重的选择题。不管怎么答，都会被另一半人骂。但能认真想这个问题的人，至少不是冷漠的。"
+    }
+  },
+  {
+    round: 3,
+    title: '吕家篇 · 测集体vs个体',
+    aiMessage: "吕慈为了保护吕家全族，囚禁了端木瑛一辈子，逼她做人体实验。吕家死过很多人，他说这是为了守护。你站哪边？",
+    storyContext: {
+      title: '吕慈与端木瑛',
+      characters: [
+        { name: '吕慈', desc: '吕家家主，为保护族人不择手段的守护者' },
+        { name: '端木瑛', desc: '拥有「双全手」的天才医者，被吕慈囚禁后从救人者变为复仇者' }
+      ],
+      story: '端木瑛原本是济世救人的名医，拥有罕见的「双全手」异能。吕慈为了让端木瑛的能力永远为吕家所用，以她家人的性命相要挟，将她终身禁锢在吕家，强迫她进行人体实验。年复一年的囚禁与折磨中，端木瑛从医者仁心彻底沦为复仇恶魔，用她的医术反过来诅咒吕家的后代。',
+      crux: '吕慈目睹过无数族人惨死，他的恐惧与守护是真实的。但端木瑛同样是被害者——她从救人的天使被逼成害人的恶魔。守护一群人，是否可以通过毁掉另一个人来实现？'
+    },
+    options: [
+      { id: 'A', text: '能理解。为了族人的命，他没有选择', emoji: '⚖️' },
+      { id: 'B', text: '不能原谅。守护不是迫害的借口', emoji: '🔥' },
+    ],
+    hasFreeInput: true,
+    responses: {
+      'A': "能理解……但理解不等于认同。吕慈目睹过族人惨死，他的恐惧是真的。可端木瑛是个救人的大夫，被他关了一辈子，从医者仁心变成了复仇恶魔。你理解吕慈的苦衷，那端木瑛的苦衷呢？",
+      'B': "你倒是立场坚定。但我问你——如果你是吕慈，你的家人一个接一个死在你面前，你真能放走那个唯一能保护他们的人？别急着回答，这个问题比你想的重。",
+      'free': "吕家这笔账，算不清的。守护与掠夺之间，往往只差一个「为了谁」。吕慈以为自己是守护者，端木瑛觉得自己是囚徒——他们都没说错。"
+    }
+  },
+  {
+    round: 4,
+    title: '老天师篇 · 测秩序观',
+    aiMessage: "老天师张之维，一人之力扫灭全性。为了维护异人界的秩序、掩盖甲申之乱的秘密。以力量定义正义——你认可吗？",
+    storyContext: {
+      title: '老天师下山扫全性',
+      characters: [
+        { name: '张之维', desc: '天师府第六十五代天师，实力登峰造极的异人界巅峰强者' },
+        { name: '全性', desc: '追求个体自由与天性解放的异人组织，被视为异人界最大的不安定因素' }
+      ],
+      story: '甲申之乱是异人界最大的秘密——无数异人在那场浩劫中死伤。为了掩盖真相、维护异人界的秩序与平衡，老天师张之维以一人之力下山，几乎屠尽全性的核心力量。没有审判、没有法律程序，只有绝对的力量碾压。从此异人界进入了由天师府主导的「和平」时期。',
+      crux: '在没有法律、没有法庭的异人界，老天师用绝对力量定义了「谁是正义」。他确实阻止了更大的混乱，但这种「以力量定义秩序」的方式，和独裁的边界在哪里？'
+    },
+    options: [
+      { id: 'A', text: '认可。乱世用重典，以杀止杀是必要之恶', emoji: '⚡' },
+      { id: 'B', text: '不认可。力量不等于正义，这是独裁', emoji: '🚫' },
+    ],
+    hasFreeInput: true,
+    responses: {
+      'A': "必要之恶？这四个字说起来轻巧。老天师确实镇住了场子，但异人界的规则从此变成了「谁拳头大谁说了算」。你今天认可他是因为他用对了方向，万一下一个最强的人方向错了呢？",
+      'B': "理想主义者啊。在异人界没有法律、没有法庭的情况下，你告诉我——除了绝对力量，还有什么能阻止更大的灾难？光喊「不认可」没用，你得给出替代方案。",
+      'free': "老天师这事儿，武当内部也吵了几十年。力量、正义、秩序——这三个词凑在一起，就没有简单的答案。但至少你在想这个问题，而不是无脑站队。"
+    }
+  },
+  {
+    round: 5,
+    title: '三十六贼 · 测道义观',
+    aiMessage: "三十六贼——各大门派的精英，为了追寻异人的终极奥秘，跟全性掌门无根生结义，最后被天下追杀，身败名裂。为了追求真理，值得吗？",
+    storyContext: {
+      title: '三十六贼与无根生',
+      characters: [
+        { name: '无根生', desc: '全性掌门，拥有神秘力量，引领三十六贼探寻异人终极真理' },
+        { name: '三十六贼', desc: '各大正道门派的精英，背弃师门与无根生结拜，追寻异人存在的终极奥秘' }
+      ],
+      story: '在异人界的历史中，无根生是最神秘的人物。他以独特的魅力吸引了三十六位来自各大正道门派的顶尖高手——这些人本是师门的希望与骄傲。但他们为了追寻异人存在的终极意义，毅然抛弃了师门、名声、地位，与全性掌门无根生结为异姓兄弟。此后他们被天下正道追杀，身败名裂，再也无法回头。',
+      crux: '三十六贼追求的是超越门派和个人的「大道」——异人为何存在？但他们身后留下的是破碎的师门与背叛的伤痕。理想主义者的追求与他们造成的伤害之间，该如何衡量？'
+    },
+    options: [
+      { id: 'A', text: '值得。追求大道是修行人的本分', emoji: '🌌' },
+      { id: 'B', text: '不值得。他们抛弃了一切，太自私', emoji: '💔' },
+    ],
+    hasFreeInput: true,
+    responses: {
+      'A': "好一个「修行人的本分」。但你想过没有——他们背后有师门、有同门，他们走了，留下的人怎么办？追求大道和不顾一切，有时候只是同一件事的两种说法。",
+      'B': "自私？也许吧。但换个角度想——如果他们找到了异人的终极真理，全天下的异人都会受益。他们赌的不是自己的命，是所有人的未来。你说他们自私，那那些阻止他们的人就不自私？",
+      'free': "三十六贼的故事，本质上是个「理想主义者的代价」。他们没有做错，但也没有做对。世间事，哪有那么多对错分明。"
+    }
+  },
+  {
+    round: 6,
+    title: '张楚岚 · 测底线观',
+    aiMessage: "张楚岚为了保护冯宝宝、查明真相，扮猪吃虎、使用各种不光彩的计谋，甚至牺牲他人利益。为了崇高的目标，可以不择手段吗？",
+    storyContext: {
+      title: '张楚岚的手段与底线',
+      characters: [
+        { name: '张楚岚', desc: '表面上吊儿郎当的大学生，实际上身怀爷爷留下的惊天秘密' },
+        { name: '冯宝宝', desc: '不老不死的神秘少女，张楚岚受爷爷遗命保护她' }
+      ],
+      story: '张楚岚的爷爷留给他两样东西：炁体源流的修行功法，和保护冯宝宝的遗命。为了在异人界的明争暗斗中活下来，张楚岚装傻充愣、扮猪吃虎，用各种不光彩的计策——借刀杀人、以退为进、把别人当棋子。他始终保持清醒，知道自己在做什么，也知道代价是什么。',
+      crux: '张楚岚的每一次「不择手段」都是为了保护在乎的人，但每一次手段都在消耗他人的信任与善意。为了正当的目标，不正当的手段是否可以被原谅？'
+    },
+    options: [
+      { id: 'A', text: '可以。活着本身就是最大的正义', emoji: '🦊' },
+      { id: 'B', text: '不行。手段不正当，目的也会被污染', emoji: '⚖️' },
+    ],
+    hasFreeInput: true,
+    responses: {
+      'A': "活着？呵。张楚岚确实活下来了，也保护了宝宝。但你有没有想过——他每一次「不择手段」，都在消耗身边人对他的信任。工具人用多了，终有一天自己也会变成工具。",
+      'B': "「手段污染目的」——说得好。但你回头看看张楚岚的处境：爷爷的秘密、宝宝的身世、全性的追杀……你给他一条光明正大还能活命的路出来？别站着说话不腰疼。",
+      'free': "张楚岚这个人，最可怕的不是他的手段，是他清楚地知道自己在做什么——然后还是做了。你对他的看法，暴露了你自己的底线在哪里。"
+    }
+  },
+  {
+    round: 7,
+    title: '终极之问',
+    aiMessage: "最后一问。在一人之下的世界里，很多选择没有「正确答案」，只有「代价」。如果是你——你最愿意为什么付出代价？三个字。",
+    storyContext: null,
+    options: [],
+    hasFreeInput: true,
+    isFinalRound: true,
+    responses: {
+      'free': null // 由 generateFinalResponse 生成
+    }
+  }
+];
+
+// 最终轮的动态回复
+function generateFinalResponse(selfEval, userChoices) {
+  const templates = [
+    `"${selfEval}"？七道选择题，你每一道都在权衡代价。现在告诉我你最愿意为"${selfEval}"付出代价——说明你想明白了。这世上没有正确答案，只有你愿意为之承受的东西。记住这三个字，它会在你每一次面对选择的时候提醒你。`,
+    `"${selfEval}"——陈朵为选择付出了生命，三十六贼为真理付出了名声，老天师为秩序付出了半生骂名。你说你愿意为"${selfEval}"付出代价？行。那等代价真的来了，别后悔就行。`,
+    `"${selfEval}"。我问了你七个没有标准答案的问题，你都认真答了。这说明你不是那种逃避选择的人。在一人之下的世界里，敢选的人不一定活得好，但至少活得明白。你这三个字，我记下了。`
+  ];
+  return templates[Math.abs(selfEval.length) % templates.length];
+}
+
+// 报告 Mock
+function generateReport(inputId, fortuneData, userChoices) {
+  // 根据选择生成六维属性
+  const dims = calculateDimensions(userChoices);
+  const style = determineCombatStyle(dims);
+  
+  return {
+    report_id: `rpt_demo_${Date.now()}`,
+    status: 'ready',
+    mode: 'full',
+    report: {
+      user_name: inputId,
+      fighting_profile: {
+        style: style.name,
+        style_desc: style.desc,
+        dimensions: [
+          { name: '攻击性', score: dims.attack, label: dims.attack > 70 ? '重拳出击' : '内敛型', unlocked: true, color: '#e05c5c' },
+          { name: '防御力', score: dims.defense, label: dims.defense > 70 ? '铜墙铁壁' : '纸糊型', unlocked: true, color: '#5c8ae0' },
+          { name: '反应速', score: dims.reaction, label: dims.reaction > 70 ? '闪电反应' : '慢半拍', unlocked: true, color: '#5ce07a' },
+          { name: '读招力', score: dims.read, label: dims.read > 70 ? '擂台诸葛' : '凭直觉', unlocked: true, color: '#d4a853' },
+          { name: '抗压值', score: dims.pressure, label: dims.pressure > 70 ? '不动如山' : '心态波动', unlocked: true, color: '#c47a4a' },
+          { name: '摸鱼值', score: dims.slack, label: dims.slack > 70 ? '道家无为' : '勤奋苦修', unlocked: true, color: '#5ce0d8' },
+        ],
+        tags: style.tags
+      },
+      alien_personality: {
+        faction: style.faction,
+        master: style.master,
+        ability: style.ability,
+        partner: style.partner,
+        enemy: style.enemy,
+        confidence: 'confirmed',
+        personality_tags: style.personalityTags
+      },
+      deep_comment: generateDeepComment(inputId, fortuneData, userChoices, style),
+      destiny_prophecy: generateProphecy(style),
+      share_summary: `王也说我骨子里藏着${style.ability}，你也来测测？`,
+      completion_rate: 100
+    }
+  };
+}
+
+function calculateDimensions(choices) {
+  // 默认值
+  let attack = 60, defense = 60, reaction = 60, read = 60, pressure = 60, slack = 45;
+  
+  choices.forEach((c, i) => {
+    if (c === 'A') {
+      // A 选项整体偏向「务实/理解/结果导向」
+      if (i === 0) { defense += 12; pressure += 8; }    // Q1 理解老廖=重感情+抗压
+      if (i === 1) { read += 10; pressure += 10; }      // Q2 尊重选择=洞察力+承受力
+      if (i === 2) { defense += 10; read += 8; }        // Q3 理解吕慈=大局观+防御
+      if (i === 3) { attack += 12; pressure += 8; }     // Q4 认可老天师=果断+力量
+      if (i === 4) { read += 12; slack += 8; }          // Q5 追求大道=智慧+超脱
+      if (i === 5) { attack += 10; reaction += 8; }     // Q6 不择手段=攻击性+反应
+    } else if (c === 'B') {
+      // B 选项整体偏向「理想/原则/底线」
+      if (i === 0) { read += 12; reaction += 8; }       // Q1 质疑控制=洞察+警觉
+      if (i === 1) { attack += 8; defense += 8; }       // Q2 质疑算计=锋利+自保
+      if (i === 2) { attack += 10; reaction += 10; }    // Q3 不原谅=正义感+反应
+      if (i === 3) { read += 10; defense += 10; }       // Q4 质疑力量=思辨+底线
+      if (i === 4) { defense += 8; pressure += 12; }    // Q5 不值得=重情义+抗压
+      if (i === 5) { defense += 12; read += 8; }        // Q6 讲底线=防御+智慧
+    } else {
+      // 自由输入，展示独立思考
+      attack += 4; defense += 4; reaction += 6; read += 8; pressure += 4; slack += 5;
+    }
+  });
+  
+  // 限制范围 30-95
+  const clamp = (v) => Math.min(95, Math.max(30, v));
+  return {
+    attack: clamp(attack),
+    defense: clamp(defense),
+    reaction: clamp(reaction),
+    read: clamp(read),
+    pressure: clamp(pressure),
+    slack: clamp(slack)
+  };
+}
+
+function determineCombatStyle(dims) {
+  const styles = [
+    { name: '压制型 · 正面强攻', desc: '以力制胜', condition: () => dims.attack > 75 && dims.pressure > 65, tags: ['#正面刚王', '#不服就打', '#输了再来'], faction: '武当', master: '张灵玉', ability: '炁体源流 · 刚猛', partner: '陆瑾', enemy: '吕良', personalityTags: ['#热血沸腾', '#不服就干', '#拳头说话'] },
+    { name: '反击型 · 后发先至', desc: '以柔克刚', condition: () => dims.read > 70 && dims.reaction > 65, tags: ['#后发先至', '#读招大师', '#你先请'], faction: '武当', master: '王也', ability: '风后奇门', partner: '诸葛青', enemy: '陆瑾', personalityTags: ['#外冷内热', '#深藏不露', '#以退为进'] },
+    { name: '铁壁型 · 打不死的小强', desc: '防守为王', condition: () => dims.defense > 75 && dims.pressure > 70, tags: ['#打不死的小强', '#越打越精神', '#你打累了没'], faction: '全性', master: '吕良', ability: '炁体源流 · 坚', partner: '冯宝宝', enemy: '张灵玉', personalityTags: ['#沉默寡言', '#意志如铁', '#大器晚成'] },
+    { name: '摸鱼型 · 上擂台也想摸鱼', desc: '道家无为', condition: () => dims.slack > 65, tags: ['#上擂台也想摸鱼', '#道家无为', '#你打你的'], faction: '武当', master: '王也', ability: '通天箓（偷学的）', partner: '张楚岚', enemy: '加班', personalityTags: ['#佛系', '#随缘', '#有实力但不想动'] },
+    { name: '灵活型 · 见招拆招', desc: '均衡全面', condition: () => true, tags: ['#见招拆招', '#灵活多变', '#什么都会一点'], faction: '天师府', master: '张之维', ability: '炁体源流', partner: '冯宝宝', enemy: '全性', personalityTags: ['#外冷内热', '#嘴硬心软', '#社恐但能打'] },
+  ];
+  
+  return styles.find(s => s.condition()) || styles[styles.length - 1];
+}
+
+function generateDeepComment(inputId, fortuneData, choices, style) {
+  // 统计 A/B/free 的比例来判断倾向
+  const aCount = choices.filter(c => c === 'A').length;
+  const bCount = choices.filter(c => c === 'B').length;
+  const freeCount = choices.filter(c => c === 'free').length;
+  
+  let tendency = '';
+  if (aCount > bCount + 1) {
+    tendency = '你的选择偏向务实——理解苦衷、接受代价、承认世界的复杂。这不是妥协，是看透之后的清醒。';
+  } else if (bCount > aCount + 1) {
+    tendency = '你的选择偏向理想——守住底线、质疑权威、不为结果出卖原则。这不是天真，是明知代价还选择坚守。';
+  } else if (freeCount >= 3) {
+    tendency = '你不喜欢被框在两个选项里——这说明你不是非黑即白的人。在一人之下的世界里，灰色地带才是最危险也最真实的。';
+  } else {
+    tendency = '你的选择时而务实时而理想，说明你不是教条主义者——你会根据具体情境做判断。这在异人世界里是最稀缺的能力。';
+  }
+  
+  return `你这人吧，表面上取了个"${inputId}"的名字，第一眼我就看出——${fortuneData?.fortune_text?.substring(0, 20) || '不简单'}。\n\n七道争议题答下来，${tendency}\n\n陈朵的选择权、吕家的守护与掠夺、老天师的力量与秩序——这些问题没有标准答案，但你的回答暴露了你是什么人。\n\n${style.master}要是看到你，估计会说：「${style.master === '王也' ? '这小子有意思，值得摸鱼时聊聊' : '还行，至少不无聊'}。」\n\n记住了——在一人之下的世界里，最难的不是选对，是选了之后不后悔。`;
+}
+
+function generateProphecy(style) {
+  const prophecies = [
+    "选择即代价，代价即修行。你已在路上。",
+    "世间没有绝对的正义，只有你愿意守住的东西。守好了，就是你的道。",
+    "陈朵选了死亡，却活出了自由。你选了什么，只有你自己知道。",
+    "力量不是正义，但没有力量，连选择的资格都没有。先变强，再谈对错。",
+    "三十六贼追寻的大道至今没人找到，但他们的选择本身——就是答案。",
+  ];
+  return prophecies[Math.abs(style.name.length) % prophecies.length];
+}
+
+// ==================== App State ====================
+let appState = {
+  currentStep: 0,
+  inputId: '',
+  fortuneData: null,
+  chatRound: 0,
+  userChoices: [],
+  reportData: null,
+};
+
+// ==================== Scene Management ====================
+function switchScene(sceneId) {
+  document.querySelectorAll('.scene').forEach(s => {
+    s.classList.remove('active', 'fade-in');
+    s.style.display = 'none';
+  });
+  
+  const scene = document.getElementById(sceneId);
+  scene.style.display = 'block';
+  // 用 requestAnimationFrame 确保 display:block 先生效
+  requestAnimationFrame(() => {
+    scene.classList.add('active', 'fade-in');
+  });
+}
+
+function updateProgress(step) {
+  const topBar = document.getElementById('topBar');
+  const progressBar = document.getElementById('progressBar');
+  const stepIndicator = document.getElementById('stepIndicator');
+  const progressFill = document.getElementById('progressFill');
+  
+  if (step > 0) {
+    topBar.style.display = 'flex';
+    progressBar.style.display = 'block';
+  }
+  
+  const stepNames = ['STEP 0', 'STEP 1 · 批命', 'STEP 2 · 望闻问切', 'STEP 3 · 出报告', 'STEP 4 · 分享'];
+  const progressPcts = [0, 15, 30, 80, 100];
+  
+  stepIndicator.textContent = stepNames[step] || '';
+  progressFill.style.width = progressPcts[step] + '%';
+}
+
+// ==================== STEP 0 → STEP 1 ====================
+function startFortune() {
+  const input = document.getElementById('inputId').value.trim();
+  if (!input) {
+    showToast('请先输入你的 ID');
+    return;
+  }
+  
+  appState.inputId = input;
+  appState.currentStep = 1;
+  
+  updateProgress(1);
+  switchScene('sceneFortune');
+  
+  // 模拟加载 3 秒
+  setTimeout(() => {
+    showFortuneResult();
+  }, 2500);
+}
+
+function showFortuneResult() {
+  let data;
+  // 检查彩蛋 ID
+  if (easterEggs[appState.inputId]) {
+    const egg = easterEggs[appState.inputId];
+    // 彩蛋也走五行分析
+    const analysis = analyzeNameWuxing(appState.inputId);
+    const el = analysis.primary;
+    data = {
+      session_id: `sess_egg_${Date.now()}`,
+      fortune_text: egg.text,
+      fortune_card: {
+        title: `${appState.inputId}的异人体检报告`,
+        subtitle: egg.text.substring(0, 15) + '…',
+        personality_tag: egg.tag,
+        element: el,
+        fortune_score: egg.score,
+        completion_rate: 14,
+        background_style: ELEMENT_MAP[el]
+      },
+      hit_source: "exact",
+      _element: el,
+      _elementEmoji: ELEMENT_EMOJI[el],
+      _elementStyle: ELEMENT_MAP[el],
+      _abnormalStar: egg.abnormal,
+      _combatStar: egg.combat,
+      _analysis: analysis,
+    };
+  } else {
+    data = generateFortune(appState.inputId);
+  }
+  appState.fortuneData = data;
+  
+  document.getElementById('fortuneLoading').style.display = 'none';
+  document.getElementById('fortuneResult').style.display = 'block';
+  
+  // 设置卡片
+  const card = document.getElementById('fortuneCard');
+  card.className = `fortune-card element-${data._elementStyle}`;
+  
+  document.getElementById('fortuneElement').textContent = data._elementEmoji;
+  document.getElementById('fortuneId').textContent = appState.inputId;
+  document.getElementById('fortunePersonality').textContent = data.fortune_card.personality_tag;
+  document.getElementById('fortuneBadge').textContent = `五行 · ${data._element}`;
+  document.getElementById('fortuneBadge').style.background = `var(--${data._elementStyle})`;
+  
+  // 打字机效果
+  typeWriter('fortuneText', data.fortune_text, 40, () => {
+    // 显示星级
+    document.getElementById('starsAbnormal').textContent = renderStars(data._abnormalStar);
+    document.getElementById('starsCombat').textContent = renderStars(data._combatStar);
+    
+    // 命数分动画
+    animateNumber('fortuneScore', 0, data.fortune_card.fortune_score, 1000);
+    
+    // 渲染五行拆字分析（仅 generateFortune 结果有 _analysis）
+    if (data._analysis) {
+      renderWuxingAnalysis(data._analysis);
+    }
+  });
+}
+
+function typeWriter(elementId, text, speed, callback) {
+  const el = document.getElementById(elementId);
+  el.innerHTML = '';
+  let i = 0;
+  
+  function type() {
+    if (i < text.length) {
+      el.innerHTML = text.substring(0, i + 1) + '<span class="cursor"></span>';
+      i++;
+      setTimeout(type, speed);
+    } else {
+      el.innerHTML = text;
+      if (callback) callback();
+    }
+  }
+  type();
+}
+
+function renderStars(count) {
+  return '★'.repeat(count) + '☆'.repeat(5 - count);
+}
+
+function animateNumber(elementId, from, to, duration) {
+  const el = document.getElementById(elementId);
+  const startTime = performance.now();
+  
+  function update(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    // Ease out cubic
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = Math.round(from + (to - from) * eased);
+    el.textContent = current;
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+// 渲染五行拆字分析
+function renderWuxingAnalysis(analysis) {
+  const { charResults, wuxingCount, primary, secondary, balance, shengEl, keEl, totalChars } = analysis;
+  const container = document.getElementById('wuxingAnalysis');
+  container.style.display = 'block';
+  
+  // 1. 逐字五行标注
+  const charsHtml = charResults.slice(0, 8).map(r => `
+    <div class="wuxing-char">
+      <span class="wuxing-char__text">${r.char}</span>
+      <span class="wuxing-char__el el-${r.element}">${r.element}</span>
+    </div>
+  `).join('');
+  document.getElementById('wuxingChars').innerHTML = charsHtml;
+  
+  // 2. 五行占比条
+  const total = totalChars || 1;
+  const barSegments = ['金', '木', '水', '火', '土']
+    .filter(el => wuxingCount[el] > 0)
+    .map(el => `<div class="wuxing-bar__segment el-${el}" style="width: ${(wuxingCount[el] / total * 100).toFixed(1)}%"></div>`)
+    .join('');
+  document.getElementById('wuxingBar').innerHTML = barSegments;
+  
+  // 3. 图例
+  const legendHtml = ['金', '木', '水', '火', '土']
+    .filter(el => wuxingCount[el] > 0)
+    .map(el => `
+      <span class="wuxing-legend__item">
+        <span class="wuxing-legend__dot el-${el}"></span>
+        ${el} · ${wuxingCount[el]}
+      </span>
+    `).join('');
+  document.getElementById('wuxingLegend').innerHTML = legendHtml;
+  
+  // 4. 五行关系总结
+  let relationText = `主五行 <span class="wx-hl">${primary}</span>`;
+  if (secondary) {
+    relationText += `，辅五行 <span class="wx-hl">${secondary}</span>`;
+    // 检查主辅关系
+    if (WUXING_SHENG[secondary] === primary) {
+      relationText += `。${secondary}生${primary}，<span class="wx-hl">五行相生</span>，先天有利。`;
+    } else if (WUXING_SHENG[primary] === secondary) {
+      relationText += `。${primary}生${secondary}，<span class="wx-hl">五行相生</span>，根基深厚。`;
+    } else if (WUXING_KE[primary] === secondary) {
+      relationText += `。${primary}克${secondary}，<span class="wx-hl">五行相克</span>，内有张力。`;
+    } else if (WUXING_KE[secondary] === primary) {
+      relationText += `。${secondary}克${primary}，<span class="wx-hl">五行相克</span>，需化解冲突。`;
+    } else {
+      relationText += `。五行并行，各有其道。`;
+    }
+  } else {
+    relationText += `独旺，${WUXING_TRAITS[primary].nature}。`;
+  }
+  relationText += ` 平衡度 <span class="wx-hl">${balance}%</span>`;
+  
+  document.getElementById('wuxingRelation').innerHTML = `<div class="wuxing-relation__text">${relationText}</div>`;
+}
+
+// ==================== STEP 1 → STEP 2 ====================
+function startChat() {
+  appState.currentStep = 2;
+  appState.chatRound = 0;
+  appState.userChoices = [];
+  
+  updateProgress(2);
+  switchScene('sceneChat');
+  
+  // 延迟后显示第一轮
+  setTimeout(() => {
+    showChatRound(0);
+  }, 500);
+}
+
+function showChatRound(roundIdx) {
+  if (roundIdx >= CHAT_ROUNDS.length) {
+    // 对话完成，进入报告生成
+    startReport();
+    return;
+  }
+  
+  const round = CHAT_ROUNDS[roundIdx];
+  appState.chatRound = roundIdx;
+  
+  // 更新轮次指示器
+  document.getElementById('chatRoundCurrent').textContent = round.round;
+  
+  // 添加 AI 消息（传入 roundIdx 以支持故事背景入口）
+  addAiMessage(round.aiMessage, () => {
+    // 显示选项
+    showOptions(round, roundIdx);
+  }, roundIdx);
+  
+  // 更新进度条
+  const pct = 30 + (roundIdx / 7) * 50;
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+function addAiMessage(text, callback, roundIdx) {
+  const container = document.getElementById('chatMessages');
+  
+  // 先显示打字动画
+  const typingDiv = document.createElement('div');
+  typingDiv.className = 'message message--ai';
+  typingDiv.innerHTML = `
+    <div class="message--ai__avatar">☯</div>
+    <div class="message--ai__bubble">
+      <div class="typing-indicator">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  `;
+  container.appendChild(typingDiv);
+  scrollToBottom();
+  
+  // 模拟思考时间后显示消息
+  setTimeout(() => {
+    typingDiv.querySelector('.message--ai__bubble').innerHTML = '';
+    let i = 0;
+    const bubble = typingDiv.querySelector('.message--ai__bubble');
+    
+    function typeChar() {
+      if (i < text.length) {
+        bubble.innerHTML = text.substring(0, i + 1) + '<span class="cursor"></span>';
+        i++;
+        scrollToBottom();
+        setTimeout(typeChar, 30);
+      } else {
+        bubble.innerHTML = text;
+        // 如果是提问轮（非回复）且有故事背景，追加故事入口
+        if (roundIdx !== undefined && roundIdx !== null && CHAT_ROUNDS[roundIdx]?.storyContext) {
+          const hint = document.createElement('button');
+          hint.className = 'story-hint';
+          hint.innerHTML = `<span class="story-hint__text">了解这个故事</span><span class="story-hint__icon">›</span>`;
+          hint.onclick = (e) => { e.stopPropagation(); openStorySheet(roundIdx); };
+          bubble.appendChild(hint);
+        }
+        if (callback) callback();
+      }
+    }
+    typeChar();
+  }, 800);
+}
+
+function addUserMessage(text) {
+  const container = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'message message--user';
+  div.innerHTML = `<div class="message--user__bubble">${text}</div>`;
+  container.appendChild(div);
+  scrollToBottom();
+}
+
+function showOptions(round, roundIdx) {
+  const inputArea = document.getElementById('chatInputArea');
+  let html = '<div class="options-container">';
+  
+  if (round.options.length > 0) {
+    round.options.forEach(opt => {
+      html += `
+        <div class="option-card" onclick="selectOption(${roundIdx}, '${opt.id}', '${opt.text}')">
+          <div class="option-card__emoji">${opt.emoji}</div>
+          <div class="option-card__text">${opt.text}</div>
+          <div class="option-card__id">${opt.id}</div>
+        </div>
+      `;
+    });
+  }
+  
+  if (round.hasFreeInput) {
+    html += `
+      <div class="free-input">
+        <input type="text" class="free-input__input" id="freeInput" 
+               placeholder="${round.isFinalRound ? '三个字，说吧' : '或者你自己说…'}"
+               maxlength="${round.isFinalRound ? 10 : 200}"
+               onkeypress="if(event.key==='Enter')submitFreeInput(${roundIdx})">
+        <button class="free-input__btn" onclick="submitFreeInput(${roundIdx})">发送</button>
+      </div>
+    `;
+  }
+  
+  html += '</div>';
+  inputArea.innerHTML = html;
+  scrollToBottom();
+}
+
+function selectOption(roundIdx, optionId, optionText) {
+  // 清空输入区
+  document.getElementById('chatInputArea').innerHTML = '';
+  
+  // 显示用户选择
+  addUserMessage(optionText);
+  appState.userChoices.push(optionId);
+  
+  // AI 回复
+  const round = CHAT_ROUNDS[roundIdx];
+  const response = round.responses[optionId] || round.responses['free'];
+  
+  setTimeout(() => {
+    addAiMessage(response, () => {
+      // 下一轮
+      setTimeout(() => showChatRound(roundIdx + 1), 600);
+    });
+  }, 400);
+}
+
+function submitFreeInput(roundIdx) {
+  const input = document.getElementById('freeInput');
+  const text = input.value.trim();
+  if (!text) return;
+  
+  // 清空输入区
+  document.getElementById('chatInputArea').innerHTML = '';
+  
+  // 显示用户消息
+  addUserMessage(text);
+  appState.userChoices.push('free');
+  
+  const round = CHAT_ROUNDS[roundIdx];
+  let response;
+  
+  if (round.isFinalRound) {
+    response = generateFinalResponse(text, appState.userChoices);
+  } else {
+    response = round.responses['free'];
+  }
+  
+  setTimeout(() => {
+    addAiMessage(response, () => {
+      setTimeout(() => showChatRound(roundIdx + 1), 600);
+    });
+  }, 400);
+}
+
+function scrollToBottom() {
+  const container = document.getElementById('chatMessages');
+  setTimeout(() => {
+    container.scrollTop = container.scrollHeight;
+  }, 50);
+}
+
+// ==================== STEP 2 → STEP 3 ====================
+function startReport() {
+  appState.currentStep = 3;
+  updateProgress(3);
+  switchScene('sceneReport');
+  
+  // 叙事化等待
+  const narratives = [
+    "「让我仔细看看你这些回答…」",
+    "「嗯……有意思。跟我想的不太一样。」",
+    "「格斗画像快出来了……你这六维有点东西。」",
+    "「报告写好了。来看看吧。」"
+  ];
+  
+  let ni = 0;
+  const narrativeEl = document.getElementById('reportNarrative');
+  
+  const narrativeTimer = setInterval(() => {
+    ni++;
+    if (ni < narratives.length) {
+      narrativeEl.style.opacity = 0;
+      setTimeout(() => {
+        narrativeEl.textContent = narratives[ni];
+        narrativeEl.style.opacity = 1;
+      }, 300);
+    }
+  }, 1500);
+  
+  // 5 秒后显示报告
+  setTimeout(() => {
+    clearInterval(narrativeTimer);
+    showReport();
+  }, 5000);
+}
+
+function showReport() {
+  const data = generateReport(appState.inputId, appState.fortuneData, appState.userChoices);
+  appState.reportData = data;
+  const report = data.report;
+  
+  document.getElementById('reportGenerating').style.display = 'none';
+  document.getElementById('reportContent').style.display = 'block';
+  
+  // 报告编号
+  document.getElementById('reportNo').textContent = `No. #${String(Math.floor(Math.random() * 999999)).padStart(6, '0')} · ${new Date().toLocaleDateString('zh-CN').replace(/\//g, '.')}`;
+  
+  // 第一印象
+  document.getElementById('reportFirstId').textContent = `ID：${report.user_name}`;
+  document.getElementById('reportFirstText').textContent = appState.fortuneData.fortune_text;
+  
+  // 格斗画像
+  document.getElementById('reportCombatStyle').textContent = report.fighting_profile.style;
+  document.getElementById('reportCombatStyleDesc').textContent = report.fighting_profile.style_desc;
+  
+  // 雷达图
+  renderRadarChart(report.fighting_profile.dimensions);
+  
+  // 维度条形图
+  renderDimensions(report.fighting_profile.dimensions);
+  
+  // 格斗标签
+  const tagsHtml = report.fighting_profile.tags.map(t => 
+    `<span class="combat-tags__tag">${t}</span>`
+  ).join('');
+  document.getElementById('combatTags').innerHTML = tagsHtml;
+  
+  // 异人人格
+  const ap = report.alien_personality;
+  document.getElementById('alienProfile').innerHTML = `
+    <div class="alien-profile__item">
+      <div class="alien-profile__item-label">炁体类型</div>
+      <div class="alien-profile__item-value">${ap.ability}</div>
+    </div>
+    <div class="alien-profile__item">
+      <div class="alien-profile__item-label">门派归属</div>
+      <div class="alien-profile__item-value">${ap.faction}</div>
+    </div>
+    <div class="alien-profile__item">
+      <div class="alien-profile__item-label">最适师父</div>
+      <div class="alien-profile__item-value">${ap.master}</div>
+    </div>
+    <div class="alien-profile__item">
+      <div class="alien-profile__item-label">最佳搭档</div>
+      <div class="alien-profile__item-value">${ap.partner}</div>
+    </div>
+    <div class="alien-profile__item">
+      <div class="alien-profile__item-label">天敌</div>
+      <div class="alien-profile__item-value">${ap.enemy}</div>
+    </div>
+    <div class="alien-profile__item">
+      <div class="alien-profile__item-label">判定</div>
+      <div class="alien-profile__item-value">${ap.confidence === 'confirmed' ? '✅ 确认' : '⏳ 初步'}</div>
+    </div>
+    <div class="alien-profile__tags">
+      ${ap.personality_tags.map(t => `<span class="alien-profile__tag">${t}</span>`).join('')}
+    </div>
+  `;
+  
+  // 深度评语
+  document.getElementById('deepComment').innerHTML = report.deep_comment.replace(/\n/g, '<br>');
+  
+  // 命运预言
+  document.getElementById('prophecyText').textContent = report.destiny_prophecy;
+  
+  // 更新进度
+  updateProgress(4);
+}
+
+function renderRadarChart(dimensions) {
+  const ctx = document.getElementById('radarChart').getContext('2d');
+  
+  // 销毁已有图表
+  const existingChart = Chart.getChart(ctx);
+  if (existingChart) existingChart.destroy();
+  
+  new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: dimensions.map(d => d.name),
+      datasets: [{
+        label: '格斗属性',
+        data: dimensions.map(d => d.score),
+        fill: true,
+        backgroundColor: 'rgba(212, 168, 83, 0.15)',
+        borderColor: 'rgba(212, 168, 83, 0.8)',
+        pointBackgroundColor: 'rgba(212, 168, 83, 1)',
+        pointBorderColor: 'rgba(212, 168, 83, 1)',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgba(212, 168, 83, 1)',
+        pointRadius: 4,
+        borderWidth: 2,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      scales: {
+        r: {
+          angleLines: { color: 'rgba(255, 255, 255, 0.08)' },
+          grid: { color: 'rgba(255, 255, 255, 0.06)' },
+          pointLabels: { 
+            color: '#8888a0', 
+            font: { size: 12, family: "'PingFang SC', sans-serif" } 
+          },
+          ticks: { display: false },
+          suggestedMin: 0,
+          suggestedMax: 100,
+        }
+      },
+      plugins: {
+        legend: { display: false },
+      },
+      animation: {
+        duration: 1500,
+        easing: 'easeOutQuart'
+      }
+    }
+  });
+}
+
+function renderDimensions(dimensions) {
+  const container = document.getElementById('dimensionList');
+  container.innerHTML = '';
+  
+  dimensions.forEach((dim, i) => {
+    const div = document.createElement('div');
+    div.className = `dimension-item ${dim.unlocked ? '' : 'locked'}`;
+    div.innerHTML = `
+      <div class="dimension-item__name">${dim.name}</div>
+      <div class="dimension-item__bar">
+        <div class="dimension-item__bar-fill" style="width: 0%; background: ${dim.color}"></div>
+      </div>
+      <div class="dimension-item__score">${dim.unlocked ? dim.score : '?'}</div>
+    `;
+    container.appendChild(div);
+    
+    // 动画
+    setTimeout(() => {
+      div.querySelector('.dimension-item__bar-fill').style.width = 
+        dim.unlocked ? `${dim.score}%` : '20%';
+    }, 200 + i * 150);
+  });
+}
+
+// ==================== Story Context Bottom Sheet ====================
+function openStorySheet(roundIdx) {
+  const round = CHAT_ROUNDS[roundIdx];
+  if (!round?.storyContext) return;
+  
+  const ctx = round.storyContext;
+  const content = document.getElementById('storySheetContent');
+  
+  content.innerHTML = `
+    <div class="story-sheet__badge">📖 故事背景</div>
+    <div class="story-sheet__title">${ctx.title}</div>
+    
+    <div class="story-sheet__section-label">关键人物</div>
+    <div class="story-sheet__characters">
+      ${ctx.characters.map(c => `
+        <div class="story-char">
+          <span class="story-char__name">${c.name}</span>
+          <span class="story-char__desc">${c.desc}</span>
+        </div>
+      `).join('')}
+    </div>
+    
+    <div class="story-sheet__section-label">故事经过</div>
+    <div class="story-sheet__story">${ctx.story}</div>
+    
+    <div class="story-sheet__crux">
+      <div class="story-sheet__crux-label">⚡ 核心矛盾</div>
+      <div class="story-sheet__crux-text">${ctx.crux}</div>
+    </div>
+  `;
+  
+  document.getElementById('storyOverlay').classList.add('visible');
+  document.getElementById('storySheet').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeStorySheet() {
+  document.getElementById('storyOverlay').classList.remove('visible');
+  document.getElementById('storySheet').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ==================== Utility ====================
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// ==================== Init ====================
+document.getElementById('inputId').addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') startFortune();
+});
+
+// ==================== Canvas Particle System ====================
+(function initParticles() {
+  const canvas = document.getElementById('particleCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  const PARTICLE_COUNT = 35;
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  class Particle {
+    constructor() { this.reset(); }
+    reset() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.size = Math.random() * 2 + 0.5;
+      this.speedX = (Math.random() - 0.5) * 0.3;
+      this.speedY = -Math.random() * 0.4 - 0.1;
+      this.opacity = Math.random() * 0.4 + 0.1;
+      this.fadeSpeed = Math.random() * 0.003 + 0.001;
+      this.isGold = Math.random() > 0.3;
+      this.phase = Math.random() * Math.PI * 2;
+    }
+    update() {
+      this.x += this.speedX + Math.sin(this.phase) * 0.15;
+      this.y += this.speedY;
+      this.phase += 0.01;
+      this.opacity -= this.fadeSpeed;
+      if (this.opacity <= 0 || this.y < -10 || this.x < -10 || this.x > canvas.width + 10) {
+        this.reset();
+        this.y = canvas.height + 10;
+        this.opacity = Math.random() * 0.4 + 0.1;
+      }
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      if (this.isGold) {
+        ctx.fillStyle = `rgba(212, 168, 83, ${this.opacity})`;
+        ctx.shadowColor = 'rgba(212, 168, 83, 0.3)';
+      } else {
+        ctx.fillStyle = `rgba(92, 224, 216, ${this.opacity})`;
+        ctx.shadowColor = 'rgba(92, 224, 216, 0.3)';
+      }
+      ctx.shadowBlur = 8;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+  }
+
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    particles.push(new Particle());
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+
+// ==================== Restart Test ====================
+function restartTest() {
+  // 重置状态
+  appState.currentStep = 0;
+  appState.inputId = '';
+  appState.fortuneData = null;
+  appState.chatRound = 0;
+  appState.userChoices = [];
+  appState.reportData = null;
+
+  // 重置 UI
+  document.getElementById('inputId').value = '';
+  document.getElementById('topBar').style.display = 'none';
+  document.getElementById('progressBar').style.display = 'none';
+  document.getElementById('progressFill').style.width = '0%';
+  document.getElementById('fortuneLoading').style.display = 'block';
+  document.getElementById('fortuneResult').style.display = 'none';
+  document.getElementById('wuxingAnalysis').style.display = 'none';
+  document.getElementById('reportGenerating').style.display = 'block';
+  document.getElementById('reportContent').style.display = 'none';
+  document.getElementById('chatMessages').innerHTML = '';
+  document.getElementById('chatInputArea').innerHTML = '';
+
+  // 切换回首页
+  switchScene('sceneLanding');
+  showToast('🔄 准备好再来一次了！');
+}
+
+// 彩蛋：预置 ID
+const easterEggs = {
+  '张楚岚': { text: '张楚岚？你可真敢报这个名字。炁体源流的继承人，命硬得很。不过在格斗场上，你得学会不只靠那股子邪劲儿。', tag: '隐忍型', score: 88, abnormal: 5, combat: 4 },
+  '冯宝宝': { text: '冯宝宝？……你知道这名字在异人界意味着什么吗？不知道也好。总之，格斗场上你这种人最可怕——什么都不怕。', tag: '无畏型', score: 95, abnormal: 5, combat: 5 },
+  '王也': { text: '王也？你在叫我？……行吧，如果你觉得自己配得上这个名字的话。武当的道，不是谁都能走的。', tag: '道家型', score: 92, abnormal: 5, combat: 5 },
+  '摸鱼达人': { text: '道家修的就是"无为"，摸鱼是正道。但你加了"达人"，说明摸鱼还挺骄傲。格斗场上骄傲的人，要么赢得漂亮，要么输得难看。', tag: '摸鱼型', score: 66, abnormal: 4, combat: 2 },
+};
+</script>
+</body>
+</html>
