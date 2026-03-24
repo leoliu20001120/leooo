@@ -1,6 +1,6 @@
 # 🧠 MEMORY.md — AI 启动上下文
 
-> v2.2 | 更新: 2026-03-23
+> v2.3 | 更新: 2026-03-24
 > 设计原则: **读完此文件即可工作，无需跳转**
 
 ---
@@ -79,7 +79,7 @@
 
 - Git自动同步: launchd 每天11:00+23:00（不用crontab，macOS睡眠不执行）
 - Skills: 22个（17官方+5第三方），Skills周报每周一9:00自动生成
-- CodeBuddy Rules: 5个专业角色（data-analyst / product-manager / game-designer / marketing-strategist / project-shepherd），全部 requested 类型
+- CodeBuddy Rules: 5个专业角色（data-analyst / product-manager / game-designer / marketing-strategist / project-shepherd），全部 requested 类型。product-manager 已植入分级审查 Harness
 - 同步脚本: `~/.local/bin/obsidian_git_sync.sh`（通过 osascript 绕过 TCC）
 - UC 对局复盘 git: `10_Work/uc对局复盘/ucgit/go_ai_yr_postmatch_analysis_svr/`（master分支，git.woa.com）
 
@@ -93,6 +93,8 @@
 6. CTA → 首页最显眼位置，核心任务为中心
 7. Skills周报分析器 → **显式标注优先**，有 `Skills:` 行时只读标注行，避免语义误报
 8. AI团队评审 → 多角色协作（PM+Tech+QA+项目管理）产出远超单角色
+9. 需求文档 → **分级审查**（轻量自查/中等切对立角色/重型多角色评审），默认中等，只升不降
+10. 错题本 → 同类错误 ≥3 次 → **自动提炼为硬性规则**写入对应 Rule/SOP，不是软提醒
 
 ## 已验证工作流
 
@@ -102,3 +104,6 @@
 - **H5 Demo快速原型**: PRD+Mock契约→单文件HTML(CSS+JS)→视觉升级→内容升级→功能迭代（逐步replace_in_file避免token溢出）
 - **AI团队评审**: 组建多角色团队(PM/Tech/QA/PM)→各自产出→跨团队共识→综合报告→开发启动包
 - **UC对局复盘测试**: 修改analysis.go→commit+push→upload_and_report.py批量测试→result.xlsx对比→数据分析
+- **📅 每周方法论沉淀（周五自动）**: 读近7天episodic日志→识别可复用模式→对比30_Common/方法论/去重→新建或更新方法论.md→更新_README索引→记录episodic
+- **📝 需求文档分级审查**: 写前三问→定级(🟢轻量/🟡中等/🔴重型)→按级别走审查策略→默认中等、只升不降
+- **🔁 错误→规则自动化**: 错误记录→打标签归类→同类≥3次→分析共性→提炼硬性规则→写入Rule/SOP→标注已提炼

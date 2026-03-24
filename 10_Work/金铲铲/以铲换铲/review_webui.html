@@ -119,17 +119,17 @@
     margin-left: 4px;
   }
 
-  /* Grid */
+  /* Grid — 并列式列表 */
   .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
     padding: 24px 32px;
-    max-width: 1600px;
+    max-width: 1200px;
     margin: 0 auto;
   }
 
-  /* Card */
+  /* Card — 左右并列 */
   .card {
     background: var(--card-bg);
     border-radius: 12px;
@@ -137,6 +137,9 @@
     border: 1px solid var(--border);
     transition: all 0.3s;
     cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
   }
   .card:hover {
     border-color: var(--gold-dark);
@@ -144,11 +147,13 @@
     box-shadow: 0 8px 32px rgba(255, 215, 0, 0.1);
   }
   .card-img-wrap {
-    width: 100%;
-    height: 260px;
+    width: 280px;
+    min-width: 280px;
+    min-height: 200px;
     overflow: hidden;
     position: relative;
     background: #111;
+    flex-shrink: 0;
   }
   .card-img-wrap img {
     width: 100%;
@@ -183,12 +188,17 @@
     border: 2px solid rgba(255,255,255,0.3);
   }
   .card-body {
-    padding: 14px 16px;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    min-width: 0;
   }
   .card-body .comment {
     font-size: 14px;
-    line-height: 1.6;
-    margin-bottom: 8px;
+    line-height: 1.7;
+    margin-bottom: 10px;
     color: var(--text);
   }
   .card-body .meta {
@@ -375,7 +385,9 @@
   }
 
   @media (max-width: 768px) {
-    .grid { grid-template-columns: 1fr; padding: 16px; }
+    .grid { padding: 16px; }
+    .card { flex-direction: column; }
+    .card-img-wrap { width: 100%; min-width: unset; height: 220px; min-height: 220px; }
     .header h1 { font-size: 22px; }
     .stats-bar { gap: 12px; }
     .filter-bar { padding: 12px 16px; }
@@ -508,7 +520,7 @@ const reviewData = [
     actual_level: 1,
     review: {
       level: 1, score: 3, is_shovel: false,
-      comment: "又是一只猫咪！虽然猫主子很可爱，但这真的不是铲子哦~",
+      comment: "又一位猫主子驾到！喵星人虽然统治了互联网，但铲铲战场可不收宠物~带着铲子回来才算数！",
       reasoning: "猫咪照片，完全无铲子元素。L1。"
     }
   },
@@ -620,7 +632,7 @@ const reviewData = [
     actual_level: 2,
     review: {
       level: 2, score: 44, is_shovel: true,
-      comment: "手工制作的一把工具铲，铲头有开口但不是标准3孔，用心了但特征不够！",
+      comment: "手工打造的工具铲，铲头有开口能看出用心了！不过孔数不是标准的3个~调整一下铲头结构，金铲铲就在眼前！",
       reasoning: "手工/半手工铲子，铲头有缝隙/孔但不符合3孔标准。L2。"
     }
   },
@@ -708,7 +720,7 @@ const reviewData = [
     actual_level: 2,
     review: {
       level: 2, score: 52, is_shovel: true,
-      comment: "三把精美园艺铲，绿金粉三色好看极了！但铲头上的孔数各不相同，不全是3孔~",
+      comment: "三把精美园艺铲绿金粉三色齐聚！颜值在线好看极了~但铲头孔数各不相同，还没统一成金铲铲的3孔标配！",
       reasoning: "三把园艺小铲（绿/金/粉），铲头底部有孔但排列形式不统一。L2。"
     }
   },
@@ -732,7 +744,7 @@ const reviewData = [
     actual_level: 3,
     review: {
       level: 3, score: 65, is_shovel: true,
-      comment: "标准金铲铲造型！铲头+铲柄+3条纵向开槽，但是现成购买品无手工痕迹。",
+      comment: "铲头+铲柄+3条纵向开槽，金铲铲认证通过！灵魂三要素齐了，已经能上战场了~若再加点手工温度就更棒了！",
       reasoning: "金色铲子，铲头有3条纵向开槽，铲柄完整。符合金铲铲定义但为购买的现成品。L3。"
     }
   },
@@ -765,7 +777,7 @@ const reviewData = [
     actual_level: 3,
     review: {
       level: 3, score: 66, is_shovel: true,
-      comment: "金铲铲标准款！3孔特征到位，造型准确，就是没有手工创作的温度~",
+      comment: "金铲铲标准款认证通过！3孔特征到位、造型准确~拿它去合成转职羁绊绰绰有余，听说手工打造的自带暴击加成哦~",
       reasoning: "金铲铲造型准确，3孔/3槽特征明确，购买的现成品。L3。"
     }
   },
@@ -855,7 +867,7 @@ const reviewData = [
     actual_level: 4,
     review: {
       level: 4, score: 85, is_shovel: true,
-      comment: "编织+手工的金铲铲很用心！3孔铲头造型完整，搭配了装饰元素有创意！",
+      comment: "编织+手工的金铲铲，用心程度拉满！3孔铲头造型完整，搭配装饰元素很有创意~再精进一点就是传说级了！",
       reasoning: "较精致的手工金铲铲，有编织/装饰元素，3孔特征完整，接近L5但创意/复杂度稍欠。L4高分。"
     }
   },
@@ -868,7 +880,7 @@ const reviewData = [
     actual_level: 5,
     review: {
       level: 5, score: 93, is_shovel: true,
-      comment: "超精致的树脂/粘土金铲铲！3孔铲头+装饰花环+宝石点缀，工艺感满分！",
+      comment: "传说降临！树脂粘土金铲铲太惊艳了~3孔铲头+花环装饰+宝石点缀，多材质组合工艺感拉满，膜拜神匠！",
       reasoning: "高完成度手工金铲铲，树脂/粘土材质，3孔铲头+花环装饰+宝石，多材质组合+精细工艺。L5。"
     }
   },
@@ -923,7 +935,7 @@ const reviewData = [
     actual_level: 5,
     review: {
       level: 5, score: 90, is_shovel: true,
-      comment: "手工制作的金铲铲很有质感！3孔铲头+铲柄造型到位，材质选择有品味！",
+      comment: "手工金铲铲质感满满！3孔铲头+铲柄造型到位，材质选择有品味~这份用心值得高分，实至名归的好作品！",
       reasoning: "手工金铲铲，3孔特征完整，材质处理精致，有设计感。L5。"
     }
   },
@@ -978,7 +990,7 @@ const reviewData = [
     actual_level: 5,
     review: {
       level: 5, score: 94, is_shovel: true,
-      comment: "手工编织+绒布+花艺的金铲铲！3孔造型完美，像一束铲子花束太浪漫了！",
+      comment: "编织绒布花艺金铲铲太浪漫了！3孔造型完美，像一束铲子花束~多材质组合的创意让人惊叹，满分爆表！",
       reasoning: "编织/绒布/花艺组合的金铲铲，3孔特征完整，创意独特，多材质组合。L5高分。"
     }
   },
@@ -1055,7 +1067,7 @@ const reviewData = [
     actual_level: 5,
     review: {
       level: 5, score: 91, is_shovel: true,
-      comment: "像素拼豆大铲铲！金色3孔铲头+红边点缀，手工拼了这么大一把太有毅力了！",
+      comment: "像素拼豆大铲铲太有毅力了！金色3孔铲头+红边点缀，这么大一把全手工拼成~配色还原度满分，膜拜！",
       reasoning: "大型拼豆/像素珠金铲铲，3孔特征完整，尺寸大手工量惊人，配色还原度高。L5。"
     }
   },

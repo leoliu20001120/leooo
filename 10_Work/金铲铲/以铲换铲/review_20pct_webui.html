@@ -215,37 +215,40 @@
   .conf-matrix .match-cell { background: rgba(68,221,136,0.15); color: var(--pass); font-weight: 700; }
   .conf-matrix .mismatch-cell { background: rgba(255,68,102,0.1); color: var(--fail); }
 
-  /* Grid */
+  /* Grid — 并列式列表 */
   .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-    gap: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
     padding: 20px 24px;
     max-width: 1400px;
     margin: 0 auto;
   }
 
-  /* Card */
+  /* Card — 左右并列：图片 + 详情 */
   .card {
     background: var(--card-bg);
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid var(--border);
     transition: all 0.3s;
-    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
   }
   .card:hover {
     border-color: var(--gold-dark);
-    transform: translateY(-3px);
-    box-shadow: 0 12px 40px rgba(255,215,0,0.08);
+    box-shadow: 0 8px 32px rgba(255,215,0,0.06);
     background: var(--card-bg-hover);
   }
   .card-img-wrap {
-    width: 100%;
-    height: 280px;
+    width: 260px;
+    min-width: 260px;
+    max-height: 320px;
     overflow: hidden;
     position: relative;
     background: #080812;
+    flex-shrink: 0;
   }
   .card-img-wrap img {
     width: 100%;
@@ -291,18 +294,93 @@
   }
   .card-match.correct { background: rgba(68,221,136,0.25); color: var(--pass); border: 1px solid rgba(68,221,136,0.3); }
   .card-match.wrong { background: rgba(255,68,102,0.25); color: var(--fail); border: 1px solid rgba(255,68,102,0.3); }
+
+  /* Card body — 右侧详情区 */
   .card-body {
-    padding: 12px 14px;
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+  }
+  .card-header-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .card-header-row .card-badge-inline {
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .card-header-row .score-inline {
+    font-size: 18px;
+    font-weight: 800;
+    margin-right: 6px;
+  }
+  .card-header-row .match-inline {
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .card-detail-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 4px;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .card-detail-label {
+    color: var(--text-muted);
+    min-width: 64px;
+    flex-shrink: 0;
+    font-size: 11px;
+  }
+  .card-detail-val {
+    min-width: 0;
+    word-break: break-all;
   }
   .card-body .comment {
     font-size: 13px;
-    line-height: 1.6;
-    margin-bottom: 8px;
+    line-height: 1.7;
+    margin-bottom: 6px;
     color: var(--text);
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  }
+  .card-reasoning {
+    margin-top: 6px;
+    padding: 8px 10px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 6px;
+    font-size: 11px;
+    line-height: 1.6;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+  .card-json-toggle {
+    margin-top: 6px;
+    font-size: 11px;
+    color: var(--gold-dark);
+    cursor: pointer;
+    user-select: none;
+  }
+  .card-json-toggle:hover { color: var(--gold); }
+  .card-json-pre {
+    display: none;
+    background: rgba(255,255,255,0.03);
+    padding: 8px 10px;
+    border-radius: 6px;
+    font-size: 10px;
+    overflow-x: auto;
+    margin-top: 4px;
+    border: 1px solid var(--border);
+    max-height: 200px;
+    overflow-y: auto;
   }
   .card-body .meta {
     display: flex;
@@ -310,6 +388,8 @@
     align-items: center;
     font-size: 11px;
     color: var(--text-muted);
+    margin-top: auto;
+    padding-top: 6px;
   }
   .card-body .meta .category {
     background: rgba(255,255,255,0.05);
@@ -407,7 +487,9 @@
   }
 
   @media (max-width: 800px) {
-    .grid { grid-template-columns: 1fr; padding: 14px; }
+    .grid { padding: 14px; }
+    .card { flex-direction: column; }
+    .card-img-wrap { width: 100%; min-width: unset; height: 220px; min-height: 220px; }
     .charts-row { grid-template-columns: 1fr; }
     .header h1 { font-size: 20px; }
     .acc-grid { grid-template-columns: repeat(2, 1fr); }
@@ -467,7 +549,7 @@ const reviewData = [
     actual_level: 1,
     review: {
       level: 1, score: 3, is_shovel: false,
-      comment: "这是一瓶百威啤酒！金灿灿的酒液跟金铲铲唯一的共同点就是都是金色~",
+      comment: "鉴定完毕：一瓶百威啤酒！金灿灿的酒液和金铲铲唯一的共同点就是都闪闪发光~喝完再来带把真铲子吧！",
       reasoning: "图片为一瓶百威啤酒（Budweiser），玻璃瓶+红色标签，与铲子完全无关。L1非铲子，极低分。"
     }
   },
@@ -478,7 +560,7 @@ const reviewData = [
     actual_level: 1,
     review: {
       level: 1, score: 2, is_shovel: false,
-      comment: "一台银色笔记本电脑，屏幕上炫彩壁纸很好看，但它真的不是铲子！",
+      comment: "装备鉴定失败——检测到一台银色笔记本电脑！屏幕上的炫彩壁纸很酷，但铲铲之魂并未觉醒~换个方向再冲！",
       reasoning: "银色笔记本电脑的产品渲染图，完全非铲子形态。L1，极低分。"
     }
   },
@@ -489,7 +571,7 @@ const reviewData = [
     actual_level: 1,
     review: {
       level: 1, score: 5, is_shovel: false,
-      comment: "一只超萌的巴哥犬，大眼睛直勾勾地盯着你，可惜铲铲不收宠物！",
+      comment: "超萌巴哥犬驾到！大眼睛直勾勾地盯着你，可爱值爆表~但铲铲战场不收宠物，带着真铲子回来才算数！",
       reasoning: "巴哥犬正面特写照片，完全非铲子。L1。"
     }
   },
@@ -500,7 +582,7 @@ const reviewData = [
     actual_level: 1,
     review: {
       level: 1, score: 4, is_shovel: false,
-      comment: "麦当劳全家桶套餐！薯条汉堡可乐齐上阵，可惜这是吃的不是铲的~",
+      comment: "检测到麦当劳全家桶套餐！薯条汉堡可乐齐上阵~虽然看着就饿，但铲铲鉴定仪表示：这是吃的不是铲的！",
       reasoning: "麦当劳快餐套餐照片（汉堡+薯条+可乐），与铲子完全无关。L1，极低分。"
     }
   },
@@ -513,7 +595,7 @@ const reviewData = [
     actual_level: 2,
     review: {
       level: 2, score: 35, is_shovel: true,
-      comment: "一块锈迹斑斑的古代铁铲头，像博物馆文物！铲头方正但没有3孔特征~",
+      comment: "锈迹斑斑的古代铁铲头，博物馆级文物！铲头方正历史感拉满~但没有3孔特征，和金铲铲还没结上羁绊！",
       reasoning: "生锈的古代铁铲头遗物（标注NO.2492），铲头方形无孔，是铲子但完全不符合金铲铲特征。L2。"
     }
   },
@@ -524,7 +606,7 @@ const reviewData = [
     actual_level: 2,
     review: {
       level: 2, score: 38, is_shovel: true,
-      comment: "白绿两色塑料大铲子，木柄+簸箕造型，用来铲粮食铲雪的，跟金铲铲差远了！",
+      comment: "白绿两色塑料大铲子，木柄+簸箕造型实用满分！铲粮铲雪好帮手~但跟金铲铲的3孔标志差太远了！",
       reasoning: "两把塑料大铲（白/绿），木柄，簸箕式铲头无孔，用于铲粮/铲雪。是铲子但无3孔特征。L2。"
     }
   },
@@ -535,7 +617,7 @@ const reviewData = [
     actual_level: 2,
     review: {
       level: 2, score: 42, is_shovel: true,
-      comment: "乌檀木锅铲一大一小，精细打磨颜值在线！可惜是实心铲头没有3孔~",
+      comment: "乌檀木锅铲一大一小，精细打磨颜值在线！炒菜翻锅的好帮手~可惜是实心铲头没有3孔，差一步达标！",
       reasoning: "京东京造品牌乌檀木厨房锅铲两把，圆头实心，无孔洞。是铲子但无金铲铲特征。L2。"
     }
   },
@@ -546,7 +628,7 @@ const reviewData = [
     actual_level: 2,
     review: {
       level: 2, score: 36, is_shovel: true,
-      comment: "古董级工兵铲！铁锈+木柄很有历史感，尖头铲无孔，是铲但不是金铲铲~",
+      comment: "古董级工兵铲！铁锈+木柄满是岁月痕迹~尖头铲无孔，虽是硬核铲子但和金铲铲的3孔标志不搭！",
       reasoning: "博物馆展品级军用工兵铲，铁铲头+木柄，尖头T形无孔。是铲子但完全不符金铲铲特征。L2。"
     }
   },
@@ -557,7 +639,7 @@ const reviewData = [
     actual_level: 2,
     review: {
       level: 2, score: 40, is_shovel: true,
-      comment: "橙色塑料玩具铲子，圆环手柄+簸箕铲头，超可爱但铲头没有3个孔！",
+      comment: "橙色塑料玩具铲子超级可爱！圆环手柄+簸箕铲头适合沙滩玩耍~但铲头上没有金铲铲的3孔标志！",
       reasoning: "橙色塑料玩具铲（沙滩铲风格），铲头簸箕形状无孔。是铲子但无金铲铲3孔。L2。"
     }
   },
@@ -568,7 +650,7 @@ const reviewData = [
     actual_level: 2,
     review: {
       level: 2, score: 44, is_shovel: true,
-      comment: "高级相思木披萨铲，大圆面+长柄，手感一定超棒！但这是无孔实心铲面~",
+      comment: "高级相思木披萨铲，大圆面+长柄手感一定超棒！烘焙神器但铲面实心无孔~和金铲铲还没结上羁绊！",
       reasoning: "Gozney品牌相思木披萨铲，圆形实心铲面+长柄，无孔。是铲子但无金铲铲特征。L2。"
     }
   },
@@ -579,7 +661,7 @@ const reviewData = [
     actual_level: 2,
     review: {
       level: 2, score: 34, is_shovel: true,
-      comment: "红色大雪铲！T型手柄+波浪形铲面，体型庞大用来铲雪的，跟金铲铲不搭！",
+      comment: "红色大雪铲强势出场！T型手柄+波浪形铲面，体型庞大扫雪一流~但跟金铲铲的3孔标志完全不搭！",
       reasoning: "红色塑料大雪铲，T型柄+宽大波纹铲面，底部金属边。是铲子但无3孔特征。L2。"
     }
   },
@@ -590,7 +672,7 @@ const reviewData = [
     actual_level: 2,
     review: {
       level: 2, score: 48, is_shovel: true,
-      comment: "长乐永安金铲挂坠！纯金铲子造型精致有福气，但铲头上是吉祥图案不是3孔~",
+      comment: "长乐永安金铲挂坠！纯金铲子造型精致又有福气~但铲头上是吉祥图案不是3孔，金铲铲认准3孔标志哦！",
       reasoning: "金首饰铲子挂坠（长乐永安），铲头上有如意/花朵浮雕图案而非3孔。造型是铲子但不符金铲铲3孔特征。L2。"
     }
   },
@@ -603,7 +685,7 @@ const reviewData = [
     actual_level: 3,
     review: {
       level: 2, score: 52, is_shovel: true,
-      comment: "两把木质锅铲，一把有开槽一把实心。有槽那把接近3槽但更像厨房用品~",
+      comment: "两把木质锅铲，一把有开槽一把实心~有槽那把接近3槽但更像厨房用品，和金铲铲还差一点点火候！",
       reasoning: "两把木质厨房锅铲，左边那把有3-4条开槽，右边实心。虽有开槽但整体是厨房用品形态，非金铲铲标准造型（缺乏铲头方正+3孔的经典形态）。边界case，给L2偏高分。"
     }
   },
@@ -684,7 +766,7 @@ const reviewData = [
     actual_level: 5,
     review: {
       level: 5, score: 98, is_shovel: true,
-      comment: "毛绒微缩世界金铲铲！3孔铲头上站满小人偶，麻将骰子点缀，一个铲子就是一个故事！",
+      comment: "天呐，毛绒微缩世界金铲铲！3孔铲头上站满小人偶，麻将骰子点缀~一个铲子就是一个故事，绝世神匠！",
       reasoning: "大型毛绒/编织金铲铲，白色毛线框架+绿色苔藓铺面，铲头3个大孔清晰可见。铲面上装饰了多个微型人偶、麻将牌、骰子、毛绒小动物等。超大尺寸+超多细节+多材质组合（毛线+苔藓+粘土人偶+塑料配件）。L5顶级中的顶级。"
     }
   },
@@ -883,8 +965,11 @@ function renderCards() {
   grid.innerHTML = data.map((item) => {
     const idx = reviewData.indexOf(item);
     const match = item.review.level === item.actual_level;
+    const matchStyle = match
+      ? 'background:rgba(68,221,136,0.15);color:#44dd88'
+      : 'background:rgba(255,68,102,0.15);color:#ff4466';
     return `
-    <div class="card" onclick="openModal(${idx})">
+    <div class="card">
       <div class="card-img-wrap">
         <img src="${getImagePath(item)}" alt="${item.file}" loading="lazy"
              onerror="this.style.display='none'; this.parentNode.innerHTML += '<div style=\\"display:flex;align-items:center;justify-content:center;height:100%;color:#666;font-size:13px;flex-direction:column\\"><div style=\\"font-size:32px;margin-bottom:8px\\">🖼️</div>图片加载失败<br><small>${item.file.split('.').pop().toUpperCase()} 格式</small></div>'" />
@@ -893,7 +978,22 @@ function renderCards() {
         <div class="card-match ${match ? 'correct' : 'wrong'}">${match ? '✓ AI=人工' : '⚠ AI≠人工(实际L'+item.actual_level+')'}</div>
       </div>
       <div class="card-body">
-        <div class="comment">${item.review.comment}</div>
+        <div class="card-header-row">
+          <span class="card-badge-inline level-${item.review.level}">${levelNames[item.review.level]}</span>
+          <span class="score-inline" style="color:var(--l${item.review.level})">${item.review.score} 分</span>
+          <span class="match-inline" style="${matchStyle}">${match ? '✓ 评级一致' : '⚠ 评级不一致 (人工:L'+item.actual_level+')'}</span>
+        </div>
+        <div class="card-detail-row"><span class="card-detail-label">文件名</span><span class="card-detail-val" style="font-size:10px;color:var(--text-muted)">${item.file}</span></div>
+        <div class="card-detail-row"><span class="card-detail-label">人工分类</span><span class="card-detail-val">L${item.actual_level} - ${levelNames[item.actual_level]}</span></div>
+        <div class="card-detail-row"><span class="card-detail-label">AI 评级</span><span class="card-detail-val">L${item.review.level} - ${levelNames[item.review.level]}</span></div>
+        <div class="card-detail-row"><span class="card-detail-label">是否铲子</span><span class="card-detail-val">${item.review.is_shovel ? '✅ 是铲子' : '❌ 不是铲子'}</span></div>
+        <div class="card-detail-row"><span class="card-detail-label">AI 评语</span><span class="card-detail-val">${item.review.comment}</span></div>
+        <div class="card-reasoning">
+          <strong>📋 VLM 判断依据</strong><br>
+          ${item.review.reasoning}
+        </div>
+        <div class="card-json-toggle" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block';this.textContent=this.nextElementSibling.style.display==='block'?'▼ 收起 JSON':'▶ 展开 JSON 输出'">▶ 展开 JSON 输出</div>
+        <pre class="card-json-pre">${JSON.stringify(item.review, null, 2)}</pre>
         <div class="meta">
           <span class="category">${item.category.replace(/_/g, ' ')}</span>
           <span>${item.review.is_shovel ? '🔨 是铲子' : '❌ 非铲子'}</span>

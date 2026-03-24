@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "10_Work/uc 王也 npc/技术评审报告_异人体检站.md",
+                "file": "20_Study/游戏策划/读书笔记/游戏设计艺术_课程/第05章_游戏由元素构成.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "技术评审报告_异人体检站"
+              "title": "第05章_游戏由元素构成"
             }
           }
         ],
@@ -240,6 +240,25 @@
   },
   "active": "7a5615f6a6043bac",
   "lastOpenFiles": [
+    "40_Projects/joker-card-game/docs/TestReport.md",
+    "40_Projects/joker-card-game/index.html",
+    "40_Projects/joker-card-game/docs/style-guide.css",
+    "40_Projects/joker-card-game/docs/GDD.md",
+    "40_Projects/joker-card-game/docs/ArtDesign.md",
+    "40_Projects/joker-card-game/docs",
+    "40_Projects/joker-card-game",
+    "20_Study/游戏策划/读书笔记/游戏设计艺术_课程/第04章_体验从游戏中诞生.md",
+    "20_Study/游戏策划/读书笔记/游戏设计艺术_课程/第03章_体验发生于场景.md",
+    "20_Study/游戏策划/读书笔记/游戏设计艺术_课程/第02章_设计师创造体验.md",
+    "10_Work/skills_weekly_reports/_latest_report.md",
+    "30_Common/方法论/AI产品需求评估框架.md",
+    "30_Common/方法论/数据驱动测试闭环.md",
+    "30_Common/方法论/VLM视觉评分验证法.md",
+    "30_Common/方法论/H5快速原型迭代法.md",
+    "30_Common/方法论/AI团队多角色评审法.md",
+    "10_Work/uc 王也 npc/技术评审报告_异人体检站.md",
+    "10_Work/金铲铲/以铲换铲/_embed_images.py",
+    "10_Work/金铲铲/以铲换铲/_check_images.py",
     "10_Work/金铲铲/以铲换铲/embed_images_compressed.py",
     "10_Work/金铲铲/以铲换铲/review_20pct_standalone.html",
     "10_Work/金铲铲/以铲换铲/embed_images.py",
@@ -254,10 +273,6 @@
     "10_Work/金铲铲/以铲换铲/金铲铲的图片 3/是铲子但不符合金铲铲/Photoroom_7a91823c-cdbe-4013-b9c7-b4b7a3221d19_converted.jpg",
     "10_Work/金铲铲/以铲换铲/金铲铲的图片 3/是铲子但不符合金铲铲/620918279815_1_converted.jpg",
     "10_Work/金铲铲/以铲换铲/金铲铲的图片 3/是铲子但不符合金铲铲/1-0180017500_x620_converted.jpg",
-    "10_Work/金铲铲/以铲换铲/review_webui.html",
-    "10_Work/金铲铲/以铲换铲/sampled_images.json",
-    "10_Work/金铲铲/以铲换铲/sample_images.py",
-    "10_Work/uc 王也 npc/技术评审报告_异人体检站.md",
     "10_Work/uc 王也 npc/第一阶段产品方案_异人体检站.md",
     "10_Work/uc 王也 npc/Mock数据契约_异人体检站.md",
     "10_Work/uc 王也 npc/AI_Teams_产品经理_PRD_Review.md",
@@ -266,26 +281,11 @@
     "10_Work/uc 王也 npc/异人体检站_TAPD任务拆解.md",
     "10_Work/uc 王也 npc/异人体检站_Kickoff_启动会.md",
     "10_Work/uc 王也 npc/异人之下AI营销创意脑暴.md",
-    "10_Work/skills_weekly_reports/_latest_report.md",
     "10_Work/skills_weekly_reports/Skills周报_W12_2026_0316.md",
     "10_Work/uc 王也 npc/异人体检站_AI团队综合评审报告.md",
     "10_Work/uc 王也 npc/异人体检站_项目管理方案_Phase1.md",
     "10_Work/uc 王也 npc/异人体检站_数据埋点清单.md",
     "10_Work/uc 王也 npc/异人体检站_开发启动包.md",
-    "10_Work/uc 王也 npc/异人体检报告_融合方案.md",
-    "10_Work/uc 王也 npc/异人之下AI营销活动方案.md",
-    "10_Work/uc对局复盘/jsontest/_extract_bce.py",
-    "10_Work/uc对局复盘/jsontest/~$有待提升_label文案汇总.xlsx",
-    "10_Work/uc对局复盘/jsontest/有待提升_label文案汇总.xlsx",
-    "10_Work/uc对局复盘/jsontest/_gen_table.py",
-    "10_Work/uc 王也 npc/异人体检站_测试策略文档.md",
-    "10_Work/uc 王也 npc/_README.md",
-    "10_Work/uc对局复盘/ucgit/go_ai_yr_postmatch_analysis_svr/README.md",
-    "10_Work/uc对局复盘/go_ai_yr_postmatch_analysis_svr/README.md",
-    "10_Work/异人之下AI营销创意脑暴.md",
-    "10_Work/异人之下AI营销活动方案.md",
-    "10_Work/景德镇/AI_NPC/数字人周会沉淀.md",
-    "10_Work/景德镇/老板汇报沉淀.md",
     "未命名.canvas"
   ]
 }

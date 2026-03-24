@@ -1,0 +1,2843 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🃏 小丑牌 - Balatro 风格扑克 Roguelike</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Noto+Sans+SC:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+/* ========== CSS RESET & BASE ========== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  /* 主题色 */
+  --bg-darkest: #0a0a1a;
+  --bg-dark: #1a1a2e;
+  --bg-medium: #16213e;
+  --bg-felt: #1a4a2e;
+  --bg-felt-light: #1e5e38;
+  --bg-panel: rgba(20, 20, 50, 0.85);
+  --bg-card: #faf8f0;
+
+  /* 强调色 */
+  --gold: #ffd700;
+  --gold-dark: #b8960f;
+  --neon-blue: #00d4ff;
+  --neon-pink: #ff006e;
+  --neon-green: #39ff14;
+  --neon-purple: #bf00ff;
+  --neon-orange: #ff6b35;
+
+  /* 稀有度颜色 */
+  --rarity-common: #4a9eff;
+  --rarity-rare: #a855f7;
+  --rarity-legendary: #ffd700;
+
+  /* 花色颜色 */
+  --suit-red: #e63946;
+  --suit-black: #1d1d2e;
+
+  /* 文字 */
+  --text-primary: #f0f0f0;
+  --text-secondary: #a0a0c0;
+  --text-gold: #ffd700;
+
+  /* 卡牌尺寸 */
+  --card-width: 90px;
+  --card-height: 130px;
+  --joker-width: 100px;
+  --joker-height: 140px;
+
+  /* 字体 */
+  --font-pixel: 'Press Start 2P', monospace;
+  --font-main: 'Noto Sans SC', sans-serif;
+
+  /* 动画 */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--font-main);
+  color: var(--text-primary);
+  background: var(--bg-darkest);
+}
+
+/* ========== CRT 效果 ========== */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.05) 0px,
+    rgba(0, 0, 0, 0.05) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ========== 主屏幕 ========== */
+#main-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: radial-gradient(ellipse at center, var(--bg-dark) 0%, var(--bg-darkest) 70%);
+  position: relative;
+  overflow: hidden;
+}
+
+#main-menu::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 600px 300px at 50% 60%, rgba(26, 74, 46, 0.4) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.title-container {
+  text-align: center;
+  z-index: 1;
+  animation: titleFloat 3s ease-in-out infinite;
+}
+
+@keyframes titleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.game-title {
+  font-family: var(--font-pixel);
+  font-size: 48px;
+  color: var(--gold);
+  text-shadow:
+    0 0 10px rgba(255, 215, 0, 0.5),
+    0 0 30px rgba(255, 215, 0, 0.3),
+    0 0 60px rgba(255, 215, 0, 0.1),
+    0 4px 0 var(--gold-dark);
+  margin-bottom: 10px;
+  letter-spacing: 4px;
+}
+
+.game-subtitle {
+  font-size: 16px;
+  color: var(--text-secondary);
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  margin-bottom: 60px;
+}
+
+/* ========== 按钮样式 ========== */
+.btn {
+  padding: 14px 40px;
+  font-family: var(--font-main);
+  font-size: 18px;
+  font-weight: 700;
+  border: 2px solid;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, #2a6e3f 0%, #1a4a2e 100%);
+  border-color: var(--neon-green);
+  color: var(--neon-green);
+  box-shadow: 0 0 15px rgba(57, 255, 20, 0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 30px rgba(57, 255, 20, 0.5), 0 0 60px rgba(57, 255, 20, 0.2);
+  transform: translateY(-2px);
+}
+
+.btn-gold {
+  background: linear-gradient(180deg, #6e5a1a 0%, #4a3a0e 100%);
+  border-color: var(--gold);
+  color: var(--gold);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.btn-gold:hover {
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+  transform: translateY(-2px);
+}
+
+.btn-danger {
+  background: linear-gradient(180deg, #6e1a1a 0%, #4a0e0e 100%);
+  border-color: var(--neon-pink);
+  color: var(--neon-pink);
+  box-shadow: 0 0 15px rgba(255, 0, 110, 0.3);
+}
+
+.btn-danger:hover {
+  box-shadow: 0 0 30px rgba(255, 0, 110, 0.5);
+  transform: translateY(-2px);
+}
+
+.btn-blue {
+  background: linear-gradient(180deg, #1a3a6e 0%, #0e2a4a 100%);
+  border-color: var(--neon-blue);
+  color: var(--neon-blue);
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+}
+
+.btn-blue:hover {
+  box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.btn-small {
+  padding: 8px 20px;
+  font-size: 13px;
+}
+
+/* ========== 游戏屏幕布局 ========== */
+#game-screen {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  background:
+    radial-gradient(ellipse 800px 500px at 50% 55%, rgba(26, 74, 46, 0.5) 0%, transparent 70%),
+    linear-gradient(180deg, var(--bg-darkest) 0%, var(--bg-dark) 50%, var(--bg-darkest) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 毛毡桌面 */
+.felt-table {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 900px;
+  height: 500px;
+  background:
+    radial-gradient(ellipse at center, var(--bg-felt-light) 0%, var(--bg-felt) 60%, rgba(26, 74, 46, 0.3) 100%);
+  border-radius: 200px;
+  border: 3px solid rgba(255, 215, 0, 0.15);
+  box-shadow:
+    0 0 60px rgba(26, 74, 46, 0.3),
+    inset 0 0 100px rgba(0, 0, 0, 0.3);
+}
+
+/* 顶部信息栏 */
+.top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 100%);
+  z-index: 10;
+}
+
+.round-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.round-badge {
+  background: var(--bg-panel);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.round-badge .label { color: var(--text-secondary); font-size: 11px; }
+.round-badge .value { color: var(--gold); font-size: 18px; }
+
+.boss-restriction {
+  background: rgba(255, 0, 110, 0.15);
+  border: 1px solid var(--neon-pink);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 12px;
+  color: var(--neon-pink);
+  animation: pulseBorder 2s ease-in-out infinite;
+}
+
+@keyframes pulseBorder {
+  0%, 100% { box-shadow: 0 0 5px rgba(255,0,110,0.3); }
+  50% { box-shadow: 0 0 15px rgba(255,0,110,0.6); }
+}
+
+.stats-bar {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.stat-item {
+  background: var(--bg-panel);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 6px 14px;
+  text-align: center;
+  min-width: 80px;
+}
+
+.stat-item .label { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; }
+.stat-item .value { font-size: 16px; font-weight: 900; }
+.stat-item .value.gold-text { color: var(--gold); }
+.stat-item .value.blue-text { color: var(--neon-blue); }
+.stat-item .value.green-text { color: var(--neon-green); }
+.stat-item .value.pink-text { color: var(--neon-pink); }
+
+/* 小丑牌栏 */
+.joker-bar {
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  padding: 10px 20px;
+  background: var(--bg-panel);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  min-height: 80px;
+  min-width: 200px;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+}
+
+.joker-bar-label {
+  color: var(--text-secondary);
+  font-size: 12px;
+  position: absolute;
+  top: -8px;
+  left: 16px;
+  background: var(--bg-dark);
+  padding: 0 8px;
+}
+
+.joker-slot {
+  width: 60px;
+  height: 80px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  position: relative;
+}
+
+.joker-slot.rarity-common {
+  background: linear-gradient(135deg, #1a3a6e, #0e2a4a);
+  border: 2px solid var(--rarity-common);
+  /* 普通：蓝色边框，无发光 (GDD v1.1 §12.2) */
+}
+
+.joker-slot.rarity-rare {
+  background: linear-gradient(135deg, #3a1a6e, #2a0e4a);
+  border: 2px solid var(--rarity-rare);
+  /* 稀有：紫色边框，微弱紫色光晕 (GDD v1.1 §12.2) */
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.25);
+  animation: rareBreathing 3s ease-in-out infinite;
+}
+
+@keyframes rareBreathing {
+  0%, 100% { box-shadow: 0 0 8px rgba(168, 85, 247, 0.2); }
+  50% { box-shadow: 0 0 14px rgba(168, 85, 247, 0.4); }
+}
+
+.joker-slot.rarity-legendary {
+  background: linear-gradient(135deg, #6e5a1a, #4a3a0e);
+  border: 2px solid var(--rarity-legendary);
+  /* 传说：金色边框，金色脉动发光 (GDD v1.1 §12.2) */
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
+  animation: legendaryGlow 2s ease-in-out infinite;
+}
+
+@keyframes legendaryGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba(255,215,0,0.3); }
+  50% { box-shadow: 0 0 22px rgba(255,215,0,0.6), 0 0 44px rgba(255,215,0,0.2); }
+}
+
+.joker-slot:hover {
+  transform: translateY(-5px) scale(1.05);
+}
+
+.joker-name {
+  font-size: 7px;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-top: 2px;
+  line-height: 1.1;
+  max-width: 56px;
+  overflow: hidden;
+}
+
+.joker-tooltip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(10, 10, 30, 0.95);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  padding: 10px 14px;
+  width: 200px;
+  z-index: 100;
+  font-size: 12px;
+  line-height: 1.5;
+  pointer-events: none;
+}
+
+.joker-slot:hover .joker-tooltip {
+  display: block;
+}
+
+.joker-tooltip .tt-name { color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+.joker-tooltip .tt-desc { color: var(--text-secondary); }
+.joker-tooltip .tt-rarity { font-size: 10px; margin-top: 4px; }
+.joker-tooltip .tt-sell { font-size: 10px; margin-top: 6px; color: var(--neon-pink); }
+
+/* 小丑牌卖出按钮 */
+.joker-sell-btn {
+  display: none;
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, #6e1a1a 0%, #4a0e0e 100%);
+  border: 1px solid var(--neon-pink);
+  border-radius: 4px;
+  color: var(--neon-pink);
+  font-size: 8px;
+  padding: 2px 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  z-index: 101;
+  transition: all var(--transition-fast);
+}
+
+.joker-sell-btn:hover {
+  background: var(--neon-pink);
+  color: #fff;
+  box-shadow: 0 0 8px rgba(255, 0, 110, 0.5);
+}
+
+.joker-slot:hover .joker-sell-btn {
+  display: block;
+}
+
+/* 小丑牌触发高亮动画（GDD §12.3） */
+.joker-slot.joker-trigger {
+  animation: jokerTrigger 0.6s ease-out;
+  z-index: 10;
+}
+@keyframes jokerTrigger {
+  0% { transform: scale(1); box-shadow: none; }
+  30% { transform: scale(1.15) translateY(-8px); box-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.4); }
+  60% { transform: scale(1.1) translateY(-5px); box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
+  100% { transform: scale(1); box-shadow: none; }
+}
+
+/* 中央计分区域 */
+.score-display {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.hand-type-display {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--gold);
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  margin-bottom: 8px;
+}
+
+.hand-type-display.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.score-number {
+  font-family: var(--font-pixel);
+  font-size: 40px;
+  color: var(--neon-green);
+  text-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.score-number.show { opacity: 1; }
+
+.score-breakdown {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-top: 8px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.score-breakdown.show { opacity: 1; }
+
+/* 手牌区域 */
+.hand-area {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 5;
+  perspective: 1000px;
+}
+
+/* 扑克牌 */
+.poker-card {
+  width: var(--card-width);
+  height: var(--card-height);
+  background: var(--bg-card);
+  border-radius: 10px;
+  border: 2px solid rgba(0,0,0,0.15);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+  user-select: none;
+  transform-origin: bottom center;
+}
+
+.poker-card::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border: 1px solid rgba(0,0,0,0.05);
+  border-radius: 7px;
+  pointer-events: none;
+}
+
+.poker-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+.poker-card.selected {
+  transform: translateY(-25px);
+  border-color: var(--gold);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.5), 0 8px 25px rgba(0,0,0,0.4);
+}
+
+/* 窥视之盲：牌面朝下 */
+.poker-card.face-down {
+  background: linear-gradient(135deg, #2a2a5a 25%, #1a1a3e 25%, #1a1a3e 50%, #2a2a5a 50%, #2a2a5a 75%, #1a1a3e 75%);
+  background-size: 12px 12px;
+  border-color: rgba(100, 100, 180, 0.5);
+}
+.poker-card.face-down .card-corner,
+.poker-card.face-down .card-center,
+.poker-card.face-down > div:not(.card-back-icon) {
+  display: none;
+}
+.poker-card.face-down .card-back-icon {
+  display: flex;
+  font-size: 28px;
+  opacity: 0.6;
+}
+.poker-card.face-down.selected {
+  transform: translateY(-25px);
+  border-color: var(--gold);
+}
+/* 翻开动画 */
+.poker-card.flip-reveal {
+  animation: flipReveal 0.5s ease-out forwards;
+}
+@keyframes flipReveal {
+  0% { transform: scaleX(1); }
+  50% { transform: scaleX(0); }
+  51% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+
+.poker-card.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.poker-card .card-corner {
+  position: absolute;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.poker-card .card-corner-tl { top: 6px; left: 7px; }
+.poker-card .card-corner-br { bottom: 6px; right: 7px; transform: rotate(180deg); }
+
+.poker-card .card-rank { font-size: 14px; }
+.poker-card .card-suit-small { font-size: 11px; }
+
+.poker-card .card-center {
+  font-size: 36px;
+  line-height: 1;
+}
+
+.poker-card.suit-hearts, .poker-card.suit-diamonds {
+  color: var(--suit-red);
+}
+
+.poker-card.suit-spades, .poker-card.suit-clubs {
+  color: var(--suit-black);
+}
+
+.poker-card.dealt {
+  animation: dealCard 0.3s ease-out forwards;
+}
+
+@keyframes dealCard {
+  from { opacity: 0; transform: translateY(100px) scale(0.5) rotate(10deg); }
+  to { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+}
+
+.poker-card.scoring {
+  animation: cardScore 0.6s ease-out;
+}
+
+@keyframes cardScore {
+  0% { transform: translateY(-25px); }
+  30% { transform: translateY(-40px) scale(1.1); box-shadow: 0 0 30px rgba(57, 255, 20, 0.6); }
+  100% { transform: translateY(-25px); }
+}
+
+.poker-card.discarding {
+  animation: cardDiscard 0.4s ease-in forwards;
+}
+
+@keyframes cardDiscard {
+  to { opacity: 0; transform: translateY(100px) scale(0.5); }
+}
+
+/* 底部操作栏 */
+.action-bar {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  z-index: 10;
+}
+
+.action-info {
+  display: flex;
+  gap: 20px;
+  margin-right: 20px;
+}
+
+.action-counter {
+  text-align: center;
+}
+
+.action-counter .count-label { font-size: 11px; color: var(--text-secondary); }
+.action-counter .count-value {
+  font-size: 22px;
+  font-weight: 900;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin: 4px auto 0;
+}
+
+.count-plays { background: rgba(0, 212, 255, 0.15); color: var(--neon-blue); border: 2px solid var(--neon-blue); }
+.count-discards { background: rgba(255, 0, 110, 0.15); color: var(--neon-pink); border: 2px solid var(--neon-pink); }
+
+/* 左侧目标面板 */
+.target-panel {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--bg-panel);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 16px;
+  width: 180px;
+  z-index: 5;
+}
+
+.target-panel h3 {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  letter-spacing: 2px;
+}
+
+.target-score {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--neon-orange);
+  text-shadow: 0 0 10px rgba(255, 107, 53, 0.3);
+}
+
+.current-score-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 16px;
+}
+
+.current-score {
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--neon-green);
+}
+
+.score-bar-container {
+  margin-top: 12px;
+  height: 8px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.score-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
+  border-radius: 4px;
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+/* 右侧信息面板 */
+.info-panel {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--bg-panel);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 16px;
+  width: 180px;
+  z-index: 5;
+}
+
+.info-panel h3 {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+.hand-ranks-list {
+  list-style: none;
+  font-size: 11px;
+}
+
+.hand-ranks-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 0;
+  color: var(--text-secondary);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.hand-ranks-list li .hr-name { flex: 1; }
+.hand-ranks-list li .hr-score { color: var(--neon-blue); width: 40px; text-align: right; }
+.hand-ranks-list li .hr-mult { color: var(--neon-orange); width: 30px; text-align: right; }
+
+.hand-ranks-list li.upgraded {
+  color: var(--neon-green);
+}
+
+.hand-ranks-list li.upgraded .hr-score { color: var(--neon-green); }
+.hand-ranks-list li.upgraded .hr-mult { color: var(--neon-green); }
+
+/* ========== 商店屏幕 ========== */
+#shop-screen {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  background:
+    radial-gradient(ellipse at center, var(--bg-dark) 0%, var(--bg-darkest) 70%);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.shop-title {
+  font-family: var(--font-pixel);
+  font-size: 32px;
+  color: var(--gold);
+  text-shadow: 0 0 20px rgba(255,215,0,0.4);
+  margin-bottom: 10px;
+}
+
+.shop-gold {
+  font-size: 20px;
+  color: var(--gold);
+  margin-bottom: 30px;
+}
+
+.shop-items {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.shop-item {
+  width: 180px;
+  background: var(--bg-panel);
+  border: 2px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  padding: 20px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+}
+
+.shop-item:hover {
+  transform: translateY(-8px);
+  border-color: var(--gold);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.shop-item.sold {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.shop-item .item-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.shop-item .item-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.shop-item .item-desc {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.shop-item .item-price {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--gold);
+}
+
+.shop-item .item-type {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.shop-item .item-type.type-joker { background: rgba(74,158,255,0.2); color: var(--rarity-common); }
+.shop-item .item-type.type-planet { background: rgba(168,85,247,0.2); color: var(--rarity-rare); }
+.shop-item .item-type.type-tarot { background: rgba(255,215,0,0.2); color: var(--rarity-legendary); }
+
+/* ========== 游戏结束屏幕 ========== */
+#gameover-screen {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(ellipse at center, var(--bg-dark) 0%, var(--bg-darkest) 70%);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.gameover-title {
+  font-family: var(--font-pixel);
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+
+.gameover-title.win { color: var(--gold); text-shadow: 0 0 30px rgba(255,215,0,0.5); }
+.gameover-title.lose { color: var(--neon-pink); text-shadow: 0 0 30px rgba(255,0,110,0.5); }
+
+.gameover-stats {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.gameover-stats p {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin: 8px 0;
+}
+
+.gameover-stats .highlight { color: var(--gold); font-weight: 700; font-size: 20px; }
+
+/* ========== 浮动通知 ========== */
+.float-text {
+  position: fixed;
+  font-weight: 900;
+  pointer-events: none;
+  z-index: 1000;
+  animation: floatUp 1.2s ease-out forwards;
+  text-shadow: 0 0 10px currentColor;
+}
+
+@keyframes floatUp {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  70% { opacity: 1; transform: translateY(-60px) scale(1.2); }
+  100% { opacity: 0; transform: translateY(-100px) scale(0.8); }
+}
+
+/* ========== 过渡动画 ========== */
+.screen-transition {
+  animation: screenFadeIn 0.5s ease-out;
+}
+
+@keyframes screenFadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ========== 牌型弹出 ========== */
+.hand-type-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  font-size: 48px;
+  font-weight: 900;
+  color: var(--gold);
+  text-shadow: 0 0 40px rgba(255,215,0,0.6);
+  z-index: 100;
+  pointer-events: none;
+  white-space: nowrap;
+  opacity: 0;
+}
+
+.hand-type-popup.show {
+  animation: popupBurst 1.2s ease-out forwards;
+}
+
+@keyframes popupBurst {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+  20% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+  40% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  80% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+}
+
+/* ========== 卖出确认弹窗 ========== */
+.sell-confirm-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+}
+.sell-confirm-overlay.show { display: flex; }
+.sell-confirm-box {
+  background: var(--bg-dark);
+  border: 2px solid var(--neon-pink);
+  border-radius: 16px;
+  padding: 24px 32px;
+  text-align: center;
+  max-width: 320px;
+  box-shadow: 0 0 30px rgba(255, 0, 110, 0.3);
+}
+.sell-confirm-box .sell-emoji { font-size: 40px; margin-bottom: 10px; }
+.sell-confirm-box .sell-name { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+.sell-confirm-box .sell-price { font-size: 14px; color: var(--gold); margin-bottom: 16px; }
+.sell-confirm-box .sell-actions { display: flex; gap: 12px; justify-content: center; }
+
+/* 塔罗牌效果弹窗 */
+.tarot-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+}
+
+.tarot-modal-overlay.show {
+  display: flex;
+}
+
+.tarot-modal {
+  background: var(--bg-dark);
+  border: 2px solid var(--gold);
+  border-radius: 16px;
+  padding: 24px 32px;
+  text-align: center;
+  max-width: 600px;
+  width: 90%;
+  box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+}
+
+.tarot-modal h3 {
+  color: var(--gold);
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.tarot-modal .modal-desc {
+  color: var(--text-secondary);
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.tarot-modal .modal-options {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.tarot-modal .modal-option {
+  padding: 10px 16px;
+  background: var(--bg-panel);
+  border: 2px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.tarot-modal .modal-option:hover {
+  border-color: var(--gold);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.tarot-modal .modal-option.selected {
+  border-color: var(--neon-green);
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.4);
+}
+
+.tarot-modal .modal-card-grid {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.tarot-modal .mini-card {
+  width: 50px;
+  height: 70px;
+  background: var(--bg-card);
+  border-radius: 6px;
+  border: 2px solid rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.tarot-modal .mini-card.suit-hearts,
+.tarot-modal .mini-card.suit-diamonds { color: var(--suit-red); }
+.tarot-modal .mini-card.suit-spades,
+.tarot-modal .mini-card.suit-clubs { color: var(--suit-black); }
+
+.tarot-modal .mini-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.tarot-modal .mini-card.selected {
+  border-color: var(--gold);
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
+  transform: translateY(-4px);
+}
+
+.tarot-modal .modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+/* 响应式处理 */
+@media (max-width: 1400px) {
+  .felt-table { width: 750px; height: 420px; }
+  .target-panel, .info-panel { width: 160px; }
+}
+
+/* 选牌计数提示 */
+.selection-counter {
+  position: absolute;
+  bottom: 82px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  color: var(--text-secondary);
+  z-index: 5;
+}
+
+.selection-counter .count { color: var(--gold); font-weight: 900; }
+</style>
+</head>
+<body>
+
+<!-- ===== 主菜单 ===== -->
+<div id="main-menu">
+  <div class="title-container">
+    <div class="game-title">🃏 小丑牌</div>
+    <div class="game-subtitle">Poker Roguelike</div>
+  </div>
+  <button class="btn btn-primary" onclick="game.startNewRun()" style="font-size:20px; padding:16px 60px;">
+    开始游戏
+  </button>
+</div>
+
+<!-- ===== 游戏屏幕 ===== -->
+<div id="game-screen">
+  <!-- 顶部信息栏 -->
+  <div class="top-bar">
+    <div class="round-info">
+      <div class="round-badge">
+        <div class="label">回合</div>
+        <div class="value" id="round-number">1</div>
+      </div>
+      <div class="round-badge">
+        <div class="label">盲注</div>
+        <div class="value" id="blind-name">小盲注</div>
+      </div>
+      <div class="boss-restriction" id="boss-restriction" style="display:none;">
+        ⚠️ <span id="restriction-text"></span>
+      </div>
+    </div>
+    <div class="stats-bar">
+      <div class="stat-item">
+        <div class="label">💰 金币</div>
+        <div class="value gold-text" id="gold-display">0</div>
+      </div>
+      <div class="stat-item">
+        <div class="label">📊 总分</div>
+        <div class="value green-text" id="total-score-display">0</div>
+      </div>
+      <div class="stat-item">
+        <div class="label">🎯 目标</div>
+        <div class="value pink-text" id="target-score-display">100</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 小丑牌栏 -->
+  <div class="joker-bar" id="joker-bar">
+    <span class="joker-bar-label">🃏 小丑牌</span>
+    <div style="color:var(--text-secondary); font-size:12px;" id="joker-empty-text">暂无小丑牌</div>
+  </div>
+
+  <!-- 毛毡桌面 -->
+  <div class="felt-table"></div>
+
+  <!-- 中央计分显示 -->
+  <div class="score-display">
+    <div class="hand-type-display" id="hand-type-display"></div>
+    <div class="score-number" id="score-number"></div>
+    <div class="score-breakdown" id="score-breakdown"></div>
+  </div>
+
+  <!-- 左侧目标面板 -->
+  <div class="target-panel">
+    <h3>🎯 目标分数</h3>
+    <div class="target-score" id="target-panel-score">100</div>
+    <div class="current-score-label">当前得分</div>
+    <div class="current-score" id="current-panel-score">0</div>
+    <div class="score-bar-container">
+      <div class="score-bar-fill" id="score-bar-fill"></div>
+    </div>
+  </div>
+
+  <!-- 右侧牌型信息 -->
+  <div class="info-panel">
+    <h3>📋 牌型一览</h3>
+    <ul class="hand-ranks-list" id="hand-ranks-list"></ul>
+  </div>
+
+  <!-- 选牌计数 -->
+  <div class="selection-counter">
+    已选 <span class="count" id="selected-count">0</span> / 5 张
+  </div>
+
+  <!-- 手牌区域 -->
+  <div class="hand-area" id="hand-area"></div>
+
+  <!-- 底部操作栏 -->
+  <div class="action-bar">
+    <div class="action-info">
+      <div class="action-counter">
+        <div class="count-label">出牌</div>
+        <div class="count-value count-plays" id="plays-left">3</div>
+      </div>
+      <div class="action-counter">
+        <div class="count-label">弃牌</div>
+        <div class="count-value count-discards" id="discards-left">3</div>
+      </div>
+    </div>
+    <button class="btn btn-primary" id="btn-play" onclick="game.playHand()" disabled>出 牌</button>
+    <button class="btn btn-danger btn-small" id="btn-discard" onclick="game.discardCards()" disabled>弃 牌</button>
+    <button class="btn btn-blue btn-small" id="btn-sort" onclick="game.sortHand()">排 序</button>
+  </div>
+</div>
+
+<!-- ===== 商店屏幕 ===== -->
+<div id="shop-screen">
+  <div class="shop-title">🛒 商店</div>
+  <div class="shop-gold">💰 金币: <span id="shop-gold-display">0</span></div>
+  <div class="shop-items" id="shop-items"></div>
+  <div style="display:flex; gap:12px; margin-top:10px;">
+    <button class="btn btn-gold btn-small" id="btn-refresh-shop" onclick="game.refreshShop()">🔄 刷新 (2💰)</button>
+    <button class="btn btn-primary" onclick="game.nextRound()" style="font-size:18px;">
+      下一回合 →
+    </button>
+  </div>
+</div>
+
+<!-- ===== 游戏结束 ===== -->
+<div id="gameover-screen">
+  <div class="gameover-title" id="gameover-title"></div>
+  <div class="gameover-stats" id="gameover-stats"></div>
+  <button class="btn btn-gold" onclick="game.backToMenu()" style="font-size:18px;">
+    返回主菜单
+  </button>
+</div>
+
+<!-- 牌型弹出 -->
+<div class="hand-type-popup" id="hand-type-popup"></div>
+
+<!-- 小丑牌卖出确认弹窗 -->
+<div class="sell-confirm-overlay" id="sell-confirm-overlay">
+  <div class="sell-confirm-box">
+    <div class="sell-emoji" id="sell-confirm-emoji"></div>
+    <div class="sell-name" id="sell-confirm-name"></div>
+    <div class="sell-price" id="sell-confirm-price"></div>
+    <div class="sell-actions">
+      <button class="btn btn-primary btn-small" id="sell-confirm-yes">确认卖出</button>
+      <button class="btn btn-danger btn-small" id="sell-confirm-no">取消</button>
+    </div>
+  </div>
+</div>
+
+<!-- 塔罗牌效果弹窗 -->
+<div class="tarot-modal-overlay" id="tarot-modal-overlay">
+  <div class="tarot-modal">
+    <h3 id="tarot-modal-title"></h3>
+    <div class="modal-desc" id="tarot-modal-desc"></div>
+    <div id="tarot-modal-content"></div>
+    <div class="modal-actions">
+      <button class="btn btn-primary btn-small" id="tarot-confirm-btn" onclick="game.confirmTarotEffect()">确认</button>
+      <button class="btn btn-danger btn-small" onclick="game.cancelTarotEffect()">取消</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// 🃏 小丑牌 - Balatro 风格扑克 Roguelike
+// 完整游戏引擎
+// ============================================================
+
+// ========== 常量定义 ==========
+const SUITS = ['hearts', 'diamonds', 'clubs', 'spades'];
+const SUIT_SYMBOLS = { hearts: '♥', diamonds: '♦', clubs: '♣', spades: '♠' };
+const SUIT_NAMES = { hearts: '红心', diamonds: '方块', clubs: '梅花', spades: '黑桃' };
+const RANKS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+const RANK_VALUES = { 'A': 11, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10, 'J': 10, 'Q': 10, 'K': 10 };
+const RANK_ORDER = { 'A': 14, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10, 'J': 11, 'Q': 12, 'K': 13 };
+
+// 牌型定义
+const HAND_TYPES = {
+  ROYAL_FLUSH:    { name: '皇家同花顺', base: 100, mult: 8, level: 0, priority: 10 },
+  STRAIGHT_FLUSH: { name: '同花顺',     base: 100, mult: 8, level: 0, priority: 9 },
+  FOUR_KIND:      { name: '四条',       base: 60,  mult: 7, level: 0, priority: 8 },
+  FULL_HOUSE:     { name: '葫芦',       base: 40,  mult: 4, level: 0, priority: 7 },
+  FLUSH:          { name: '同花',       base: 35,  mult: 4, level: 0, priority: 6 },
+  STRAIGHT:       { name: '顺子',       base: 30,  mult: 4, level: 0, priority: 5 },
+  THREE_KIND:     { name: '三条',       base: 30,  mult: 3, level: 0, priority: 4 },
+  TWO_PAIR:       { name: '两对',       base: 20,  mult: 2, level: 0, priority: 3 },
+  PAIR:           { name: '对子',       base: 10,  mult: 2, level: 0, priority: 2 },
+  HIGH_CARD:      { name: '高牌',       base: 5,   mult: 1, level: 0, priority: 1 },
+};
+
+// 关卡定义（对齐 GDD §7.2 目标分数表）
+const LEVELS = [
+  { name: '小盲注', target: 300,     reward: 3, stage: 1, boss: false, restriction: null },
+  { name: '大盲注', target: 800,     reward: 3, stage: 1, boss: false, restriction: null },
+  { name: 'Boss盲注', target: 2000,  reward: 8, stage: 1, boss: true,  restriction: 'seal',  restrictionName: '🔒 封印之盲: 随机禁用 1 种花色（不计分）' },
+  { name: '小盲注', target: 5000,    reward: 3, stage: 2, boss: false, restriction: null },
+  { name: '大盲注', target: 12000,   reward: 3, stage: 2, boss: false, restriction: null },
+  { name: 'Boss盲注', target: 30000, reward: 8, stage: 2, boss: true,  restriction: 'peek',  restrictionName: '👁️ 窥视之盲: 手牌正面朝下（选中后翻开）' },
+  { name: '小盲注', target: 60000,   reward: 3, stage: 3, boss: false, restriction: null },
+  { name: 'Boss盲注', target: 150000,reward: 0, stage: 3, boss: true,  restriction: 'doom',  restrictionName: '💀 终焉之盲: 出牌次数 -1' },
+];
+
+// 小丑牌定义（对齐 GDD §6.2-6.4 完整 15 张）
+const JOKER_DEFS = [
+  // 加成类 (J01-J06)
+  { id: 'J01', name: '欢笑小丑', emoji: '🤡', rarity: 'common',    type: 'add',     price: 4, sell: 2, desc: '每次出牌 +4 倍率',                         effect: 'mult_add', value: 4 },
+  { id: 'J02', name: '贪婪小丑', emoji: '💰', rarity: 'common',    type: 'add',     price: 5, sell: 3, desc: '每次出牌 +30 筹码',                        effect: 'chips_add', value: 30 },
+  { id: 'J03', name: '皇室小丑', emoji: '👑', rarity: 'rare',      type: 'add',     price: 6, sell: 3, desc: '出牌中每张 K/Q/J 额外 +20 筹码',            effect: 'face_chips', value: 20 },
+  { id: 'J04', name: '烈焰小丑', emoji: '🔥', rarity: 'rare',      type: 'add',     price: 7, sell: 4, desc: '倍率 ×1.5（乘法）',                         effect: 'mult_multiply', value: 1.5 },
+  { id: 'J05', name: '冰霜小丑', emoji: '❄️', rarity: 'rare',      type: 'add',     price: 6, sell: 3, desc: '每次弃牌 +3 倍率（本回合累计）',              effect: 'discard_mult', value: 3 },
+  { id: 'J06', name: '星辰小丑', emoji: '🌟', rarity: 'legendary', type: 'add',     price: 9, sell: 5, desc: '倍率 ×2，但手牌 -1',                       effect: 'star_mult', value: 2 },
+  // 触发类 (J07-J11)
+  { id: 'J07', name: '黑桃术士', emoji: '♠️', rarity: 'common',    type: 'trigger', price: 4, sell: 2, desc: '出牌含 ≥3 张黑桃 → +40 筹码',              effect: 'spade_chips', value: 40, triggerCount: 3 },
+  { id: 'J08', name: '红心猎手', emoji: '♥️', rarity: 'common',    type: 'trigger', price: 5, sell: 3, desc: '出牌含 ≥2 张红心 → +3 倍率',               effect: 'heart_mult', value: 3, triggerCount: 2 },
+  { id: 'J09', name: '赌徒小丑', emoji: '🎲', rarity: 'rare',      type: 'trigger', price: 7, sell: 4, desc: '出牌为对子 → 倍率 ×2',                     effect: 'pair_mult', value: 2 },
+  { id: 'J10', name: '连击小丑', emoji: '🃏', rarity: 'rare',      type: 'trigger', price: 7, sell: 4, desc: '连续 2 次出牌同一牌型 → +50 筹码, +5 倍率',  effect: 'combo_bonus', value: [50, 5] },
+  { id: 'J11', name: '预言小丑', emoji: '👁️', rarity: 'legendary', type: 'trigger', price: 10,sell: 5, desc: '出牌恰好 5 张且为顺子 → 倍率 ×3',          effect: 'straight5_mult', value: 3 },
+  // 特殊类 (J12-J15)
+  { id: 'J12', name: '双面小丑', emoji: '🎭', rarity: 'rare',      type: 'special', price: 8, sell: 4, desc: '每回合第 1 次出牌计分两次',                  effect: 'double_score', value: 0 },
+  { id: 'J13', name: '混沌小丑', emoji: '🌀', rarity: 'rare',      type: 'special', price: 6, sell: 3, desc: '每次出牌后随机获得 1 张新小丑牌',            effect: 'chaos', value: 0 },
+  { id: 'J14', name: '命运小丑', emoji: '🔮', rarity: 'legendary', type: 'special', price: 9, sell: 5, desc: '每回合额外抽 2 张手牌（手牌变 10 张）',      effect: 'extra_hand', value: 2 },
+  { id: 'J15', name: '死神小丑', emoji: '💀', rarity: 'legendary', type: 'special', price: 8, sell: 4, desc: '每次出牌后摧毁最低点数牌 +50 筹码',          effect: 'death_destroy', value: 50 },
+];
+
+// 塔罗牌定义（对齐 GDD §8.4 — 6 种）
+const TAROT_CARDS = [
+  { id: 'T01', name: '魔术师', emoji: '🔮', desc: '将 1 张牌变为任意花色', price: 3, effect: 'change_suit' },
+  { id: 'T02', name: '正义',   emoji: '⚖️', desc: '将 1 张牌变为任意点数', price: 4, effect: 'change_rank' },
+  { id: 'T03', name: '月亮',   emoji: '🌙', desc: '复制 1 张牌（牌组中加入副本）', price: 4, effect: 'copy_card' },
+  { id: 'T04', name: '死神',   emoji: '☠️', desc: '销毁最多 2 张低点数牌（从牌组永久移除）', price: 3, effect: 'destroy_cards' },
+  { id: 'T05', name: '命运之轮', emoji: '🎡', desc: '随机升级 1 种牌型 1 级', price: 3, effect: 'random_upgrade' },
+  { id: 'T06', name: '星星',   emoji: '⭐', desc: '将 1 张牌升级为增强牌（出牌时 +30 筹码）', price: 3, effect: 'enhance_card' },
+];
+
+// 星球牌（对齐 GDD §8.3 - 10 种）
+const PLANET_CARDS = [
+  { name: '冥王星', emoji: '🪐', handType: 'HIGH_CARD',       desc: '升级 高牌',     addBase: 10, addMult: 1, price: 3 },
+  { name: '月球',   emoji: '🌑', handType: 'PAIR',            desc: '升级 对子',     addBase: 15, addMult: 1, price: 3 },
+  { name: '水星',   emoji: '☿️', handType: 'TWO_PAIR',        desc: '升级 两对',     addBase: 20, addMult: 1, price: 3 },
+  { name: '火星',   emoji: '♂️', handType: 'THREE_KIND',      desc: '升级 三条',     addBase: 20, addMult: 2, price: 4 },
+  { name: '木星',   emoji: '♃',  handType: 'STRAIGHT',        desc: '升级 顺子',     addBase: 30, addMult: 3, price: 4 },
+  { name: '地球',   emoji: '♁',  handType: 'FLUSH',           desc: '升级 同花',     addBase: 15, addMult: 2, price: 4 },
+  { name: '土星',   emoji: '♄',  handType: 'FULL_HOUSE',      desc: '升级 葫芦',     addBase: 25, addMult: 2, price: 4 },
+  { name: '天王星', emoji: '♅',  handType: 'FOUR_KIND',       desc: '升级 四条',     addBase: 30, addMult: 3, price: 4 },
+  { name: '海王星', emoji: '♆',  handType: 'STRAIGHT_FLUSH',  desc: '升级 同花顺',   addBase: 40, addMult: 4, price: 4 },
+  { name: '太阳',   emoji: '☀️', handType: 'ROYAL_FLUSH',     desc: '升级 皇家同花顺', addBase: 40, addMult: 4, price: 4 },
+];
+
+// ========== 牌组类 ==========
+class Deck {
+  constructor() {
+    this.reset();
+  }
+
+  reset() {
+    this.cards = [];
+    this.discardPile = [];
+    for (const suit of SUITS) {
+      for (const rank of RANKS) {
+        this.cards.push({ suit, rank, id: `${rank}_${suit}` });
+      }
+    }
+  }
+
+  shuffle() {
+    for (let i = this.cards.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
+    }
+  }
+
+  // 弃牌堆回收：将弃牌堆洗入牌组
+  _recycleDiscard() {
+    if (this.discardPile.length === 0) return;
+    this.cards.push(...this.discardPile);
+    this.discardPile = [];
+    this.shuffle();
+  }
+
+  deal(count) {
+    // 如果牌组不够，先回收弃牌堆
+    if (this.cards.length < count) {
+      this._recycleDiscard();
+    }
+    return this.cards.splice(0, Math.min(count, this.cards.length));
+  }
+
+  // 将牌放入弃牌堆
+  discard(cards) {
+    this.discardPile.push(...cards);
+  }
+}
+
+// ========== 计分引擎 ==========
+class Scorer {
+  constructor() {
+    // 初始化牌型等级
+    this.handLevels = {};
+    for (const key in HAND_TYPES) {
+      this.handLevels[key] = { addBase: 0, addMult: 0 };
+    }
+  }
+
+  getHandBase(key) {
+    return HAND_TYPES[key].base + this.handLevels[key].addBase;
+  }
+
+  getHandMult(key) {
+    return HAND_TYPES[key].mult + this.handLevels[key].addMult;
+  }
+
+  upgradeHand(key, addBase, addMult) {
+    this.handLevels[key].addBase += addBase;
+    this.handLevels[key].addMult += addMult;
+  }
+
+  evaluateHand(cards) {
+    if (!cards || cards.length === 0) return { type: null, typeName: '', base: 0, mult: 0, scoringCards: [] };
+
+    const sorted = [...cards].sort((a, b) => RANK_ORDER[a.rank] - RANK_ORDER[b.rank]);
+    const ranks = sorted.map(c => RANK_ORDER[c.rank]);
+    const suits = sorted.map(c => c.suit);
+
+    // Count occurrences
+    const rankCounts = {};
+    for (const c of cards) {
+      rankCounts[c.rank] = (rankCounts[c.rank] || 0) + 1;
+    }
+    const counts = Object.values(rankCounts).sort((a, b) => b - a);
+
+    const isFlush = cards.length === 5 && suits.every(s => s === suits[0]);
+    const isStraight = this._checkStraight(ranks);
+    const isRoyal = isFlush && isStraight && ranks.includes(10) && ranks.includes(11) && ranks.includes(12) && ranks.includes(13) && ranks.includes(14);
+
+    let typeKey = 'HIGH_CARD';
+    let scoringCards = cards;
+
+    if (isRoyal) {
+      typeKey = 'ROYAL_FLUSH';
+    } else if (isFlush && isStraight) {
+      typeKey = 'STRAIGHT_FLUSH';
+    } else if (counts[0] === 4) {
+      typeKey = 'FOUR_KIND';
+      const quadRank = Object.entries(rankCounts).find(([, v]) => v === 4)?.[0];
+      scoringCards = cards.filter(c => c.rank === quadRank);
+    } else if (counts[0] === 3 && counts[1] === 2) {
+      typeKey = 'FULL_HOUSE';
+    } else if (isFlush) {
+      typeKey = 'FLUSH';
+    } else if (isStraight) {
+      typeKey = 'STRAIGHT';
+    } else if (counts[0] === 3) {
+      typeKey = 'THREE_KIND';
+      const triRank = Object.entries(rankCounts).find(([, v]) => v === 3)?.[0];
+      scoringCards = cards.filter(c => c.rank === triRank);
+    } else if (counts[0] === 2 && counts[1] === 2) {
+      typeKey = 'TWO_PAIR';
+      const pairRanks = Object.entries(rankCounts).filter(([, v]) => v === 2).map(([k]) => k);
+      scoringCards = cards.filter(c => pairRanks.includes(c.rank));
+    } else if (counts[0] === 2) {
+      typeKey = 'PAIR';
+      const pairRank = Object.entries(rankCounts).find(([, v]) => v === 2)?.[0];
+      scoringCards = cards.filter(c => c.rank === pairRank);
+    } else {
+      typeKey = 'HIGH_CARD';
+      // 高牌只计最高的一张
+      scoringCards = [sorted[sorted.length - 1]];
+    }
+
+    // 同花、顺子、葫芦、皇家同花顺、同花顺 所有牌都计分
+    if (['ROYAL_FLUSH', 'STRAIGHT_FLUSH', 'FLUSH', 'STRAIGHT', 'FULL_HOUSE'].includes(typeKey)) {
+      scoringCards = cards;
+    }
+
+    return {
+      type: typeKey,
+      typeName: HAND_TYPES[typeKey].name,
+      base: this.getHandBase(typeKey),
+      mult: this.getHandMult(typeKey),
+      scoringCards
+    };
+  }
+
+  _checkStraight(ranks) {
+    if (ranks.length !== 5) return false;
+    const unique = [...new Set(ranks)].sort((a, b) => a - b);
+    if (unique.length !== 5) return false;
+
+    // Normal straight
+    if (unique[4] - unique[0] === 4) return true;
+    // Ace-low: A,2,3,4,5
+    if (unique[0] === 2 && unique[1] === 3 && unique[2] === 4 && unique[3] === 5 && unique[4] === 14) return true;
+    return false;
+  }
+}
+
+// ========== 小丑牌管理器（对齐 GDD §6） ==========
+class JokerManager {
+  constructor() {
+    this.owned = []; // owned joker instances
+    this.maxSlots = 5;
+    this.discardMultAccumulated = 0; // 冰霜小丑：本回合弃牌累计倍率
+    this.lastHandType = null; // 连击小丑：上一次出牌的牌型
+    this.playsThisRound = 0; // 双面小丑：本回合第几次出牌
+    this.bannedSuit = null; // 封印之盲 Boss 禁用的花色
+  }
+
+  addJoker(jokerId) {
+    if (this.owned.length >= this.maxSlots) return false;
+    const def = JOKER_DEFS.find(j => j.id === jokerId);
+    if (!def) return false;
+    this.owned.push({ ...def });
+    return true;
+  }
+
+  removeJoker(jokerId) {
+    const idx = this.owned.findIndex(j => j.id === jokerId);
+    if (idx >= 0) {
+      this.owned.splice(idx, 1);
+      return true;
+    }
+    return false;
+  }
+
+  hasJoker(effectType) {
+    return this.owned.some(j => j.effect === effectType);
+  }
+
+  getJoker(effectType) {
+    return this.owned.find(j => j.effect === effectType);
+  }
+
+  onRoundStart() {
+    this.discardMultAccumulated = 0;
+    this.lastHandType = null;
+    this.playsThisRound = 0;
+  }
+
+  onDiscard() {
+    // 冰霜小丑：每次弃牌 +3 倍率
+    if (this.hasJoker('discard_mult')) {
+      const j = this.getJoker('discard_mult');
+      this.discardMultAccumulated += j.value;
+    }
+  }
+
+  getExtraHandSize() {
+    let extra = 0;
+    // 命运小丑: +2 手牌
+    if (this.hasJoker('extra_hand')) {
+      extra += this.getJoker('extra_hand').value;
+    }
+    // 星辰小丑: -1 手牌
+    if (this.hasJoker('star_mult')) {
+      extra -= 1;
+    }
+    return extra;
+  }
+
+  // 计算小丑牌对分数的影响（对齐 GDD §4.3 计分公式）
+  applyJokerEffects(baseChips, baseMult, handTypeKey, playedCards) {
+    let bonusChips = 0;
+    let bonusMult = 0;
+    let multMultiplier = 1;
+    const triggeredIndices = []; // 记录触发了效果的小丑牌索引
+
+    this.playsThisRound++;
+
+    this.owned.forEach((joker, idx) => {
+      let triggered = false;
+      switch (joker.effect) {
+        // === 加成类（始终触发） ===
+        case 'mult_add': // J01 欢笑小丑: +4 倍率
+          bonusMult += joker.value;
+          triggered = true;
+          break;
+        case 'chips_add': // J02 贪婪小丑: +30 筹码
+          bonusChips += joker.value;
+          triggered = true;
+          break;
+        case 'face_chips': // J03 皇室小丑: K/Q/J 各 +20 筹码
+          {
+            const faceCount = playedCards.filter(c => ['J', 'Q', 'K'].includes(c.rank)).length;
+            if (faceCount > 0) {
+              bonusChips += joker.value * faceCount;
+              triggered = true;
+            }
+          }
+          break;
+        case 'mult_multiply': // J04 烈焰小丑: 倍率 ×1.5
+          multMultiplier *= joker.value;
+          triggered = true;
+          break;
+        case 'discard_mult': // J05 冰霜小丑: 累积弃牌倍率
+          if (this.discardMultAccumulated > 0) {
+            bonusMult += this.discardMultAccumulated;
+            triggered = true;
+          }
+          break;
+        case 'star_mult': // J06 星辰小丑: 倍率 ×2
+          multMultiplier *= joker.value;
+          triggered = true;
+          break;
+
+        // === 触发类 ===
+        case 'spade_chips': // J07 黑桃术士: ≥3 黑桃 +40 筹码
+          {
+            const spadeCount = playedCards.filter(c => c.suit === 'spades').length;
+            if (spadeCount >= joker.triggerCount) {
+              bonusChips += joker.value;
+              triggered = true;
+            }
+          }
+          break;
+        case 'heart_mult': // J08 红心猎手: ≥2 红心 +3 倍率
+          {
+            const heartCount = playedCards.filter(c => c.suit === 'hearts').length;
+            if (heartCount >= joker.triggerCount) {
+              bonusMult += joker.value;
+              triggered = true;
+            }
+          }
+          break;
+        case 'pair_mult': // J09 赌徒小丑: 对子 → 倍率 ×2
+          if (['PAIR', 'TWO_PAIR'].includes(handTypeKey)) {
+            multMultiplier *= joker.value;
+            triggered = true;
+          }
+          break;
+        case 'combo_bonus': // J10 连击小丑: 连续同牌型 → +50 筹码, +5 倍率
+          if (this.lastHandType === handTypeKey && this.playsThisRound > 1) {
+            bonusChips += joker.value[0];
+            bonusMult += joker.value[1];
+            triggered = true;
+          }
+          break;
+        case 'straight5_mult': // J11 预言小丑: 5 张顺子 → 倍率 ×3
+          if (playedCards.length === 5 && ['STRAIGHT', 'STRAIGHT_FLUSH', 'ROYAL_FLUSH'].includes(handTypeKey)) {
+            multMultiplier *= joker.value;
+            triggered = true;
+          }
+          break;
+      }
+      if (triggered) triggeredIndices.push(idx);
+    });
+
+    // 记录本次牌型（用于连击判定）
+    this.lastHandType = handTypeKey;
+
+    return { bonusChips, bonusMult, multMultiplier, triggeredIndices };
+  }
+
+  // 双面小丑：判定是否为本回合第 1 次出牌
+  isDoubleScoreActive() {
+    return this.hasJoker('double_score') && this.playsThisRound === 1;
+  }
+
+  // 混沌小丑：出牌后随机获得小丑牌
+  applyChaosEffect() {
+    if (!this.hasJoker('chaos')) return null;
+    const available = JOKER_DEFS.filter(j => !this.owned.some(o => o.id === j.id));
+    if (available.length === 0) return null;
+    const newJoker = available[Math.floor(Math.random() * available.length)];
+    if (this.owned.length >= this.maxSlots) {
+      // 替换最右
+      this.owned[this.owned.length - 1] = { ...newJoker };
+    } else {
+      this.owned.push({ ...newJoker });
+    }
+    return newJoker;
+  }
+
+  // 死神小丑：摧毁最低点数牌
+  applyDeathEffect(playedCards) {
+    if (!this.hasJoker('death_destroy')) return null;
+    if (playedCards.length === 0) return null;
+    // 找到最低点数牌
+    let lowest = playedCards[0];
+    for (const c of playedCards) {
+      if (RANK_ORDER[c.rank] < RANK_ORDER[lowest.rank]) {
+        lowest = c;
+      } else if (RANK_ORDER[c.rank] === RANK_ORDER[lowest.rank]) {
+        // 点数相同取最左
+      }
+    }
+    return { card: lowest, bonusChips: this.getJoker('death_destroy').value };
+  }
+}
+
+// ========== 动画管理器 ==========
+class AnimationManager {
+  constructor() {
+    this.queue = [];
+  }
+
+  floatText(x, y, text, color = '#ffd700', size = '24px') {
+    const el = document.createElement('div');
+    el.className = 'float-text';
+    el.textContent = text;
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+    el.style.color = color;
+    el.style.fontSize = size;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 1200);
+  }
+
+  showHandType(name) {
+    const popup = document.getElementById('hand-type-popup');
+    popup.textContent = name;
+    popup.classList.remove('show');
+    void popup.offsetWidth; // force reflow
+    popup.classList.add('show');
+    setTimeout(() => popup.classList.remove('show'), 1300);
+  }
+
+  async countUp(element, from, to, duration = 600) {
+    return new Promise(resolve => {
+      const start = performance.now();
+      const update = (now) => {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+        const current = Math.round(from + (to - from) * eased);
+        element.textContent = current.toLocaleString();
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        } else {
+          element.textContent = to.toLocaleString();
+          resolve();
+        }
+      };
+      requestAnimationFrame(update);
+    });
+  }
+
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+}
+
+// ========== UI 渲染器 ==========
+class UI {
+  constructor(animManager) {
+    this.anim = animManager;
+  }
+
+  showScreen(screenId) {
+    ['main-menu', 'game-screen', 'shop-screen', 'gameover-screen'].forEach(id => {
+      const el = document.getElementById(id);
+      el.style.display = 'none';
+    });
+    const target = document.getElementById(screenId);
+    target.style.display = screenId === 'game-screen' ? 'block' : 'flex';
+    target.classList.add('screen-transition');
+    setTimeout(() => target.classList.remove('screen-transition'), 500);
+  }
+
+  updateTopBar(state) {
+    document.getElementById('round-number').textContent = state.levelIndex + 1;
+    document.getElementById('blind-name').textContent = state.levelName;
+    document.getElementById('gold-display').textContent = state.gold;
+    document.getElementById('total-score-display').textContent = state.roundScore.toLocaleString();
+    document.getElementById('target-score-display').textContent = state.targetScore.toLocaleString();
+
+    // Boss restriction
+    const bossEl = document.getElementById('boss-restriction');
+    if (state.restriction) {
+      bossEl.style.display = 'block';
+      document.getElementById('restriction-text').textContent = state.restriction;
+    } else {
+      bossEl.style.display = 'none';
+    }
+  }
+
+  updateTargetPanel(roundScore, targetScore) {
+    document.getElementById('target-panel-score').textContent = targetScore.toLocaleString();
+    document.getElementById('current-panel-score').textContent = roundScore.toLocaleString();
+    const pct = Math.min(100, (roundScore / targetScore) * 100);
+    document.getElementById('score-bar-fill').style.width = pct + '%';
+  }
+
+  updateActions(plays, discards) {
+    document.getElementById('plays-left').textContent = plays;
+    document.getElementById('discards-left').textContent = discards;
+  }
+
+  updateSelectedCount(count) {
+    document.getElementById('selected-count').textContent = count;
+  }
+
+  setButtonStates(canPlay, canDiscard) {
+    document.getElementById('btn-play').disabled = !canPlay;
+    document.getElementById('btn-discard').disabled = !canDiscard;
+  }
+
+  renderHand(hand, selectedIds, onToggle, peekRevealed = null) {
+    const area = document.getElementById('hand-area');
+    area.innerHTML = '';
+    hand.forEach((card, i) => {
+      const isPeekMode = peekRevealed !== null;
+      const isFaceDown = isPeekMode && !peekRevealed.has(card.id);
+      const el = this._createCardElement(card, selectedIds.has(card.id), i, isFaceDown);
+      el.addEventListener('click', () => {
+        // 窥视模式：点击朝下的牌先翻开
+        if (isFaceDown && peekRevealed) {
+          peekRevealed.add(card.id);
+          // 翻牌动画
+          el.classList.add('flip-reveal');
+          setTimeout(() => {
+            // 重新渲染翻开后的牌
+            onToggle(card.id);
+          }, 250);
+          return;
+        }
+        onToggle(card.id);
+      });
+      area.appendChild(el);
+    });
+  }
+
+  _createCardElement(card, isSelected, index, faceDown = false) {
+    const el = document.createElement('div');
+    const suitClass = `suit-${card.suit}`;
+    el.className = `poker-card ${suitClass} dealt ${isSelected ? 'selected' : ''} ${faceDown ? 'face-down' : ''}`;
+    el.style.animationDelay = `${index * 0.06}s`;
+    el.dataset.cardId = card.id;
+
+    // 增强牌视觉效果
+    if (card.enhanced && !faceDown) {
+      el.style.boxShadow = '0 0 10px rgba(255, 215, 0, 0.4), 0 2px 8px rgba(0,0,0,0.3)';
+      el.style.borderColor = 'var(--gold)';
+    }
+
+    const symbol = SUIT_SYMBOLS[card.suit];
+    if (faceDown) {
+      el.innerHTML = `<div class="card-back-icon">🃏</div>`;
+    } else {
+      el.innerHTML = `
+        <div class="card-corner card-corner-tl">
+          <div class="card-rank">${card.rank}</div>
+          <div class="card-suit-small">${symbol}</div>
+        </div>
+        <div class="card-center">${symbol}</div>
+        ${card.enhanced ? '<div style="position:absolute;top:2px;right:4px;font-size:10px;">⭐</div>' : ''}
+        <div class="card-corner card-corner-br">
+          <div class="card-rank">${card.rank}</div>
+          <div class="card-suit-small">${symbol}</div>
+        </div>
+      `;
+    }
+    return el;
+  }
+
+  renderJokers(jokers, onSell) {
+    const bar = document.getElementById('joker-bar');
+    const emptyText = document.getElementById('joker-empty-text');
+
+    // Remove existing slots
+    bar.querySelectorAll('.joker-slot').forEach(el => el.remove());
+
+    if (jokers.length === 0) {
+      emptyText.style.display = 'block';
+      return;
+    }
+    emptyText.style.display = 'none';
+
+    jokers.forEach((j, idx) => {
+      const sellPrice = j.sell || Math.ceil(j.price * 0.5);
+      const slot = document.createElement('div');
+      slot.className = `joker-slot rarity-${j.rarity}`;
+      slot.innerHTML = `
+        <span>${j.emoji}</span>
+        <div class="joker-name">${j.name}</div>
+        <div class="joker-tooltip">
+          <div class="tt-name">${j.emoji} ${j.name}</div>
+          <div class="tt-desc">${j.desc}</div>
+          <div class="tt-rarity" style="color: var(--rarity-${j.rarity})">${
+            j.rarity === 'common' ? '普通' : j.rarity === 'rare' ? '稀有' : '传说'
+          }</div>
+          <div class="tt-sell">💰 卖出: ${sellPrice} 金币</div>
+        </div>
+        ${onSell ? `<div class="joker-sell-btn" data-joker-idx="${idx}">卖 ${sellPrice}💰</div>` : ''}
+      `;
+      if (onSell) {
+        const sellBtn = slot.querySelector('.joker-sell-btn');
+        sellBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          onSell(idx);
+        });
+      }
+      bar.appendChild(slot);
+    });
+  }
+
+  renderHandRanks(scorer) {
+    const list = document.getElementById('hand-ranks-list');
+    list.innerHTML = '';
+    const order = ['ROYAL_FLUSH', 'STRAIGHT_FLUSH', 'FOUR_KIND', 'FULL_HOUSE', 'FLUSH', 'STRAIGHT', 'THREE_KIND', 'TWO_PAIR', 'PAIR', 'HIGH_CARD'];
+    for (const key of order) {
+      const li = document.createElement('li');
+      const base = scorer.getHandBase(key);
+      const mult = scorer.getHandMult(key);
+      const upgraded = scorer.handLevels[key].addBase > 0 || scorer.handLevels[key].addMult > 0;
+      if (upgraded) li.classList.add('upgraded');
+      li.innerHTML = `
+        <span class="hr-name">${HAND_TYPES[key].name}</span>
+        <span class="hr-score">${base}</span>
+        <span class="hr-mult">×${mult}</span>
+      `;
+      list.appendChild(li);
+    }
+  }
+
+  async showScoreAnimation(typeName, totalScore, breakdown) {
+    const htd = document.getElementById('hand-type-display');
+    const sn = document.getElementById('score-number');
+    const sb = document.getElementById('score-breakdown');
+
+    htd.textContent = typeName;
+    htd.classList.add('show');
+    this.anim.showHandType(typeName);
+
+    await this.anim.sleep(400);
+
+    sn.classList.add('show');
+    await this.anim.countUp(sn, 0, totalScore, 800);
+
+    sb.textContent = breakdown;
+    sb.classList.add('show');
+
+    await this.anim.sleep(1500);
+
+    htd.classList.remove('show');
+    sn.classList.remove('show');
+    sb.classList.remove('show');
+  }
+
+  renderShop(items, gold, onBuy) {
+    document.getElementById('shop-gold-display').textContent = gold;
+    const container = document.getElementById('shop-items');
+    container.innerHTML = '';
+
+    items.forEach((item, i) => {
+      const el = document.createElement('div');
+      el.className = 'shop-item';
+      el.dataset.index = i;
+
+      let typeClass, typeLabel;
+      if (item.type === 'joker') {
+        typeClass = 'type-joker';
+        typeLabel = '小丑牌';
+        // 按稀有度设置商店卡边框 (GDD v1.1 §12.2)
+        const r = item.rarity || 'common';
+        el.style.borderColor = `var(--rarity-${r})`;
+        if (r === 'rare') el.style.boxShadow = '0 0 10px rgba(168, 85, 247, 0.25)';
+        if (r === 'legendary') el.style.boxShadow = '0 0 12px rgba(255, 215, 0, 0.4)';
+      } else if (item.type === 'planet') {
+        typeClass = 'type-planet';
+        typeLabel = '星球牌';
+      } else {
+        typeClass = 'type-tarot';
+        typeLabel = '塔罗牌';
+      }
+
+      el.innerHTML = `
+        <div class="item-type ${typeClass}">${typeLabel}${item.type === 'joker' ? ` · ${item.rarity === 'common' ? '普通' : item.rarity === 'rare' ? '稀有' : '传说'}` : ''}</div>
+        <div class="item-icon">${item.emoji}</div>
+        <div class="item-name">${item.name}</div>
+        <div class="item-desc">${item.desc}</div>
+        <div class="item-price">💰 ${item.price}</div>
+      `;
+
+      el.addEventListener('click', () => onBuy(i, el));
+      container.appendChild(el);
+    });
+  }
+
+  showGameOver(isWin, stats) {
+    const title = document.getElementById('gameover-title');
+    const statsEl = document.getElementById('gameover-stats');
+
+    title.className = 'gameover-title ' + (isWin ? 'win' : 'lose');
+    title.textContent = isWin ? '🎉 胜利！' : '💀 游戏结束';
+
+    statsEl.innerHTML = `
+      <p>到达第 <span class="highlight">${stats.level}</span> 关</p>
+      <p>最高单次得分 <span class="highlight">${stats.maxHandScore.toLocaleString()}</span></p>
+      <p>累计获得 <span class="highlight">${stats.totalGold}</span> 金币</p>
+      <p>拥有 <span class="highlight">${stats.jokerCount}</span> 张小丑牌</p>
+    `;
+  }
+
+  highlightScoringCards(scoringCards) {
+    const area = document.getElementById('hand-area');
+    scoringCards.forEach(card => {
+      const el = area.querySelector(`[data-card-id="${card.id}"]`);
+      if (el) el.classList.add('scoring');
+    });
+  }
+
+  // 小丑牌触发高亮动画（GDD §12.3: 按栏位顺序逐个高亮）
+  async highlightTriggeredJokers(triggeredIndices) {
+    if (!triggeredIndices || triggeredIndices.length === 0) return;
+    const bar = document.getElementById('joker-bar');
+    const slots = bar.querySelectorAll('.joker-slot');
+    for (const idx of triggeredIndices) {
+      if (slots[idx]) {
+        slots[idx].classList.add('joker-trigger');
+        await new Promise(r => setTimeout(r, 300)); // 逐个间隔 300ms
+      }
+    }
+    // 动画结束后清除
+    setTimeout(() => {
+      slots.forEach(s => s.classList.remove('joker-trigger'));
+    }, 600);
+  }
+}
+
+// ========== 商店类（对齐 GDD §8） ==========
+class Shop {
+  generateItems(jokerManager, stage) {
+    const items = [];
+
+    // GDD §8.5 稀有度概率
+    let commonPct, rarePct, legendPct;
+    if (stage <= 1) { commonPct = 0.70; rarePct = 0.25; legendPct = 0.05; }
+    else if (stage <= 2) { commonPct = 0.50; rarePct = 0.35; legendPct = 0.15; }
+    else { commonPct = 0.30; rarePct = 0.40; legendPct = 0.30; }
+
+    // 2 张小丑牌
+    for (let i = 0; i < 2; i++) {
+      const available = JOKER_DEFS.filter(j => !jokerManager.owned.some(o => o.id === j.id));
+      if (available.length > 0) {
+        // 按稀有度概率选择
+        const roll = Math.random();
+        let targetRarity;
+        if (roll < legendPct) targetRarity = 'legendary';
+        else if (roll < legendPct + rarePct) targetRarity = 'rare';
+        else targetRarity = 'common';
+
+        let pool = available.filter(j => j.rarity === targetRarity);
+        if (pool.length === 0) pool = available; // fallback
+        const j = pool[Math.floor(Math.random() * pool.length)];
+        items.push({ type: 'joker', id: j.id, name: j.name, emoji: j.emoji, desc: j.desc, price: j.price, rarity: j.rarity });
+      }
+    }
+
+    // 2 张星球/塔罗牌
+    for (let i = 0; i < 2; i++) {
+      const planetChance = stage <= 1 ? 0.6 : stage <= 2 ? 0.5 : 0.4;
+      if (Math.random() < planetChance) {
+        const p = PLANET_CARDS[Math.floor(Math.random() * PLANET_CARDS.length)];
+        items.push({ type: 'planet', name: p.name, emoji: p.emoji, desc: p.desc, price: p.price, handType: p.handType, addBase: p.addBase, addMult: p.addMult });
+      } else {
+        // 塔罗牌（GDD §8.4 完整6种）
+        const t = TAROT_CARDS[Math.floor(Math.random() * TAROT_CARDS.length)];
+        items.push({ type: 'tarot', id: t.id, name: t.name, emoji: t.emoji, desc: t.desc, price: t.price, effect: t.effect });
+      }
+    }
+
+    return items;
+  }
+}
+
+// ========== 主游戏类 ==========
+class Game {
+  constructor() {
+    this.deck = new Deck();
+    this.scorer = new Scorer();
+    this.jokerManager = new JokerManager();
+    this.shop = new Shop();
+    this.anim = new AnimationManager();
+    this.ui = new UI(this.anim);
+
+    this.hand = [];
+    this.selectedIds = new Set();
+    this.levelIndex = 0;
+    this.gold = 0;
+    this.totalGold = 0;
+    this.roundScore = 0;
+    this.playsLeft = 0;
+    this.discardsLeft = 0;
+    this.maxHandScore = 0;
+    this.isAnimating = false;
+    this.baseHandSize = 8;
+    this.peekRevealed = null;
+  }
+
+  startNewRun() {
+    this.deck = new Deck();
+    this.scorer = new Scorer();
+    this.jokerManager = new JokerManager();
+    this.hand = [];
+    this.selectedIds = new Set();
+    this.levelIndex = 0;
+    this.gold = 4;
+    this.totalGold = 4;
+    this.roundScore = 0;
+    this.maxHandScore = 0;
+
+    this.ui.showScreen('game-screen');
+    this.ui.renderJokers([]);
+    this.ui.renderHandRanks(this.scorer);
+    this.startRound();
+  }
+
+  startRound() {
+    const level = LEVELS[this.levelIndex];
+    this.roundScore = 0;
+    this.playsLeft = 3;
+    this.discardsLeft = 3;
+
+    // Boss限制：终焉之盲 出牌次数-1
+    if (level.restriction === 'doom') {
+      this.playsLeft = Math.max(1, this.playsLeft - 1);
+    }
+
+    // Boss限制：封印之盲 随机禁用 1 种花色
+    if (level.restriction === 'seal') {
+      this.jokerManager.bannedSuit = SUITS[Math.floor(Math.random() * SUITS.length)];
+    } else {
+      this.jokerManager.bannedSuit = null;
+    }
+
+    // 回合开始效果
+    this.jokerManager.onRoundStart();
+
+    // 重置牌组
+    this.deck.reset();
+    this.deck.shuffle();
+
+    // 手牌数量（基础 8 + 命运小丑 +2 - 星辰小丑 -1）
+    let handSize = this.baseHandSize + this.jokerManager.getExtraHandSize();
+    handSize = Math.max(5, handSize);
+
+    // 发牌
+    this.hand = this.deck.deal(handSize);
+    this.selectedIds = new Set();
+
+    // Boss限制：窥视之盲 手牌朝下，随机翻开2张
+    if (level.restriction === 'peek') {
+      this.peekRevealed = new Set();
+      // 随机翻开 2 张
+      const indices = [];
+      while (indices.length < Math.min(2, this.hand.length)) {
+        const r = Math.floor(Math.random() * this.hand.length);
+        if (!indices.includes(r)) indices.push(r);
+      }
+      indices.forEach(i => this.peekRevealed.add(this.hand[i].id));
+    } else {
+      this.peekRevealed = null;
+    }
+
+    this._updateUI();
+  }
+
+  _updateUI() {
+    const level = LEVELS[this.levelIndex];
+    let restrictionDisplay = null;
+    if (level.restriction === 'seal' && this.jokerManager.bannedSuit) {
+      restrictionDisplay = `🔒 封印之盲: ${SUIT_NAMES[this.jokerManager.bannedSuit]}${SUIT_SYMBOLS[this.jokerManager.bannedSuit]} 不计分`;
+    } else if (level.restrictionName) {
+      restrictionDisplay = level.restrictionName;
+    }
+    this.ui.updateTopBar({
+      levelIndex: this.levelIndex,
+      levelName: level.name,
+      gold: this.gold,
+      roundScore: this.roundScore,
+      targetScore: level.target,
+      restriction: restrictionDisplay
+    });
+    this.ui.updateTargetPanel(this.roundScore, level.target);
+    this.ui.updateActions(this.playsLeft, this.discardsLeft);
+    this.ui.updateSelectedCount(this.selectedIds.size);
+    this.ui.renderHand(this.hand, this.selectedIds, (id) => this.toggleCard(id), this.peekRevealed);
+    this.ui.renderJokers(this.jokerManager.owned, (idx) => this.sellJoker(idx));
+
+    const hasSelected = this.selectedIds.size > 0;
+    this.ui.setButtonStates(
+      hasSelected && this.playsLeft > 0 && !this.isAnimating,
+      hasSelected && this.discardsLeft > 0 && !this.isAnimating
+    );
+  }
+
+  toggleCard(cardId) {
+    if (this.isAnimating) return;
+
+    if (this.selectedIds.has(cardId)) {
+      this.selectedIds.delete(cardId);
+    } else {
+      if (this.selectedIds.size >= 5) return; // max 5
+      this.selectedIds.add(cardId);
+    }
+    this._updateUI();
+  }
+
+  sortHand() {
+    if (this.isAnimating) return;
+    this.hand.sort((a, b) => {
+      if (a.suit !== b.suit) return SUITS.indexOf(a.suit) - SUITS.indexOf(b.suit);
+      return RANK_ORDER[a.rank] - RANK_ORDER[b.rank];
+    });
+    this._updateUI();
+  }
+
+  async playHand() {
+    if (this.isAnimating || this.playsLeft <= 0 || this.selectedIds.size === 0) return;
+    this.isAnimating = true;
+
+    const playedCards = this.hand.filter(c => this.selectedIds.has(c.id));
+    const level = LEVELS[this.levelIndex];
+
+    // 评估牌型
+    const eval_ = this.scorer.evaluateHand(playedCards);
+    if (!eval_.type) {
+      this.isAnimating = false;
+      return;
+    }
+
+    // GDD §4.3: 计算打出卡牌筹码值之和
+    let cardChips = 0;
+    for (const card of playedCards) {
+      // Boss 封印之盲：被禁花色不计分
+      if (level.restriction === 'seal' && this.jokerManager.bannedSuit && card.suit === this.jokerManager.bannedSuit) continue;
+      cardChips += RANK_VALUES[card.rank];
+      // 增强牌（塔罗牌⭐星星效果）: +30 筹码
+      if (card.enhanced) cardChips += 30;
+    }
+
+    // 牌型基础筹码和倍率
+    let totalChips = eval_.base + cardChips;
+    let totalMult = eval_.mult;
+
+    // 应用小丑牌效果（GDD §4.3: 按栏位顺序从左到右触发）
+    const jokerFx = this.jokerManager.applyJokerEffects(totalChips, totalMult, eval_.type, playedCards);
+    totalChips += jokerFx.bonusChips;
+    totalMult += jokerFx.bonusMult;
+    totalMult = Math.max(1, totalMult);
+
+    // GDD 公式: (牌型基础筹码 + 出牌筹码 + 小丑加筹码) × (牌型基础倍率 + 小丑加倍率) × 小丑乘倍率
+    let totalScore = Math.round(totalChips * totalMult * jokerFx.multMultiplier);
+
+    // 双面小丑：第 1 次出牌计分两次（GDD J12）
+    const isDoubleScore = this.jokerManager.isDoubleScoreActive();
+    if (isDoubleScore) {
+      totalScore *= 2;
+    }
+
+    // 高亮计分卡牌
+    this.ui.highlightScoringCards(eval_.scoringCards);
+
+    // 小丑牌触发高亮动画（GDD §12.3: 按栏位顺序逐个高亮）
+    if (jokerFx.triggeredIndices.length > 0) {
+      this.ui.highlightTriggeredJokers(jokerFx.triggeredIndices);
+    }
+
+    // 分数详情
+    const breakdown = `(${eval_.base}+${cardChips}) × ${totalMult}${jokerFx.multMultiplier > 1 ? ' ×' + jokerFx.multMultiplier : ''}${isDoubleScore ? ' ×2(双面)' : ''} = ${totalScore.toLocaleString()}`;
+
+    // 展示动画
+    await this.ui.showScoreAnimation(eval_.typeName, totalScore, breakdown);
+
+    // 更新分数
+    this.roundScore += totalScore;
+    if (totalScore > this.maxHandScore) this.maxHandScore = totalScore;
+
+    // 死神小丑效果：摧毁最低牌（从牌组永久移除）
+    const deathResult = this.jokerManager.applyDeathEffect(playedCards);
+
+    // 移除打出的牌 → 放入弃牌堆（死神摧毁的牌除外）
+    const destroyedIds = deathResult ? new Set([deathResult.card.id]) : new Set();
+    const discardedCards = playedCards.filter(c => !destroyedIds.has(c.id));
+    this.deck.discard(discardedCards);
+    this.hand = this.hand.filter(c => !this.selectedIds.has(c.id));
+    this.selectedIds = new Set();
+    this.playsLeft--;
+
+    // 补牌
+    const refill = this.deck.deal(playedCards.length);
+    this.hand.push(...refill);
+
+    // 混沌小丑效果：出牌后随机获得新小丑牌
+    const chaosResult = this.jokerManager.applyChaosEffect();
+    if (chaosResult) {
+      this.ui.renderJokers(this.jokerManager.owned, (idx) => this.sellJoker(idx));
+    }
+
+    this._updateUI();
+    this.isAnimating = false;
+
+    // 检查是否过关
+    this.checkWin();
+  }
+
+  async discardCards() {
+    if (this.isAnimating || this.discardsLeft <= 0 || this.selectedIds.size === 0) return;
+    this.isAnimating = true;
+
+    const discardCount = this.selectedIds.size;
+
+    // 弃牌动画
+    const area = document.getElementById('hand-area');
+    this.selectedIds.forEach(id => {
+      const el = area.querySelector(`[data-card-id="${id}"]`);
+      if (el) el.classList.add('discarding');
+    });
+    await this.anim.sleep(400);
+
+    // 移除弃掉的牌 → 放入弃牌堆
+    const discardedCards = this.hand.filter(c => this.selectedIds.has(c.id));
+    this.deck.discard(discardedCards);
+    this.hand = this.hand.filter(c => !this.selectedIds.has(c.id));
+    this.selectedIds = new Set();
+    this.discardsLeft--;
+
+    // 冰霜小丑触发（GDD J05）
+    this.jokerManager.onDiscard();
+
+    // 补牌（GDD §3.2: 弃几张补几张）
+    const refill = this.deck.deal(discardCount);
+    this.hand.push(...refill);
+
+    this._updateUI();
+    this.isAnimating = false;
+  }
+
+  checkWin() {
+    const level = LEVELS[this.levelIndex];
+    if (this.roundScore >= level.target) {
+      // 过关！
+      // 基础过关奖励
+      this.gold += level.reward;
+      this.totalGold += level.reward;
+
+      // 剩余出牌奖励：每剩余1次+1金币 (GDD §9.1)
+      const playsBonus = this.playsLeft;
+      if (playsBonus > 0) {
+        this.gold += playsBonus;
+        this.totalGold += playsBonus;
+      }
+
+      // 利息收入：每5金币+1，上限5 (GDD §9.1)
+      const interest = Math.min(5, Math.floor(this.gold / 5));
+      if (interest > 0) {
+        this.gold += interest;
+        this.totalGold += interest;
+      }
+
+      // 显示奖励明细浮动文字
+      this._showRoundRewardSummary(level.reward, playsBonus, interest);
+
+      if (this.levelIndex >= LEVELS.length - 1) {
+        // 通关
+        setTimeout(() => {
+          this.ui.showGameOver(true, {
+            level: this.levelIndex + 1,
+            maxHandScore: this.maxHandScore,
+            totalGold: this.totalGold,
+            jokerCount: this.jokerManager.owned.length
+          });
+          this.ui.showScreen('gameover-screen');
+        }, 500);
+      } else {
+        // 进入商店
+        setTimeout(() => this.openShop(), 800);
+      }
+    } else if (this.playsLeft <= 0) {
+      // 失败
+      setTimeout(() => {
+        this.ui.showGameOver(false, {
+          level: this.levelIndex + 1,
+          maxHandScore: this.maxHandScore,
+          totalGold: this.totalGold,
+          jokerCount: this.jokerManager.owned.length
+        });
+        this.ui.showScreen('gameover-screen');
+      }, 500);
+    }
+  }
+
+  _showRoundRewardSummary(baseReward, playsBonus, interest) {
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2 - 40;
+    let offsetY = 0;
+
+    // 基础奖励
+    this.anim.floatText(centerX - 50, centerY + offsetY, `+${baseReward} 💰 过关奖励`, '#ffd700', '16px');
+    offsetY += 30;
+
+    // 剩余出牌奖励
+    if (playsBonus > 0) {
+      setTimeout(() => {
+        this.anim.floatText(centerX - 50, centerY + offsetY, `+${playsBonus} 💰 剩余出牌`, '#00d4ff', '14px');
+      }, 200);
+      offsetY += 30;
+    }
+
+    // 利息
+    if (interest > 0) {
+      setTimeout(() => {
+        this.anim.floatText(centerX - 50, centerY + offsetY, `+${interest} 💰 利息`, '#39ff14', '14px');
+      }, 400);
+    }
+  }
+
+  openShop() {
+    const level = LEVELS[this.levelIndex];
+    const items = this.shop.generateItems(this.jokerManager, level.stage || 1);
+    this.shopItems = items;
+    this.ui.showScreen('shop-screen');
+    this.ui.renderShop(items, this.gold, (index, el) => this.buyItem(index, el));
+    // 在商店中也显示小丑牌栏（带卖出按钮）
+    this.ui.renderJokers(this.jokerManager.owned, (idx) => this.sellJoker(idx));
+    // 更新刷新按钮状态
+    this._updateRefreshButton();
+  }
+
+  refreshShop() {
+    const REFRESH_COST = 2;
+    if (this.gold < REFRESH_COST) {
+      this.anim.floatText(
+        window.innerWidth / 2 - 40, window.innerHeight / 2,
+        '金币不足!', '#ff006e', '16px'
+      );
+      return;
+    }
+
+    this.gold -= REFRESH_COST;
+    const level = LEVELS[this.levelIndex];
+    const items = this.shop.generateItems(this.jokerManager, level.stage || 1);
+    this.shopItems = items;
+    this.ui.renderShop(items, this.gold, (index, el) => this.buyItem(index, el));
+    document.getElementById('shop-gold-display').textContent = this.gold;
+    this._updateRefreshButton();
+
+    this.anim.floatText(
+      window.innerWidth / 2 - 30, window.innerHeight / 2 - 30,
+      '-2 💰 刷新', '#ffd700', '14px'
+    );
+  }
+
+  _updateRefreshButton() {
+    const btn = document.getElementById('btn-refresh-shop');
+    if (btn) {
+      btn.disabled = this.gold < 2;
+    }
+  }
+
+  buyItem(index, el) {
+    const item = this.shopItems[index];
+    if (!item || el.classList.contains('sold')) return;
+    if (this.gold < item.price) {
+      this.anim.floatText(
+        el.getBoundingClientRect().left + 90,
+        el.getBoundingClientRect().top,
+        '金币不足!', '#ff006e', '16px'
+      );
+      return;
+    }
+
+    this.gold -= item.price;
+
+    if (item.type === 'joker') {
+      const success = this.jokerManager.addJoker(item.id);
+      if (!success) {
+        this.gold += item.price; // 退还
+        this.anim.floatText(
+          el.getBoundingClientRect().left + 90,
+          el.getBoundingClientRect().top,
+          '小丑牌已满!', '#ff006e', '16px'
+        );
+        return;
+      }
+      this.ui.renderJokers(this.jokerManager.owned, (idx) => this.sellJoker(idx));
+    } else if (item.type === 'planet') {
+      this.scorer.upgradeHand(item.handType, item.addBase, item.addMult);
+      this.ui.renderHandRanks(this.scorer);
+    } else if (item.type === 'tarot') {
+      this._applyTarotEffect(item, el);
+      // 塔罗牌的sold标记在_applyTarotEffect内部处理（立即型）
+      // 或在confirmTarotEffect中处理（弹窗型），此处直接返回
+      return;
+    }
+
+    el.classList.add('sold');
+    document.getElementById('shop-gold-display').textContent = this.gold;
+    this._updateRefreshButton();
+
+    this.anim.floatText(
+      el.getBoundingClientRect().left + 90,
+      el.getBoundingClientRect().top - 20,
+      '✓ 已购买', '#39ff14', '18px'
+    );
+  }
+
+  nextRound() {
+    this.levelIndex++;
+    this.ui.showScreen('game-screen');
+    this.ui.renderJokers(this.jokerManager.owned, (idx) => this.sellJoker(idx));
+    this.ui.renderHandRanks(this.scorer);
+    this.startRound();
+  }
+
+  // ========== 塔罗牌效果系统（GDD §8.4）==========
+  _applyTarotEffect(item, shopEl) {
+    switch (item.effect) {
+      case 'random_upgrade':
+        // 🎡 命运之轮：随机升级1种牌型1级
+        this._tarotRandomUpgrade();
+        shopEl.classList.add('sold');
+        document.getElementById('shop-gold-display').textContent = this.gold;
+        this._updateRefreshButton();
+        break;
+      case 'destroy_cards':
+        // ☠️ 死神：销毁牌组中最低的2张牌
+        this._tarotDestroyCards();
+        shopEl.classList.add('sold');
+        document.getElementById('shop-gold-display').textContent = this.gold;
+        this._updateRefreshButton();
+        break;
+      case 'change_suit':
+      case 'change_rank':
+      case 'copy_card':
+      case 'enhance_card':
+        // 需要选择牌的塔罗牌 → 打开弹窗
+        this._pendingTarotEffect = item;
+        this._pendingTarotShopEl = shopEl;
+        this._openTarotModal(item);
+        break;
+    }
+  }
+
+  _tarotRandomUpgrade() {
+    // 随机选一种牌型升级
+    const handTypes = Object.keys(HAND_TYPES);
+    const randomType = handTypes[Math.floor(Math.random() * handTypes.length)];
+    // 根据牌型获取升级数值（参照 GDD §5.2）
+    const upgradeMap = {
+      HIGH_CARD: [10, 1], PAIR: [15, 1], TWO_PAIR: [20, 1], THREE_KIND: [20, 2],
+      STRAIGHT: [30, 3], FLUSH: [15, 2], FULL_HOUSE: [25, 2], FOUR_KIND: [30, 3],
+      STRAIGHT_FLUSH: [40, 4], ROYAL_FLUSH: [40, 4]
+    };
+    const [addBase, addMult] = upgradeMap[randomType];
+    this.scorer.upgradeHand(randomType, addBase, addMult);
+    this.ui.renderHandRanks(this.scorer);
+    this.anim.floatText(
+      window.innerWidth / 2 - 60, window.innerHeight / 2 - 40,
+      `🎡 ${HAND_TYPES[randomType].name} +${addBase}筹码 +${addMult}倍率`, '#bf00ff', '15px'
+    );
+  }
+
+  _tarotDestroyCards() {
+    // 从牌组中找到点数最低的2张牌，永久移除
+    if (this.deck.cards.length < 2) return;
+    const sorted = [...this.deck.cards].sort((a, b) => RANK_ORDER[a.rank] - RANK_ORDER[b.rank]);
+    const toRemove = sorted.slice(0, 2);
+    const removedNames = toRemove.map(c => `${c.rank}${SUIT_SYMBOLS[c.suit]}`).join(', ');
+    this.deck.cards = this.deck.cards.filter(c => !toRemove.some(r => r.id === c.id));
+    this.anim.floatText(
+      window.innerWidth / 2 - 60, window.innerHeight / 2 - 40,
+      `☠️ 销毁: ${removedNames}`, '#ff006e', '15px'
+    );
+  }
+
+  _openTarotModal(item) {
+    const overlay = document.getElementById('tarot-modal-overlay');
+    const title = document.getElementById('tarot-modal-title');
+    const desc = document.getElementById('tarot-modal-desc');
+    const content = document.getElementById('tarot-modal-content');
+
+    title.textContent = `${item.emoji} ${item.name}`;
+    desc.textContent = item.desc;
+    content.innerHTML = '';
+    this._tarotModalSelection = null;
+    this._tarotModalSubSelection = null;
+
+    switch (item.effect) {
+      case 'change_suit':
+        this._renderTarotCardSelect(content, 1, '选择要改变花色的牌');
+        // 花色选择
+        const suitDiv = document.createElement('div');
+        suitDiv.className = 'modal-options';
+        suitDiv.id = 'tarot-suit-options';
+        suitDiv.style.marginTop = '12px';
+        for (const suit of SUITS) {
+          const btn = document.createElement('div');
+          btn.className = 'modal-option';
+          btn.textContent = `${SUIT_SYMBOLS[suit]} ${SUIT_NAMES[suit]}`;
+          btn.dataset.suit = suit;
+          btn.addEventListener('click', () => {
+            suitDiv.querySelectorAll('.modal-option').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            this._tarotModalSubSelection = suit;
+          });
+          suitDiv.appendChild(btn);
+        }
+        content.appendChild(suitDiv);
+        break;
+      case 'change_rank':
+        this._renderTarotCardSelect(content, 1, '选择要改变点数的牌');
+        // 点数选择
+        const rankDiv = document.createElement('div');
+        rankDiv.className = 'modal-options';
+        rankDiv.id = 'tarot-rank-options';
+        rankDiv.style.marginTop = '12px';
+        for (const rank of RANKS) {
+          const btn = document.createElement('div');
+          btn.className = 'modal-option';
+          btn.textContent = rank;
+          btn.dataset.rank = rank;
+          btn.addEventListener('click', () => {
+            rankDiv.querySelectorAll('.modal-option').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            this._tarotModalSubSelection = rank;
+          });
+          rankDiv.appendChild(btn);
+        }
+        content.appendChild(rankDiv);
+        break;
+      case 'copy_card':
+        this._renderTarotCardSelect(content, 1, '选择要复制的牌（副本会加入牌组）');
+        break;
+      case 'enhance_card':
+        this._renderTarotCardSelect(content, 1, '选择要增强的牌（出牌时 +30 筹码）');
+        break;
+    }
+
+    overlay.classList.add('show');
+  }
+
+  _renderTarotCardSelect(container, maxSelect, label) {
+    const labelEl = document.createElement('div');
+    labelEl.style.cssText = 'color: var(--text-secondary); font-size: 12px; margin-bottom: 10px;';
+    labelEl.textContent = label;
+    container.appendChild(labelEl);
+
+    const grid = document.createElement('div');
+    grid.className = 'modal-card-grid';
+
+    // 显示牌组中的牌（取前 20 张避免过多）
+    const previewCards = this.deck.cards.slice(0, 20);
+    previewCards.forEach((card, idx) => {
+      const el = document.createElement('div');
+      el.className = `mini-card suit-${card.suit}`;
+      el.innerHTML = `<div>${card.rank}</div><div>${SUIT_SYMBOLS[card.suit]}</div>`;
+      el.dataset.cardIdx = idx;
+      el.addEventListener('click', () => {
+        // 单选
+        grid.querySelectorAll('.mini-card').forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+        this._tarotModalSelection = idx;
+      });
+      grid.appendChild(el);
+    });
+
+    container.appendChild(grid);
+  }
+
+  confirmTarotEffect() {
+    const item = this._pendingTarotEffect;
+    if (!item) return;
+
+    switch (item.effect) {
+      case 'change_suit': {
+        if (this._tarotModalSelection === null || !this._tarotModalSubSelection) return;
+        const card = this.deck.cards[this._tarotModalSelection];
+        if (!card) return;
+        const oldSuit = card.suit;
+        card.suit = this._tarotModalSubSelection;
+        card.id = `${card.rank}_${card.suit}_${Date.now()}`;
+        this.anim.floatText(
+          window.innerWidth / 2 - 50, window.innerHeight / 2,
+          `🔮 ${card.rank}${SUIT_SYMBOLS[oldSuit]} → ${card.rank}${SUIT_SYMBOLS[card.suit]}`, '#bf00ff', '15px'
+        );
+        break;
+      }
+      case 'change_rank': {
+        if (this._tarotModalSelection === null || !this._tarotModalSubSelection) return;
+        const card = this.deck.cards[this._tarotModalSelection];
+        if (!card) return;
+        const oldRank = card.rank;
+        card.rank = this._tarotModalSubSelection;
+        card.id = `${card.rank}_${card.suit}_${Date.now()}`;
+        this.anim.floatText(
+          window.innerWidth / 2 - 50, window.innerHeight / 2,
+          `⚖️ ${oldRank}${SUIT_SYMBOLS[card.suit]} → ${card.rank}${SUIT_SYMBOLS[card.suit]}`, '#00d4ff', '15px'
+        );
+        break;
+      }
+      case 'copy_card': {
+        if (this._tarotModalSelection === null) return;
+        const original = this.deck.cards[this._tarotModalSelection];
+        if (!original) return;
+        const copy = { ...original, id: `${original.rank}_${original.suit}_copy_${Date.now()}` };
+        this.deck.cards.push(copy);
+        this.anim.floatText(
+          window.innerWidth / 2 - 50, window.innerHeight / 2,
+          `🌙 复制 ${copy.rank}${SUIT_SYMBOLS[copy.suit]}`, '#ffd700', '15px'
+        );
+        break;
+      }
+      case 'enhance_card': {
+        if (this._tarotModalSelection === null) return;
+        const card = this.deck.cards[this._tarotModalSelection];
+        if (!card) return;
+        card.enhanced = true;
+        this.anim.floatText(
+          window.innerWidth / 2 - 50, window.innerHeight / 2,
+          `⭐ ${card.rank}${SUIT_SYMBOLS[card.suit]} 已增强 (+30筹码)`, '#ffd700', '15px'
+        );
+        break;
+      }
+    }
+
+    // 关闭弹窗
+    this._closeTarotModal();
+
+    // 标记商店物品已售
+    if (this._pendingTarotShopEl) {
+      this._pendingTarotShopEl.classList.add('sold');
+    }
+    document.getElementById('shop-gold-display').textContent = this.gold;
+    this._updateRefreshButton();
+    this._pendingTarotEffect = null;
+    this._pendingTarotShopEl = null;
+  }
+
+  cancelTarotEffect() {
+    // 退还金币
+    if (this._pendingTarotEffect) {
+      this.gold += this._pendingTarotEffect.price;
+      document.getElementById('shop-gold-display').textContent = this.gold;
+      this._updateRefreshButton();
+    }
+    this._closeTarotModal();
+    this._pendingTarotEffect = null;
+    this._pendingTarotShopEl = null;
+  }
+
+  _closeTarotModal() {
+    document.getElementById('tarot-modal-overlay').classList.remove('show');
+    this._tarotModalSelection = null;
+    this._tarotModalSubSelection = null;
+  }
+
+  sellJoker(index) {
+    const joker = this.jokerManager.owned[index];
+    if (!joker) return;
+    const sellPrice = joker.sell || Math.ceil(joker.price * 0.5);
+
+    // 弹出卖出确认弹窗
+    const overlay = document.getElementById('sell-confirm-overlay');
+    document.getElementById('sell-confirm-emoji').textContent = joker.emoji;
+    document.getElementById('sell-confirm-name').textContent = joker.name;
+    document.getElementById('sell-confirm-price').textContent = `卖出获得 ${sellPrice} 💰 金币`;
+    overlay.classList.add('show');
+
+    const yesBtn = document.getElementById('sell-confirm-yes');
+    const noBtn = document.getElementById('sell-confirm-no');
+
+    // 清除旧事件（使用克隆替换）
+    const newYes = yesBtn.cloneNode(true);
+    const newNo = noBtn.cloneNode(true);
+    yesBtn.parentNode.replaceChild(newYes, yesBtn);
+    noBtn.parentNode.replaceChild(newNo, noBtn);
+
+    newYes.addEventListener('click', () => {
+      overlay.classList.remove('show');
+      this._executeSellJoker(index, joker, sellPrice);
+    });
+    newNo.addEventListener('click', () => {
+      overlay.classList.remove('show');
+    });
+  }
+
+  _executeSellJoker(index, joker, sellPrice) {
+    this.jokerManager.owned.splice(index, 1);
+    this.gold += sellPrice;
+    this.totalGold += sellPrice;
+    // 更新商店金币显示（如果在商店中）
+    const shopGoldEl = document.getElementById('shop-gold-display');
+    if (shopGoldEl) shopGoldEl.textContent = this.gold;
+    // 更新小丑牌栏（保留卖出按钮）
+    this.ui.renderJokers(this.jokerManager.owned, (idx) => this.sellJoker(idx));
+    // 浮动文字提示
+    this.anim.floatText(
+      window.innerWidth / 2, window.innerHeight / 2 - 60,
+      `+${sellPrice} 💰 卖出${joker.name}`, '#ffd700', '16px'
+    );
+    // 更新金币显示
+    document.getElementById('gold-display').textContent = this.gold;
+  }
+
+  backToMenu() {
+    this.ui.showScreen('main-menu');
+  }
+}
+
+// ========== 启动游戏 ==========
+const game = new Game();
+</script>
+</body>
+</html>
