@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>游戏开发 × AI 深度调研报告</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f8fafc;--bg2:#f1f5f9;--bgc:#ffffff;--bd:#e2e8f0;--t1:#1e293b;--t2:#475569;--tm:#94a3b8;--ab:#2563eb;--ac:#0891b2;--ap:#7c3aed;--apk:#db2777;--ag:#059669;--ay:#d97706;--ao:#ea580c;--ar:#dc2626;--nw:260px}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:15px}
+body{font-family:'Noto Sans SC',-apple-system,sans-serif;background:var(--bg);color:var(--t1);line-height:1.7;overflow-x:hidden}
+::selection{background:var(--ab);color:#fff}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}
+a{color:var(--ac);text-decoration:none}
+.sidebar{position:fixed;left:0;top:0;width:var(--nw);height:100vh;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-right:1px solid var(--bd);z-index:1000;display:flex;flex-direction:column;transition:transform .3s;box-shadow:2px 0 12px rgba(0,0,0,.04)}
+.sidebar-header{padding:24px 20px 16px;border-bottom:1px solid var(--bd)}
+.sidebar-header h2{font-size:1rem;font-weight:700;color:var(--ac);letter-spacing:1px}
+.sidebar-header p{font-size:.72rem;color:var(--tm);margin-top:4px}
+.sidebar-nav{flex:1;overflow-y:auto;padding:12px 0}
+.sidebar-nav a{display:flex;align-items:center;gap:10px;padding:9px 20px;color:var(--t2);font-size:.82rem;transition:all .3s;border-left:3px solid transparent}
+.sidebar-nav a:hover,.sidebar-nav a.active{color:var(--t1);background:rgba(37,99,235,.06);border-left-color:var(--ab)}
+.sidebar-nav .ng{padding:10px 20px 4px;font-size:.68rem;color:var(--tm);letter-spacing:2px;font-weight:700}
+.main{margin-left:var(--nw);min-height:100vh}
+.hero{background:linear-gradient(135deg,#eef2ff,#e0f2fe,#f0fdf4);padding:100px 60px 80px;position:relative;overflow:hidden;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(124,58,237,.06),transparent 60%),radial-gradient(ellipse at 70% 30%,rgba(8,145,178,.05),transparent 50%);pointer-events:none}
+.hero-badge{display:inline-block;padding:6px 16px;border-radius:20px;background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.2);font-size:.78rem;color:var(--ab);margin-bottom:24px;font-weight:500;letter-spacing:1px;position:relative}
+.hero h1{font-size:3.2rem;font-weight:900;line-height:1.2;margin-bottom:16px;position:relative;background:linear-gradient(135deg,#1e293b,#4f46e5,#0891b2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero .sub{font-size:1.15rem;color:var(--t2);margin-bottom:48px;max-width:600px;position:relative}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;max-width:900px;position:relative}
+.hs{background:rgba(255,255,255,.85);border:1px solid var(--bd);border-radius:16px;padding:24px;text-align:center;backdrop-filter:blur(10px);transition:all .3s;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.hs:hover{border-color:var(--ab);transform:translateY(-4px);box-shadow:0 4px 24px rgba(37,99,235,.12)}
+.hs .n{font-size:2.4rem;font-weight:900;line-height:1;margin-bottom:8px}
+.hs .l{font-size:.78rem;color:var(--t2)}.hs .d{font-size:.68rem;color:var(--tm);margin-top:4px}
+.sec{padding:80px 60px;border-bottom:1px solid var(--bd);position:relative}
+.sh{margin-bottom:48px}
+.sh .tag{display:inline-block;padding:4px 12px;border-radius:4px;font-size:.68rem;font-weight:700;letter-spacing:2px;margin-bottom:12px}
+.sh h2{font-size:2rem;font-weight:800;margin-bottom:12px}
+.sh p{color:var(--t2);max-width:700px;font-size:.93rem}
+.card{background:var(--bgc);border:1px solid var(--bd);border-radius:12px;padding:28px;transition:all .3s;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.card:hover{border-color:rgba(37,99,235,.25);box-shadow:0 4px 16px rgba(37,99,235,.08)}
+.cg{display:grid;gap:20px}.cg2{grid-template-columns:repeat(2,1fr)}.cg3{grid-template-columns:repeat(3,1fr)}.cg5{grid-template-columns:repeat(5,1fr)}
+.lb{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:6px;font-size:.73rem;font-weight:700;white-space:nowrap}
+.ll0{background:rgba(107,114,128,.1);color:#6b7280;border:1px solid rgba(107,114,128,.2)}
+.ll1{background:rgba(220,38,38,.08);color:#dc2626;border:1px solid rgba(220,38,38,.2)}
+.ll2{background:rgba(234,88,12,.08);color:#ea580c;border:1px solid rgba(234,88,12,.2)}
+.ll3{background:rgba(202,138,4,.08);color:#b45309;border:1px solid rgba(202,138,4,.2)}
+.ll4{background:rgba(5,150,105,.08);color:#059669;border:1px solid rgba(5,150,105,.2)}
+.lc{border-radius:12px;padding:24px;position:relative;overflow:hidden;transition:all .3s}
+.lc:hover{transform:translateY(-4px)}
+.lc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.lc0{background:rgba(107,114,128,.06);border:1px solid rgba(107,114,128,.15)}.lc0::before{background:#9ca3af}
+.lc1{background:rgba(220,38,38,.05);border:1px solid rgba(220,38,38,.15)}.lc1::before{background:#dc2626}
+.lc2{background:rgba(234,88,12,.05);border:1px solid rgba(234,88,12,.15)}.lc2::before{background:#ea580c}
+.lc3{background:rgba(202,138,4,.05);border:1px solid rgba(202,138,4,.15)}.lc3::before{background:#ca8a04}
+.lc4{background:rgba(5,150,105,.05);border:1px solid rgba(5,150,105,.15)}.lc4::before{background:#059669}
+.lc .i{font-size:2rem;margin-bottom:8px}.lc .t{font-size:1.05rem;font-weight:700;margin-bottom:4px}.lc .ds{font-size:.78rem;color:var(--t2)}.lc .g{font-size:.72rem;color:var(--tm);margin-top:8px;padding-top:8px;border-top:1px solid rgba(0,0,0,.06)}
+.cc{width:100%;background:var(--bgc);border:1px solid var(--bd);border-radius:12px;padding:24px;margin:20px 0;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.pb-legend{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;padding:12px 0}
+.pb-lg{display:flex;align-items:center;gap:5px;font-size:.75rem;color:var(--t2)}
+.pb-ld{width:14px;height:14px;border-radius:3px;border:1px solid rgba(0,0,0,.08)}
+.pb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+.pb-group{background:var(--bgc);border:1px solid var(--bd);border-radius:12px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.pb-group-hd{display:flex;align-items:center;gap:8px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--bd)}
+.pb-group-hd .pb-icon{font-size:1.2rem}
+.pb-group-hd .pb-name{font-size:.92rem;font-weight:700;color:var(--t1)}
+.pb-group-hd .pb-avg{margin-left:auto;font-size:.72rem;padding:2px 8px;border-radius:10px;font-weight:600}
+.pb-row{display:flex;align-items:center;gap:8px;margin:5px 0}
+.pb-label{width:76px;font-size:.75rem;color:var(--t2);text-align:right;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pb-track{flex:1;height:22px;background:rgba(0,0,0,.03);border-radius:6px;overflow:hidden;position:relative}
+.pb-fill{height:100%;border-radius:6px;transition:width .8s ease;display:flex;align-items:center;justify-content:flex-end;padding-right:6px;min-width:0}
+.pb-val{font-size:.65rem;font-weight:700;white-space:nowrap}
+.pb-fill[data-w="0"]{min-width:0}
+.pb-row:hover .pb-track{background:rgba(0,0,0,.06)}
+.pb-row:hover .pb-fill{filter:brightness(.95)}
+@media(max-width:768px){.pb-grid{grid-template-columns:1fr}.pb-label{width:60px;font-size:.7rem}}
+.cb{width:100%;height:500px}.cbl{width:100%;height:650px}
+.mt{width:100%;border-collapse:separate;border-spacing:2px;font-size:.76rem;margin:16px 0}
+.mt th{background:rgba(37,99,235,.08);color:var(--ab);padding:10px 8px;font-weight:600;text-align:center}
+.mt th:first-child{text-align:left;min-width:150px}
+.mt td{padding:8px 6px;text-align:center;border-radius:4px;transition:all .3s}
+.mt tr:hover td{filter:brightness(.97)}
+.mt .tn{text-align:left;font-weight:500;color:var(--t1);background:rgba(241,245,249,.8)}
+.mt .c0{background:rgba(107,114,128,.08);color:#6b7280}.mt .c1{background:rgba(220,38,38,.08);color:#dc2626}.mt .c2{background:rgba(234,88,12,.08);color:#ea580c}.mt .c3{background:rgba(202,138,4,.08);color:#b45309}.mt .c4{background:rgba(5,150,105,.08);color:#059669}.mt .cn{background:transparent;color:var(--tm)}
+.ss{margin:48px 0 24px}.ss h3{font-size:1.25rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:10px}.ss p{color:var(--t2);font-size:.88rem}
+.hb{background:linear-gradient(135deg,rgba(37,99,235,.04),rgba(124,58,237,.04));border:1px solid rgba(37,99,235,.15);border-radius:12px;padding:24px;margin:24px 0}
+.hb .ht{font-size:1rem;font-weight:700;margin-bottom:12px;color:var(--ac)}
+.hb ul{list-style:none}.hb li{padding:6px 0;font-size:.83rem;color:var(--t2);display:flex;align-items:flex-start;gap:8px}
+.hb li::before{content:'▸';color:var(--ab);font-weight:700;flex-shrink:0}
+.tb{display:flex;gap:4px;margin-bottom:16px;flex-wrap:wrap}
+.tbtn{padding:8px 18px;border-radius:8px;border:1px solid var(--bd);background:transparent;color:var(--t2);cursor:pointer;font-size:.78rem;font-weight:500;transition:all .3s;font-family:inherit}
+.tbtn:hover{background:rgba(37,99,235,.06);color:var(--t1)}.tbtn.act{background:rgba(37,99,235,.1);color:var(--ab);border-color:var(--ab)}
+.tp{display:none;animation:fi .3s ease}.tp.act{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.cb-row{display:flex;align-items:center;gap:12px;margin:8px 0}
+.cb-row .bl{font-size:.78rem;min-width:100px;color:var(--t2)}
+.cb-row .bt{flex:1;height:24px;background:rgba(0,0,0,.04);border-radius:6px;overflow:hidden}
+.cb-row .bf{height:100%;border-radius:6px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-size:.68rem;font-weight:700;transition:width 1.5s ease}
+.cb-row .bv{font-size:.83rem;font-weight:700;min-width:48px;text-align:right}
+.dg{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.dc{background:var(--bgc);border:1px solid var(--bd);border-radius:12px;padding:22px;transition:all .3s;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.dc:hover{border-color:rgba(37,99,235,.2)}
+.dc h4{font-size:.93rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.dc .dr{display:flex;justify-content:space-between;padding:5px 0;font-size:.78rem;border-bottom:1px solid rgba(0,0,0,.04)}
+.dc .dr:last-child{border-bottom:none}
+.dc .dl{color:var(--t2)}.dc .dv{font-weight:600}
+.bc{background:var(--bgc);border:1px solid var(--bd);border-radius:16px;padding:32px;text-align:center;transition:all .3s;position:relative;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.bc.rec{border-color:var(--ab);box-shadow:0 4px 24px rgba(37,99,235,.1)}
+.bc.rec::before{content:'推荐';position:absolute;top:12px;right:-28px;background:var(--ab);color:#fff;font-size:.68rem;font-weight:700;padding:4px 32px;transform:rotate(45deg)}
+.bc:hover{transform:translateY(-6px)}
+.bc .bn{font-size:1.05rem;font-weight:700;margin-bottom:8px}
+.bc .bp{font-size:2.4rem;font-weight:900;margin-bottom:4px}
+.bc .bu{font-size:.78rem;color:var(--tm);margin-bottom:20px}
+.bc .bi{text-align:left}
+.bc .bir{padding:8px 0;font-size:.78rem;color:var(--t2);border-bottom:1px solid rgba(0,0,0,.05);display:flex;justify-content:space-between}
+.bc .bir:last-child{border-bottom:none}
+.ri{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--bgc);border:1px solid var(--bd);border-radius:8px;margin:6px 0;transition:all .3s;box-shadow:0 1px 3px rgba(0,0,0,.03)}
+.ri:hover{border-color:rgba(220,38,38,.2)}
+.rd{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.rd.h{background:#ef4444;box-shadow:0 0 8px rgba(239,68,68,.5)}.rd.m{background:#f59e0b;box-shadow:0 0 8px rgba(245,158,11,.5)}.rd.lo{background:#10b981;box-shadow:0 0 8px rgba(16,185,129,.5)}
+.ri .rn{flex:1;font-size:.83rem;font-weight:500}.ri .rp{font-size:.73rem;color:var(--tm);min-width:60px;text-align:right}
+.tl{position:relative;padding-left:32px;margin:24px 0}
+.tl::before{content:'';position:absolute;left:12px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--ab),var(--ap),var(--ac))}
+.tli{position:relative;margin-bottom:28px}
+.tli::before{content:'';position:absolute;left:-26px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--ab);border:2px solid var(--bg);box-shadow:0 0 8px rgba(37,99,235,.3)}
+.tli .tt{font-size:1rem;font-weight:700;margin-bottom:4px}.tli .tc{font-size:.83rem;color:var(--t2)}
+.qb{border-left:3px solid var(--ap);padding:16px 20px;margin:20px 0;background:rgba(124,58,237,.04);border-radius:0 8px 8px 0;font-size:.88rem;color:var(--t2);font-style:italic}
+.fi{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}.fi.v{opacity:1;transform:translateY(0)}
+.s1{transition-delay:.1s}.s2{transition-delay:.2s}.s3{transition-delay:.3s}.s4{transition-delay:.4s}
+.faq-q{padding:14px 18px;background:var(--bgc);border:1px solid var(--bd);border-radius:8px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:.88rem;font-weight:600;transition:all .3s;margin:6px 0;box-shadow:0 1px 3px rgba(0,0,0,.03)}
+.faq-q:hover{border-color:rgba(37,99,235,.25)}.faq-q::after{content:'+';font-size:1.2rem;color:var(--ab);transition:transform .3s}.faq-q.open::after{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease;padding:0 18px;font-size:.83rem;color:var(--t2)}
+.faq-a.open{max-height:400px;padding:14px 18px}
+.tg-b{background:rgba(37,99,235,.08);color:var(--ab)}.tg-p{background:rgba(124,58,237,.08);color:var(--ap)}.tg-c{background:rgba(8,145,178,.08);color:var(--ac)}.tg-g{background:rgba(5,150,105,.08);color:var(--ag)}.tg-y{background:rgba(217,119,6,.08);color:var(--ay)}.tg-r{background:rgba(220,38,38,.08);color:var(--ar)}.tg-o{background:rgba(234,88,12,.08);color:var(--ao)}.tg-pk{background:rgba(219,39,119,.08);color:var(--apk)}
+.mt-btn{display:none;position:fixed;top:16px;left:16px;z-index:1100;width:40px;height:40px;border-radius:8px;border:1px solid var(--bd);background:var(--bgc);cursor:pointer;color:var(--t1);font-size:1.2rem;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+@media(max-width:1024px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.mt-btn{display:flex}.hero{padding:80px 24px 60px}.hero h1{font-size:2rem}.hero-stats{grid-template-columns:repeat(2,1fr)}.sec{padding:48px 24px}.cg2,.cg3,.cg5{grid-template-columns:1fr}}
+@media(max-width:640px){.hero-stats{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<button class="mt-btn" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+<aside class="sidebar">
+<div class="sidebar-header"><h2>🎮 AI × 游戏开发</h2><p>深度调研报告 · 2026.03</p></div>
+<nav class="sidebar-nav">
+<div class="ng">总览</div>
+<a href="#hero"><span>🏠</span>首页概览</a>
+<a href="#rating"><span>📊</span>评级体系</a>
+<div class="ng">核心矩阵</div>
+<a href="#pipeline"><span>🔥</span>管线×AI 热力矩阵</a>
+<a href="#gametype"><span>🎯</span>游戏类型分析</a>
+<a href="#engine"><span>⚙️</span>引擎对比</a>
+<a href="#team"><span>👥</span>团队角色分析</a>
+<div class="ng">详细评测</div>
+<a href="#art-ai"><span>🎨</span>美术 AI 评测</a>
+<a href="#code-ai"><span>💻</span>编程 AI 评测</a>
+<a href="#audio-ai"><span>🎵</span>音频 AI 评测</a>
+<a href="#design-ai"><span>📝</span>策划 AI 评测</a>
+<div class="ng">规划与决策</div>
+<a href="#budget"><span>💰</span>预算规划</a>
+<a href="#roadmap"><span>🗺️</span>采纳路线图</a>
+<a href="#risk"><span>⚠️</span>风险矩阵</a>
+<a href="#future"><span>🔮</span>未来展望</a>
+<a href="#faq"><span>❓</span>常见问题</a>
+</nav>
+</aside>
+<main class="main">
+
+<!-- Hero -->
+<section class="hero" id="hero">
+<span class="hero-badge">📋 调研截止：2026年3月24日 · 覆盖 32 份深度文档</span>
+<h1>游戏开发 × AI<br>能力全景调研</h1>
+<p class="sub">面向 3-10 人独立游戏团队的 AI 工具采纳指南，涵盖策划、美术、编程、音频全管线评估</p>
+<div class="hero-stats">
+<div class="hs fi"><div class="n" style="color:var(--ac)">60%</div><div class="l">Galgame 工作量节省</div><div class="d">AI 赋能度最高的品类</div></div>
+<div class="hs fi s1"><div class="n" style="color:var(--ap)">L3</div><div class="l">2D美术/代码补全</div><div class="d">AI 最强能力区域</div></div>
+<div class="hs fi s2"><div class="n" style="color:var(--ag)">¥1,215</div><div class="l">推荐月预算</div><div class="d">5人团队完整方案</div></div>
+<div class="hs fi s3"><div class="n" style="color:var(--ay)">63%</div><div class="l">预估成本节省</div><div class="d">vs 传统外包模式</div></div>
+</div>
+</section>
+
+<!-- 评级体系 -->
+<section class="sec" id="rating">
+<div class="sh fi"><span class="tag tg-b">RATING SYSTEM</span><h2>AI 能力成熟度评级体系</h2><p>五级评级标准，从 L0（不可用）到 L4（生产就绪），为每项 AI 能力提供客观评估</p></div>
+<div class="cg cg5 fi">
+<div class="lc lc0"><div class="i">⬛</div><div class="t">L0 · 不可用</div><div class="ds">AI 无实质帮助</div><div class="g">100% 人工</div></div>
+<div class="lc lc1"><div class="i">🟥</div><div class="t">L1 · 实验性</div><div class="ds">产出质量不够生产使用</div><div class="g">仅供研究参考</div></div>
+<div class="lc lc2"><div class="i">🟧</div><div class="t">L2 · 辅助可用</div><div class="ds">可生成参考/草稿</div><div class="g">40-70% 人工修改</div></div>
+<div class="lc lc3"><div class="i">🟨</div><div class="t">L3 · 较成熟</div><div class="ds">特定条件下可直接产出</div><div class="g">10-30% 人工监督</div></div>
+<div class="lc lc4"><div class="i">🟩</div><div class="t">L4 · 生产就绪</div><div class="ds">可直接用于生产</div><div class="g">&lt;10% 审核</div></div>
+</div>
+<div class="hb fi" style="margin-top:32px"><div class="ht">📌 核心发现</div><ul>
+<li><strong>AI 最强区域</strong>：2D概念美术、代码补全、文本生成、PBR材质 — 已达 L3-L4</li>
+<li><strong>AI 最弱区域</strong>：3D全流程、Shader、帧同步、性能优化 — 仍在 L0-L1</li>
+<li><strong>价值甜蜜点</strong>：策划文档、市场分析、占位资产、UI代码 — 投入产出比最高</li>
+</ul></div>
+</section>
+
+<!-- 管线×AI热力矩阵 -->
+<section class="sec" id="pipeline">
+<div class="sh fi"><span class="tag tg-o">CAPABILITY MATRIX</span><h2>管线阶段 × AI 能力矩阵</h2><p>按工种分组展示各任务的AI辅助成熟度。条形越长、颜色越绿，代表AI能力越强。</p></div>
+<div class="fi" id="pipeline-bars">
+<div class="pb-legend">
+<span class="pb-lg"><span class="pb-ld" style="background:#e2e8f0"></span>L0 不可用</span>
+<span class="pb-lg"><span class="pb-ld" style="background:#fecaca"></span>L1 辅助</span>
+<span class="pb-lg"><span class="pb-ld" style="background:#fed7aa"></span>L2 加速</span>
+<span class="pb-lg"><span class="pb-ld" style="background:#fde68a"></span>L3 主导</span>
+<span class="pb-lg"><span class="pb-ld" style="background:#86efac"></span>L4 生产就绪</span>
+</div>
+</div>
+<div class="fi">
+<div class="tb">
+<button class="tbtn act" onclick="switchTab(this,'ptabs','tp1')">📋 策划</button>
+<button class="tbtn" onclick="switchTab(this,'ptabs','tp2')">🎨 2D美术</button>
+<button class="tbtn" onclick="switchTab(this,'ptabs','tp3')">🧊 3D美术</button>
+<button class="tbtn" onclick="switchTab(this,'ptabs','tp4')">💻 客户端</button>
+<button class="tbtn" onclick="switchTab(this,'ptabs','tp5')">🖥️ 后端</button>
+<button class="tbtn" onclick="switchTab(this,'ptabs','tp6')">🎵 音频</button>
+<button class="tbtn" onclick="switchTab(this,'ptabs','tp7')">🧪 测试QA</button>
+<button class="tbtn" onclick="switchTab(this,'ptabs','tp8')">📢 发行运营</button>
+</div>
+<div id="ptabs">
+<div class="tp act" id="tp1"><table class="mt"><tr><th>细分任务</th><th>策划</th><th>客户端</th><th>运营</th></tr>
+<tr><td class="tn">核心概念/创意</td><td class="c2">🟧L2</td><td class="cn">—</td><td class="cn">—</td></tr>
+<tr><td class="tn">GDD编写</td><td class="c3">🟨L3</td><td class="cn">—</td><td class="cn">—</td></tr>
+<tr><td class="tn">系统设计</td><td class="c2">🟧L2</td><td class="cn">—</td><td class="cn">—</td></tr>
+<tr><td class="tn">数值设计与平衡</td><td class="c2">🟧L2</td><td class="cn">—</td><td class="cn">—</td></tr>
+<tr><td class="tn">叙事/剧本</td><td class="c2">🟧L2-🟨L3</td><td class="cn">—</td><td class="cn">—</td></tr>
+<tr><td class="tn">关卡设计</td><td class="c1">🟥L1-🟧L2</td><td class="cn">—</td><td class="cn">—</td></tr>
+<tr><td class="tn">竞品/市场分析</td><td class="c3">🟨L3</td><td class="cn">—</td><td class="c3">🟨L3</td></tr>
+<tr><td class="tn">UI/UX设计</td><td class="c2">🟧L2</td><td class="cn">—</td><td class="cn">—</td></tr>
+<tr><td class="tn">原型搭建</td><td class="c3">🟨L3</td><td class="c3">🟨L3</td><td class="cn">—</td></tr></table></div>
+<div class="tp" id="tp2"><table class="mt"><tr><th>细分任务</th><th>2D美术</th></tr>
+<tr><td class="tn">概念图/气氛图</td><td class="c4">🟨L3-🟩L4</td></tr>
+<tr><td class="tn">角色设计（探索）</td><td class="c2">🟧L2-🟨L3</td></tr>
+<tr><td class="tn">角色设计一致性</td><td class="c2">🟧L2</td></tr>
+<tr><td class="tn">角色立绘（二次元）</td><td class="c2">🟧L2-🟨L3</td></tr>
+<tr><td class="tn">角色立绘（写实）</td><td class="c2">🟧L2</td></tr>
+<tr><td class="tn">场景/背景生成</td><td class="c3">🟨L3</td></tr>
+<tr><td class="tn">UI元素/图标</td><td class="c2">🟧L2-🟨L3</td></tr>
+<tr><td class="tn">像素美术</td><td class="c2">🟧L2</td></tr>
+<tr><td class="tn">2D动画</td><td class="c1">🟥L1-🟧L2</td></tr>
+<tr><td class="tn">AI修图/后处理</td><td class="c4">🟨L3-🟩L4</td></tr>
+<tr><td class="tn">卡面插画批量</td><td class="c3">🟨L3</td></tr></table></div>
+<div class="tp" id="tp3"><table class="mt"><tr><th>细分任务</th><th>3D美术</th></tr>
+<tr><td class="tn">3D建模（简单道具）</td><td class="c2">🟧L2-🟨L3</td></tr>
+<tr><td class="tn">3D建模（复杂角色）</td><td class="c1">🟥L1-🟧L2</td></tr>
+<tr><td class="tn">UV展开</td><td class="c1">🟥L1</td></tr>
+<tr><td class="tn">材质/PBR贴图</td><td class="c4">🟨L3-🟩L4</td></tr>
+<tr><td class="tn">骨骼绑定（人形）</td><td class="c2">🟧L2-🟨L3</td></tr>
+<tr><td class="tn">骨骼绑定（非人形）</td><td class="c1">🟥L1</td></tr>
+<tr><td class="tn">动画（基础动作库）</td><td class="c3">🟨L3</td></tr>
+<tr><td class="tn">动画（定制表演）</td><td class="c2">🟧L2</td></tr>
+<tr><td class="tn">3D特效/VFX</td><td class="c1">🟥L1</td></tr></table></div>
+<div class="tp" id="tp4"><table class="mt"><tr><th>细分任务</th><th>客户端编程</th></tr>
+<tr><td class="tn">代码补全（日常逻辑）</td><td class="c3">🟨L3</td></tr>
+<tr><td class="tn">函数/类生成</td><td class="c2">🟧L2-🟨L3</td></tr>
+<tr><td class="tn">UI系统开发</td><td class="c3">🟨L3</td></tr>
+<tr><td class="tn">Shader编写</td><td class="c1">🟥L1-🟧L2</td></tr>
+<tr><td class="tn">编辑器/工具开发</td><td class="c2">🟧L2-🟨L3</td></tr>
+<tr><td class="tn">核心玩法（简单）</td><td class="c3">🟨L3</td></tr>
+<tr><td class="tn">核心玩法（复杂）</td><td class="c1">🟥L1</td></tr>
+<tr><td class="tn">Bug定位与修复</td><td class="c2">🟧L2</td></tr>
+<tr><td class="tn">性能优化</td><td class="c1">🟥L1-🟧L2</td></tr>
+<tr><td class="tn">全项目从零搭建</td><td class="c1">🟥L1</td></tr></table></div>
+<div class="tp" id="tp5"><table class="mt"><tr><th>细分任务</th><th>后端编程</th></tr>
+<tr><td class="tn">REST API服务</td><td class="c3">🟨L3</td></tr>
+<tr><td class="tn">WebSocket通信</td><td class="c3">🟨L3</td></tr>
+<tr><td class="tn">数据库CRUD</td><td class="c3">🟨L3</td></tr>
+<tr><td class="tn">帧同步框架</td><td class="c1">🟥L1</td></tr>
+<tr><td class="tn">状态同步</td><td class="c2">🟧L2</td></tr>
+<tr><td class="tn">匹配系统</td><td class="c2">🟧L2</td></tr>
+<tr><td class="tn">反作弊</td><td class="c1">🟥L1</td></tr>
+<tr><td class="tn">CI/CD脚本</td><td class="c3">🟨L3</td></tr></table></div>
+<div class="tp" id="tp6"><table class="mt"><tr><th>细分任务</th><th>音频</th></tr>
+<tr><td class="tn">BGM生成（氛围类）</td><td class="c2">🟧L2-🟨L3</td></tr>
+<tr><td class="tn">BGM生成（精确编曲）</td><td class="c1">🟥L1-🟧L2</td></tr>
+<tr><td class="tn">音效（环境音）</td><td class="c2">🟧L2-🟨L3</td></tr>
+<tr><td class="tn">音效（战斗/UI）</td><td class="c2">🟧L2</td></tr>
+<tr><td class="tn">配音（英文）</td><td class="c3">🟨L3</td></tr>
+<tr><td class="tn">配音（中文）</td><td class="c2">🟧L2-🟨L3</td></tr>
+<tr><td class="tn">配音（日文）</td><td class="c3">🟨L3</td></tr>
+<tr><td class="tn">语音克隆</td><td class="c3">🟨L3</td></tr>
+<tr><td class="tn">互动/自适应音乐</td><td class="c0">⬛L0-🟥L1</td></tr>
+<tr><td class="tn">音频后期/分离</td><td class="c3">🟨L3</td></tr></table></div>
+<div class="tp" id="tp7"><table class="mt"><tr><th>细分任务</th><th>测试QA</th></tr>
+<tr><td class="tn">单元测试生成</td><td class="c2">🟧L2-🟨L3</td></tr>
+<tr><td class="tn">Bug报告分析</td><td class="c2">🟧L2</td></tr>
+<tr><td class="tn">自动化游玩测试</td><td class="c1">🟥L1</td></tr>
+<tr><td class="tn">平衡性数据分析</td><td class="c2">🟧L2</td></tr>
+<tr><td class="tn">性能回归测试</td><td class="c0">⬛L0</td></tr>
+<tr><td class="tn">本地化翻译</td><td class="c2">🟧L2-🟨L3</td></tr>
+<tr><td class="tn">本地化校对</td><td class="c3">🟨L3</td></tr></table></div>
+<div class="tp" id="tp8"><table class="mt"><tr><th>细分任务</th><th>发行运营</th></tr>
+<tr><td class="tn">商店文案撰写</td><td class="c3">🟨L3</td></tr>
+<tr><td class="tn">宣传图/物料</td><td class="c2">🟧L2-🟨L3</td></tr>
+<tr><td class="tn">预告片/PV</td><td class="c1">🟥L1</td></tr>
+<tr><td class="tn">社交媒体内容</td><td class="c2">🟧L2-🟨L3</td></tr>
+<tr><td class="tn">社区回复</td><td class="c2">🟧L2</td></tr>
+<tr><td class="tn">竞品监控</td><td class="c3">🟨L3</td></tr></table></div>
+</div></div>
+</section>
+
+<!-- 游戏类型分析 -->
+<section class="sec" id="gametype">
+<div class="sh fi"><span class="tag tg-g">GAME TYPE ANALYSIS</span><h2>游戏类型 × AI 赋能度分析</h2><p>核心结论：文本密集+2D美术密集+程序简单 → AI赋能高</p></div>
+<div class="cc fi"><div id="gametype-radar" class="cbl"></div></div>
+<div class="ss fi"><h3>📊 各类型工作量节省</h3></div>
+<div class="fi" style="max-width:700px">
+<div class="cb-row"><span class="bl">🥇 Galgame</span><div class="bt"><div class="bf" style="width:60%;background:linear-gradient(90deg,var(--ag),var(--ac))">60%</div></div><span class="bv" style="color:var(--ag)">~60%</span></div>
+<div class="cb-row"><span class="bl">🥈 卡牌游戏</span><div class="bt"><div class="bf" style="width:53%;background:linear-gradient(90deg,var(--ab),var(--ap))">53%</div></div><span class="bv" style="color:var(--ab)">~53%</span></div>
+<div class="cb-row"><span class="bl">🥉 养成游戏</span><div class="bt"><div class="bf" style="width:52%;background:linear-gradient(90deg,var(--ap),var(--apk))">52%</div></div><span class="bv" style="color:var(--ap)">~52%</span></div>
+<div class="cb-row"><span class="bl">　经营模拟</span><div class="bt"><div class="bf" style="width:44%;background:linear-gradient(90deg,var(--ay),var(--ao))">44%</div></div><span class="bv" style="color:var(--ay)">~44%</span></div>
+<div class="cb-row"><span class="bl">　中型3D独立</span><div class="bt"><div class="bf" style="width:28%;background:linear-gradient(90deg,var(--ao),var(--ar))">28%</div></div><span class="bv" style="color:var(--ar)">~28%</span></div>
+</div>
+<div class="cg cg2 fi" style="margin-top:24px">
+<div class="card"><h4 style="color:var(--ag);margin-bottom:12px">🏆 Galgame — AI ROI 最高 (~60%)</h4><p style="font-size:.8rem;color:var(--t2)">Ren'Py脚本极简AI几乎全自动生成。AI文本生成在对话/世界观方面表现出色，初稿60-70%可由AI完成。AI配音+BGM覆盖绝大部分需求。<strong style="color:var(--ag)">1人+AI开发完全可行。</strong></p></div>
+<div class="card"><h4 style="color:var(--ab);margin-bottom:12px">🃏 卡牌游戏 (~53%)</h4><p style="font-size:.8rem;color:var(--t2)">AI+LoRA批量生成一致卡面插画，成本下降80-95%。传统外包300张约24-60万元→AI+精修1.5-6万元。蒙特卡洛模拟将2周数值调试缩短至3天。</p></div>
+<div class="card"><h4 style="color:var(--ap);margin-bottom:12px">💕 养成游戏 (~52%)</h4><p style="font-size:.8rem;color:var(--t2)">角色立绘需求量极大（多角色×多表情×多服装），AI+LoRA大幅降低成本。AI配音可覆盖70-80%日常对话。</p></div>
+<div class="card"><h4 style="color:var(--ar);margin-bottom:12px">⚔️ 中型3D独立 (~28%) — AI赋能最低</h4><p style="font-size:.8rem;color:var(--t2)">3D管线长，AI仅在材质和概念设计有效。网络同步、物理系统、战斗手感等核心模块AI无法可靠处理。</p></div>
+</div>
+</section>
+
+<!-- 引擎对比 -->
+<section class="sec" id="engine">
+<div class="sh fi"><span class="tag tg-p">ENGINE COMPARISON</span><h2>引擎 × AI 友好度对比</h2><p>各主流引擎在 AI 辅助开发方面的综合表现（1-5分制）</p></div>
+<div class="cc fi"><div id="engine-radar" class="cb"></div></div>
+<div class="cg cg3 fi" style="margin-top:24px">
+<div class="card" style="border-top:3px solid var(--ab)"><h4>🏆 Unity <span class="lb ll3" style="margin-left:8px">3.6/5</span></h4><p style="font-size:.75rem;color:var(--ab);margin-bottom:12px">综合AI友好度最高</p><div style="font-size:.8rem;color:var(--t2);line-height:2"><div style="display:flex;justify-content:space-between"><span>AI编码体验</span><span style="color:#fde047">⭐4.0</span></div><div style="display:flex;justify-content:space-between"><span>引擎集成AI</span><span style="color:#fdba74">⭐2.5</span></div><div style="display:flex;justify-content:space-between"><span>AI插件生态</span><span style="color:#fde047">⭐3.5</span></div><div style="display:flex;justify-content:space-between"><span>独立团队推荐度</span><span style="color:#86efac">⭐4.5</span></div></div><p style="font-size:.72rem;color:var(--tm);margin-top:12px">C#是AI训练数据最丰富的游戏语言，补全准确率约85-90%</p></div>
+<div class="card" style="border-top:3px solid var(--ap)"><h4>⚡ Unreal <span class="lb ll2" style="margin-left:8px">2.9/5</span></h4><p style="font-size:.75rem;color:var(--ap);margin-bottom:12px">强但门槛高</p><div style="font-size:.8rem;color:var(--t2);line-height:2"><div style="display:flex;justify-content:space-between"><span>AI编码体验</span><span style="color:#fdba74">⭐3.0</span></div><div style="display:flex;justify-content:space-between"><span>引擎集成AI</span><span style="color:#fdba74">⭐2.5</span></div><div style="display:flex;justify-content:space-between"><span>AI插件生态</span><span style="color:#fdba74">⭐3.0</span></div><div style="display:flex;justify-content:space-between"><span>独立团队推荐度</span><span style="color:#fdba74">⭐3.0</span></div></div><p style="font-size:.72rem;color:var(--tm);margin-top:12px">Blueprint AI完全无法操作（⬛L0），C++门槛高</p></div>
+<div class="card" style="border-top:3px solid var(--ag)"><h4>🌿 Godot <span class="lb ll2" style="margin-left:8px">2.5/5</span></h4><p style="font-size:.75rem;color:var(--ag);margin-bottom:12px">开源潜力大但生态不足</p><div style="font-size:.8rem;color:var(--t2);line-height:2"><div style="display:flex;justify-content:space-between"><span>AI编码体验</span><span style="color:#fdba74">⭐3.0</span></div><div style="display:flex;justify-content:space-between"><span>引擎集成AI</span><span style="color:#fca5a5">⭐1.0</span></div><div style="display:flex;justify-content:space-between"><span>AI插件生态</span><span style="color:#fdba74">⭐2.0</span></div><div style="display:flex;justify-content:space-between"><span>独立团队推荐度</span><span style="color:#fde047">⭐4.0</span></div></div><p style="font-size:.72rem;color:var(--tm);margin-top:12px">免费+开源+轻量。AI容易混淆3.x和4.x API</p></div>
+</div>
+<div class="hb fi" style="margin-top:24px"><div class="ht">🧭 引擎选型决策指南</div><ul>
+<li><strong>2D独立游戏</strong> → Unity — C# AI补全最佳</li>
+<li><strong>Galgame/视觉小说</strong> → Ren'Py/Godot — 脚本极简AI友好</li>
+<li><strong>微信小游戏/H5</strong> → Cocos Creator — TS AI补全+CodeBuddy优化</li>
+<li><strong>3D中型独立</strong> → Unity/UE — Unity AI友好度更高，UE视觉上限更高</li>
+<li><strong>快速原型/Game Jam</strong> → Godot — 免费+轻量+快速迭代</li>
+</ul></div>
+</section>
+
+<!-- 团队角色 -->
+<section class="sec" id="team">
+<div class="sh fi"><span class="tag tg-c">TEAM ROLES</span><h2>团队角色 × AI 赋能分析</h2><p>以5人独立团队为参照，评估AI对不同角色的效率提升和学习成本</p></div>
+<div class="cc fi"><div id="team-radar" class="cb"></div></div>
+<div class="cg cg3 fi" style="margin-top:24px">
+<div class="card" style="border-left:4px solid var(--ac)"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h4>📋 策划</h4><span style="background:rgba(6,182,212,.15);color:var(--ac);padding:2px 10px;border-radius:10px;font-size:.73rem;font-weight:700">🥇P0</span></div><div style="font-size:.8rem;color:var(--t2);line-height:2"><div>效率提升: <strong style="color:#fde047">⭐3.5</strong> | 替代度: <strong style="color:#fca5a5">⭐1.5</strong> | 学习: <strong style="color:var(--ag)">1周</strong></div></div><p style="font-size:.73rem;color:var(--tm);margin-top:8px">GDD编写提速2-3x，竞品分析提速5-10x。创意判断不可替代。投入最低回报最快。</p></div>
+<div class="card" style="border-left:4px solid var(--apk)"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h4>🎨 美术</h4><span style="background:rgba(236,72,153,.15);color:var(--apk);padding:2px 10px;border-radius:10px;font-size:.73rem;font-weight:700">🥈P1</span></div><div style="font-size:.8rem;color:var(--t2);line-height:2"><div>效率提升: <strong style="color:#fde047">⭐3.5</strong> | 替代度: <strong style="color:#fdba74">⭐2.0</strong> | 学习: <strong style="color:var(--ay)">2-4周</strong></div></div><p style="font-size:.73rem;color:var(--tm);margin-top:8px">概念图速度提升5-10x。需要学习ComfyUI/SD/LoRA，前期投入较大。</p></div>
+<div class="card" style="border-left:4px solid var(--ab)"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h4>💻 客户端</h4><span style="background:rgba(59,130,246,.15);color:var(--ab);padding:2px 10px;border-radius:10px;font-size:.73rem;font-weight:700">🥇P0</span></div><div style="font-size:.8rem;color:var(--t2);line-height:2"><div>效率提升: <strong style="color:#fde047">⭐3.5</strong> | 替代度: <strong style="color:#fca5a5">⭐1.5</strong> | 学习: <strong style="color:var(--ao)">1-2周</strong></div></div><p style="font-size:.73rem;color:var(--tm);margin-top:8px">AI编码工具是ROI最高的AI投资。编码效率提升30-50%。</p></div>
+<div class="card" style="border-left:4px solid var(--ap)"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h4>🖥️ 后端</h4><span style="background:rgba(139,92,246,.15);color:var(--ap);padding:2px 10px;border-radius:10px;font-size:.73rem;font-weight:700">🥇P0</span></div><div style="font-size:.8rem;color:var(--t2);line-height:2"><div>效率提升: <strong style="color:#fde047">⭐4.0</strong> | 替代度: <strong style="color:#fdba74">⭐2.0</strong> | 学习: <strong style="color:var(--ao)">1-2周</strong></div></div><p style="font-size:.73rem;color:var(--tm);margin-top:8px">AI辅助效果最稳定。REST API/数据库代码准确率达85-90%。</p></div>
+<div class="card" style="border-left:4px solid var(--ay)"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h4>📢 运营</h4><span style="background:rgba(245,158,11,.15);color:var(--ay);padding:2px 10px;border-radius:10px;font-size:.73rem;font-weight:700">🥉P2</span></div><div style="font-size:.8rem;color:var(--t2);line-height:2"><div>效率提升: <strong style="color:#fdba74">⭐3.0</strong> | 替代度: <strong style="color:#fdba74">⭐2.5</strong> | 学习: <strong style="color:var(--ag)">1周</strong></div></div><p style="font-size:.73rem;color:var(--tm);margin-top:8px">文案/翻译AI替代度较高。社区互动需人情味。后期介入。</p></div>
+</div>
+</section>
+
+<!-- 美术AI评测 -->
+<section class="sec" id="art-ai">
+<div class="sh fi"><span class="tag tg-pk">ART AI DEEP DIVE</span><h2>🎨 美术 AI 详细评测</h2><p>2D与3D美术全管线AI能力深度分析，含工具横向对比和成本分析</p></div>
+<div class="cc fi"><div id="art-tools-chart" class="cb"></div></div>
+<div class="dg fi" style="margin-top:20px">
+<div class="dc"><h4>🌟 Midjourney V7</h4><div class="dr"><span class="dl">类型</span><span class="dv" style="color:var(--ac)">云端SaaS</span></div><div class="dr"><span class="dl">擅长</span><span class="dv">概念图/场景/气氛图</span></div><div class="dr"><span class="dl">质量</span><span class="dv" style="color:#86efac">L3-L4</span></div><div class="dr"><span class="dl">价格</span><span class="dv" style="color:var(--ay)">$10-30/月</span></div><div class="dr"><span class="dl">弱点</span><span class="dv" style="color:var(--ar)">可控性低、角色一致性差</span></div></div>
+<div class="dc"><h4>🔧 ComfyUI+SD/Flux</h4><div class="dr"><span class="dl">类型</span><span class="dv" style="color:var(--ag)">本地开源</span></div><div class="dr"><span class="dl">擅长</span><span class="dv">可控生成/LoRA/批量</span></div><div class="dr"><span class="dl">质量</span><span class="dv" style="color:#fde047">L2-L3</span></div><div class="dr"><span class="dl">价格</span><span class="dv" style="color:var(--ag)">免费（需GPU）</span></div><div class="dr"><span class="dl">必备</span><span class="dv" style="color:var(--ac)">ControlNet+LoRA训练</span></div></div>
+<div class="dc"><h4>🤖 NovelAI V3</h4><div class="dr"><span class="dl">类型</span><span class="dv" style="color:var(--ac)">云端SaaS</span></div><div class="dr"><span class="dl">擅长</span><span class="dv">二次元角色立绘</span></div><div class="dr"><span class="dl">质量</span><span class="dv" style="color:#fde047">L2-L3</span></div><div class="dr"><span class="dl">价格</span><span class="dv" style="color:var(--ay)">$10-25/月</span></div><div class="dr"><span class="dl">特点</span><span class="dv">二次元风格最优</span></div></div>
+<div class="dc"><h4>🧊 Meshy Pro</h4><div class="dr"><span class="dl">类型</span><span class="dv" style="color:var(--ac)">云端3D</span></div><div class="dr"><span class="dl">擅长</span><span class="dv">3D草模快速生成</span></div><div class="dr"><span class="dl">质量</span><span class="dv" style="color:#fdba74">L2</span></div><div class="dr"><span class="dl">价格</span><span class="dv" style="color:var(--ay)">$20/月</span></div><div class="dr"><span class="dl">限制</span><span class="dv" style="color:var(--ar)">拓扑质量差需重制</span></div></div>
+<div class="dc"><h4>🎭 Tripo AI</h4><div class="dr"><span class="dl">类型</span><span class="dv" style="color:var(--ac)">云端3D</span></div><div class="dr"><span class="dl">擅长</span><span class="dv">图片→3D模型</span></div><div class="dr"><span class="dl">质量</span><span class="dv" style="color:#fdba74">L1-L2</span></div><div class="dr"><span class="dl">价格</span><span class="dv" style="color:var(--ag)">免费额度</span></div><div class="dr"><span class="dl">用途</span><span class="dv">概念验证/占位</span></div></div>
+<div class="dc"><h4>🎨 Adobe Substance</h4><div class="dr"><span class="dl">类型</span><span class="dv" style="color:var(--ap)">订阅软件</span></div><div class="dr"><span class="dl">擅长</span><span class="dv">PBR材质/贴图AI</span></div><div class="dr"><span class="dl">质量</span><span class="dv" style="color:#86efac">L3-L4</span></div><div class="dr"><span class="dl">价格</span><span class="dv" style="color:var(--ay)">CC订阅</span></div><div class="dr"><span class="dl">亮点</span><span class="dv" style="color:var(--ag)">材质生成已生产就绪</span></div></div>
+</div>
+<div class="hb fi" style="margin-top:24px"><div class="ht">💰 美术成本对比</div><ul>
+<li>卡面插画：传统外包300张≈24-60万 → AI+精修≈<strong>1.5-6万</strong>（节省80-95%）</li>
+<li>角色一致性仍是最大瓶颈：LoRA训练+ControlNet可改善但不完美</li>
+<li>像素美术AI效果最差——建议仅用AI做概念参考，实际像素画仍需手工</li>
+<li>推荐美术学习路径：Week1 MJ入门 → Week2 ComfyUI → Week3 ControlNet → Week4 LoRA训练</li>
+</ul></div>
+</section>
+
+<!-- 编程AI评测 -->
+<section class="sec" id="code-ai">
+<div class="sh fi"><span class="tag tg-b">CODE AI DEEP DIVE</span><h2>💻 编程 AI 详细评测</h2><p>Cursor/CodeBuddy/Copilot横向对比，各引擎AI支持度和各开发任务能力评估</p></div>
+<div class="cc fi"><div id="code-tools-chart" class="cb"></div></div>
+<div class="dg fi" style="margin-top:20px">
+<div class="dc"><h4>⚡ Cursor Pro</h4><div class="dr"><span class="dl">Agent模式</span><span class="dv" style="color:#86efac">最强</span></div><div class="dr"><span class="dl">多文件编辑</span><span class="dv" style="color:#86efac">支持</span></div><div class="dr"><span class="dl">Unity支持</span><span class="dv" style="color:#fde047">优秀</span></div><div class="dr"><span class="dl">价格</span><span class="dv" style="color:var(--ay)">$20/月</span></div><div class="dr"><span class="dl">适合</span><span class="dv">海外网络环境</span></div></div>
+<div class="dc"><h4>🐱 CodeBuddy</h4><div class="dr"><span class="dl">Craft模式</span><span class="dv" style="color:#fde047">强</span></div><div class="dr"><span class="dl">微信小游戏</span><span class="dv" style="color:#86efac">专项优化</span></div><div class="dr"><span class="dl">国内体验</span><span class="dv" style="color:#86efac">零延迟</span></div><div class="dr"><span class="dl">价格</span><span class="dv" style="color:var(--ag)">免费-付费</span></div><div class="dr"><span class="dl">适合</span><span class="dv">国内网络环境</span></div></div>
+<div class="dc"><h4>🤖 GitHub Copilot</h4><div class="dr"><span class="dl">补全能力</span><span class="dv" style="color:#fde047">优秀</span></div><div class="dr"><span class="dl">IDE集成</span><span class="dv" style="color:#86efac">最广</span></div><div class="dr"><span class="dl">Agent模式</span><span class="dv" style="color:#fdba74">在追赶</span></div><div class="dr"><span class="dl">价格</span><span class="dv" style="color:var(--ay)">$10/月</span></div><div class="dr"><span class="dl">适合</span><span class="dv">已有VS/Rider用户</span></div></div>
+</div>
+<div class="hb fi" style="margin-top:24px"><div class="ht">⚡ 编程AI关键发现</div><ul>
+<li>AI最擅长：CRUD/UI代码/工具脚本/单元测试 — 效率提升30-50%</li>
+<li>AI最弱：复杂玩法逻辑/Shader/帧同步/性能优化 — 仍需人工为主</li>
+<li>上下文窗口是当前最大限制 — 中型项目(50+脚本)AI理解力下降明显</li>
+<li>建立.cursorrules文件极为重要 — 标注引擎版本/命名规范/禁止事项</li>
+<li>选型建议：海外网络选Cursor，国内网络选CodeBuddy，深入使用一个比两个都浅尝更有价值</li>
+</ul></div>
+</section>
+
+<!-- 音频AI评测 -->
+<section class="sec" id="audio-ai">
+<div class="sh fi"><span class="tag tg-y">AUDIO AI DEEP DIVE</span><h2>🎵 音频 AI 详细评测</h2><p>BGM/音效/配音三大领域AI工具评测，含版权法律分析</p></div>
+<div class="dg fi">
+<div class="dc"><h4>🎵 Suno V4</h4><div class="dr"><span class="dl">擅长</span><span class="dv">BGM/歌曲生成</span></div><div class="dr"><span class="dl">质量</span><span class="dv" style="color:#fde047">L2-L3</span></div><div class="dr"><span class="dl">价格</span><span class="dv" style="color:var(--ay)">$10/月Pro</span></div><div class="dr"><span class="dl">版权</span><span class="dv" style="color:var(--ao)">诉讼中⚠️</span></div><div class="dr"><span class="dl">商用</span><span class="dv">Pro版可商用</span></div></div>
+<div class="dc"><h4>🎼 AIVA</h4><div class="dr"><span class="dl">擅长</span><span class="dv">古典/交响/电影配乐</span></div><div class="dr"><span class="dl">质量</span><span class="dv" style="color:#fde047">L2-L3</span></div><div class="dr"><span class="dl">价格</span><span class="dv" style="color:var(--ay)">$15/月</span></div><div class="dr"><span class="dl">版权</span><span class="dv" style="color:var(--ag)">Pro版权转让✅</span></div><div class="dr"><span class="dl">推荐</span><span class="dv" style="color:var(--ag)">版权最安全</span></div></div>
+<div class="dc"><h4>🗣️ ElevenLabs</h4><div class="dr"><span class="dl">擅长</span><span class="dv">语音合成/配音</span></div><div class="dr"><span class="dl">质量</span><span class="dv" style="color:#fde047">L3</span></div><div class="dr"><span class="dl">英文</span><span class="dv" style="color:#86efac">接近真人</span></div><div class="dr"><span class="dl">中日文</span><span class="dv" style="color:#fdba74">L2-L3</span></div><div class="dr"><span class="dl">注意</span><span class="dv" style="color:var(--ar)">勿克隆真人</span></div></div>
+<div class="dc"><h4>🔊 ElevenLabs SFX</h4><div class="dr"><span class="dl">擅长</span><span class="dv">音效生成</span></div><div class="dr"><span class="dl">环境音</span><span class="dv" style="color:#fde047">L2-L3</span></div><div class="dr"><span class="dl">战斗音效</span><span class="dv" style="color:#fdba74">L2</span></div><div class="dr"><span class="dl">价格</span><span class="dv" style="color:var(--ay)">$5-22/月</span></div><div class="dr"><span class="dl">用途</span><span class="dv">占位/原型/部分成品</span></div></div>
+</div>
+<div class="hb fi" style="margin-top:24px"><div class="ht">⚖️ 音频版权关键提醒</div><ul>
+<li>Suno版权诉讼(唱片公司 vs Suno)预计2026-2027年有明确结果，但行业趋势转向"授权合作"</li>
+<li>AIVA Pro版本权转让最安全 — 推荐用于核心BGM</li>
+<li>SAG-AFTRA罢工影响AI配音政策 — 不克隆真人声音（除非获得授权）</li>
+<li>互动/自适应音乐仍是L0-L1 — Wwise/FMOD + AI预生成方案是当前可行折衷</li>
+</ul></div>
+</section>
+
+<!-- 策划AI评测 -->
+<section class="sec" id="design-ai">
+<div class="sh fi"><span class="tag tg-c">DESIGN AI DEEP DIVE</span><h2>📝 策划 AI 详细评测</h2><p>GDD编写/数值建模/叙事生成/竞品分析等策划环节AI能力评估</p></div>
+<div class="cc fi"><div id="design-chart" class="cb"></div></div>
+<div class="cg cg2 fi" style="margin-top:20px">
+<div class="card"><h4 style="color:var(--ac)">🏆 Claude Pro — 策划首选</h4><p style="font-size:.8rem;color:var(--t2);margin-top:8px">$20/月。Projects功能可建立持久项目上下文。GDD编写提速2-3x，系统设计讨论的"全天候伙伴"。200K上下文窗口适合长文档。</p></div>
+<div class="card"><h4 style="color:var(--ag)">💬 ChatGPT Plus — 创意发散</h4><p style="font-size:.8rem;color:var(--t2);margin-top:8px">$20/月。多模态概念板、快速Brainstorm。GPT-4o原生图像生成可做视觉参考。适合创意探索和日常快速问答。</p></div>
+</div>
+<div class="hb fi" style="margin-top:24px"><div class="ht">📋 策划AI各场景效率提升</div><ul>
+<li><strong>竞品分析</strong>：5-10x提速 — 喂入竞品信息，AI提取特征对比矩阵</li>
+<li><strong>GDD编写</strong>：2-3x提速 — 分章节生成，积累项目上下文</li>
+<li><strong>数值建模</strong>：3-5x提速 — 描述规则→AI生成模拟脚本→运行分析</li>
+<li><strong>叙事/对话生成</strong>：2-3x — 角色人设+场景描述→AI初稿60-70%</li>
+<li><strong>核心创意判断</strong>：<strong style="color:var(--ar)">不可替代</strong> — "什么好玩"仍需人类设计直觉</li>
+</ul></div>
+</section>
+
+<!-- 预算规划 -->
+<section class="sec" id="budget">
+<div class="sh fi"><span class="tag tg-y">BUDGET PLANNING</span><h2>💰 预算规划</h2><p>三档预算方案对比，覆盖5人团队全岗位AI工具配置</p></div>
+<div class="cg cg3 fi">
+<div class="bc"><div class="bn">💡 极致性价比</div><div class="bp" style="color:var(--ag)">¥350</div><div class="bu">/月</div><div class="bi">
+<div class="bir"><span>策划</span><span>ChatGPT Plus ¥140</span></div>
+<div class="bir"><span>美术</span><span>MJ Basic+本地SD ¥70</span></div>
+<div class="bir"><span>客户端</span><span>Cursor Pro ¥140</span></div>
+<div class="bir"><span>后端</span><span>CodeBuddy Free ¥0</span></div>
+<div class="bir"><span>运营</span><span>共用账号 ¥0</span></div>
+<div class="bir" style="font-weight:700;color:var(--t1)"><span>年费</span><span>¥4,200</span></div>
+</div></div>
+<div class="bc rec"><div class="bn">⭐ 推荐方案</div><div class="bp" style="color:var(--ab)">¥1,215</div><div class="bu">/月</div><div class="bi">
+<div class="bir"><span>策划</span><span>Claude+ChatGPT ¥280</span></div>
+<div class="bir"><span>美术</span><span>MJ Standard+ChatGPT ¥350</span></div>
+<div class="bir"><span>客户端</span><span>Cursor Pro ¥140</span></div>
+<div class="bir"><span>后端</span><span>Cursor Pro ¥140</span></div>
+<div class="bir"><span>运营</span><span>ChatGPT+DeepL ¥200</span></div>
+<div class="bir"><span>音频</span><span>Suno+ElevenLabs ¥105</span></div>
+<div class="bir" style="font-weight:700;color:var(--t1)"><span>年费</span><span>¥14,580</span></div>
+</div></div>
+<div class="bc"><div class="bn">🚀 全面方案</div><div class="bp" style="color:var(--ap)">¥2,940</div><div class="bu">/月</div><div class="bi">
+<div class="bir"><span>策划</span><span>Claude+ChatGPT+MJ ¥490</span></div>
+<div class="bir"><span>美术</span><span>MJ Pro+Adobe+Meshy ¥1,050</span></div>
+<div class="bir"><span>客户端</span><span>Cursor+Copilot+Claude ¥350</span></div>
+<div class="bir"><span>后端</span><span>Cursor+Claude ¥280</span></div>
+<div class="bir"><span>运营</span><span>全套工具 ¥310</span></div>
+<div class="bir"><span>音频</span><span>AIVA+ElevenLabs+Suno ¥460</span></div>
+<div class="bir" style="font-weight:700;color:var(--t1)"><span>年费</span><span>¥35,280</span></div>
+</div></div>
+</div>
+<div class="cc fi" style="margin-top:24px"><div id="roi-chart" class="cb"></div></div>
+<div class="hb fi" style="margin-top:16px"><div class="ht">📊 ROI 分析（推荐方案·12个月周期）</div><ul>
+<li>传统方式预估：美术外包¥20万 + 音频外包¥5万 + 工具¥3万 = <strong>¥28万</strong></li>
+<li>AI辅助方式：AI工具¥1.76万 + 精简外包¥5万 + 精简音频¥1.5万 + 工具¥2万 = <strong>¥10.26万</strong></li>
+<li>预估节省：<strong style="color:var(--ag);font-size:1.1rem">¥17.74万（约63%）</strong></li>
+</ul></div>
+</section>
+
+<!-- 路线图 -->
+<section class="sec" id="roadmap">
+<div class="sh fi"><span class="tag tg-b">ADOPTION ROADMAP</span><h2>🗺️ AI 采纳路线图</h2><p>三阶段渐进式AI工具采纳计划</p></div>
+<div class="tl fi">
+<div class="tli"><div class="tt" style="color:var(--ag)">🚀 Phase 1：启动期（第1-2个月）</div><div class="tc">全员了解AI能力边界，核心岗位开始日常使用。<br>▸ 第1周：全团队AI工具Demo会<br>▸ 第2-3周：策划用Claude辅助GDD，程序安装Cursor，美术注册MJ<br>▸ 第4-8周：建立工作流，每周"AI分享"<br>▸ <strong>预期</strong>：策划产出提升30-50%，程序效率提升20-30%</div></div>
+<div class="tli"><div class="tt" style="color:var(--ab)">⚡ Phase 2：深化期（第3-4个月）</div><div class="tc">建立项目级SOP，美术建立完整AI流水线，程序掌握Agent模式。<br>▸ 美术训练项目LoRA，建立AI美术质控流程<br>▸ 策划用AI生成数值模拟Python脚本<br>▸ 程序学习Cursor Agent多文件编辑<br>▸ 建立团队级AI使用规范文档<br>▸ <strong>预期</strong>：策划2-3x / 程序1.5-2x / 美术2-5x</div></div>
+<div class="tli"><div class="tt" style="color:var(--ap)">🔮 Phase 3：成熟期（第5-6个月+）</div><div class="tc">AI工具成为团队基础设施，持续优化。<br>▸ 季度工具Review + Prompt模板迭代<br>▸ 新工具试点 + AI使用数据统计<br>▸ 探索3D AI/互动音乐/运行时AI前沿<br>▸ <strong>预期</strong>：AI成为"标准工具栈"</div></div>
+</div>
+</section>
+
+<!-- 风险矩阵 -->
+<section class="sec" id="risk">
+<div class="sh fi"><span class="tag tg-r">RISK MATRIX</span><h2>⚠️ 风险矩阵</h2><p>版权/法律、平台、技术、市场、成本五大类25+风险项评估</p></div>
+<div class="cc fi"><div id="risk-chart" class="cb"></div></div>
+<div class="ss fi"><h3>🔴 高优先级风险（必须应对）</h3></div>
+<div class="fi">
+<div class="ri"><div class="rd h"></div><div class="rn">AI代码"幻觉"导致Bug — AI生成错误代码/虚构API</div><div class="rp">概率70%</div></div>
+<div class="ri"><div class="rd h"></div><div class="rn">同质化竞争 — 相似AI工具+Prompt生成相似内容</div><div class="rp">概率75%</div></div>
+<div class="ri"><div class="rd h"></div><div class="rn">独立游戏市场更加拥挤 — AI降低开发门槛</div><div class="rp">概率80%</div></div>
+</div>
+<div class="ss fi"><h3>🟡 中优先级风险（重点关注）</h3></div>
+<div class="fi">
+<div class="ri"><div class="rd m"></div><div class="rn">AI图像训练数据版权败诉 — Getty vs Stability AI</div><div class="rp">概率40%</div></div>
+<div class="ri"><div class="rd m"></div><div class="rn">AI工具涨价 — 获客期定价结束后大幅涨价</div><div class="rp">概率70%</div></div>
+<div class="ri"><div class="rd m"></div><div class="rn">质量返工成本 — AI生成内容需更多人工修改</div><div class="rp">概率65%</div></div>
+<div class="ri"><div class="rd m"></div><div class="rn">学习成本被低估 — 团队适应AI工具时间超预期</div><div class="rp">概率80%</div></div>
+<div class="ri"><div class="rd m"></div><div class="rn">语音克隆法律风险 — SAG-AFTRA推动严格法规</div><div class="rp">概率60%</div></div>
+</div>
+<div class="hb fi" style="margin-top:24px"><div class="ht">🛡️ 核心应对策略</div><ul>
+<li>"不信任，要验证" — 所有AI代码必须经Code Review和测试</li>
+<li>核心创意差异化 — 人工打磨独特性，建立IP壁垒</li>
+<li>技术栈分散 — 每个关键环节至少两个备选工具</li>
+<li>保留创作过程记录 — 建立"人类创意贡献"证据链</li>
+<li>预算留30-50%修改余量 — 不盲目相信AI成本估算</li>
+</ul></div>
+</section>
+
+<!-- 未来展望 -->
+<section class="sec" id="future">
+<div class="sh fi"><span class="tag tg-p">FUTURE OUTLOOK</span><h2>🔮 未来展望</h2><p>短期(6-12月)、中期(1-3年)、长期(3-5年)分层预测</p></div>
+<div class="cg cg3 fi">
+<div class="card" style="border-top:3px solid var(--ag)"><h4 style="color:var(--ag);margin-bottom:12px">📌 短期 6-12个月</h4><div style="font-size:.8rem;color:var(--t2);line-height:1.9">
+<div>✅ 图像模型继续迭代，量变非质变</div>
+<div>✅ AI编码从"补全"走向"Agent"</div>
+<div>✅ AI音频版权逐步明朗</div>
+<div>✅ Steam等平台政策进一步明确</div>
+<div>❓ 多视角一致性方案商用化(60%)</div>
+<div>❓ 视频模型影响动画流程(40%)</div>
+</div></div>
+<div class="card" style="border-top:3px solid var(--ab)"><h4 style="color:var(--ab);margin-bottom:12px">🔮 中期 1-3年</h4><div style="font-size:.8rem;color:var(--t2);line-height:1.9">
+<div>🔮 3D生成质量飞跃(L2→L3)</div>
+<div>🔮 文本转动画成熟化(L1→L2-L3)</div>
+<div>🔮 角色一致性基本解决</div>
+<div>🔮 AI编码理解"项目全局"</div>
+<div>📊 AI-First独立工作室涌现</div>
+<div>📊 版权框架基本成型</div>
+</div></div>
+<div class="card" style="border-top:3px solid var(--ap)"><h4 style="color:var(--ap);margin-bottom:12px">🌟 长期 3-5年</h4><div style="font-size:.8rem;color:var(--t2);line-height:1.9">
+<div>🌟 3D资产全流程AI化</div>
+<div>🌟 AI美术总监（自动一致性）</div>
+<div>🌟 AI作为设计合作者</div>
+<div>🌟 运行时AI内容生成</div>
+<div>❌ "AI完全替代团队"不现实</div>
+<div>❌ "AI自动生成完整游戏"不现实</div>
+</div></div>
+</div>
+<div class="qb fi" style="margin-top:24px">AI 正在改变游戏的"怎么做"，但不会改变"什么是好游戏"。好游戏的本质——有趣的设计、打动人心的叙事、令人沉浸的世界——不会因AI而改变。</div>
+</section>
+
+<!-- FAQ -->
+<section class="sec" id="faq">
+<div class="sh fi"><span class="tag tg-b">FAQ</span><h2>❓ 常见问题</h2></div>
+<div class="fi">
+<div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">团队完全不懂AI，应该从哪里开始？</div>
+<div class="faq-a">从最简单的开始——让策划和程序员注册ChatGPT或Claude，在日常工作中尝试对话式提问。第一步不是学复杂工具，而是建立"AI可以帮我什么"的直觉。</div>
+<div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">AI会不会让美术师/程序员失业？</div>
+<div class="faq-a">短期内不会。AI是倍增器而非替代品。有审美素养的美术师用AI会更强大，有架构能力的程序员用AI会更高效。但纯执行层面的工作确实会被显著压缩。</div>
+<div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">用AI生成的内容能上Steam吗？</div>
+<div class="faq-a">可以。Steam要求如实披露AI使用情况，但不禁止AI内容。审核标准与非AI内容相同——关注内容合规性而非"是否AI生成"。但注意部分玩家对AI美术的负面态度。</div>
+<div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">版权风险到底有多大？</div>
+<div class="faq-a">对独立小游戏来说，风险较低但不为零。建议：(1)使用商用授权明确的工具；(2)对AI内容进行人工修改；(3)保留创作过程记录；(4)在Credits中标注AI使用。</div>
+<div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">应该让AI写核心玩法代码吗？</div>
+<div class="faq-a">不建议让AI独立编写核心玩法代码。AI擅长脚手架、CRUD、UI、工具代码。核心玩法需要人类反复迭代和"手感"调优。</div>
+<div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Cursor 和 CodeBuddy 怎么选？</div>
+<div class="faq-a">简单判断——网络流畅访问海外选Cursor（Agent最强）；国内环境选CodeBuddy（零延迟+免费额度大+微信小游戏优化）。选一个深入使用比两个都浅尝更有价值。</div>
+</div>
+</section>
+
+<!-- 结语 -->
+<section class="sec" style="text-align:center;padding:100px 60px">
+<div class="fi">
+<h2 style="font-size:1.8rem;margin-bottom:24px;background:linear-gradient(135deg,#1e293b,#4f46e5,#0891b2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">在 AI 时代做好游戏</h2>
+<p style="font-size:1rem;color:var(--t2);max-width:700px;margin:0 auto;line-height:1.9">游戏开发者最宝贵的资产不是技术栈，而是<strong style="color:var(--t1)">审美品味、设计直觉和对玩家的理解</strong>。<br>AI 能帮你画得更快、写得更快、编码更快——<br>但只有你才能决定什么值得画、什么值得写、什么值得做。</p>
+<p style="font-size:.75rem;color:var(--tm);margin-top:32px">📋 调研截止 2026-03-24 · 建议 2026-06-24 季度更新 · 覆盖 32 份深度文档</p>
+</div>
+</section>
+
+</main>
+<script>
+// Tab 切换
+function switchTab(btn,containerId,panelId){
+  const c=document.getElementById(containerId);if(!c)return;
+  c.querySelectorAll('.tp').forEach(p=>p.classList.remove('act'));
+  btn.parentElement.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('act'));
+  btn.classList.add('act');
+  const p=document.getElementById(panelId);if(p)p.classList.add('act');
+}
+// 滚动动画
+const obs=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('v')})},{threshold:.1});
+document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
+// 导航高亮
+const navLinks=document.querySelectorAll('.sidebar-nav a[href^="#"]');
+window.addEventListener('scroll',()=>{
+  let cur='';
+  document.querySelectorAll('.sec[id],section[id]').forEach(s=>{if(window.scrollY>=s.offsetTop-200)cur=s.id;});
+  navLinks.forEach(l=>{l.classList.remove('active');if(l.getAttribute('href')==='#'+cur)l.classList.add('active');});
+});
+
+// ========== ECharts 图表 ==========
+const darkText='#64748b',cardBg='#ffffff';
+
+// 1. 管线能力分面条形图
+(function(){
+  const container=document.getElementById('pipeline-bars');if(!container)return;
+  const groups=[
+    {name:'策划',icon:'📋',color:'#2563eb',items:[
+      ['核心概念',2],['GDD编写',3],['系统设计',2],['数值设计',2],['叙事/剧本',2.5],['关卡设计',1.5],['竞品分析',3],['UI/UX',2],['原型搭建',3]]},
+    {name:'2D美术',icon:'🎨',color:'#7c3aed',items:[
+      ['概念图',3.5],['角色设计',2.5],['角色一致性',2],['场景背景',3],['UI图标',2.5],['AI修图',3.5],['卡面插画',3]]},
+    {name:'3D美术',icon:'🧊',color:'#0891b2',items:[
+      ['3D道具',2.5],['3D角色',1.5],['UV展开',1],['PBR材质',3.5],['骨骼(人形)',2.5],['动画(基础)',3],['3D特效',1]]},
+    {name:'客户端',icon:'💻',color:'#059669',items:[
+      ['代码补全',3],['函数生成',2.5],['UI系统',3],['Shader',1.5],['编辑器开发',2.5],['简单玩法',3],['复杂玩法',1],['Bug修复',2]]},
+    {name:'后端',icon:'🖧',color:'#ea580c',items:[
+      ['REST API',3],['WebSocket',3],['数据库CRUD',3],['帧同步',1],['CI/CD',3]]},
+    {name:'音频',icon:'🎵',color:'#db2777',items:[
+      ['BGM氛围',2.5],['音效环境',2.5],['配音英文',3],['配音中文',2.5],['语音克隆',3],['互动音乐',0.5]]},
+    {name:'测试QA',icon:'🧪',color:'#b45309',items:[
+      ['单元测试',2.5],['Bug分析',2],['本地化翻译',2.5]]},
+    {name:'运营',icon:'📢',color:'#2563eb',items:[
+      ['商店文案',3],['宣传图',2.5],['社媒内容',2.5],['竞品监控',3]]}
+  ];
+  function lvColor(v){
+    if(v>=3.5)return '#86efac';if(v>=2.5)return '#fde68a';if(v>=1.5)return '#fed7aa';if(v>=0.5)return '#fecaca';return '#e2e8f0';
+  }
+  function lvText(v){
+    if(v>=3.5)return 'L4';if(v>=2.5)return 'L3';if(v>=1.5)return 'L2';if(v>=0.5)return 'L1';return 'L0';
+  }
+  function avgColor(v){
+    if(v>=3)return 'background:rgba(5,150,105,.1);color:#059669';
+    if(v>=2)return 'background:rgba(217,119,6,.1);color:#b45309';
+    return 'background:rgba(220,38,38,.1);color:#dc2626';
+  }
+  const grid=document.createElement('div');grid.className='pb-grid';
+  groups.forEach(g=>{
+    const avg=(g.items.reduce((s,i)=>s+i[1],0)/g.items.length).toFixed(1);
+    const card=document.createElement('div');card.className='pb-group';
+    let html=`<div class="pb-group-hd"><span class="pb-icon">${g.icon}</span><span class="pb-name">${g.name}</span><span class="pb-avg" style="${avgColor(avg)}">均值 ${avg}</span></div>`;
+    g.items.forEach(([task,val])=>{
+      const pct=Math.max((val/4)*100,2);
+      const c=lvColor(val);
+      const lbl=lvText(val)+' '+val;
+      if(val<1.5){
+        html+=`<div class="pb-row"><span class="pb-label" title="${task}">${task}</span><div class="pb-track" style="display:flex;align-items:center"><div class="pb-fill" style="width:${pct}%;background:${c}" data-w="${val}"></div><span class="pb-val" style="color:#94a3b8;margin-left:4px">${lbl}</span></div></div>`;
+      }else{
+        html+=`<div class="pb-row"><span class="pb-label" title="${task}">${task}</span><div class="pb-track"><div class="pb-fill" style="width:${pct}%;background:${c}" data-w="${val}"><span class="pb-val" style="color:rgba(0,0,0,.45)">${lbl}</span></div></div></div>`;
+      }
+    });
+    card.innerHTML=html;
+    grid.appendChild(card);
+  });
+  container.appendChild(grid);
+})();
+
+// 2. 游戏类型雷达图
+(function(){
+  const el=document.getElementById('gametype-radar');if(!el)return;
+  const chart=echarts.init(el);
+  chart.setOption({
+    tooltip:{},
+    legend:{data:['Galgame','卡牌','养成','经营模拟','中型3D'],bottom:10,textStyle:{color:darkText}},
+    radar:{indicator:[{name:'美术帮助度',max:5},{name:'编程帮助度',max:5},{name:'策划帮助度',max:5},{name:'音频帮助度',max:5},{name:'整体赋能度',max:5}],
+      shape:'circle',splitNumber:5,axisName:{color:darkText,fontSize:12},
+      splitLine:{lineStyle:{color:'rgba(226,232,240,0.8)'}},splitArea:{areaStyle:{color:['rgba(248,250,252,0.3)','rgba(241,245,249,0.5)']}},
+      axisLine:{lineStyle:{color:'rgba(226,232,240,0.8)'}}},
+    series:[{type:'radar',data:[
+      {value:[3.5,4.5,4.5,4.0,4.1],name:'Galgame',lineStyle:{color:'#10b981'},areaStyle:{color:'rgba(16,185,129,0.15)'},itemStyle:{color:'#10b981'}},
+      {value:[4.0,3.0,3.5,2.5,3.3],name:'卡牌',lineStyle:{color:'#3b82f6'},areaStyle:{color:'rgba(59,130,246,0.1)'},itemStyle:{color:'#3b82f6'}},
+      {value:[4.0,3.0,3.0,3.5,3.4],name:'养成',lineStyle:{color:'#8b5cf6'},areaStyle:{color:'rgba(139,92,246,0.1)'},itemStyle:{color:'#8b5cf6'}},
+      {value:[3.0,3.5,3.0,2.5,3.0],name:'经营模拟',lineStyle:{color:'#f59e0b'},areaStyle:{color:'rgba(245,158,11,0.08)'},itemStyle:{color:'#f59e0b'}},
+      {value:[2.0,2.0,2.5,2.5,2.3],name:'中型3D',lineStyle:{color:'#ef4444'},areaStyle:{color:'rgba(239,68,68,0.08)'},itemStyle:{color:'#ef4444'}}
+    ]}]
+  });
+  window.addEventListener('resize',()=>chart.resize());
+})();
+
+// 3. 引擎雷达图
+(function(){
+  const el=document.getElementById('engine-radar');if(!el)return;
+  const chart=echarts.init(el);
+  chart.setOption({
+    tooltip:{},
+    legend:{data:['Unity','Unreal','Godot','Cocos','RPGMaker'],bottom:10,textStyle:{color:darkText}},
+    radar:{indicator:[{name:'AI编码体验',max:5},{name:'引擎集成AI',max:5},{name:'AI插件生态',max:5},{name:'独立团队推荐度',max:5}],
+      shape:'circle',splitNumber:5,axisName:{color:darkText,fontSize:12},
+      splitLine:{lineStyle:{color:'rgba(226,232,240,0.8)'}},splitArea:{areaStyle:{color:['rgba(248,250,252,0.3)','rgba(241,245,249,0.5)']}},
+      axisLine:{lineStyle:{color:'rgba(226,232,240,0.8)'}}},
+    series:[{type:'radar',data:[
+      {value:[4.0,2.5,3.5,4.5],name:'Unity',lineStyle:{color:'#3b82f6'},areaStyle:{color:'rgba(59,130,246,0.15)'},itemStyle:{color:'#3b82f6'}},
+      {value:[3.0,2.5,3.0,3.0],name:'Unreal',lineStyle:{color:'#8b5cf6'},areaStyle:{color:'rgba(139,92,246,0.1)'},itemStyle:{color:'#8b5cf6'}},
+      {value:[3.0,1.0,2.0,4.0],name:'Godot',lineStyle:{color:'#10b981'},areaStyle:{color:'rgba(16,185,129,0.1)'},itemStyle:{color:'#10b981'}},
+      {value:[3.5,1.0,1.5,3.5],name:'Cocos',lineStyle:{color:'#f59e0b'},areaStyle:{color:'rgba(245,158,11,0.08)'},itemStyle:{color:'#f59e0b'}},
+      {value:[3.0,0.5,1.5,3.5],name:'RPGMaker',lineStyle:{color:'#ef4444'},areaStyle:{color:'rgba(239,68,68,0.08)'},itemStyle:{color:'#ef4444'}}
+    ]}]
+  });
+  window.addEventListener('resize',()=>chart.resize());
+})();
+
+// 4. 团队角色雷达图
+(function(){
+  const el=document.getElementById('team-radar');if(!el)return;
+  const chart=echarts.init(el);
+  chart.setOption({
+    tooltip:{},
+    legend:{data:['日常效率提升','核心工作替代度'],bottom:10,textStyle:{color:darkText}},
+    radar:{indicator:[{name:'策划',max:5},{name:'美术',max:5},{name:'客户端',max:5},{name:'后端',max:5},{name:'运营',max:5}],
+      shape:'circle',splitNumber:5,axisName:{color:darkText,fontSize:12},
+      splitLine:{lineStyle:{color:'rgba(226,232,240,0.8)'}},splitArea:{areaStyle:{color:['rgba(248,250,252,0.3)','rgba(241,245,249,0.5)']}},
+      axisLine:{lineStyle:{color:'rgba(226,232,240,0.8)'}}},
+    series:[{type:'radar',data:[
+      {value:[3.5,3.5,3.5,4.0,3.0],name:'日常效率提升',lineStyle:{color:'#06b6d4'},areaStyle:{color:'rgba(6,182,212,0.15)'},itemStyle:{color:'#06b6d4'}},
+      {value:[1.5,2.0,1.5,2.0,2.5],name:'核心工作替代度',lineStyle:{color:'#f97316'},areaStyle:{color:'rgba(249,115,22,0.1)'},itemStyle:{color:'#f97316'}}
+    ]}]
+  });
+  window.addEventListener('resize',()=>chart.resize());
+})();
+
+// 5. 美术工具对比柱状图
+(function(){
+  const el=document.getElementById('art-tools-chart');if(!el)return;
+  const chart=echarts.init(el);
+  chart.setOption({
+    tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
+    legend:{data:['质量评分','可控性','成本效益'],bottom:10,textStyle:{color:darkText}},
+    grid:{left:80,right:30,top:30,bottom:60},
+    xAxis:{type:'category',data:['MJ V7','ComfyUI+SD','NovelAI','Flux Pro','Meshy','Tripo','Substance'],axisLabel:{color:darkText,fontSize:11},axisLine:{lineStyle:{color:'#e2e8f0'}}},
+    yAxis:{type:'value',max:5,axisLabel:{color:darkText},splitLine:{lineStyle:{color:'rgba(226,232,240,0.6)'}},axisLine:{lineStyle:{color:'#e2e8f0'}}},
+    series:[
+      {name:'质量评分',type:'bar',data:[4.0,3.5,3.0,4.0,2.0,1.5,3.8],itemStyle:{color:'#3b82f6'},barGap:'10%'},
+      {name:'可控性',type:'bar',data:[2.0,4.5,3.0,3.0,2.5,2.0,4.0],itemStyle:{color:'#8b5cf6'}},
+      {name:'成本效益',type:'bar',data:[3.5,4.5,3.5,3.0,3.0,4.0,2.5],itemStyle:{color:'#10b981'}}
+    ]
+  });
+  window.addEventListener('resize',()=>chart.resize());
+})();
+
+// 6. 编程工具对比柱状图
+(function(){
+  const el=document.getElementById('code-tools-chart');if(!el)return;
+  const chart=echarts.init(el);
+  chart.setOption({
+    tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
+    legend:{data:['代码补全','Agent/多文件','游戏引擎支持','性价比'],bottom:10,textStyle:{color:darkText}},
+    grid:{left:80,right:30,top:30,bottom:60},
+    xAxis:{type:'category',data:['Cursor Pro','CodeBuddy','Copilot','Claude(对话)','ChatGPT(对话)'],axisLabel:{color:darkText,fontSize:11},axisLine:{lineStyle:{color:'#e2e8f0'}}},
+    yAxis:{type:'value',max:5,axisLabel:{color:darkText},splitLine:{lineStyle:{color:'rgba(226,232,240,0.6)'}},axisLine:{lineStyle:{color:'#e2e8f0'}}},
+    series:[
+      {name:'代码补全',type:'bar',data:[4.5,4.0,4.0,3.0,2.5],itemStyle:{color:'#3b82f6'},barGap:'10%'},
+      {name:'Agent/多文件',type:'bar',data:[4.5,3.5,2.5,4.0,3.0],itemStyle:{color:'#8b5cf6'}},
+      {name:'游戏引擎支持',type:'bar',data:[4.0,3.5,3.5,3.5,2.5],itemStyle:{color:'#06b6d4'}},
+      {name:'性价比',type:'bar',data:[3.5,4.5,4.0,3.0,3.0],itemStyle:{color:'#10b981'}}
+    ]
+  });
+  window.addEventListener('resize',()=>chart.resize());
+})();
+
+// 7. 策划AI能力柱状图
+(function(){
+  const el=document.getElementById('design-chart');if(!el)return;
+  const chart=echarts.init(el);
+  chart.setOption({
+    tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
+    grid:{left:120,right:40,top:20,bottom:30},
+    yAxis:{type:'category',data:['核心概念/创意','关卡设计','UI/UX设计','系统设计','数值建模','叙事/剧本','GDD编写','原型搭建','竞品分析'].reverse(),axisLabel:{color:darkText,fontSize:11},axisLine:{lineStyle:{color:'#e2e8f0'}}},
+    xAxis:{type:'value',max:5,axisLabel:{color:darkText,formatter:v=>'L'+v},splitLine:{lineStyle:{color:'rgba(226,232,240,0.6)'}},axisLine:{lineStyle:{color:'#e2e8f0'}}},
+    series:[{type:'bar',data:[3,3,2.5,2,2,2.5,2,1.5,2].reverse(),itemStyle:{color:p=>{const v=p.value;return v>=3?'#22c55e':v>=2.5?'#eab308':v>=2?'#f97316':'#ef4444'}},barWidth:20,label:{show:true,position:'right',color:darkText,fontSize:11,formatter:p=>{const v=p.value;return v>=3?'L3':v>=2.5?'L2-L3':v>=2?'L2':'L1-L2'}}}]
+  });
+  window.addEventListener('resize',()=>chart.resize());
+})();
+
+// 8. ROI对比图
+(function(){
+  const el=document.getElementById('roi-chart');if(!el)return;
+  const chart=echarts.init(el);
+  chart.setOption({
+    tooltip:{trigger:'axis'},
+    legend:{data:['传统方式','AI辅助方式'],bottom:10,textStyle:{color:darkText}},
+    grid:{left:80,right:30,top:30,bottom:60},
+    xAxis:{type:'category',data:['美术外包','音频外包','工具订阅','AI工具费','总计'],axisLabel:{color:darkText},axisLine:{lineStyle:{color:'#e2e8f0'}}},
+    yAxis:{type:'value',axisLabel:{color:darkText,formatter:v=>'¥'+v/10000+'万'},splitLine:{lineStyle:{color:'rgba(226,232,240,0.6)'}},axisLine:{lineStyle:{color:'#e2e8f0'}}},
+    series:[
+      {name:'传统方式',type:'bar',data:[200000,50000,30000,0,280000],itemStyle:{color:'rgba(239,68,68,0.6)'},barGap:'20%'},
+      {name:'AI辅助方式',type:'bar',data:[50000,15000,20000,17580,102580],itemStyle:{color:'rgba(16,185,129,0.6)'}}
+    ]
+  });
+  window.addEventListener('resize',()=>chart.resize());
+})();
+
+// 9. 风险气泡图
+(function(){
+  const el=document.getElementById('risk-chart');if(!el)return;
+  const chart=echarts.init(el);
+  const risks=[
+    ['AI幻觉Bug',70,85,40,'技术'],['同质化竞争',75,80,35,'市场'],['市场拥挤',80,75,30,'市场'],
+    ['版权败诉',40,80,25,'法律'],['工具涨价',70,50,20,'成本'],['质量返工',65,55,22,'成本'],
+    ['学习成本低估',80,45,18,'成本'],['语音法律',60,70,20,'法律'],['平台政策',40,50,15,'平台'],
+    ['玩家AI疲劳',50,55,18,'市场'],['硬件门槛',50,30,12,'成本']
+  ];
+  chart.setOption({
+    tooltip:{formatter:p=>`<b>${p.data[3]}</b><br>概率: ${p.data[0]}%<br>影响: ${p.data[1]}%<br>类别: ${p.data[4]}`},
+    grid:{left:60,right:30,top:30,bottom:50},
+    xAxis:{name:'概率 →',nameTextStyle:{color:darkText},type:'value',max:100,axisLabel:{color:darkText,formatter:v=>v+'%'},splitLine:{lineStyle:{color:'rgba(226,232,240,0.6)'}},axisLine:{lineStyle:{color:'#e2e8f0'}}},
+    yAxis:{name:'影响 →',nameTextStyle:{color:darkText},type:'value',max:100,axisLabel:{color:darkText,formatter:v=>v+'%'},splitLine:{lineStyle:{color:'rgba(226,232,240,0.6)'}},axisLine:{lineStyle:{color:'#e2e8f0'}}},
+    series:[{type:'scatter',symbolSize:p=>p[2],data:risks.map(r=>{return{value:[r[1],r[2]],symbolSize:r[4]*1.2,name:r[0],itemStyle:{color:r[2]>70?'rgba(239,68,68,0.7)':r[2]>50?'rgba(245,158,11,0.7)':'rgba(16,185,129,0.7)'}}}),
+      label:{show:true,formatter:p=>p.data.name,fontSize:10,color:'#334155',position:'top'},
+      data:risks.map(r=>({value:[r[1],r[2],r[3]],name:r[0],itemStyle:{color:r[2]>70?'rgba(239,68,68,0.7)':r[2]>50?'rgba(245,158,11,0.7)':'rgba(16,185,129,0.7)'}}))
+    }]
+  });
+  window.addEventListener('resize',()=>chart.resize());
+})();
+</script>
+</body>
+</html>

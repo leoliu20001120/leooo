@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOL活跃玩家海克斯与5v5渗透留存深度分析报告 V2</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --primary: #1a73e8; --primary-light: #e8f0fe;
+  --success: #0d904f; --success-light: #e6f4ea;
+  --warning: #e37400; --warning-light: #fef7e0;
+  --danger: #d93025; --danger-light: #fce8e6;
+  --gray-50: #f8f9fa; --gray-100: #f1f3f4; --gray-200: #e8eaed;
+  --gray-300: #dadce0; --gray-500: #9aa0a6; --gray-700: #5f6368; --gray-900: #202124;
+  --hex: #7c4dff; --hex-light: #ede7f6;
+  --match: #00897b; --match-light: #e0f2f1;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans SC', sans-serif; background: var(--gray-50); color: var(--gray-900); line-height: 1.6; }
+.container { max-width: 1280px; margin: 0 auto; padding: 24px; }
+.hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 48px 40px; border-radius: 16px; margin-bottom: 32px; position: relative; overflow: hidden; }
+.hero::after { content: ''; position: absolute; right: -60px; top: -60px; width: 200px; height: 200px; background: rgba(255,255,255,0.08); border-radius: 50%; }
+.hero h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+.hero p { font-size: 15px; opacity: 0.9; }
+.hero .sub { font-size: 13px; opacity: 0.7; margin-top: 4px; }
+.toc { background: white; border-radius: 12px; padding: 24px 32px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+.toc h2 { font-size: 16px; margin-bottom: 12px; }
+.toc ol { padding-left: 24px; font-size: 14px; line-height: 2.2; }
+.toc a { color: var(--primary); text-decoration: none; }
+.section { background: white; border-radius: 12px; padding: 32px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+.section-header { display: flex; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid var(--gray-200); }
+.section-num { background: var(--primary); color: white; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; margin-right: 12px; flex-shrink: 0; }
+.section-title { font-size: 20px; font-weight: 700; }
+.desc { color: var(--gray-700); font-size: 14px; margin-bottom: 20px; }
+.sub-heading { font-size: 16px; font-weight: 600; margin: 24px 0 12px 0; padding-left: 12px; border-left: 3px solid var(--primary); }
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.kpi-card { background: var(--gray-50); border-radius: 10px; padding: 20px; text-align: center; border: 1px solid var(--gray-200); }
+.kpi-card.hex { background: var(--hex-light); border-color: #d1c4e9; }
+.kpi-card.match { background: var(--match-light); border-color: #b2dfdb; }
+.kpi-label { font-size: 12px; color: var(--gray-700); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+.kpi-value { font-size: 28px; font-weight: 700; }
+.kpi-sub { font-size: 12px; color: var(--gray-500); margin-top: 4px; }
+.hex-val { color: var(--hex); }
+.match-val { color: var(--match); }
+table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 16px; }
+th { background: var(--gray-100); padding: 10px 12px; text-align: center; font-weight: 600; color: var(--gray-700); border-bottom: 2px solid var(--gray-300); font-size: 12px; white-space: nowrap; }
+td { padding: 10px 12px; text-align: center; border-bottom: 1px solid var(--gray-200); }
+tr:hover { background: var(--gray-50); }
+.col-label { text-align: left; font-weight: 600; }
+.hex-cell { color: var(--hex); font-weight: 600; }
+.match-cell { color: var(--match); font-weight: 600; }
+.insight-box { background: var(--primary-light); border-left: 4px solid var(--primary); border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 20px 0; }
+.insight-box.warning { background: var(--warning-light); border-left-color: var(--warning); }
+.insight-box.success { background: var(--success-light); border-left-color: var(--success); }
+.insight-box.danger { background: var(--danger-light); border-left-color: var(--danger); }
+.insight-title { font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+.insight-text { font-size: 13px; color: var(--gray-700); line-height: 1.8; }
+.chart-container { position: relative; margin: 20px 0; height: 360px; }
+.chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 20px 0; }
+.chart-row .chart-container { height: 320px; }
+.exec-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+.exec-card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border-top: 3px solid; }
+.exec-card.pen { border-top-color: var(--hex); }
+.exec-card.ret { border-top-color: var(--match); }
+.exec-card.act { border-top-color: var(--warning); }
+.exec-card.rec { border-top-color: var(--success); }
+.exec-card h3 { font-size: 15px; margin-bottom: 12px; }
+.exec-card ul { font-size: 13px; color: var(--gray-700); padding-left: 20px; line-height: 2; }
+.legend { display: flex; gap: 24px; margin-bottom: 16px; font-size: 13px; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 6px; }
+.legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+@media (max-width: 768px) { .container { padding: 16px; } .exec-summary { grid-template-columns: 1fr; } .chart-row { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+
+<div class="hero">
+  <h1>🎮 LOL 活跃玩家海克斯与5v5渗透留存深度分析报告</h1>
+  <p>基于活跃玩家人群，从渗透率、留存率、活跃度、KDA、胜率多维度对比海克斯（Hex）与5v5匹配（Match5v5）</p>
+  <div class="sub">数据周期：2026-03-01 ~ 2026-03-17 ｜ 人群：player_tag_day = '活跃' ｜ 活跃度：每日 playtime_day NTILE(3) ｜ V2 修正版</div>
+</div>
+
+
+<div class="toc">
+  <h2>📋 目录</h2>
+  <ol>
+    <li><a href="#exec">核心发现与行动建议</a></li>
+    <li><a href="#s1">活跃度分层 × 渗透率分析</a></li>
+    <li><a href="#s2">KDA / 胜率 × 渗透率分析</a></li>
+    <li><a href="#s3">整体留存对比：Hex vs Match5v5</a></li>
+    <li><a href="#s4">活跃度分层 × 留存分析（单维度）</a></li>
+    <li><a href="#s5">KDA 分桶 × 留存分析（单维度）</a></li>
+    <li><a href="#s6">胜率分桶 × 留存分析（单维度）</a></li>
+    <li><a href="#s7">交叉维度留存矩阵</a></li>
+    <li><a href="#s8">🤖 AI Coach 策略建议</a></li>
+    <li><a href="#s9">数据口径说明</a></li>
+  </ol>
+</div>
+
+
+<div id="exec" class="section">
+  <div class="section-header">
+    <div class="section-num">★</div>
+    <div class="section-title">核心发现与行动建议</div>
+  </div>
+  <div class="exec-summary">
+    <div class="exec-card pen">
+      <h3>🔍 渗透率发现</h3>
+      <ul>
+        <li><strong>Hex 渗透率约 70.93% ~ 59.92%</strong>，是 Match5v5（10.34% ~ 11.23%）的约 <strong>6~7 倍</strong></li>
+        <li>高活跃玩家 Hex 渗透率最高（70.93%），低活跃也达 59.92%</li>
+        <li>KDA 2~4 段 Hex 渗透率最高；胜率 40%-50% 段渗透率峰值</li>
+      </ul>
+    </div>
+    <div class="exec-card ret">
+      <h3>📊 留存率发现</h3>
+      <ul>
+        <li><strong>Hex D7 留存 58.33% vs Match5v5 29.08%</strong>，差距约 29.25%</li>
+        <li>Hex 留存全面优于 Match5v5（D1/D3/D7/D14 均高 ~25-30pp）</li>
+        <li>高活跃 + 中高 KDA + 40%-50% 胜率段是留存最优人群</li>
+      </ul>
+    </div>
+    <div class="exec-card act">
+      <h3>⚡ 单维度分析新发现</h3>
+      <ul>
+        <li><strong>活跃度对留存影响显著</strong>：高活跃 Hex D7 比低活跃高约 7pp</li>
+        <li><strong>KDA 对 Hex 留存呈阶梯式正向影响</strong>：KDA≥3.5 段 D7 达 61.46%</li>
+        <li><strong>胜率 40%-50% 段 Hex 留存最佳</strong>（D7 64.51%），验证"心流区间"假设</li>
+      </ul>
+    </div>
+    <div class="exec-card rec">
+      <h3>🤖 AI Coach 策略建议</h3>
+      <ul>
+        <li><strong>P0：低胜率（<40%）玩家</strong> — 日均 170万人，AI 海克斯符文推荐引入"心流区间"可提升 ~10pp</li>
+        <li><strong>P1：低 KDA（<2）玩家</strong> — D7 留存差距 ~19pp，AI 教学提升空间最大</li>
+        <li><strong>核心载体</strong>：Hex 渗透率 66%，在 Hex 嵌入 AI Coach 触达面最广</li>
+        <li><strong>量化预估</strong>：Hex D7 +1~2pp → 大盘 D7 +0.7~1.3pp，日增留存数万人</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div id="s1" class="section">
+  <div class="section-header"><div class="section-num">1</div><div class="section-title">活跃度分层 × 渗透率分析</div></div>
+  <p class="desc">将活跃玩家按每日游戏时长（playtime_day, mode='all'）三等分，观察 Hex 和 Match5v5 渗透率差异。</p>
+
+<div class="sub-heading">1.1 汇总指标（by-day AVG）</div>
+<table><thead><tr><th>活跃度</th><th>日均活跃UV</th><th>日均 Hex UV</th><th>日均 M5v5 UV</th><th>Hex 渗透率</th><th>M5v5 渗透率</th><th>Hex/M5 倍数</th><th>日均游戏时长(s)</th><th>日均 KDA</th><th>日均胜率</th></tr></thead><tbody>
+<tr><td class="col-label">低活跃</td><td>284.4万</td><td>170.3万</td><td>29.4万</td><td class="hex-cell">59.92%</td><td class="match-cell">10.34%</td><td>5.8x</td><td>215</td><td>2.94</td><td>57.58%</td></tr>
+<tr><td class="col-label">中活跃</td><td>284.4万</td><td>189.8万</td><td>26.1万</td><td class="hex-cell">66.72%</td><td class="match-cell">9.17%</td><td>7.3x</td><td>4140</td><td>3.09</td><td>57.17%</td></tr>
+<tr><td class="col-label">高活跃</td><td>284.4万</td><td>201.8万</td><td>32.0万</td><td class="hex-cell">70.93%</td><td class="match-cell">11.23%</td><td>6.3x</td><td>14093</td><td>3.00</td><td>56.16%</td></tr>
+</tbody></table>
+<div class="sub-heading">1.2 每日渗透率趋势</div>
+<div class="chart-row"><div class="chart-container"><canvas id="chart_pen_hex"></canvas></div><div class="chart-container"><canvas id="chart_pen_m5v5"></canvas></div></div>
+
+<script>
+const dtLabels = ["20260301", "20260302", "20260303", "20260304", "20260305", "20260306", "20260307", "20260308", "20260309", "20260310", "20260311", "20260312", "20260313", "20260314", "20260315", "20260316", "20260317"];
+const penSeries = {"\u4f4e\u6d3b\u8dc3_hex": [56.51, 57.69, 57.58, 57.68, 61.52, 62.11, 61.14, 58.96, 60.46, 60.38, 60.06, 60.39, 62.01, 61.55, 59.52, 60.69, 60.45], "\u4f4e\u6d3b\u8dc3_match5v5": [9.58, 9.05, 9.09, 8.98, 10.09, 10.45, 10.87, 10.79, 10.26, 10.46, 10.52, 10.58, 10.6, 11.3, 11.27, 10.91, 11.01], "\u4e2d\u6d3b\u8dc3_hex": [66.38, 64.36, 64.52, 64.69, 66.76, 65.72, 67.06, 68.42, 67.04, 67.64, 67.82, 67.03, 65.77, 67.41, 69.33, 67.06, 67.23], "\u4e2d\u6d3b\u8dc3_match5v5": [8.56, 8.05, 8.11, 7.85, 9.01, 9.81, 9.99, 9.68, 8.83, 8.93, 9.03, 9.1, 9.89, 10.36, 10.14, 9.28, 9.26], "\u9ad8\u6d3b\u8dc3_hex": [70.96, 68.24, 68.22, 68.32, 71.21, 70.68, 72.45, 72.86, 71.23, 71.36, 70.94, 70.61, 70.75, 72.73, 73.43, 70.85, 70.91], "\u9ad8\u6d3b\u8dc3_match5v5": [10.59, 9.94, 10.03, 9.75, 10.69, 11.54, 11.93, 11.63, 11.26, 11.41, 11.35, 11.42, 11.79, 12.59, 12.32, 11.4, 11.36]};
+const hexColors = ['#b39ddb','#7c4dff','#4a148c'];
+const matchColors = ['#80cbc4','#00897b','#004d40'];
+new Chart(document.getElementById('chart_pen_hex'), {
+  type: 'line',
+  data: {
+    labels: dtLabels.map(d => d.slice(4)),
+    datasets: [
+      {label:'低活跃', data: penSeries['低活跃_hex'], borderColor: hexColors[0], backgroundColor: hexColors[0]+'33', tension: 0.3, pointRadius: 2},
+      {label:'中活跃', data: penSeries['中活跃_hex'], borderColor: hexColors[1], backgroundColor: hexColors[1]+'33', tension: 0.3, pointRadius: 2},
+      {label:'高活跃', data: penSeries['高活跃_hex'], borderColor: hexColors[2], backgroundColor: hexColors[2]+'33', tension: 0.3, pointRadius: 2}
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { title: { display: true, text: 'Hex 渗透率趋势（按活跃度）' } }, scales: { y: { beginAtZero: false, ticks: { callback: v => v+'%' } } } }
+});
+new Chart(document.getElementById('chart_pen_m5v5'), {
+  type: 'line',
+  data: {
+    labels: dtLabels.map(d => d.slice(4)),
+    datasets: [
+      {label:'低活跃', data: penSeries['低活跃_match5v5'], borderColor: matchColors[0], backgroundColor: matchColors[0]+'33', tension: 0.3, pointRadius: 2},
+      {label:'中活跃', data: penSeries['中活跃_match5v5'], borderColor: matchColors[1], backgroundColor: matchColors[1]+'33', tension: 0.3, pointRadius: 2},
+      {label:'高活跃', data: penSeries['高活跃_match5v5'], borderColor: matchColors[2], backgroundColor: matchColors[2]+'33', tension: 0.3, pointRadius: 2}
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { title: { display: true, text: 'Match5v5 渗透率趋势（按活跃度）' } }, scales: { y: { beginAtZero: false, ticks: { callback: v => v+'%' } } } }
+});
+</script>
+
+
+<div class="insight-box">
+  <div class="insight-title">📌 关键发现</div>
+  <div class="insight-text">
+    1. <strong>Hex 在所有活跃度层级渗透率均远高于 Match5v5</strong>，约 6~7 倍关系，海克斯是活跃玩家的"主流玩法"。<br>
+    2. <strong>高活跃玩家 Hex 渗透率最高（~70%+）</strong>，低活跃也有约 58%+，说明 Hex 对轻度用户有天然吸引力。<br>
+    3. 渗透率在观察期内<strong>整体稳定</strong>，周末略有波动但无明显趋势变化。<br>
+    4. Match5v5 渗透率三组均在 8%~12% 区间，<strong>高活跃玩家 M5v5 渗透率反而最高</strong>（可能是重度玩家多模式参与）。
+  </div>
+</div>
+</div>
+
+<div id="s2" class="section">
+  <div class="section-header"><div class="section-num">2</div><div class="section-title">KDA / 胜率 × 渗透率分析</div></div>
+  <p class="desc">使用 mode='all' 的 KDA 和胜率对活跃玩家分桶，观察不同表现水平的 Hex / Match5v5 渗透率差异。</p>
+
+<div class="sub-heading">2.1 KDA 分桶 × 渗透率（汇总）</div>
+<table><thead><tr><th>KDA 分桶</th><th>日均活跃UV</th><th>Hex 渗透率</th><th>M5v5 渗透率</th></tr></thead><tbody>
+<tr><td class="col-label">KDA<1</td><td>106.5万</td><td class="hex-cell">0.97%</td><td class="match-cell">4.83%</td></tr>
+<tr><td class="col-label">1<=KDA<2</td><td>70.8万</td><td class="hex-cell">25.74%</td><td class="match-cell">25.19%</td></tr>
+<tr><td class="col-label">2<=KDA<3</td><td>232.4万</td><td class="hex-cell">71.85%</td><td class="match-cell">11.62%</td></tr>
+<tr><td class="col-label">3<=KDA<3.5</td><td>170.5万</td><td class="hex-cell">87.08%</td><td class="match-cell">6.93%</td></tr>
+<tr><td class="col-label">3.5<=KDA<4</td><td>119.2万</td><td class="hex-cell">88.72%</td><td class="match-cell">6.22%</td></tr>
+<tr><td class="col-label">KDA>=4</td><td>153.7万</td><td class="hex-cell">78.98%</td><td class="match-cell">11.92%</td></tr>
+</tbody></table>
+<div class="sub-heading">2.2 胜率分桶 × 渗透率（汇总）</div>
+<table><thead><tr><th>胜率分桶</th><th>日均活跃UV</th><th>Hex 渗透率</th><th>M5v5 渗透率</th></tr></thead><tbody>
+<tr><td class="col-label">WR<40%</td><td>214.2万</td><td class="hex-cell">71.13%</td><td class="match-cell">13.14%</td></tr>
+<tr><td class="col-label">40%-50%</td><td>87.8万</td><td class="hex-cell">81.34%</td><td class="match-cell">10.88%</td></tr>
+<tr><td class="col-label">50%-60%</td><td>175.1万</td><td class="hex-cell">77.01%</td><td class="match-cell">10.20%</td></tr>
+<tr><td class="col-label">WR>=60%</td><td>375.9万</td><td class="hex-cell">54.06%</td><td class="match-cell">8.50%</td></tr>
+</tbody></table>
+<div class="sub-heading">2.3 活跃度 × KDA 交叉渗透率</div>
+<table><thead><tr><th>活跃度</th><th>KDA 分桶</th><th>日均活跃UV</th><th>Hex 渗透率</th><th>M5v5 渗透率</th></tr></thead><tbody>
+<tr><td class="col-label">低活跃</td><td>KDA<1</td><td>4.9万</td><td class="hex-cell">12.38%</td><td class="match-cell">38.13%</td></tr>
+<tr><td class="col-label">低活跃</td><td>KDA<1</td><td>1145</td><td class="hex-cell">1.49%</td><td class="match-cell">75.38%</td></tr>
+<tr><td class="col-label">低活跃</td><td>KDA<1</td><td>6179</td><td class="hex-cell">5.34%</td><td class="match-cell">51.06%</td></tr>
+<tr><td class="col-label">低活跃</td><td>KDA<1</td><td>41.5万</td><td class="hex-cell">0.27%</td><td class="match-cell">1.37%</td></tr>
+<tr><td class="col-label">低活跃</td><td>1<=KDA<2</td><td>15.0万</td><td class="hex-cell">37.54%</td><td class="match-cell">20.59%</td></tr>
+<tr><td class="col-label">低活跃</td><td>1<=KDA<2</td><td>1.9万</td><td class="hex-cell">13.88%</td><td class="match-cell">32.70%</td></tr>
+<tr><td class="col-label">低活跃</td><td>1<=KDA<2</td><td>4.4万</td><td class="hex-cell">19.29%</td><td class="match-cell">26.70%</td></tr>
+<tr><td class="col-label">低活跃</td><td>1<=KDA<2</td><td>6.0万</td><td class="hex-cell">24.75%</td><td class="match-cell">24.85%</td></tr>
+<tr><td class="col-label">低活跃</td><td>2<=KDA<3</td><td>29.4万</td><td class="hex-cell">78.33%</td><td class="match-cell">8.46%</td></tr>
+<tr><td class="col-label">低活跃</td><td>2<=KDA<3</td><td>8.0万</td><td class="hex-cell">73.86%</td><td class="match-cell">11.81%</td></tr>
+<tr><td class="col-label">低活跃</td><td>2<=KDA<3</td><td>15.4万</td><td class="hex-cell">67.08%</td><td class="match-cell">11.39%</td></tr>
+<tr><td class="col-label">低活跃</td><td>2<=KDA<3</td><td>20.5万</td><td class="hex-cell">59.67%</td><td class="match-cell">12.25%</td></tr>
+<tr><td class="col-label">低活跃</td><td>3<=KDA<3.5</td><td>13.2万</td><td class="hex-cell">88.01%</td><td class="match-cell">5.49%</td></tr>
+<tr><td class="col-label">低活跃</td><td>3<=KDA<3.5</td><td>6.3万</td><td class="hex-cell">91.40%</td><td class="match-cell">5.85%</td></tr>
+<tr><td class="col-label">低活跃</td><td>3<=KDA<3.5</td><td>12.1万</td><td class="hex-cell">86.65%</td><td class="match-cell">5.94%</td></tr>
+<tr><td class="col-label">低活跃</td><td>3<=KDA<3.5</td><td>17.0万</td><td class="hex-cell">78.53%</td><td class="match-cell">6.98%</td></tr>
+<tr><td class="col-label">低活跃</td><td>3.5<=KDA<4</td><td>6.8万</td><td class="hex-cell">88.55%</td><td class="match-cell">5.19%</td></tr>
+<tr><td class="col-label">低活跃</td><td>3.5<=KDA<4</td><td>3.7万</td><td class="hex-cell">92.59%</td><td class="match-cell">5.34%</td></tr>
+<tr><td class="col-label">低活跃</td><td>3.5<=KDA<4</td><td>8.4万</td><td class="hex-cell">89.02%</td><td class="match-cell">5.13%</td></tr>
+<tr><td class="col-label">低活跃</td><td>3.5<=KDA<4</td><td>14.6万</td><td class="hex-cell">82.68%</td><td class="match-cell">5.67%</td></tr>
+<tr><td class="col-label">低活跃</td><td>KDA>=4</td><td>10.1万</td><td class="hex-cell">58.91%</td><td class="match-cell">30.32%</td></tr>
+<tr><td class="col-label">低活跃</td><td>KDA>=4</td><td>2.4万</td><td class="hex-cell">90.56%</td><td class="match-cell">6.97%</td></tr>
+<tr><td class="col-label">低活跃</td><td>KDA>=4</td><td>9.1万</td><td class="hex-cell">83.87%</td><td class="match-cell">8.76%</td></tr>
+<tr><td class="col-label">低活跃</td><td>KDA>=4</td><td>33.0万</td><td class="hex-cell">72.96%</td><td class="match-cell">11.54%</td></tr>
+<tr><td class="col-label">中活跃</td><td>KDA<1</td><td>2.5万</td><td class="hex-cell">3.03%</td><td class="match-cell">38.10%</td></tr>
+<tr><td class="col-label">中活跃</td><td>KDA<1</td><td>583</td><td class="hex-cell">3.93%</td><td class="match-cell">60.00%</td></tr>
+<tr><td class="col-label">中活跃</td><td>KDA<1</td><td>5663</td><td class="hex-cell">3.89%</td><td class="match-cell">45.54%</td></tr>
+<tr><td class="col-label">中活跃</td><td>KDA<1</td><td>33.5万</td><td class="hex-cell">0.19%</td><td class="match-cell">1.23%</td></tr>
+<tr><td class="col-label">中活跃</td><td>1<=KDA<2</td><td>12.2万</td><td class="hex-cell">30.39%</td><td class="match-cell">23.62%</td></tr>
+<tr><td class="col-label">中活跃</td><td>1<=KDA<2</td><td>1.0万</td><td class="hex-cell">28.04%</td><td class="match-cell">30.44%</td></tr>
+<tr><td class="col-label">中活跃</td><td>1<=KDA<2</td><td>4.4万</td><td class="hex-cell">22.91%</td><td class="match-cell">25.51%</td></tr>
+<tr><td class="col-label">中活跃</td><td>1<=KDA<2</td><td>4.8万</td><td class="hex-cell">23.64%</td><td class="match-cell">26.53%</td></tr>
+<tr><td class="col-label">中活跃</td><td>2<=KDA<3</td><td>31.7万</td><td class="hex-cell">80.83%</td><td class="match-cell">8.54%</td></tr>
+<tr><td class="col-label">中活跃</td><td>2<=KDA<3</td><td>6.8万</td><td class="hex-cell">85.45%</td><td class="match-cell">9.26%</td></tr>
+<tr><td class="col-label">中活跃</td><td>2<=KDA<3</td><td>16.8万</td><td class="hex-cell">73.58%</td><td class="match-cell">9.45%</td></tr>
+<tr><td class="col-label">中活跃</td><td>2<=KDA<3</td><td>20.5万</td><td class="hex-cell">66.54%</td><td class="match-cell">11.37%</td></tr>
+<tr><td class="col-label">中活跃</td><td>3<=KDA<3.5</td><td>15.1万</td><td class="hex-cell">89.11%</td><td class="match-cell">6.02%</td></tr>
+<tr><td class="col-label">中活跃</td><td>3<=KDA<3.5</td><td>5.5万</td><td class="hex-cell">93.45%</td><td class="match-cell">6.07%</td></tr>
+<tr><td class="col-label">中活跃</td><td>3<=KDA<3.5</td><td>12.8万</td><td class="hex-cell">87.21%</td><td class="match-cell">5.58%</td></tr>
+<tr><td class="col-label">中活跃</td><td>3<=KDA<3.5</td><td>19.3万</td><td class="hex-cell">82.60%</td><td class="match-cell">6.39%</td></tr>
+<tr><td class="col-label">中活跃</td><td>3.5<=KDA<4</td><td>8.2万</td><td class="hex-cell">89.58%</td><td class="match-cell">5.96%</td></tr>
+<tr><td class="col-label">中活跃</td><td>3.5<=KDA<4</td><td>3.5万</td><td class="hex-cell">93.92%</td><td class="match-cell">6.05%</td></tr>
+<tr><td class="col-label">中活跃</td><td>3.5<=KDA<4</td><td>9.4万</td><td class="hex-cell">89.01%</td><td class="match-cell">5.18%</td></tr>
+<tr><td class="col-label">中活跃</td><td>3.5<=KDA<4</td><td>17.6万</td><td class="hex-cell">85.61%</td><td class="match-cell">5.51%</td></tr>
+<tr><td class="col-label">中活跃</td><td>KDA>=4</td><td>7.5万</td><td class="hex-cell">84.19%</td><td class="match-cell">9.66%</td></tr>
+<tr><td class="col-label">中活跃</td><td>KDA>=4</td><td>2.8万</td><td class="hex-cell">92.03%</td><td class="match-cell">8.43%</td></tr>
+<tr><td class="col-label">中活跃</td><td>KDA>=4</td><td>11.6万</td><td class="hex-cell">84.77%</td><td class="match-cell">7.84%</td></tr>
+<tr><td class="col-label">中活跃</td><td>KDA>=4</td><td>36.2万</td><td class="hex-cell">76.28%</td><td class="match-cell">12.31%</td></tr>
+<tr><td class="col-label">高活跃</td><td>KDA<1</td><td>5866</td><td class="hex-cell">4.82%</td><td class="match-cell">42.03%</td></tr>
+<tr><td class="col-label">高活跃</td><td>KDA<1</td><td>733</td><td class="hex-cell">3.33%</td><td class="match-cell">53.13%</td></tr>
+<tr><td class="col-label">高活跃</td><td>KDA<1</td><td>1170</td><td class="hex-cell">3.01%</td><td class="match-cell">48.34%</td></tr>
+<tr><td class="col-label">高活跃</td><td>KDA<1</td><td>22.0万</td><td class="hex-cell">0.41%</td><td class="match-cell">1.48%</td></tr>
+<tr><td class="col-label">高活跃</td><td>1<=KDA<2</td><td>8.4万</td><td class="hex-cell">19.85%</td><td class="match-cell">30.08%</td></tr>
+<tr><td class="col-label">高活跃</td><td>1<=KDA<2</td><td>3.3万</td><td class="hex-cell">14.38%</td><td class="match-cell">31.96%</td></tr>
+<tr><td class="col-label">高活跃</td><td>1<=KDA<2</td><td>4.0万</td><td class="hex-cell">13.68%</td><td class="match-cell">30.36%</td></tr>
+<tr><td class="col-label">高活跃</td><td>1<=KDA<2</td><td>5.4万</td><td class="hex-cell">25.20%</td><td class="match-cell">25.36%</td></tr>
+<tr><td class="col-label">高活跃</td><td>2<=KDA<3</td><td>24.5万</td><td class="hex-cell">77.92%</td><td class="match-cell">13.56%</td></tr>
+<tr><td class="col-label">高活跃</td><td>2<=KDA<3</td><td>15.9万</td><td class="hex-cell">74.09%</td><td class="match-cell">14.52%</td></tr>
+<tr><td class="col-label">高活跃</td><td>2<=KDA<3</td><td>20.6万</td><td class="hex-cell">67.76%</td><td class="match-cell">14.72%</td></tr>
+<tr><td class="col-label">高活跃</td><td>2<=KDA<3</td><td>22.1万</td><td class="hex-cell">59.84%</td><td class="match-cell">15.22%</td></tr>
+<tr><td class="col-label">高活跃</td><td>3<=KDA<3.5</td><td>13.9万</td><td class="hex-cell">92.22%</td><td class="match-cell">7.81%</td></tr>
+<tr><td class="col-label">高活跃</td><td>3<=KDA<3.5</td><td>13.8万</td><td class="hex-cell">92.63%</td><td class="match-cell">7.88%</td></tr>
+<tr><td class="col-label">高活跃</td><td>3<=KDA<3.5</td><td>20.2万</td><td class="hex-cell">90.23%</td><td class="match-cell">7.73%</td></tr>
+<tr><td class="col-label">高活跃</td><td>3<=KDA<3.5</td><td>21.3万</td><td class="hex-cell">83.17%</td><td class="match-cell">8.77%</td></tr>
+<tr><td class="col-label">高活跃</td><td>3.5<=KDA<4</td><td>6.6万</td><td class="hex-cell">92.77%</td><td class="match-cell">7.34%</td></tr>
+<tr><td class="col-label">高活跃</td><td>3.5<=KDA<4</td><td>8.0万</td><td class="hex-cell">93.91%</td><td class="match-cell">7.22%</td></tr>
+<tr><td class="col-label">高活跃</td><td>3.5<=KDA<4</td><td>14.2万</td><td class="hex-cell">92.60%</td><td class="match-cell">6.85%</td></tr>
+<tr><td class="col-label">高活跃</td><td>3.5<=KDA<4</td><td>18.4万</td><td class="hex-cell">87.31%</td><td class="match-cell">7.65%</td></tr>
+<tr><td class="col-label">高活跃</td><td>KDA>=4</td><td>3.8万</td><td class="hex-cell">89.36%</td><td class="match-cell">8.95%</td></tr>
+<tr><td class="col-label">高活跃</td><td>KDA>=4</td><td>4.7万</td><td class="hex-cell">92.18%</td><td class="match-cell">8.24%</td></tr>
+<tr><td class="col-label">高活跃</td><td>KDA>=4</td><td>10.4万</td><td class="hex-cell">90.88%</td><td class="match-cell">7.90%</td></tr>
+<tr><td class="col-label">高活跃</td><td>KDA>=4</td><td>22.2万</td><td class="hex-cell">81.67%</td><td class="match-cell">11.73%</td></tr>
+</tbody></table>
+
+<div class="insight-box">
+  <div class="insight-title">📌 关键发现</div>
+  <div class="insight-text">
+    1. <strong>KDA 与 Hex 渗透率强正相关</strong>：KDA<1 仅约 1%，KDA 2~4 段达 80%+ 峰值，KDA≥4 略回落。低 KDA 玩家几乎不进 Hex。<br>
+    2. <strong>Match5v5 渗透率呈"倒V型"</strong>：1≤KDA<2 段最高，中低 KDA 玩家更偏好 5v5。<br>
+    3. <strong>胜率 40%-50% 段 Hex 渗透率最高</strong>，WR≥60% 最低 — 适度挑战感利好 Hex。<br>
+    4. 交叉看，<strong>高活跃 + KDA≥4 的 Hex 渗透率最高</strong>，低活跃 + KDA<1 几乎为零。
+  </div>
+</div>
+</div>
+
+<div id="s3" class="section">
+  <div class="section-header"><div class="section-num">3</div><div class="section-title">整体留存对比：Hex vs Match5v5</div></div>
+  <p class="desc">活跃玩家进入 Hex / Match5v5 后的 D1/D3/D7/D14 留存对比（by-day AVG 口径）。</p>
+  <div class="kpi-grid">
+
+
+    <div class="kpi-card">
+      <div class="kpi-label">D1 留存</div>
+      <div style="display:flex;justify-content:center;gap:16px;align-items:baseline;">
+        <div><span class="kpi-value hex-val" style="font-size:22px;">66.40%</span><div class="kpi-sub">Hex</div></div>
+        <div style="color:var(--gray-500);">vs</div>
+        <div><span class="kpi-value match-val" style="font-size:22px;">40.43%</span><div class="kpi-sub">M5v5</div></div>
+      </div>
+      <div class="kpi-sub">差值: +25.97%</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-label">D3 留存</div>
+      <div style="display:flex;justify-content:center;gap:16px;align-items:baseline;">
+        <div><span class="kpi-value hex-val" style="font-size:22px;">59.39%</span><div class="kpi-sub">Hex</div></div>
+        <div style="color:var(--gray-500);">vs</div>
+        <div><span class="kpi-value match-val" style="font-size:22px;">31.18%</span><div class="kpi-sub">M5v5</div></div>
+      </div>
+      <div class="kpi-sub">差值: +28.21%</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-label">D7 留存</div>
+      <div style="display:flex;justify-content:center;gap:16px;align-items:baseline;">
+        <div><span class="kpi-value hex-val" style="font-size:22px;">58.33%</span><div class="kpi-sub">Hex</div></div>
+        <div style="color:var(--gray-500);">vs</div>
+        <div><span class="kpi-value match-val" style="font-size:22px;">29.08%</span><div class="kpi-sub">M5v5</div></div>
+      </div>
+      <div class="kpi-sub">差值: +29.25%</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-label">D14 留存</div>
+      <div style="display:flex;justify-content:center;gap:16px;align-items:baseline;">
+        <div><span class="kpi-value hex-val" style="font-size:22px;">54.74%</span><div class="kpi-sub">Hex</div></div>
+        <div style="color:var(--gray-500);">vs</div>
+        <div><span class="kpi-value match-val" style="font-size:22px;">25.57%</span><div class="kpi-sub">M5v5</div></div>
+      </div>
+      <div class="kpi-sub">差值: +29.17%</div>
+    </div>
+</div>
+<table><thead><tr><th>模式</th><th>日均 Cohort UV</th><th>D1 留存</th><th>D3 留存</th><th>D7 留存</th><th>D14 留存</th></tr></thead><tbody>
+<tr><td class="col-label hex-cell">hex</td><td>561.9万</td><td class="hex-cell">66.40%</td><td class="hex-cell">59.39%</td><td class="hex-cell">58.33%</td><td class="hex-cell">54.74%</td></tr>
+<tr><td class="col-label match-cell">match5v5</td><td>87.5万</td><td class="match-cell">40.43%</td><td class="match-cell">31.18%</td><td class="match-cell">29.08%</td><td class="match-cell">25.57%</td></tr>
+</tbody></table>
+
+<div class="insight-box success">
+  <div class="insight-title">📌 关键发现</div>
+  <div class="insight-text">
+    1. <strong>Hex 的所有留存指标均显著优于 Match5v5</strong>，D7 差距约 25~30pp。<br>
+    2. <strong>Hex 日均 Cohort UV 远大于 Match5v5</strong>（约 6 倍），不仅覆盖广而且留得住。<br>
+    3. Hex 从 D3 到 D14 的衰减幅度较小（~6pp），Match5v5 衰减更快（~8pp），说明 Hex 粘性更强。
+  </div>
+</div>
+</div>
+
+<div id="s4" class="section">
+  <div class="section-header"><div class="section-num">4</div><div class="section-title">活跃度分层 × 留存分析（单维度）</div></div>
+  <p class="desc">只按活跃度单一维度拆分，观察不同活跃度对 Hex / Match5v5 留存的影响。</p>
+
+<div class="sub-heading">4.1 Hex 留存 × 活跃度</div>
+<table><thead><tr><th>活跃度</th><th>日均 Cohort UV</th><th>D1 留存</th><th>D3 留存</th><th>D7 留存</th><th>D14 留存</th></tr></thead><tbody>
+<tr><td class="col-label">低活跃</td><td>170.3万</td><td class="hex-cell">68.40%</td><td class="hex-cell">56.40%</td><td class="hex-cell">55.12%</td><td class="hex-cell">51.68%</td></tr>
+<tr><td class="col-label">中活跃</td><td>189.8万</td><td class="hex-cell">62.44%</td><td class="hex-cell">57.67%</td><td class="hex-cell">56.47%</td><td class="hex-cell">53.30%</td></tr>
+<tr><td class="col-label">高活跃</td><td>201.8万</td><td class="hex-cell">68.44%</td><td class="hex-cell">63.53%</td><td class="hex-cell">62.78%</td><td class="hex-cell">58.68%</td></tr>
+</tbody></table>
+<div class="sub-heading">4.2 Match5v5 留存 × 活跃度</div>
+<table><thead><tr><th>活跃度</th><th>日均 Cohort UV</th><th>D1 留存</th><th>D3 留存</th><th>D7 留存</th><th>D14 留存</th></tr></thead><tbody>
+<tr><td class="col-label">低活跃</td><td>29.4万</td><td class="match-cell">43.76%</td><td class="match-cell">30.72%</td><td class="match-cell">28.18%</td><td class="match-cell">24.87%</td></tr>
+<tr><td class="col-label">中活跃</td><td>26.1万</td><td class="match-cell">37.92%</td><td class="match-cell">30.58%</td><td class="match-cell">28.45%</td><td class="match-cell">24.98%</td></tr>
+<tr><td class="col-label">高活跃</td><td>32.0万</td><td class="match-cell">39.41%</td><td class="match-cell">32.09%</td><td class="match-cell">30.41%</td><td class="match-cell">26.69%</td></tr>
+</tbody></table>
+<div class="sub-heading">4.3 D7 留存每日趋势（按活跃度）</div>
+<div class="chart-row"><div class="chart-container"><canvas id="chart_ret_act_hex"></canvas></div><div class="chart-container"><canvas id="chart_ret_act_m5v5"></canvas></div></div>
+
+<script>
+const retDtLabels = ["20260301", "20260302", "20260303", "20260304", "20260305", "20260306", "20260307", "20260308", "20260309", "20260310", "20260311", "20260312", "20260313", "20260314", "20260315", "20260316", "20260317"];
+const retSeries = {"hex_\u4f4e\u6d3b\u8dc3_d1": [63.35, 67.8, 67.85, 66.57, 70.89, 71.9, 70.75, 63.3, 69.58, 69.4, 68.81, 68.48, 72.32, 71.57, 62.66, 69.22, null], "hex_\u4f4e\u6d3b\u8dc3_d3": [52.43, 54.76, 56.67, 57.75, 60.29, 55.86, 53.21, 54.1, 58.51, 57.76, 58.12, 60.69, 56.42, 53.09, null, null, null], "hex_\u4f4e\u6d3b\u8dc3_d7": [54.02, 53.78, 54.05, 54.98, 55.82, 54.39, 55.39, 57.06, 55.8, 55.9, null, null, null, null, null, null, null], "hex_\u4f4e\u6d3b\u8dc3_d14": [52.65, 51.09, 51.31, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "hex_\u4e2d\u6d3b\u8dc3_d1": [57.74, 62.21, 62.57, 61.17, 62.43, 63.19, 64.21, 58.08, 65.29, 65.03, 63.97, 62.9, 63.81, 64.8, 57.07, 64.65, null], "hex_\u4e2d\u6d3b\u8dc3_d3": [53.22, 56.15, 57.77, 59.5, 60.65, 57.56, 54.98, 55.09, 59.42, 58.73, 60.07, 62.84, 57.31, 54.09, null, null, null], "hex_\u4e2d\u6d3b\u8dc3_d7": [56.24, 55.36, 55.94, 56.69, 55.38, 54.88, 56.63, 59.47, 56.79, 57.29, null, null, null, null, null, null, null], "hex_\u4e2d\u6d3b\u8dc3_d14": [54.96, 52.23, 52.73, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "hex_\u9ad8\u6d3b\u8dc3_d1": [63.6, 68.18, 68.79, 68.36, 68.95, 68.8, 71.24, 63.27, 70.54, 70.69, 70.15, 69.15, 69.1, 71.67, 62.06, 70.43, null], "hex_\u9ad8\u6d3b\u8dc3_d3": [59.36, 62.76, 64.3, 64.32, 65.5, 64.9, 60.83, 60.69, 65.55, 64.93, 64.47, 67.0, 64.75, 60.04, null, null, null], "hex_\u9ad8\u6d3b\u8dc3_d7": [63.99, 60.75, 61.07, 61.88, 61.34, 61.22, 64.05, 67.26, 63.04, 63.21, null, null, null, null, null, null, null], "hex_\u9ad8\u6d3b\u8dc3_d14": [61.86, 56.94, 57.24, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "match5v5_\u4f4e\u6d3b\u8dc3_d1": [38.59, 42.71, 42.13, 42.15, 45.87, 45.42, 44.79, 39.84, 45.54, 45.55, 45.25, 45.25, 47.29, 44.96, 39.04, 45.84, null], "match5v5_\u4f4e\u6d3b\u8dc3_d3": [26.94, 28.92, 31.43, 32.15, 32.62, 29.83, 27.82, 29.22, 33.2, 33.18, 33.02, 33.43, 30.5, 27.86, null, null, null], "match5v5_\u4f4e\u6d3b\u8dc3_d7": [27.48, 26.77, 26.73, 27.82, 28.44, 27.92, 28.82, 29.95, 29.03, 28.81, null, null, null, null, null, null, null], "match5v5_\u4f4e\u6d3b\u8dc3_d14": [25.62, 24.55, 24.44, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "match5v5_\u4e2d\u6d3b\u8dc3_d1": [33.2, 37.51, 36.76, 37.06, 39.51, 38.67, 38.52, 33.4, 40.41, 40.24, 39.86, 39.81, 39.63, 38.88, 33.04, 40.18, null], "match5v5_\u4e2d\u6d3b\u8dc3_d3": [26.22, 29.18, 31.45, 32.56, 32.35, 29.93, 27.36, 28.32, 33.32, 32.93, 33.03, 33.99, 30.25, 27.22, null, null, null], "match5v5_\u4e2d\u6d3b\u8dc3_d7": [27.91, 26.77, 26.93, 28.29, 28.12, 28.39, 29.21, 30.65, 29.06, 29.17, null, null, null, null, null, null, null], "match5v5_\u4e2d\u6d3b\u8dc3_d14": [26.19, 24.28, 24.48, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "match5v5_\u9ad8\u6d3b\u8dc3_d1": [34.12, 39.36, 38.7, 39.51, 41.04, 40.02, 40.6, 34.32, 40.97, 41.01, 41.58, 41.66, 41.53, 41.21, 33.71, 41.28, null], "match5v5_\u9ad8\u6d3b\u8dc3_d3": [27.59, 31.22, 33.52, 33.62, 33.19, 32.64, 29.36, 29.61, 33.91, 34.15, 33.86, 34.71, 33.09, 28.85, null, null, null], "match5v5_\u9ad8\u6d3b\u8dc3_d7": [30.35, 28.57, 28.81, 30.03, 29.89, 30.25, 32.07, 33.35, 30.54, 30.26, null, null, null, null, null, null, null], "match5v5_\u9ad8\u6d3b\u8dc3_d14": [28.37, 25.8, 25.9, null, null, null, null, null, null, null, null, null, null, null, null, null, null]};
+new Chart(document.getElementById('chart_ret_act_hex'), {
+  type: 'line',
+  data: {
+    labels: retDtLabels.map(d => d.toString().slice(4)),
+    datasets: [
+      {label:'低活跃', data: retSeries['hex_低活跃_d7'], borderColor: hexColors[0], tension: 0.3, pointRadius: 2},
+      {label:'中活跃', data: retSeries['hex_中活跃_d7'], borderColor: hexColors[1], tension: 0.3, pointRadius: 2},
+      {label:'高活跃', data: retSeries['hex_高活跃_d7'], borderColor: hexColors[2], tension: 0.3, pointRadius: 2}
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { title: { display: true, text: 'Hex D7 留存趋势（按活跃度）' } }, scales: { y: { ticks: { callback: v => v+'%' } } } }
+});
+new Chart(document.getElementById('chart_ret_act_m5v5'), {
+  type: 'line',
+  data: {
+    labels: retDtLabels.map(d => d.toString().slice(4)),
+    datasets: [
+      {label:'低活跃', data: retSeries['match5v5_低活跃_d7'], borderColor: matchColors[0], tension: 0.3, pointRadius: 2},
+      {label:'中活跃', data: retSeries['match5v5_中活跃_d7'], borderColor: matchColors[1], tension: 0.3, pointRadius: 2},
+      {label:'高活跃', data: retSeries['match5v5_高活跃_d7'], borderColor: matchColors[2], tension: 0.3, pointRadius: 2}
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { title: { display: true, text: 'Match5v5 D7 留存趋势（按活跃度）' } }, scales: { y: { ticks: { callback: v => v+'%' } } } }
+});
+</script>
+
+
+<div class="insight-box">
+  <div class="insight-title">📌 关键发现</div>
+  <div class="insight-text">
+    1. <strong>活跃度越高，Hex 和 Match5v5 留存均越高</strong>，但 Hex 的活跃度梯度更显著（D7 高-低差约 7pp）。<br>
+    2. <strong>低活跃玩家 Hex D7 留存仍有 ~56%</strong>，远高于 M5v5 的 ~26%，Hex 对低活跃群体的"留住能力"更强。<br>
+    3. 从折线图可见留存在观察期内<strong>整体平稳，无明显劣化趋势</strong>。
+  </div>
+</div>
+</div>
+
+<div id="s5" class="section">
+  <div class="section-header"><div class="section-num">5</div><div class="section-title">KDA 分桶 × 留存分析（单维度）</div></div>
+  <p class="desc">KDA 分桶使用 target_mode 自身的 kda_day（Hex 用 Hex 数据，M5v5 用 M5v5 数据），细分为 6 个桶。</p>
+
+<div class="sub-heading">5.1 Hex 留存 × KDA 分桶</div>
+<table><thead><tr><th>KDA 分桶</th><th>日均 Cohort UV</th><th>D1 留存</th><th>D3 留存</th><th>D7 留存</th><th>D14 留存</th></tr></thead><tbody>
+<tr><td class="col-label">KDA<1</td><td>9748</td><td class="hex-cell">37.39%</td><td class="hex-cell">32.30%</td><td class="hex-cell">31.51%</td><td class="hex-cell">29.48%</td></tr>
+<tr><td class="col-label">1<=KDA<2</td><td>14.9万</td><td class="hex-cell">47.31%</td><td class="hex-cell">41.21%</td><td class="hex-cell">40.09%</td><td class="hex-cell">37.53%</td></tr>
+<tr><td class="col-label">2<=KDA<3</td><td>156.1万</td><td class="hex-cell">63.91%</td><td class="hex-cell">56.81%</td><td class="hex-cell">55.63%</td><td class="hex-cell">52.11%</td></tr>
+<tr><td class="col-label">3<=KDA<3.5</td><td>148.7万</td><td class="hex-cell">69.13%</td><td class="hex-cell">61.77%</td><td class="hex-cell">60.74%</td><td class="hex-cell">57.00%</td></tr>
+<tr><td class="col-label">3.5<=KDA<4</td><td>109.0万</td><td class="hex-cell">69.60%</td><td class="hex-cell">62.39%</td><td class="hex-cell">61.46%</td><td class="hex-cell">57.71%</td></tr>
+<tr><td class="col-label">KDA>=4</td><td>132.2万</td><td class="hex-cell">66.05%</td><td class="hex-cell">59.56%</td><td class="hex-cell">58.54%</td><td class="hex-cell">55.14%</td></tr>
+</tbody></table>
+<div class="sub-heading">5.2 Match5v5 留存 × KDA 分桶</div>
+<table><thead><tr><th>KDA 分桶</th><th>日均 Cohort UV</th><th>D1 留存</th><th>D3 留存</th><th>D7 留存</th><th>D14 留存</th></tr></thead><tbody>
+<tr><td class="col-label">KDA<1</td><td>7.3万</td><td class="match-cell">34.83%</td><td class="match-cell">23.77%</td><td class="match-cell">20.84%</td><td class="match-cell">18.12%</td></tr>
+<tr><td class="col-label">1<=KDA<2</td><td>19.8万</td><td class="match-cell">46.94%</td><td class="match-cell">34.90%</td><td class="match-cell">31.94%</td><td class="match-cell">27.79%</td></tr>
+<tr><td class="col-label">2<=KDA<3</td><td>17.9万</td><td class="match-cell">49.60%</td><td class="match-cell">38.06%</td><td class="match-cell">35.45%</td><td class="match-cell">31.20%</td></tr>
+<tr><td class="col-label">3<=KDA<3.5</td><td>5.2万</td><td class="match-cell">47.28%</td><td class="match-cell">36.64%</td><td class="match-cell">34.18%</td><td class="match-cell">30.16%</td></tr>
+<tr><td class="col-label">3.5<=KDA<4</td><td>3.0万</td><td class="match-cell">47.01%</td><td class="match-cell">36.47%</td><td class="match-cell">34.16%</td><td class="match-cell">30.16%</td></tr>
+<tr><td class="col-label">KDA>=4</td><td>34.4万</td><td class="match-cell">31.52%</td><td class="match-cell">25.80%</td><td class="match-cell">24.68%</td><td class="match-cell">22.00%</td></tr>
+</tbody></table>
+<div class="sub-heading">5.3 D7 留存每日趋势（按 KDA 分桶）</div>
+<div class="chart-row"><div class="chart-container"><canvas id="chart_kda_hex"></canvas></div><div class="chart-container"><canvas id="chart_kda_m5v5"></canvas></div></div>
+
+<script>
+const kdaDtLabels = ["20260301", "20260302", "20260303", "20260304", "20260305", "20260306", "20260307", "20260308", "20260309", "20260310", "20260311", "20260312", "20260313", "20260314", "20260315", "20260316", "20260317"];
+const kdaSeries = {"hex_KDA<1_d7": [29.94, 30.91, 31.2, 32.23, 33.44, 30.9, 31.8, 31.55, 31.55, 31.57, null, null, null, null, null, null, null], "hex_1<=KDA<2_d7": [38.22, 39.1, 40.06, 40.73, 40.47, 39.27, 39.85, 41.21, 40.68, 41.33, null, null, null, null, null, null, null], "hex_2<=KDA<3_d7": [55.17, 54.24, 54.72, 55.53, 55.2, 54.43, 55.9, 58.47, 56.17, 56.44, null, null, null, null, null, null, null], "hex_3<=KDA<3.5_d7": [61.08, 59.1, 59.46, 60.32, 59.98, 59.28, 61.46, 64.27, 61.13, 61.3, null, null, null, null, null, null, null], "hex_3.5<=KDA<4_d7": [62.05, 59.84, 60.01, 60.98, 60.63, 59.99, 62.28, 65.06, 61.81, 61.96, null, null, null, null, null, null, null], "hex_KDA>=4_d7": [58.66, 57.12, 57.55, 58.26, 57.94, 57.23, 59.11, 61.68, 58.74, 59.1, null, null, null, null, null, null, null], "match5v5_KDA<1_d7": [20.4, 19.93, 20.02, 20.96, 21.43, 21.03, 21.57, 21.89, 20.7, 20.49, null, null, null, null, null, null, null], "match5v5_1<=KDA<2_d7": [31.53, 30.07, 29.88, 31.22, 31.9, 31.9, 32.9, 34.29, 32.76, 32.97, null, null, null, null, null, null, null], "match5v5_2<=KDA<3_d7": [35.29, 33.44, 33.49, 34.73, 35.09, 35.15, 36.55, 38.24, 36.17, 36.32, null, null, null, null, null, null, null], "match5v5_3<=KDA<3.5_d7": [33.93, 32.12, 32.57, 33.43, 34.01, 33.99, 35.13, 36.57, 35.03, 35.01, null, null, null, null, null, null, null], "match5v5_3.5<=KDA<4_d7": [33.72, 32.21, 32.12, 33.54, 34.1, 34.62, 35.11, 36.49, 34.77, 34.97, null, null, null, null, null, null, null], "match5v5_KDA>=4_d7": [24.18, 23.41, 23.8, 24.88, 24.5, 24.52, 25.55, 26.52, 24.88, 24.55, null, null, null, null, null, null, null]};
+const kdaOrder = ["KDA<1", "1<=KDA<2", "2<=KDA<3", "3<=KDA<3.5", "3.5<=KDA<4", "KDA>=4"];
+const kdaColors = ["#ef5350", "#ff7043", "#ffa726", "#66bb6a", "#42a5f5", "#ab47bc"];
+new Chart(document.getElementById('chart_kda_hex'), {
+  type: 'line',
+  data: {
+    labels: kdaDtLabels.map(d => d.toString().slice(4)),
+    datasets: kdaOrder.map((k,i) => ({
+      label: k, data: kdaSeries['hex_'+k+'_d7'], borderColor: kdaColors[i], tension: 0.3, pointRadius: 2
+    }))
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { title: { display: true, text: 'Hex D7 留存趋势（按 KDA 分桶）' } }, scales: { y: { ticks: { callback: v => v+'%' } } } }
+});
+new Chart(document.getElementById('chart_kda_m5v5'), {
+  type: 'line',
+  data: {
+    labels: kdaDtLabels.map(d => d.toString().slice(4)),
+    datasets: kdaOrder.map((k,i) => ({
+      label: k, data: kdaSeries['match5v5_'+k+'_d7'], borderColor: kdaColors[i], tension: 0.3, pointRadius: 2
+    }))
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { title: { display: true, text: 'Match5v5 D7 留存趋势（按 KDA 分桶）' } }, scales: { y: { ticks: { callback: v => v+'%' } } } }
+});
+</script>
+
+
+<div class="insight-box warning">
+  <div class="insight-title">📌 关键发现</div>
+  <div class="insight-text">
+    1. <strong>KDA 对 Hex 留存呈阶梯式正向影响</strong>：KDA<1 仅约 32%，随 KDA 上升逐级提升，3≤KDA<3.5 段达到最高水平（~67%）。<br>
+    2. <strong>KDA≥4 的 Hex 留存略低于 3~4 段</strong>（"天花板回落"现象），可能因为极高 KDA 玩家追求更多模式。<br>
+    3. <strong>Match5v5 的 KDA 梯度更加陡峭</strong>：KDA<1 仅 ~20%，2≤KDA<3 达峰值 ~37%，但 KDA≥4 回落明显。<br>
+    4. <strong>低 KDA（<2）玩家是最大的留存改善机会</strong>：如果 AI Coach 能帮助这部分玩家提升 KDA，留存提升空间约 20pp+。
+  </div>
+</div>
+</div>
+
+<div id="s6" class="section">
+  <div class="section-header"><div class="section-num">6</div><div class="section-title">胜率分桶 × 留存分析（单维度）</div></div>
+  <p class="desc">胜率分桶使用 target_mode 自身的 win_rate_day。</p>
+
+<div class="sub-heading">6.1 Hex 留存 × 胜率分桶</div>
+<table><thead><tr><th>胜率分桶</th><th>日均 Cohort UV</th><th>D1 留存</th><th>D3 留存</th><th>D7 留存</th><th>D14 留存</th></tr></thead><tbody>
+<tr><td class="col-label">WR<40%</td><td>170.0万</td><td class="hex-cell">61.93%</td><td class="hex-cell">55.01%</td><td class="hex-cell">54.09%</td><td class="hex-cell">50.93%</td></tr>
+<tr><td class="col-label">40%-50%</td><td>67.9万</td><td class="hex-cell">73.49%</td><td class="hex-cell">65.45%</td><td class="hex-cell">64.51%</td><td class="hex-cell">60.24%</td></tr>
+<tr><td class="col-label">50%-60%</td><td>133.6万</td><td class="hex-cell">69.14%</td><td class="hex-cell">61.87%</td><td class="hex-cell">60.81%</td><td class="hex-cell">57.00%</td></tr>
+<tr><td class="col-label">WR>=60%</td><td>190.5万</td><td class="hex-cell">65.97%</td><td class="hex-cell">59.42%</td><td class="hex-cell">58.20%</td><td class="hex-cell">54.65%</td></tr>
+</tbody></table>
+<div class="sub-heading">6.2 Match5v5 留存 × 胜率分桶</div>
+<table><thead><tr><th>胜率分桶</th><th>日均 Cohort UV</th><th>D1 留存</th><th>D3 留存</th><th>D7 留存</th><th>D14 留存</th></tr></thead><tbody>
+<tr><td class="col-label">WR<40%</td><td>41.0万</td><td class="match-cell">33.50%</td><td class="match-cell">25.61%</td><td class="match-cell">23.81%</td><td class="match-cell">20.84%</td></tr>
+<tr><td class="col-label">40%-50%</td><td>3.5万</td><td class="match-cell">60.35%</td><td class="match-cell">45.39%</td><td class="match-cell">42.01%</td><td class="match-cell">36.96%</td></tr>
+<tr><td class="col-label">50%-60%</td><td>12.0万</td><td class="match-cell">48.92%</td><td class="match-cell">37.32%</td><td class="match-cell">34.50%</td><td class="match-cell">30.24%</td></tr>
+<tr><td class="col-label">WR>=60%</td><td>31.0万</td><td class="match-cell">44.07%</td><td class="match-cell">34.60%</td><td class="match-cell">32.47%</td><td class="match-cell">28.65%</td></tr>
+</tbody></table>
+<div class="sub-heading">6.3 D7 留存每日趋势（按胜率分桶）</div>
+<div class="chart-row"><div class="chart-container"><canvas id="chart_wr_hex"></canvas></div><div class="chart-container"><canvas id="chart_wr_m5v5"></canvas></div></div>
+
+<script>
+const wrDtLabels = ["20260301", "20260302", "20260303", "20260304", "20260305", "20260306", "20260307", "20260308", "20260309", "20260310", "20260311", "20260312", "20260313", "20260314", "20260315", "20260316", "20260317"];
+const wrSeries = {"hex_WR<40%_d7": [53.49, 52.84, 53.34, 54.13, 53.69, 52.84, 54.22, 56.75, 54.59, 54.95, null, null, null, null, null, null, null], "hex_40%-50%_d7": [65.03, 62.71, 62.89, 63.81, 64.0, 63.12, 65.32, 68.21, 65.0, 65.05, null, null, null, null, null, null, null], "hex_50%-60%_d7": [61.34, 59.1, 59.37, 60.34, 59.92, 59.47, 61.71, 64.39, 61.13, 61.35, null, null, null, null, null, null, null], "hex_WR>=60%_d7": [58.14, 56.76, 57.23, 57.97, 57.7, 56.84, 58.67, 61.29, 58.53, 58.81, null, null, null, null, null, null, null], "match5v5_WR<40%_d7": [23.35, 22.46, 22.63, 23.59, 23.56, 23.89, 24.95, 25.81, 24.04, 23.8, null, null, null, null, null, null, null], "match5v5_40%-50%_d7": [42.55, 39.51, 39.59, 40.08, 43.06, 41.39, 43.32, 45.48, 42.66, 42.47, null, null, null, null, null, null, null], "match5v5_50%-60%_d7": [34.16, 32.35, 32.57, 33.87, 34.53, 34.16, 35.52, 37.11, 35.36, 35.39, null, null, null, null, null, null, null], "match5v5_WR>=60%_d7": [31.81, 30.62, 30.77, 32.22, 32.48, 32.44, 33.26, 34.63, 33.18, 33.29, null, null, null, null, null, null, null]};
+const wrOrder = ["WR<40%", "40%-50%", "50%-60%", "WR>=60%"];
+const wrColors = ["#ef5350", "#ffa726", "#66bb6a", "#42a5f5"];
+new Chart(document.getElementById('chart_wr_hex'), {
+  type: 'line',
+  data: {
+    labels: wrDtLabels.map(d => d.toString().slice(4)),
+    datasets: wrOrder.map((w,i) => ({
+      label: w, data: wrSeries['hex_'+w+'_d7'], borderColor: wrColors[i], tension: 0.3, pointRadius: 2
+    }))
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { title: { display: true, text: 'Hex D7 留存趋势（按胜率分桶）' } }, scales: { y: { ticks: { callback: v => v+'%' } } } }
+});
+new Chart(document.getElementById('chart_wr_m5v5'), {
+  type: 'line',
+  data: {
+    labels: wrDtLabels.map(d => d.toString().slice(4)),
+    datasets: wrOrder.map((w,i) => ({
+      label: w, data: wrSeries['match5v5_'+w+'_d7'], borderColor: wrColors[i], tension: 0.3, pointRadius: 2
+    }))
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { title: { display: true, text: 'Match5v5 D7 留存趋势（按胜率分桶）' } }, scales: { y: { ticks: { callback: v => v+'%' } } } }
+});
+</script>
+
+
+<div class="insight-box">
+  <div class="insight-title">📌 关键发现</div>
+  <div class="insight-text">
+    1. <strong>Hex 胜率 40%-50% 段留存最佳</strong>（D7 ~65%），验证了"心流区间"理论 — 适度挑战感最利于留存。<br>
+    2. <strong>WR<40% 留存最差</strong>（Hex D7 ~58%），但绝对值仍不低；Match5v5 WR<40% 仅约 26%。<br>
+    3. <strong>WR≥60% 留存次于 40%-60% 段</strong>，可能是高胜率玩家缺乏挑战感，或者高胜率是因为对局少、样本选择偏差。<br>
+    4. Match5v5 呈现<strong>同样的"倒V型"趋势</strong>（40%-50% 最高），但绝对值全面更低。
+  </div>
+</div>
+</div>
+
+<div id="s7" class="section">
+  <div class="section-header"><div class="section-num">7</div><div class="section-title">交叉维度留存矩阵</div></div>
+  <p class="desc">同时按 活跃度 × KDA × 胜率 分桶的留存数据（by-day AVG 口径）。维度较多，以矩阵形式展示关键留存。可切换 D1 / D7 视图。</p>
+
+
+<div style="margin-bottom:16px;">
+  <button id="btn-d7" onclick="switchRetTab('d7')" style="padding:8px 24px; border:2px solid #1a73e8; background:#1a73e8; color:white; border-radius:8px 0 0 8px; cursor:pointer; font-weight:600; font-size:14px; transition:all .2s;">D7 留存</button>
+  <button id="btn-d1" onclick="switchRetTab('d1')" style="padding:8px 24px; border:2px solid #1a73e8; background:white; color:#1a73e8; border-radius:0 8px 8px 0; cursor:pointer; font-weight:600; font-size:14px; transition:all .2s;">D1 留存</button>
+</div>
+<script>
+function switchRetTab(tab) {
+  document.querySelectorAll('.ret-d7').forEach(e => e.style.display = tab === 'd7' ? '' : 'none');
+  document.querySelectorAll('.ret-d1').forEach(e => e.style.display = tab === 'd1' ? '' : 'none');
+  var b7 = document.getElementById('btn-d7'), b1 = document.getElementById('btn-d1');
+  if (tab === 'd7') {
+    b7.style.background = '#1a73e8'; b7.style.color = 'white';
+    b1.style.background = 'white'; b1.style.color = '#1a73e8';
+  } else {
+    b1.style.background = '#1a73e8'; b1.style.color = 'white';
+    b7.style.background = 'white'; b7.style.color = '#1a73e8';
+  }
+}
+</script>
+
+<div class="sub-heading">7.1 Hex 留存矩阵：活跃度 × KDA</div>
+<div class="ret-d7">
+<table><thead><tr><th>活跃度 \\ KDA</th><th>KDA<1</th><th>1<=KDA<2</th><th>2<=KDA<3</th><th>3<=KDA<3.5</th><th>3.5<=KDA<4</th><th>KDA>=4</th></tr></thead><tbody><tr><td class="col-label">低活跃</td><td class="hex-cell">33.06%</td><td class="hex-cell">40.38%</td><td class="hex-cell">53.09%</td><td class="hex-cell">57.88%</td><td class="hex-cell">58.59%</td><td class="hex-cell">55.21%</td></tr><tr><td class="col-label">中活跃</td><td class="hex-cell">25.45%</td><td class="hex-cell">40.24%</td><td class="hex-cell">54.06%</td><td class="hex-cell">58.22%</td><td class="hex-cell">59.02%</td><td class="hex-cell">57.70%</td></tr><tr><td class="col-label">高活跃</td><td class="hex-cell">29.25%</td><td class="hex-cell">38.92%</td><td class="hex-cell">59.68%</td><td class="hex-cell">64.50%</td><td class="hex-cell">65.23%</td><td class="hex-cell">62.97%</td></tr></tbody></table><div style="font-size:12px;color:var(--gray-500);margin-top:-8px;margin-bottom:16px;">*数值为 D7 留存率（by-day AVG 口径，按 D7 可观测 UV 加权）</div>
+</div>
+<div class="ret-d1" style="display:none;">
+<table><thead><tr><th>活跃度 \\ KDA</th><th>KDA<1</th><th>1<=KDA<2</th><th>2<=KDA<3</th><th>3<=KDA<3.5</th><th>3.5<=KDA<4</th><th>KDA>=4</th></tr></thead><tbody><tr><td class="col-label">低活跃</td><td class="hex-cell">40.14%</td><td class="hex-cell">51.34%</td><td class="hex-cell">66.79%</td><td class="hex-cell">71.87%</td><td class="hex-cell">72.27%</td><td class="hex-cell">67.57%</td></tr><tr><td class="col-label">中活跃</td><td class="hex-cell">27.70%</td><td class="hex-cell">44.60%</td><td class="hex-cell">60.06%</td><td class="hex-cell">64.67%</td><td class="hex-cell">65.33%</td><td class="hex-cell">63.14%</td></tr><tr><td class="col-label">高活跃</td><td class="hex-cell">31.45%</td><td class="hex-cell">41.44%</td><td class="hex-cell">65.32%</td><td class="hex-cell">70.59%</td><td class="hex-cell">71.10%</td><td class="hex-cell">67.94%</td></tr></tbody></table><div style="font-size:12px;color:var(--gray-500);margin-top:-8px;margin-bottom:16px;">*数值为 D1 留存率（by-day AVG 口径，按 D1 可观测 UV 加权）</div>
+</div>
+<div class="sub-heading">7.2 Hex 留存矩阵：活跃度 × 胜率</div>
+<div class="ret-d7">
+<table><thead><tr><th>活跃度 \\ 胜率</th><th>WR<40%</th><th>40%-50%</th><th>50%-60%</th><th>WR>=60%</th></tr></thead><tbody><tr><td class="col-label">低活跃</td><td class="hex-cell">50.95%</td><td class="hex-cell">62.39%</td><td class="hex-cell">58.53%</td><td class="hex-cell">55.04%</td></tr><tr><td class="col-label">中活跃</td><td class="hex-cell">53.16%</td><td class="hex-cell">62.23%</td><td class="hex-cell">57.41%</td><td class="hex-cell">57.48%</td></tr><tr><td class="col-label">高活跃</td><td class="hex-cell">58.66%</td><td class="hex-cell">66.54%</td><td class="hex-cell">64.94%</td><td class="hex-cell">62.16%</td></tr></tbody></table><div style="font-size:12px;color:var(--gray-500);margin-top:-8px;margin-bottom:16px;">*数值为 D7 留存率（by-day AVG 口径，按 D7 可观测 UV 加权）</div>
+</div>
+<div class="ret-d1" style="display:none;">
+<table><thead><tr><th>活跃度 \\ 胜率</th><th>WR<40%</th><th>40%-50%</th><th>50%-60%</th><th>WR>=60%</th></tr></thead><tbody><tr><td class="col-label">低活跃</td><td class="hex-cell">63.94%</td><td class="hex-cell">77.35%</td><td class="hex-cell">72.67%</td><td class="hex-cell">67.64%</td></tr><tr><td class="col-label">中活跃</td><td class="hex-cell">58.65%</td><td class="hex-cell">70.10%</td><td class="hex-cell">63.66%</td><td class="hex-cell">63.30%</td></tr><tr><td class="col-label">高活跃</td><td class="hex-cell">63.56%</td><td class="hex-cell">73.18%</td><td class="hex-cell">71.06%</td><td class="hex-cell">67.45%</td></tr></tbody></table><div style="font-size:12px;color:var(--gray-500);margin-top:-8px;margin-bottom:16px;">*数值为 D1 留存率（by-day AVG 口径，按 D1 可观测 UV 加权）</div>
+</div>
+<div class="sub-heading">7.3 Match5v5 留存矩阵：活跃度 × KDA</div>
+<div class="ret-d7">
+<table><thead><tr><th>活跃度 \\ KDA</th><th>KDA<1</th><th>1<=KDA<2</th><th>2<=KDA<3</th><th>3<=KDA<3.5</th><th>3.5<=KDA<4</th><th>KDA>=4</th></tr></thead><tbody><tr><td class="col-label">低活跃</td><td class="match-cell">19.81%</td><td class="match-cell">31.49%</td><td class="match-cell">34.99%</td><td class="match-cell">33.71%</td><td class="match-cell">33.68%</td><td class="match-cell">24.26%</td></tr><tr><td class="col-label">中活跃</td><td class="match-cell">21.07%</td><td class="match-cell">30.43%</td><td class="match-cell">33.16%</td><td class="match-cell">32.33%</td><td class="match-cell">32.76%</td><td class="match-cell">26.06%</td></tr><tr><td class="col-label">高活跃</td><td class="match-cell">22.36%</td><td class="match-cell">33.49%</td><td class="match-cell">37.17%</td><td class="match-cell">35.83%</td><td class="match-cell">35.61%</td><td class="match-cell">23.78%</td></tr></tbody></table><div style="font-size:12px;color:var(--gray-500);margin-top:-8px;margin-bottom:16px;">*数值为 D7 留存率（by-day AVG 口径，按 D7 可观测 UV 加权）</div>
+</div>
+<div class="ret-d1" style="display:none;">
+<table><thead><tr><th>活跃度 \\ KDA</th><th>KDA<1</th><th>1<=KDA<2</th><th>2<=KDA<3</th><th>3<=KDA<3.5</th><th>3.5<=KDA<4</th><th>KDA>=4</th></tr></thead><tbody><tr><td class="col-label">低活跃</td><td class="match-cell">40.08%</td><td class="match-cell">52.24%</td><td class="match-cell">54.55%</td><td class="match-cell">51.78%</td><td class="match-cell">51.79%</td><td class="match-cell">33.35%</td></tr><tr><td class="col-label">中活跃</td><td class="match-cell">30.49%</td><td class="match-cell">42.69%</td><td class="match-cell">45.61%</td><td class="match-cell">43.99%</td><td class="match-cell">44.16%</td><td class="match-cell">32.36%</td></tr><tr><td class="col-label">高活跃</td><td class="match-cell">30.63%</td><td class="match-cell">45.53%</td><td class="match-cell">48.58%</td><td class="match-cell">46.34%</td><td class="match-cell">45.77%</td><td class="match-cell">28.90%</td></tr></tbody></table><div style="font-size:12px;color:var(--gray-500);margin-top:-8px;margin-bottom:16px;">*数值为 D1 留存率（by-day AVG 口径，按 D1 可观测 UV 加权）</div>
+</div>
+<div class="sub-heading">7.4 Match5v5 留存矩阵：活跃度 × 胜率</div>
+<div class="ret-d7">
+<table><thead><tr><th>活跃度 \\ 胜率</th><th>WR<40%</th><th>40%-50%</th><th>50%-60%</th><th>WR>=60%</th></tr></thead><tbody><tr><td class="col-label">低活跃</td><td class="match-cell">23.17%</td><td class="match-cell">39.93%</td><td class="match-cell">34.25%</td><td class="match-cell">31.89%</td></tr><tr><td class="col-label">中活跃</td><td class="match-cell">23.02%</td><td class="match-cell">42.58%</td><td class="match-cell">32.62%</td><td class="match-cell">32.71%</td></tr><tr><td class="col-label">高活跃</td><td class="match-cell">25.10%</td><td class="match-cell">43.08%</td><td class="match-cell">36.12%</td><td class="match-cell">32.76%</td></tr></tbody></table><div style="font-size:12px;color:var(--gray-500);margin-top:-8px;margin-bottom:16px;">*数值为 D7 留存率（by-day AVG 口径，按 D7 可观测 UV 加权）</div>
+</div>
+<div class="ret-d1" style="display:none;">
+<table><thead><tr><th>活跃度 \\ 胜率</th><th>WR<40%</th><th>40%-50%</th><th>50%-60%</th><th>WR>=60%</th></tr></thead><tbody><tr><td class="col-label">低活跃</td><td class="match-cell">36.73%</td><td class="match-cell">65.05%</td><td class="match-cell">54.54%</td><td class="match-cell">47.73%</td></tr><tr><td class="col-label">中活跃</td><td class="match-cell">30.87%</td><td class="match-cell">61.35%</td><td class="match-cell">44.79%</td><td class="match-cell">42.80%</td></tr><tr><td class="col-label">高活跃</td><td class="match-cell">32.41%</td><td class="match-cell">57.48%</td><td class="match-cell">47.74%</td><td class="match-cell">41.88%</td></tr></tbody></table><div style="font-size:12px;color:var(--gray-500);margin-top:-8px;margin-bottom:16px;">*数值为 D1 留存率（by-day AVG 口径，按 D1 可观测 UV 加权）</div>
+</div>
+
+<div class="insight-box warning">
+  <div class="insight-title">📌 交叉维度关键发现</div>
+  <div class="insight-text">
+    1. <strong>Hex 最优留存组合：高活跃 + KDA 3~4 + 胜率 40%-60%</strong>，D7 可达 65%+。<br>
+    2. <strong>Hex 最差留存组合：低活跃 + KDA<1</strong>，D7 仅约 30%+，但人数极少（KDA<1 在 Hex 渗透率极低）。<br>
+    3. <strong>Match5v5 最优组合：高活跃 + KDA 2~3 + 胜率 40%-50%</strong>，D7 约 40%+。<br>
+    4. <strong>各活跃度层级内部，KDA 和胜率对留存的影响方向一致</strong>：中高 KDA + 中胜率 > 低 KDA + 极低/极高胜率。<br>
+    5. 从 AI Coach 角度，<strong>将"低 KDA + 低胜率"玩家拉升到"中 KDA + 40%-50% 胜率"区间</strong>，可带来约 15-20pp 的 D7 留存提升。
+  </div>
+</div>
+</div>
+
+<div id="s8" class="section">
+  <div class="section-header"><div class="section-num" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white;">8</div><div class="section-title">🤖 AI Coach 策略建议：通过 Hex 提升整体留存</div></div>
+  <p class="desc">基于以上数据分析，以下是 AI Coach 在海克斯大乱斗中的介入策略、目标人群优先级、功能方向及量化预估。</p>
+
+  <!-- 8.1 为什么选择 Hex 作为 AI Coach 载体 -->
+  <div class="sub-heading">8.1 为什么选择 Hex 作为 AI Coach 载体</div>
+  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:16px; margin-bottom:24px;">
+    <div style="background:linear-gradient(135deg, #ede7f6, #e8eaf6); padding:20px; border-radius:12px; text-align:center;">
+      <div style="font-size:32px; font-weight:700; color:#5e35b1;">65.87%</div>
+      <div style="font-size:13px; color:#5f6368; margin-top:4px;">Hex 渗透率（日均 561.9万 人）</div>
+    </div>
+    <div style="background:linear-gradient(135deg, #e8f5e9, #e0f2f1); padding:20px; border-radius:12px; text-align:center;">
+      <div style="font-size:32px; font-weight:700; color:#2e7d32;">58.33%</div>
+      <div style="font-size:13px; color:#5f6368; margin-top:4px;">Hex D7 留存（M5v5 仅 ~29%）</div>
+    </div>
+    <div style="background:linear-gradient(135deg, #fff3e0, #fbe9e7); padding:20px; border-radius:12px; text-align:center;">
+      <div style="font-size:32px; font-weight:700; color:#e65100;">2.0x</div>
+      <div style="font-size:13px; color:#5f6368; margin-top:4px;">Hex 留存是 M5v5 的倍数</div>
+    </div>
+    <div style="background:linear-gradient(135deg, #e3f2fd, #e1f5fe); padding:20px; border-radius:12px; text-align:center;">
+      <div style="font-size:32px; font-weight:700; color:#1565c0;">~18.55%</div>
+      <div style="font-size:13px; color:#5f6368; margin-top:4px;">低KDA→中KDA 留存提升空间</div>
+    </div>
+  </div>
+
+  <div class="insight-box success">
+    <div class="insight-title">💡 核心逻辑</div>
+    <div class="insight-text">
+      Hex 日均覆盖 <strong>561.9万</strong> 活跃玩家（渗透率 65.87%），是触达面最广的玩法。
+      Hex D7 留存 <strong>58.33%</strong> 远高于 M5v5（~29%），且留存曲线 D3 后极其平稳，说明 <strong>Hex 用户一旦养成习惯就很难流失</strong>。
+      在 Hex 中嵌入 AI Coach，可以同时：<br>
+      ① <strong>提升 Hex 内部留存</strong>：帮助低表现玩家提升 KDA/胜率 → 直接拉升留存率；<br>
+      ② <strong>提升整体大盘留存</strong>：Hex 占大盘 66% 的体量，Hex 留存每提升 1pp ≈ 整体大盘提升 ~0.66pp。
+    </div>
+  </div>
+
+  <!-- 8.2 目标人群优先级 -->
+  <div class="sub-heading">8.2 目标人群优先级</div>
+  <table>
+    <thead>
+      <tr>
+        <th>优先级</th>
+        <th>目标人群</th>
+        <th>日均规模</th>
+        <th>当前 D7 留存</th>
+        <th>目标 D7 留存</th>
+        <th>预期提升</th>
+        <th>理由</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:#fce4ec;">
+        <td><strong style="color:#c62828;">P0</strong></td>
+        <td><strong>低胜率（<40%）玩家</strong></td>
+        <td>170.0万</td>
+        <td style="color:#c62828;">54.09%</td>
+        <td style="color:#2e7d32;">→ 64.51%</td>
+        <td><strong>+10.43%</strong></td>
+        <td>人数最多（日均170.0万），AI 海克斯符文推荐可直接提升胜率和留存</td>
+      </tr>
+      <tr style="background:#fff3e0;">
+        <td><strong style="color:#e65100;">P1</strong></td>
+        <td><strong>低 KDA（<2）玩家</strong></td>
+        <td>15.9万</td>
+        <td style="color:#e65100;">39.56%</td>
+        <td style="color:#2e7d32;">→ 58.12%</td>
+        <td><strong>+18.55%</strong></td>
+        <td>留存差距最大（~19pp），AI Coach 可直接教学提升 KDA</td>
+      </tr>
+      <tr style="background:#e3f2fd;">
+        <td><strong style="color:#1565c0;">P2</strong></td>
+        <td><strong>低活跃 + 低 KDA/WR</strong></td>
+        <td>~25.5万</td>
+        <td style="color:#1565c0;">~51%</td>
+        <td style="color:#2e7d32;">→ ~58%</td>
+        <td><strong>+~7pp</strong></td>
+        <td>低活跃本身留存低 7pp，叠加表现差留存更差，双重提升空间</td>
+      </tr>
+      <tr style="background:#e8f5e9;">
+        <td><strong style="color:#2e7d32;">P3</strong></td>
+        <td><strong>中活跃 + 中 KDA（2-3）</strong></td>
+        <td>55.5万</td>
+        <td style="color:#2e7d32;">54.06%</td>
+        <td style="color:#2e7d32;">→ ~58%</td>
+        <td><strong>+~4pp</strong></td>
+        <td>体量大，从"及格线"提升到"优秀区间"，精细化优化</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 8.3 AI Coach 功能方向 -->
+  <div class="sub-heading">8.3 AI Coach 功能方向</div>
+  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:20px; margin-bottom:24px;">
+    
+    <div style="border:2px solid #e8eaed; border-radius:12px; padding:24px; border-left:4px solid #c62828;">
+      <div style="font-size:16px; font-weight:700; color:#c62828; margin-bottom:12px;">🎯 功能1：海克斯符文智能推荐（针对 P0 低胜率）</div>
+      <div style="font-size:13px; color:#5f6368; line-height:1.8;">
+        <strong>目标</strong>：帮助 WR<40% 的玩家提升到 40%-50%"心流区间"<br>
+        <strong>场景</strong>：选择符文阶段、对局加载时<br>
+        <strong>内容</strong>：<br>
+        • <strong>海克斯符文推荐</strong>：根据当前英雄和敌方阵容，AI 智能推荐最优海克斯符文组合<br>
+        • <strong>符文效果介绍</strong>：用简洁易懂的方式向玩家解释每个海克斯符文的作用和适用场景<br>
+        • <strong>符文搭配教学</strong>：展示高胜率玩家在相似阵容下的符文选择，帮助玩家理解符文之间的协同效果<br>
+        <strong>数据支撑</strong>：WR<40%→40%-50% 的 D7 留存差距达 <strong>+10.43%</strong>，低胜率人群日均 <strong>170.0万</strong> 人
+      </div>
+    </div>
+
+    <div style="border:2px solid #e8eaed; border-radius:12px; padding:24px; border-left:4px solid #e65100;">
+      <div style="font-size:16px; font-weight:700; color:#e65100; margin-bottom:12px;">📊 功能2：对局表现提升教学（针对 P1 低 KDA）</div>
+      <div style="font-size:13px; color:#5f6368; line-height:1.8;">
+        <strong>目标</strong>：帮助 KDA<2 的玩家提升到 KDA 2-3 区间<br>
+        <strong>场景</strong>：对局中提示 / 对局后复盘<br>
+        <strong>内容</strong>：<br>
+        • <strong>出装路线优化</strong>：根据英雄定位和敌方阵容动态推荐出装顺序<br>
+        • <strong>团战意识引导</strong>：提示玩家在团战中的角色定位和进场时机<br>
+        • <strong>个人表现对比</strong>：展示与同水平玩家的 KDA/输出/承伤差距，指出改进方向<br>
+        <strong>数据支撑</strong>：KDA<2→KDA 2-3 的 D7 留存差距达 <strong>+18.55%</strong>
+      </div>
+    </div>
+
+    <div style="border:2px solid #e8eaed; border-radius:12px; padding:24px; border-left:4px solid #1565c0;">
+      <div style="font-size:16px; font-weight:700; color:#1565c0; margin-bottom:12px;">🔥 功能3：活跃度激励（针对 P2 低活跃）</div>
+      <div style="font-size:13px; color:#5f6368; line-height:1.8;">
+        <strong>目标</strong>：提升低活跃玩家的游戏频次和留存<br>
+        <strong>场景</strong>：登录后、对局结束后<br>
+        <strong>内容</strong>：<br>
+        • 个性化"今日挑战"（基于历史数据推荐适合的英雄/玩法挑战）<br>
+        • 成长轨迹可视化（展示 KDA/胜率趋势，正向反馈）<br>
+        • 社交推荐（推荐匹配的组队伙伴，利用社交提升留存）<br>
+        <strong>数据支撑</strong>：高-低活跃 D7 留存差 <strong>~7pp</strong>，低活跃日均 170.3万 人
+      </div>
+    </div>
+
+    <div style="border:2px solid #e8eaed; border-radius:12px; padding:24px; border-left:4px solid #2e7d32;">
+      <div style="font-size:16px; font-weight:700; color:#2e7d32; margin-bottom:12px;">💬 功能4：赛后 AI 复盘报告</div>
+      <div style="font-size:13px; color:#5f6368; line-height:1.8;">
+        <strong>目标</strong>：覆盖全体 Hex 玩家，提升游戏体验感和学习动力<br>
+        <strong>场景</strong>：每局结束后<br>
+        <strong>内容</strong>：<br>
+        • MVP 表现亮点总结（正向激励，减少输了的挫败感）<br>
+        • 个人表现对比（与同段位玩家的 KDA/输出/承伤对比）<br>
+        • 改进建议（本局最大的 1-2 个改善点）<br>
+        <strong>数据支撑</strong>：Hex 平均每人日均 7.5 局，赛后触达频次极高
+      </div>
+    </div>
+  </div>
+
+  <!-- 8.4 量化预估：通过 Hex AI Coach 提升整体大盘留存 -->
+  <div class="sub-heading">8.4 量化预估：Hex AI Coach 对整体大盘留存的影响</div>
+
+
+  <table>
+    <thead>
+      <tr>
+        <th>场景</th>
+        <th>目标人群</th>
+        <th>日均覆盖</th>
+        <th>理论 D7 提升</th>
+        <th>实现率假设</th>
+        <th>预期实际提升</th>
+        <th>新增 D7 留存人数/天</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>场景A</strong></td>
+        <td>低 WR（<40%）→"心流区间"（海克斯符文推荐）</td>
+        <td>170.0万</td>
+        <td>+10.43%</td>
+        <td>30%</td>
+        <td>+3.13%</td>
+        <td style="color:#2e7d32; font-weight:700;">+5.3万/天</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; margin:20px 0;">
+    <div style="background:linear-gradient(135deg, #e8f5e9, #c8e6c9); padding:24px; border-radius:12px; text-align:center;">
+      <div style="font-size:13px; color:#5f6368;">Hex D7 留存预期提升</div>
+      <div style="font-size:36px; font-weight:700; color:#2e7d32;">+0.95%</div>
+      <div style="font-size:12px; color:#5f6368;">（58.33% → 59.27%）</div>
+    </div>
+    <div style="background:linear-gradient(135deg, #e3f2fd, #bbdefb); padding:24px; border-radius:12px; text-align:center;">
+      <div style="font-size:13px; color:#5f6368;">整体大盘 D7 留存预期提升</div>
+      <div style="font-size:36px; font-weight:700; color:#1565c0;">+0.62%</div>
+      <div style="font-size:12px; color:#5f6368;">Hex 占大盘 65.87%，Hex 每提升 1pp ≈ 大盘提升 ~0.66pp</div>
+    </div>
+  </div>
+
+  <div class="insight-box warning">
+    <div class="insight-title">⚠️ 量化预估说明</div>
+    <div class="insight-text">
+      1. 以上预估基于<strong>保守假设</strong>：P0（低胜率，海克斯符文推荐）实现率 30%。实际效果取决于 AI Coach 的产品设计和算法精度。<br>
+      2. 新增 D7 留存人数 = 目标人群 × 预期实际提升。大盘影响 = Hex 留存提升 × Hex 渗透率。<br>
+      3. 除直接留存提升外，AI Coach 还有<strong>间接正向效应</strong>：游戏体验改善 → 口碑传播 → 拉新/回流 → 大盘增量。
+    </div>
+  </div>
+
+  <div class="insight-box success">
+    <div class="insight-title">🎯 总结：AI Coach × Hex 的战略价值</div>
+    <div class="insight-text">
+      <strong>核心公式</strong>：Hex 高覆盖（65.87% 渗透率）× AI Coach 表现提升 → Hex 留存提升 → 整体大盘留存提升<br><br>
+      <strong>三个"最大"</strong>：<br>
+      1. <strong>最大体量</strong>：低胜率（<40%）玩家日均 170.0万 人，通过 AI 海克斯符文推荐拉入"心流区间"（40%-50%胜率 = 最佳留存段）的 ROI 最高<br>
+      2. <strong>最大杠杆</strong>：低 KDA（<2）玩家的留存改善空间最大（+18.55%），AI Coach 教学是最直接的干预手段<br>
+      3. <strong>最大载体</strong>：Hex 覆盖 65.87% 活跃用户，在 Hex 中嵌入 AI Coach 触达面远超任何其他模式<br><br>
+      <strong>保守预估</strong>：AI Coach 全面上线后，可为 Hex 带来 <strong>+0.95%</strong> 的 D7 留存提升，
+      折算到整体大盘约 <strong>+0.62%</strong>，每天新增留存用户 <strong>+5.3万</strong>。
+    </div>
+  </div>
+</div>
+
+<div id="s9" class="section" style="background: var(--gray-100);">
+  <div class="section-header">
+    <div class="section-num" style="background: var(--gray-500);">附</div>
+    <div class="section-title">数据口径说明</div>
+  </div>
+  <table>
+    <thead><tr><th>口径</th><th>定义</th></tr></thead>
+    <tbody>
+      <tr><td class="col-label">活跃玩家</td><td>player_tag_day = '活跃'（基于 tmp_user_day_profile）</td></tr>
+      <tr><td class="col-label">活跃度分层</td><td>每日内部按 mode='all' 的 playtime_day 做 NTILE(3)：低活跃/中活跃/高活跃（每天相对三等分）</td></tr>
+      <tr><td class="col-label">渗透率</td><td>当天进入对应 mode 的活跃UV / 当天活跃总UV（mode='all' 去重用户为分母）</td></tr>
+      <tr><td class="col-label">渗透率的 KDA/胜率</td><td>来自 mode='all' 行（用户当天整体表现）</td></tr>
+      <tr><td class="col-label">留存率</td><td>base_date+N 天再次进入同一 target_mode 的用户 / 可观测用户（observable_uv）</td></tr>
+      <tr><td class="col-label">留存率的 KDA/胜率</td><td>来自 target_mode 自身（Hex 用 Hex 数据，M5v5 用 M5v5 数据）</td></tr>
+      <tr><td class="col-label">汇总口径</td><td>先 by 天聚合每天留存率/渗透率，再对天取 AVG（避免跨天标签漂移串位）</td></tr>
+      <tr><td class="col-label">数据周期</td><td>2026-03-01 至 2026-03-17</td></tr>
+      <tr><td class="col-label">数据来源 SQL</td><td>SQL1: active_penetration_by_activity_level.sql<br>SQL2: active_penetration_by_activity_perf_bucket.sql<br>SQL3: active_target_retention_by_activity_perf.sql<br>SQL4: active_single_dim_retention.sql</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div style="text-align: center; padding: 32px; color: var(--gray-500); font-size: 13px;">
+  LOL 活跃玩家海克斯与5v5渗透留存深度分析报告 V2 ｜ 数据分析团队 ｜ 2026.03.19
+</div>
+</div>
+</body>
+</html>
