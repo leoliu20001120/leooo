@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>异人体检站 — 炁脉鉴定</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* ==================== CSS Reset & Variables ==================== */
+:root {
+  --bg-deep: #06060e;
+  --bg-dark: #0a0a14;
+  --bg-card: rgba(16, 16, 32, 0.85);
+  --bg-card-alt: rgba(22, 22, 44, 0.9);
+  --gold: #d4a853;
+  --gold-light: #f0d68a;
+  --gold-dim: #9a7b3a;
+  --gold-glow: rgba(212, 168, 83, 0.3);
+  --cyan: #5ce0d8;
+  --cyan-dim: #2a7a74;
+  --cyan-glow: rgba(92, 224, 216, 0.2);
+  --red: #ff6b6b;
+  --green: #5ce07a;
+  --text-primary: #eaeaf4;
+  --text-secondary: #9898b8;
+  --text-dim: #5a5a78;
+  --text-muted: #3a3a55;
+  --border: rgba(255, 255, 255, 0.06);
+  --border-gold: rgba(212, 168, 83, 0.2);
+  --radius: 14px;
+  --radius-sm: 10px;
+  --radius-lg: 22px;
+  --radius-xl: 28px;
+  /* 6炁脉颜色 */
+  --qi-fenghou: #4ECDC4;
+  --qi-qiti: #F0D68A;
+  --qi-tongming: #FF6B6B;
+  --qi-shuangquan: #9B59B6;
+  --qi-xingming: #F39C12;
+  --qi-tianshi: #3498DB;
+  --font-cn: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-title: 'Ma Shan Zheng', 'PingFang SC', cursive;
+  --shadow-gold: 0 4px 30px rgba(212, 168, 83, 0.12);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-cn);
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==================== Canvas Background ==================== */
+#particleCanvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.texture-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at 25% 15%, rgba(212, 168, 83, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 75% 85%, rgba(92, 224, 216, 0.03) 0%, transparent 55%);
+}
+
+.glow-top {
+  position: fixed;
+  top: -200px; left: 50%;
+  transform: translateX(-50%);
+  width: 600px; height: 400px;
+  background: radial-gradient(ellipse, rgba(212, 168, 83, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: glowPulse 8s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.bg-particles { display: none; }
+
+.particles-canvas { position: relative; }
+
+.bagua-watermark {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px; height: 500px;
+  opacity: 0.012;
+  pointer-events: none;
+  z-index: 0;
+  font-size: 350px;
+  line-height: 500px;
+  text-align: center;
+  color: var(--gold);
+  animation: baguaSpin 120s linear infinite;
+}
+
+@keyframes baguaSpin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* ==================== Page Container ==================== */
+.app-container {
+  position: relative;
+  z-index: 1;
+  max-width: 430px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: 0;
+}
+
+/* ==================== Scene Transitions ==================== */
+.scene {
+  display: none;
+  opacity: 0;
+  padding: 20px;
+}
+.scene.active {
+  display: block;
+  opacity: 1;
+}
+.scene.fade-in {
+  animation: sceneFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes sceneFadeIn {
+  0% { opacity: 0; transform: translateY(40px) scale(0.97); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ==================== Top Bar ==================== */
+.top-bar {
+  position: sticky; top: 0; z-index: 50;
+  padding: 14px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(6, 6, 14, 0.85);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.top-bar__logo {
+  font-size: 13px; color: var(--gold); letter-spacing: 3px; font-weight: 700;
+  text-shadow: 0 0 20px var(--gold-glow);
+}
+.top-bar__step {
+  font-size: 11px; color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 5px 14px; border-radius: 20px;
+  border: 1px solid var(--border); letter-spacing: 1px; font-weight: 500;
+}
+
+/* ==================== Progress Bar ==================== */
+.progress-bar {
+  height: 2px; background: rgba(255, 255, 255, 0.03);
+  position: relative; overflow: hidden;
+}
+.progress-bar__fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--cyan));
+  transition: width 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  box-shadow: 0 0 12px var(--gold-glow), 0 0 24px var(--cyan-glow);
+}
+.progress-bar__fill::after {
+  content: ''; position: absolute; right: -2px; top: -3px;
+  width: 8px; height: 8px; background: var(--cyan);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--cyan), 0 0 24px var(--cyan-glow);
+}
+
+/* ==================== Landing ==================== */
+.landing {
+  min-height: 100vh; display: flex; flex-direction: column;
+  justify-content: center; align-items: center; text-align: center;
+  padding: 40px 24px;
+}
+.landing__deco-line {
+  width: 60px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin-bottom: 24px; opacity: 0;
+  animation: fadeIn 1s ease 0.2s forwards;
+}
+.landing__icon {
+  font-size: 72px; margin-bottom: 16px;
+  filter: drop-shadow(0 0 30px var(--gold-glow));
+  opacity: 0;
+  animation: iconFloat 4s ease-in-out infinite, fadeIn 0.8s ease 0.3s forwards;
+}
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.landing__title {
+  font-family: var(--font-title); font-size: 42px; font-weight: 400;
+  color: var(--gold); margin-bottom: 6px; letter-spacing: 8px;
+  text-shadow: 0 0 40px var(--gold-glow), 0 2px 4px rgba(0,0,0,0.5);
+  opacity: 0; animation: fadeInUp 0.8s ease 0.5s forwards;
+}
+.landing__subtitle {
+  font-size: 11px; color: var(--text-dim); letter-spacing: 8px;
+  margin-bottom: 48px; text-transform: uppercase; font-weight: 300;
+  opacity: 0; animation: fadeInUp 0.8s ease 0.7s forwards;
+}
+.landing__dialogue {
+  background: var(--bg-card); border: 1px solid var(--border-gold);
+  border-radius: var(--radius-xl); padding: 28px 24px 24px;
+  margin-bottom: 36px; max-width: 340px; width: 100%;
+  position: relative; text-align: left;
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  box-shadow: var(--shadow-gold), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  opacity: 0; animation: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+.landing__dialogue::before {
+  content: '☯ 王也'; position: absolute; top: -12px; left: 24px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  color: var(--bg-deep); font-size: 12px; font-weight: 700;
+  padding: 4px 14px; border-radius: 12px; letter-spacing: 2px;
+  box-shadow: 0 2px 10px var(--gold-glow);
+}
+.landing__dialogue p { font-size: 16px; line-height: 2; color: var(--text-primary); font-weight: 300; }
+.landing__dialogue .highlight { color: var(--gold-light); font-weight: 600; text-shadow: 0 0 10px var(--gold-glow); }
+
+.input-group {
+  width: 100%; max-width: 340px; margin-bottom: 16px;
+  opacity: 0; animation: fadeInUp 0.6s ease 1.1s forwards;
+}
+.input-group__input {
+  width: 100%; background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-gold); border-radius: var(--radius-lg);
+  padding: 18px 24px; font-size: 17px; color: var(--text-primary);
+  font-family: var(--font-cn); font-weight: 400; outline: none;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: center; letter-spacing: 2px;
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+.input-group__input::placeholder { color: var(--text-dim); font-weight: 300; letter-spacing: 1px; }
+.input-group__input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 4px rgba(212, 168, 83, 0.08), 0 0 30px rgba(212, 168, 83, 0.1);
+  background: rgba(212, 168, 83, 0.03);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 16px 36px; border: none; border-radius: var(--radius-lg);
+  font-size: 16px; font-weight: 700; font-family: var(--font-cn);
+  cursor: pointer; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative; overflow: hidden; letter-spacing: 2px;
+}
+.btn--primary {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  color: var(--bg-deep); width: 100%; max-width: 340px;
+  box-shadow: 0 4px 20px var(--gold-glow);
+  opacity: 0; animation: fadeInUp 0.6s ease 1.3s forwards;
+}
+.btn--primary::before {
+  content: ''; position: absolute; top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.6s;
+}
+.btn--primary:hover::before { left: 100%; }
+.btn--primary:hover { transform: translateY(-3px); box-shadow: 0 8px 30px var(--gold-glow), 0 0 60px rgba(212, 168, 83, 0.12); }
+.btn--primary:active { transform: translateY(0); }
+.btn--primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.btn--secondary { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 12px 28px; }
+.btn--secondary:hover { background: rgba(212, 168, 83, 0.1); }
+.btn--ghost { background: transparent; color: var(--text-secondary); padding: 10px 20px; font-size: 14px; }
+.btn--ghost:hover { color: var(--gold); }
+
+/* ==================== Fortune Card ==================== */
+.fortune-loading { text-align: center; padding: 60px 20px; }
+.fortune-loading__spinner { width: 60px; height: 60px; margin: 0 auto 24px; position: relative; }
+.fortune-loading__spinner::before, .fortune-loading__spinner::after {
+  content: '☯'; position: absolute; font-size: 50px;
+  animation: spinYinYang 2s linear infinite; color: var(--gold);
+}
+@keyframes spinYinYang { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.fortune-loading__text { color: var(--text-secondary); font-size: 14px; animation: pulse 1.5s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+.fortune-card {
+  background: var(--bg-card); border: 1px solid var(--border-gold);
+  border-radius: var(--radius-xl); padding: 32px 24px 28px;
+  margin-bottom: 20px; position: relative; overflow: hidden;
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  box-shadow: var(--shadow-gold);
+  animation: cardReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes cardReveal { 0% { opacity: 0; transform: translateY(30px) scale(0.95); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+
+.fortune-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--cyan), var(--gold));
+  background-size: 200% 100%; animation: shimmer 3s linear infinite;
+}
+.fortune-card::after {
+  content: ''; position: absolute; bottom: -50px; left: 50%;
+  transform: translateX(-50%); width: 80%; height: 100px;
+  background: radial-gradient(ellipse, var(--gold-glow) 0%, transparent 70%);
+  opacity: 0.3; pointer-events: none;
+}
+
+/* 6炁脉卡片主题色 */
+.fortune-card.qi-fenghou { --element-color: var(--qi-fenghou); }
+.fortune-card.qi-qiti { --element-color: var(--qi-qiti); }
+.fortune-card.qi-tongming { --element-color: var(--qi-tongming); }
+.fortune-card.qi-shuangquan { --element-color: var(--qi-shuangquan); }
+.fortune-card.qi-xingming { --element-color: var(--qi-xingming); }
+.fortune-card.qi-tianshi { --element-color: var(--qi-tianshi); }
+
+.fortune-card.qi-fenghou::before { background: linear-gradient(90deg, var(--qi-fenghou), var(--cyan), var(--qi-fenghou)); background-size: 200% 100%; animation: shimmer 3s linear infinite; }
+.fortune-card.qi-qiti::before { background: linear-gradient(90deg, var(--qi-qiti), var(--gold), var(--qi-qiti)); background-size: 200% 100%; animation: shimmer 3s linear infinite; }
+.fortune-card.qi-tongming::before { background: linear-gradient(90deg, var(--qi-tongming), var(--gold), var(--qi-tongming)); background-size: 200% 100%; animation: shimmer 3s linear infinite; }
+.fortune-card.qi-shuangquan::before { background: linear-gradient(90deg, var(--qi-shuangquan), var(--cyan), var(--qi-shuangquan)); background-size: 200% 100%; animation: shimmer 3s linear infinite; }
+.fortune-card.qi-xingming::before { background: linear-gradient(90deg, var(--qi-xingming), var(--gold), var(--qi-xingming)); background-size: 200% 100%; animation: shimmer 3s linear infinite; }
+.fortune-card.qi-tianshi::before { background: linear-gradient(90deg, var(--qi-tianshi), var(--cyan), var(--qi-tianshi)); background-size: 200% 100%; animation: shimmer 3s linear infinite; }
+
+.fortune-card__header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+.fortune-card__badge { background: var(--element-color, var(--gold)); color: var(--bg-deep); font-size: 11px; font-weight: 700; padding: 5px 14px; border-radius: 20px; letter-spacing: 1px; box-shadow: 0 2px 12px var(--gold-glow); }
+.fortune-card__element { font-size: 36px; filter: drop-shadow(0 0 15px var(--gold-glow)); animation: iconFloat 3s ease-in-out infinite; }
+.fortune-card__id { font-family: var(--font-title); font-size: 28px; font-weight: 400; margin-bottom: 8px; color: var(--gold-light); text-shadow: 0 0 20px var(--gold-glow); }
+.fortune-card__tag { display: inline-block; font-size: 12px; color: var(--bg-dark); background: var(--element-color, var(--gold)); padding: 2px 10px; border-radius: 10px; margin-bottom: 16px; font-weight: 600; }
+.fortune-card__text { font-size: 15px; line-height: 1.8; color: var(--text-primary); margin-bottom: 20px; min-height: 60px; }
+.fortune-card__text .cursor { display: inline-block; width: 2px; height: 16px; background: var(--gold); margin-left: 2px; animation: blink 0.8s infinite; vertical-align: text-bottom; }
+@keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+
+.fortune-card__stars { display: flex; gap: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
+.star-group { flex: 1; }
+.star-group__label { font-size: 11px; color: var(--text-secondary); margin-bottom: 6px; }
+.star-group__stars { font-size: 16px; letter-spacing: 2px; }
+
+.fortune-card__score { text-align: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
+.fortune-card__score-number { font-size: 56px; font-weight: 900; color: var(--element-color, var(--gold)); text-shadow: 0 0 30px var(--gold-glow); line-height: 1; }
+.fortune-card__score-label { font-size: 12px; color: var(--text-dim); letter-spacing: 3px; margin-top: 4px; }
+
+/* ==================== 炁脉拆字分析（替代五行） ==================== */
+.qi-analysis { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--border); animation: fadeInUp 0.6s ease 0.3s backwards; }
+.qi-analysis__title { font-size: 11px; color: var(--text-dim); letter-spacing: 3px; margin-bottom: 14px; font-weight: 600; text-transform: uppercase; }
+
+.qi-chars { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.qi-char { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 10px 12px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: var(--radius-sm); min-width: 52px; transition: all 0.3s; }
+.qi-char:hover { border-color: var(--border-gold); background: rgba(212, 168, 83, 0.04); }
+.qi-char__text { font-size: 18px; font-weight: 700; color: var(--text-primary); }
+.qi-char__el { font-size: 10px; font-weight: 600; padding: 1px 8px; border-radius: 8px; letter-spacing: 1px; }
+
+.qi-char__el.qi-fenghou { color: var(--qi-fenghou); background: rgba(78, 205, 196, 0.1); }
+.qi-char__el.qi-qiti { color: var(--qi-qiti); background: rgba(240, 214, 138, 0.1); }
+.qi-char__el.qi-tongming { color: var(--qi-tongming); background: rgba(255, 107, 107, 0.1); }
+.qi-char__el.qi-shuangquan { color: var(--qi-shuangquan); background: rgba(155, 89, 182, 0.1); }
+.qi-char__el.qi-xingming { color: var(--qi-xingming); background: rgba(243, 156, 18, 0.1); }
+.qi-char__el.qi-tianshi { color: var(--qi-tianshi); background: rgba(52, 152, 219, 0.1); }
+
+.qi-bar { display: flex; gap: 3px; height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 10px; background: rgba(255, 255, 255, 0.03); }
+.qi-bar__segment { height: 100%; border-radius: 4px; transition: width 1s cubic-bezier(0.25, 0.46, 0.45, 0.94); min-width: 0; }
+.qi-bar__segment.qi-fenghou { background: var(--qi-fenghou); }
+.qi-bar__segment.qi-qiti { background: var(--qi-qiti); }
+.qi-bar__segment.qi-tongming { background: var(--qi-tongming); }
+.qi-bar__segment.qi-shuangquan { background: var(--qi-shuangquan); }
+.qi-bar__segment.qi-xingming { background: var(--qi-xingming); }
+.qi-bar__segment.qi-tianshi { background: var(--qi-tianshi); }
+
+.qi-legend { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.qi-legend__item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-secondary); }
+.qi-legend__dot { width: 6px; height: 6px; border-radius: 50%; }
+.qi-legend__dot.qi-fenghou { background: var(--qi-fenghou); }
+.qi-legend__dot.qi-qiti { background: var(--qi-qiti); }
+.qi-legend__dot.qi-tongming { background: var(--qi-tongming); }
+.qi-legend__dot.qi-shuangquan { background: var(--qi-shuangquan); }
+.qi-legend__dot.qi-xingming { background: var(--qi-xingming); }
+.qi-legend__dot.qi-tianshi { background: var(--qi-tianshi); }
+
+.qi-relation { margin-top: 14px; padding: 12px 14px; background: linear-gradient(135deg, rgba(212, 168, 83, 0.04), rgba(92, 224, 216, 0.02)); border: 1px solid rgba(212, 168, 83, 0.1); border-radius: var(--radius-sm); }
+.qi-relation__text { font-size: 12px; line-height: 1.8; color: var(--text-secondary); font-weight: 300; }
+.qi-relation__text .qi-hl { color: var(--gold-light); font-weight: 600; }
+
+/* 体检完整度 */
+.completion-bar { margin: 16px 0; }
+.completion-bar__header { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; }
+.completion-bar__track { height: 6px; background: var(--bg-dark); border-radius: 3px; overflow: hidden; }
+.completion-bar__fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--cyan)); border-radius: 3px; transition: width 1s ease; }
+
+.action-buttons { display: flex; gap: 12px; margin-top: 24px; }
+.action-buttons .btn { flex: 1; }
+
+/* ==================== Chat ==================== */
+.chat-container { display: flex; flex-direction: column; min-height: calc(100vh - 80px); padding: 0 16px 20px; }
+.chat-round-indicator { text-align: center; padding: 14px 0; font-size: 12px; color: var(--text-dim); letter-spacing: 2px; position: relative; }
+.chat-round-indicator::after { content: ''; position: absolute; bottom: 0; left: 20%; right: 20%; height: 1px; background: linear-gradient(90deg, transparent, var(--border-gold), transparent); }
+.chat-round-indicator span { color: var(--gold); font-weight: 700; text-shadow: 0 0 10px var(--gold-glow); }
+
+.chat-messages { flex: 1; overflow-y: auto; padding-bottom: 20px; scroll-behavior: smooth; }
+
+.message { margin-bottom: 18px; animation: messageIn 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+@keyframes messageIn { from { opacity: 0; transform: translateY(16px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+.message--ai { display: flex; gap: 12px; align-items: flex-start; }
+.message--ai__avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-dim)); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; box-shadow: 0 0 16px var(--gold-glow), 0 0 0 2px rgba(212, 168, 83, 0.15); animation: avatarPulse 4s ease-in-out infinite; }
+@keyframes avatarPulse { 0%, 100% { box-shadow: 0 0 16px var(--gold-glow), 0 0 0 2px rgba(212, 168, 83, 0.15); } 50% { box-shadow: 0 0 24px var(--gold-glow), 0 0 0 4px rgba(212, 168, 83, 0.1); } }
+
+.message--ai__bubble { background: var(--bg-card); border: 1px solid var(--border-gold); border-radius: 4px var(--radius) var(--radius) var(--radius); padding: 14px 18px; max-width: 85%; font-size: 15px; line-height: 1.8; color: var(--text-primary); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2); position: relative; }
+.message--ai__bubble::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, var(--gold-glow), transparent); }
+
+.message--user { display: flex; justify-content: flex-end; }
+.message--user__bubble { background: linear-gradient(135deg, rgba(212, 168, 83, 0.12), rgba(92, 224, 216, 0.06)); border: 1px solid rgba(212, 168, 83, 0.25); border-radius: var(--radius) 4px var(--radius) var(--radius); padding: 14px 18px; max-width: 80%; font-size: 15px; line-height: 1.7; color: var(--gold-light); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); box-shadow: 0 2px 12px rgba(212, 168, 83, 0.08); }
+
+/* 选项卡 */
+.options-container { padding: 10px 0; animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+.options-container__title { font-size: 12px; color: var(--text-dim); margin-bottom: 12px; text-align: center; letter-spacing: 1px; }
+.option-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 10px; cursor: pointer; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); display: flex; align-items: center; gap: 14px; position: relative; overflow: hidden; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.option-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--gold); opacity: 0; transition: opacity 0.3s; }
+.option-card:hover { border-color: var(--gold); background: rgba(212, 168, 83, 0.06); transform: translateX(6px); box-shadow: 0 4px 20px rgba(212, 168, 83, 0.08); }
+.option-card:hover::before { opacity: 1; }
+.option-card:active { transform: translateX(3px); }
+.option-card__emoji { font-size: 26px; flex-shrink: 0; filter: drop-shadow(0 0 8px rgba(212, 168, 83, 0.2)); }
+.option-card__text { font-size: 14px; color: var(--text-primary); flex: 1; line-height: 1.5; }
+.option-card__id { font-size: 11px; color: var(--text-dim); background: rgba(255, 255, 255, 0.04); width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid var(--border); font-weight: 600; transition: all 0.3s; }
+.option-card:hover .option-card__id { background: var(--gold); color: var(--bg-deep); border-color: var(--gold); }
+
+/* 自由输入 */
+.free-input { display: flex; gap: 10px; padding: 14px 0; animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+.free-input__input { flex: 1; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-gold); border-radius: var(--radius); padding: 14px 18px; font-size: 14px; color: var(--text-primary); font-family: var(--font-cn); outline: none; transition: all 0.3s; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.free-input__input::placeholder { color: var(--text-dim); font-weight: 300; }
+.free-input__input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212, 168, 83, 0.08); background: rgba(212, 168, 83, 0.03); }
+.free-input__btn { background: linear-gradient(135deg, var(--gold), var(--gold-dim)); color: var(--bg-deep); border: none; border-radius: var(--radius); padding: 14px 20px; font-weight: 700; cursor: pointer; font-family: var(--font-cn); font-size: 14px; letter-spacing: 1px; transition: all 0.3s; box-shadow: 0 2px 12px var(--gold-glow); }
+.free-input__btn:hover { transform: translateY(-2px); box-shadow: 0 4px 20px var(--gold-glow); }
+.free-input__btn:active { transform: translateY(0); }
+
+/* AI 打字动画 */
+.typing-indicator { display: flex; gap: 5px; padding: 10px 4px; align-items: center; }
+.typing-indicator span { width: 7px; height: 7px; background: var(--gold); border-radius: 50%; animation: typingDot 1.4s infinite; box-shadow: 0 0 8px var(--gold-glow); }
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingDot { 0%, 60%, 100% { opacity: 0.3; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-5px); } }
+
+/* ==================== Report ==================== */
+.report-generating { text-align: center; padding: 80px 20px; }
+.report-generating__icon { font-size: 64px; margin-bottom: 24px; animation: iconFloat 2s ease-in-out infinite; filter: drop-shadow(0 0 30px var(--gold-glow)); }
+.report-generating__text { font-size: 14px; color: var(--text-secondary); margin-bottom: 10px; letter-spacing: 1px; }
+.report-generating__narrative { font-family: var(--font-title); font-size: 18px; color: var(--gold); max-width: 300px; margin: 0 auto; line-height: 1.8; transition: opacity 0.3s; text-shadow: 0 0 20px var(--gold-glow); }
+
+.report { padding: 0 4px; }
+.report__header { text-align: center; padding: 36px 0 28px; position: relative; }
+.report__header::after { content: ''; position: absolute; bottom: 0; left: 15%; right: 15%; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.report__header-icon { font-size: 44px; margin-bottom: 14px; filter: drop-shadow(0 0 20px var(--gold-glow)); }
+.report__header-title { font-family: var(--font-title); font-size: 32px; font-weight: 400; color: var(--gold); letter-spacing: 6px; text-shadow: 0 0 30px var(--gold-glow), 0 2px 4px rgba(0,0,0,0.5); }
+.report__header-subtitle { font-size: 11px; color: var(--text-dim); letter-spacing: 4px; margin-top: 6px; text-transform: uppercase; font-weight: 300; }
+.report__header-no { font-size: 11px; color: var(--text-dim); margin-top: 10px; font-family: 'Courier New', monospace; letter-spacing: 1px; }
+
+.report-section { background: var(--bg-card); border: 1px solid var(--border-gold); border-radius: var(--radius-lg); padding: 26px; margin-bottom: 16px; position: relative; overflow: hidden; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2); animation: sectionReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards; }
+@keyframes sectionReveal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.report-section:nth-child(2) { animation-delay: 0.15s; }
+.report-section:nth-child(3) { animation-delay: 0.3s; }
+.report-section:nth-child(4) { animation-delay: 0.45s; }
+.report-section:nth-child(5) { animation-delay: 0.6s; }
+.report-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold-glow), transparent); }
+.report-section__icon { font-size: 20px; margin-right: 10px; filter: drop-shadow(0 0 8px var(--gold-glow)); }
+.report-section__title { font-family: var(--font-title); font-size: 20px; font-weight: 400; color: var(--gold); margin-bottom: 18px; display: flex; align-items: center; letter-spacing: 2px; }
+
+.first-impression__id { font-family: var(--font-title); font-size: 22px; color: var(--gold-light); margin-bottom: 10px; text-shadow: 0 0 15px var(--gold-glow); }
+.first-impression__text { font-size: 14px; line-height: 1.8; color: var(--text-primary); padding-left: 14px; border-left: 2px solid var(--gold); font-weight: 300; }
+
+.combat-style { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+.combat-style__tag { background: linear-gradient(135deg, var(--gold), var(--gold-dim)); color: var(--bg-deep); padding: 8px 20px; border-radius: 22px; font-size: 14px; font-weight: 700; letter-spacing: 1px; box-shadow: 0 2px 12px var(--gold-glow); }
+.combat-style__desc { font-size: 13px; color: var(--text-secondary); font-weight: 300; }
+
+.radar-chart-container { width: 100%; max-width: 300px; margin: 0 auto 20px; position: relative; }
+
+.dimension-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+.dimension-item { display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: rgba(255, 255, 255, 0.02); border-radius: var(--radius-sm); border: 1px solid var(--border); transition: all 0.3s; }
+.dimension-item:hover { border-color: var(--border-gold); background: rgba(212, 168, 83, 0.03); }
+.dimension-item__name { font-size: 12px; color: var(--text-secondary); min-width: 36px; font-weight: 500; }
+.dimension-item__bar { flex: 1; height: 6px; background: rgba(255, 255, 255, 0.04); border-radius: 3px; overflow: hidden; }
+.dimension-item__bar-fill { height: 100%; border-radius: 3px; transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); box-shadow: 0 0 8px currentColor; }
+.dimension-item__score { font-size: 13px; font-weight: 700; color: var(--gold); min-width: 22px; text-align: right; }
+.dimension-item__label { font-size: 11px; color: var(--cyan); }
+.dimension-item.locked { opacity: 0.4; }
+.dimension-item.locked .dimension-item__bar-fill { background: var(--text-dim) !important; box-shadow: none !important; }
+
+.combat-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.combat-tags__tag { background: rgba(92, 224, 216, 0.08); border: 1px solid rgba(92, 224, 216, 0.2); color: var(--cyan); padding: 5px 14px; border-radius: 20px; font-size: 12px; letter-spacing: 0.5px; transition: all 0.3s; }
+.combat-tags__tag:hover { background: rgba(92, 224, 216, 0.15); box-shadow: 0 0 12px var(--cyan-glow); }
+
+.alien-profile { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.alien-profile__item { padding: 14px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: var(--radius-sm); transition: all 0.3s; }
+.alien-profile__item:hover { border-color: var(--border-gold); background: rgba(212, 168, 83, 0.03); }
+.alien-profile__item-label { font-size: 11px; color: var(--text-dim); margin-bottom: 6px; letter-spacing: 1px; }
+.alien-profile__item-value { font-size: 15px; font-weight: 600; color: var(--text-primary); }
+.alien-profile__tags { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; padding-top: 8px; }
+.alien-profile__tag { background: rgba(212, 168, 83, 0.08); border: 1px solid rgba(212, 168, 83, 0.2); color: var(--gold); padding: 5px 14px; border-radius: 20px; font-size: 12px; transition: all 0.3s; }
+.alien-profile__tag:hover { background: rgba(212, 168, 83, 0.15); box-shadow: 0 0 12px var(--gold-glow); }
+
+.deep-comment__text { font-size: 15px; line-height: 2.2; color: var(--text-primary); font-weight: 300; position: relative; padding-left: 16px; }
+.deep-comment__text::before { content: '\201C'; position: absolute; left: -4px; top: -8px; font-family: var(--font-title); font-size: 48px; color: var(--gold-glow); line-height: 1; }
+
+.prophecy { background: linear-gradient(135deg, rgba(212, 168, 83, 0.06), rgba(92, 224, 216, 0.04)); border: 1px solid rgba(212, 168, 83, 0.2); border-radius: var(--radius-xl); padding: 28px; text-align: center; margin-bottom: 16px; position: relative; overflow: hidden; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.prophecy::before { content: '☯'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 120px; opacity: 0.02; animation: baguaSpin 60s linear infinite; color: var(--gold); }
+.prophecy__icon { font-size: 36px; margin-bottom: 14px; filter: drop-shadow(0 0 20px var(--gold-glow)); }
+.prophecy__text { font-family: var(--font-title); font-size: 20px; line-height: 2; color: var(--gold-light); text-shadow: 0 0 20px var(--gold-glow); position: relative; z-index: 1; }
+
+/* Share & CTA */
+.share-section { text-align: center; padding: 28px 0; }
+.share-section__title { font-size: 13px; color: var(--text-secondary); margin-bottom: 18px; letter-spacing: 1px; }
+.share-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+.share-btn { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 16px; cursor: pointer; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); text-align: center; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); position: relative; overflow: hidden; }
+.share-btn::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; background: radial-gradient(circle, var(--gold-glow), transparent); border-radius: 50%; transform: translate(-50%, -50%); transition: width 0.5s, height 0.5s; opacity: 0; }
+.share-btn:hover { border-color: var(--gold); transform: translateY(-4px); box-shadow: 0 8px 30px rgba(212, 168, 83, 0.1); }
+.share-btn:hover::before { width: 200px; height: 200px; opacity: 0.3; }
+.share-btn:active { transform: translateY(-1px); }
+.share-btn__icon { font-size: 32px; margin-bottom: 10px; display: block; filter: drop-shadow(0 0 8px rgba(212, 168, 83, 0.2)); }
+.share-btn__text { font-size: 13px; color: var(--text-primary); font-weight: 500; letter-spacing: 0.5px; }
+
+.game-cta { margin-top: 28px; padding-top: 28px; border-top: 1px solid var(--border); position: relative; }
+.game-cta::before { content: ''; position: absolute; top: -1px; left: 20%; right: 20%; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-glow), transparent); }
+.game-cta__coming { font-size: 12px; color: var(--text-dim); margin-top: 18px; letter-spacing: 2px; animation: pulse 3s ease-in-out infinite; }
+
+/* Toast */
+.toast { position: fixed; bottom: 50px; left: 50%; transform: translateX(-50%) translateY(100px); background: rgba(16, 16, 32, 0.95); border: 1px solid var(--gold); color: var(--gold-light); padding: 14px 28px; border-radius: var(--radius-lg); font-size: 14px; font-weight: 500; z-index: 100; opacity: 0; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 4px 30px rgba(212, 168, 83, 0.15), 0 0 60px rgba(212, 168, 83, 0.05); letter-spacing: 1px; }
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+/* Story Bottom Sheet */
+.story-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.6); z-index: 90; opacity: 0; visibility: hidden; transition: opacity 0.35s ease, visibility 0.35s; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+.story-overlay.visible { opacity: 1; visibility: visible; }
+.story-sheet { position: fixed; bottom: 0; left: 0; right: 0; z-index: 91; background: linear-gradient(180deg, rgba(18, 18, 36, 0.98) 0%, rgba(10, 10, 20, 0.99) 100%); border-top: 1px solid var(--border-gold); border-radius: 24px 24px 0 0; max-height: 70vh; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.5), 0 -2px 20px var(--gold-glow); overflow: hidden; }
+.story-sheet.open { transform: translateY(0); }
+.story-sheet__handle { padding: 14px 0 6px; display: flex; justify-content: center; cursor: pointer; flex-shrink: 0; }
+.story-sheet__handle-bar { width: 40px; height: 4px; background: rgba(255, 255, 255, 0.15); border-radius: 2px; transition: background 0.3s; }
+.story-sheet__handle:hover .story-sheet__handle-bar { background: var(--gold-dim); }
+.story-sheet__content { padding: 8px 24px 36px; overflow-y: auto; max-height: calc(70vh - 50px); -webkit-overflow-scrolling: touch; }
+.story-sheet__badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(212, 168, 83, 0.1); border: 1px solid rgba(212, 168, 83, 0.25); color: var(--gold); font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 14px; letter-spacing: 1px; margin-bottom: 14px; }
+.story-sheet__title { font-family: var(--font-title); font-size: 24px; color: var(--gold-light); margin-bottom: 20px; text-shadow: 0 0 20px var(--gold-glow); letter-spacing: 2px; }
+.story-sheet__characters { display: flex; flex-direction: column; gap: 10px; margin-bottom: 22px; }
+.story-char { display: flex; align-items: baseline; gap: 10px; padding: 10px 14px; background: rgba(255, 255, 255, 0.02); border-radius: var(--radius-sm); border-left: 3px solid var(--gold-dim); }
+.story-char__name { font-size: 14px; font-weight: 700; color: var(--gold); white-space: nowrap; flex-shrink: 0; }
+.story-char__desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; font-weight: 300; }
+.story-sheet__section-label { font-size: 11px; color: var(--text-dim); letter-spacing: 2px; margin-bottom: 10px; text-transform: uppercase; font-weight: 600; }
+.story-sheet__story { font-size: 14px; line-height: 2; color: var(--text-primary); font-weight: 300; margin-bottom: 22px; }
+.story-sheet__crux { background: linear-gradient(135deg, rgba(212, 168, 83, 0.06), rgba(92, 224, 216, 0.03)); border: 1px solid rgba(212, 168, 83, 0.15); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 8px; }
+.story-sheet__crux-label { font-size: 11px; color: var(--gold); letter-spacing: 2px; margin-bottom: 8px; font-weight: 600; }
+.story-sheet__crux-text { font-size: 14px; line-height: 1.9; color: var(--text-primary); font-weight: 400; }
+
+/* Story Hint */
+.story-hint { display: inline-flex; align-items: center; gap: 4px; margin-top: 10px; padding: 5px 0; font-size: 12px; color: var(--text-dim); cursor: pointer; transition: color 0.3s; border: none; background: none; font-family: var(--font-cn); -webkit-tap-highlight-color: transparent; }
+.story-hint:hover, .story-hint:active { color: var(--gold); }
+.story-hint__icon { font-size: 13px; opacity: 0.7; transition: opacity 0.3s, transform 0.3s; }
+.story-hint:hover .story-hint__icon { opacity: 1; transform: translateX(2px); }
+.story-hint__text { border-bottom: 1px dashed currentColor; padding-bottom: 1px; }
+
+/* Responsive */
+@media (max-width: 375px) {
+  .landing__title { font-size: 36px; letter-spacing: 6px; }
+  .landing__dialogue { padding: 24px 20px 20px; }
+  .landing__dialogue p { font-size: 15px; }
+  .fortune-card { padding: 28px 20px 24px; }
+  .fortune-card__id { font-size: 24px; }
+  .fortune-card__score-number { font-size: 48px; }
+  .report__header-title { font-size: 28px; }
+  .report-section { padding: 22px; }
+  .prophecy__text { font-size: 18px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== 场景1: Landing ===== -->
+<div class="scene active" id="scene-landing">
+  <div class="particles-canvas" id="particles-landing"></div>
+  <div class="scene__content landing">
+    <div class="landing__header">
+      <div class="landing__badge">异人体检站 · 在线问诊</div>
+    </div>
+    <div class="landing__title-group">
+      <h1 class="landing__title">异人体检站</h1>
+      <p class="landing__subtitle">— 王也道长的炁脉鉴定 —</p>
+    </div>
+    <div class="landing__dialogue">
+      <div class="landing__avatar">
+        <span>🌀</span>
+      </div>
+      <div class="landing__text">
+        <p>"哟，又一个来找我看命的？"</p>
+        <p>"我王也虽然懒，但望气术还是准的。报上名来，让贫道瞧瞧你的炁脉根骨。"</p>
+      </div>
+    </div>
+    <div class="landing__input-area">
+      <input type="text" class="landing__input" id="nameInput" placeholder="请输入你的名字" maxlength="20">
+      <button class="btn btn--primary landing__btn" id="startBtn" onclick="startFortune()">
+        <span>开始鉴定</span>
+        <span class="btn__icon">→</span>
+      </button>
+    </div>
+    <div class="landing__footer">
+      <p>「武当山异人体检站 · 王也坐诊」</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 场景2: Fortune 批命 ===== -->
+<div class="scene" id="scene-fortune">
+  <div class="particles-canvas" id="particles-fortune"></div>
+  <div class="scene__content fortune">
+    <div class="fortune__progress">
+      <div class="progress-bar">
+        <div class="progress-bar__fill" id="fortuneProgress"></div>
+      </div>
+      <span class="progress-bar__text" id="fortuneProgressText">炁脉感应中...</span>
+    </div>
+    <div class="fortune-card" id="fortuneCard" style="display:none;">
+      <div class="fortune-card__header">
+        <div class="fortune-card__badge">炁脉鉴定书</div>
+        <div class="fortune-card__id" id="fortuneName"></div>
+      </div>
+      <div class="fortune-card__score">
+        <div class="fortune-card__score-label">炁脉契合度</div>
+        <div class="fortune-card__score-number" id="fortuneScore">0</div>
+      </div>
+      <div class="fortune-card__qi-type">
+        <span class="fortune-card__qi-emoji" id="fortuneQiEmoji"></span>
+        <span class="fortune-card__qi-name" id="fortuneQiName"></span>
+      </div>
+      <div class="fortune-card__potential" id="fortunePotential"></div>
+      <div class="qi-analysis" id="qiAnalysis"></div>
+      <div class="fortune-card__comment" id="fortuneComment"></div>
+      <button class="btn btn--primary" onclick="startChat()">
+        <span>进入问诊</span>
+        <span class="btn__icon">→</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 场景3: Chat 问诊 ===== -->
+<div class="scene" id="scene-chat">
+  <div class="scene__content chat">
+    <div class="chat__header">
+      <div class="chat__header-left">
+        <span class="chat__avatar">🌀</span>
+        <span class="chat__title">王也 · 问诊中</span>
+      </div>
+      <div class="chat__progress">
+        <span id="chatRoundCurrent">1</span>/<span id="chatRoundTotal">5</span>
+      </div>
+    </div>
+    <div class="chat__progress-bar">
+      <div class="chat__progress-fill" id="chatProgress"></div>
+    </div>
+    <div class="chat__messages" id="chatMessages"></div>
+    <div class="chat__input-area" id="chatInputArea" style="display:none;">
+      <div class="chat__options" id="chatOptions"></div>
+      <div class="chat__free-input" id="chatFreeInput" style="display:none;">
+        <input type="text" class="chat__input" id="freeInput" placeholder="说点什么..." maxlength="200">
+        <button class="btn btn--small" onclick="submitFreeInput()">发送</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 场景4: Report 报告 ===== -->
+<div class="scene" id="scene-report">
+  <div class="particles-canvas" id="particles-report"></div>
+  <div class="scene__content report" id="reportContent"></div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Story Sheet (底部弹出) -->
+<div class="story-sheet" id="storySheet">
+  <div class="story-sheet__overlay" onclick="closeStorySheet()"></div>
+  <div class="story-sheet__content">
+    <div class="story-sheet__header">
+      <h3 class="story-sheet__title" id="storyTitle"></h3>
+      <button class="story-sheet__close" onclick="closeStorySheet()">✕</button>
+    </div>
+    <div class="story-sheet__body" id="storyBody"></div>
+  </div>
+</div>
+
+<script src="chat_rounds.js"></script>
+<script>
+// ============================================================
+// 炁脉鉴定系统 - 在线版
+// ============================================================
+
+// ------ 炁脉类型定义 ------
+const QI_TYPES = {
+  fenghou:  { name: '风后奇门', emoji: '🌀', color: '#4ECDC4', character: '王也',   desc: '奇门遁甲，掌控时空' },
+  qiti:     { name: '炁体源流', emoji: '✨', color: '#FFD93D', character: '冯宝宝', desc: '先天炁体，万法之源' },
+  tongming: { name: '通明拳意', emoji: '🔥', color: '#FF6B6B', character: '张灵玉', desc: '至刚至正，拳破万法' },
+  shuangquan: { name: '双全之手', emoji: '💜', color: '#A855F7', character: '端木瑛', desc: '左右逢源，双全之术' },
+  xingming: { name: '性命双修', emoji: '🔸', color: '#FB923C', character: '张楚岚', desc: '性命交修，刚柔并济' },
+  tianshi:  { name: '天师雷法', emoji: '⚡', color: '#60A5FA', character: '张之维', desc: '雷霆万钧，天师正统' }
+};
+
+const QI_KEYS = Object.keys(QI_TYPES);
+
+// ------ 汉字→炁脉映射（与后端 agent_fortune.py 保持一致） ------
+const CHAR_QI_MAP = {};
+const fenghouChars = '智慧谋策算计划局控棋盘道观悟禅玄妙思虑通达运筹帷幄知晓觉醒睿聪敏锐鉴察洞识';
+const qitiChars = '灵仙神奇异梦幻天星月宙宇虚空玄灿奥妖魔幽冥飘渺超凡圣瑞祥云霞光芒绝妙逸仙';
+const tongmingChars = '刚猛烈勇武力拳击斗战攻克胜威震霸豪壮硬铁钢锋锐剑戈矛盾坚毅决断正义凛冲锤';
+const shuangquanChars = '仁善慈医治愈心德恩惠护佑守卫柔温暖爱容宽恕怜悯救援助安宁静和平祝福纯净雅';
+const xingmingChars = '隐忍藏伏潜深沉默韧耐久磨练修炼积蓄厚稳重镇定从容沐泽润涛海洋江河湖波浩远';
+const tianshiChars = '雷电龙凤皇帝王君主尊贵冠首领统御令法规制度章典宪权势力号命旨昭宏伟峰岳崇高';
+
+[
+  [fenghouChars, 'fenghou'], [qitiChars, 'qiti'], [tongmingChars, 'tongming'],
+  [shuangquanChars, 'shuangquan'], [xingmingChars, 'xingming'], [tianshiChars, 'tianshi']
+].forEach(([chars, key]) => {
+  for (const c of chars) CHAR_QI_MAP[c] = key;
+});
+
+// ------ 字母→炁脉映射（与后端保持一致） ------
+const ALPHA_QI_MAP = {};
+'ABCD'.split('').forEach(c => { ALPHA_QI_MAP[c] = 'fenghou'; ALPHA_QI_MAP[c.toLowerCase()] = 'fenghou'; });
+'EFGH'.split('').forEach(c => { ALPHA_QI_MAP[c] = 'qiti'; ALPHA_QI_MAP[c.toLowerCase()] = 'qiti'; });
+'IJKL'.split('').forEach(c => { ALPHA_QI_MAP[c] = 'tongming'; ALPHA_QI_MAP[c.toLowerCase()] = 'tongming'; });
+'MNOP'.split('').forEach(c => { ALPHA_QI_MAP[c] = 'shuangquan'; ALPHA_QI_MAP[c.toLowerCase()] = 'shuangquan'; });
+'QRST'.split('').forEach(c => { ALPHA_QI_MAP[c] = 'xingming'; ALPHA_QI_MAP[c.toLowerCase()] = 'xingming'; });
+'UVWXYZ'.split('').forEach(c => { ALPHA_QI_MAP[c] = 'tianshi'; ALPHA_QI_MAP[c.toLowerCase()] = 'tianshi'; });
+
+// ------ 数字→炁脉映射（与后端保持一致） ------
+const NUM_QI_MAP = { '0': 'fenghou', '1': 'fenghou', '2': 'qiti', '3': 'qiti', '4': 'tongming', '5': 'tongming', '6': 'shuangquan', '7': 'xingming', '8': 'xingming', '9': 'tianshi' };
+
+// ------ 确定性Hash (与后端 MD5 一致) ------
+// 轻量 MD5 实现（与后端 hashlib.md5 结果一致）
+function md5(string) {
+  function md5cycle(x, k) {
+    var a = x[0], b = x[1], c = x[2], d = x[3];
+    a = ff(a, b, c, d, k[0], 7, -680876936);  d = ff(d, a, b, c, k[1], 12, -389564586);
+    c = ff(c, d, a, b, k[2], 17, 606105819);   b = ff(b, c, d, a, k[3], 22, -1044525330);
+    a = ff(a, b, c, d, k[4], 7, -176418897);   d = ff(d, a, b, c, k[5], 12, 1200080426);
+    c = ff(c, d, a, b, k[6], 17, -1473231341);  b = ff(b, c, d, a, k[7], 22, -45705983);
+    a = ff(a, b, c, d, k[8], 7, 1770035416);   d = ff(d, a, b, c, k[9], 12, -1958414417);
+    c = ff(c, d, a, b, k[10], 17, -42063);     b = ff(b, c, d, a, k[11], 22, -1990404162);
+    a = ff(a, b, c, d, k[12], 7, 1804603682);  d = ff(d, a, b, c, k[13], 12, -40341101);
+    c = ff(c, d, a, b, k[14], 17, -1502002290); b = ff(b, c, d, a, k[15], 22, 1236535329);
+    a = gg(a, b, c, d, k[1], 5, -165796510);   d = gg(d, a, b, c, k[6], 9, -1069501632);
+    c = gg(c, d, a, b, k[11], 14, 643717713);  b = gg(b, c, d, a, k[0], 20, -373897302);
+    a = gg(a, b, c, d, k[5], 5, -701558691);   d = gg(d, a, b, c, k[10], 9, 38016083);
+    c = gg(c, d, a, b, k[15], 14, -660478335); b = gg(b, c, d, a, k[4], 20, -405537848);
+    a = gg(a, b, c, d, k[9], 5, 568446438);    d = gg(d, a, b, c, k[14], 9, -1019803690);
+    c = gg(c, d, a, b, k[3], 14, -187363961);  b = gg(b, c, d, a, k[8], 20, 1163531501);
+    a = gg(a, b, c, d, k[13], 5, -1444681467); d = gg(d, a, b, c, k[2], 9, -51403784);
+    c = gg(c, d, a, b, k[7], 14, 1735328473);  b = gg(b, c, d, a, k[12], 20, -1926607734);
+    a = hh(a, b, c, d, k[5], 4, -378558);      d = hh(d, a, b, c, k[8], 11, -2022574463);
+    c = hh(c, d, a, b, k[11], 16, 1839030562); b = hh(b, c, d, a, k[14], 23, -35309556);
+    a = hh(a, b, c, d, k[1], 4, -1530992060);  d = hh(d, a, b, c, k[4], 11, 1272893353);
+    c = hh(c, d, a, b, k[7], 16, -155497632);  b = hh(b, c, d, a, k[10], 23, -1094730640);
+    a = hh(a, b, c, d, k[13], 4, 681279174);   d = hh(d, a, b, c, k[0], 11, -358537222);
+    c = hh(c, d, a, b, k[3], 16, -722521979);  b = hh(b, c, d, a, k[6], 23, 76029189);
+    a = hh(a, b, c, d, k[9], 4, -640364487);   d = hh(d, a, b, c, k[12], 11, -421815835);
+    c = hh(c, d, a, b, k[15], 16, 530742520);  b = hh(b, c, d, a, k[2], 23, -995338651);
+    a = ii(a, b, c, d, k[0], 6, -198630844);   d = ii(d, a, b, c, k[7], 10, 1126891415);
+    c = ii(c, d, a, b, k[14], 15, -1416354905); b = ii(b, c, d, a, k[5], 21, -57434055);
+    a = ii(a, b, c, d, k[12], 6, 1700485571);  d = ii(d, a, b, c, k[3], 10, -1894986606);
+    c = ii(c, d, a, b, k[10], 15, -1051523);   b = ii(b, c, d, a, k[1], 21, -2054922799);
+    a = ii(a, b, c, d, k[8], 6, 1873313359);   d = ii(d, a, b, c, k[15], 10, -30611744);
+    c = ii(c, d, a, b, k[6], 15, -1560198380); b = ii(b, c, d, a, k[13], 21, 1309151649);
+    a = ii(a, b, c, d, k[4], 6, -145523070);   d = ii(d, a, b, c, k[11], 10, -1120210379);
+    c = ii(c, d, a, b, k[2], 15, 718787259);   b = ii(b, c, d, a, k[9], 21, -343485551);
+    x[0] = add32(a, x[0]); x[1] = add32(b, x[1]); x[2] = add32(c, x[2]); x[3] = add32(d, x[3]);
+  }
+  function cmn(q, a, b, x, s, t) { a = add32(add32(a, q), add32(x, t)); return add32((a << s) | (a >>> (32 - s)), b); }
+  function ff(a, b, c, d, x, s, t) { return cmn((b & c) | ((~b) & d), a, b, x, s, t); }
+  function gg(a, b, c, d, x, s, t) { return cmn((b & d) | (c & (~d)), a, b, x, s, t); }
+  function hh(a, b, c, d, x, s, t) { return cmn(b ^ c ^ d, a, b, x, s, t); }
+  function ii(a, b, c, d, x, s, t) { return cmn(c ^ (b | (~d)), a, b, x, s, t); }
+  function add32(a, b) { return (a + b) & 0xFFFFFFFF; }
+
+  // UTF-8 encode
+  var bytes = [];
+  for (var i = 0; i < string.length; i++) {
+    var code = string.charCodeAt(i);
+    if (code < 0x80) { bytes.push(code); }
+    else if (code < 0x800) { bytes.push(0xc0 | (code >> 6), 0x80 | (code & 0x3f)); }
+    else if (code < 0x10000) { bytes.push(0xe0 | (code >> 12), 0x80 | ((code >> 6) & 0x3f), 0x80 | (code & 0x3f)); }
+    else { bytes.push(0xf0 | (code >> 18), 0x80 | ((code >> 12) & 0x3f), 0x80 | ((code >> 6) & 0x3f), 0x80 | (code & 0x3f)); }
+  }
+
+  var n = bytes.length;
+  // padding
+  bytes.push(0x80);
+  while (bytes.length % 64 !== 56) bytes.push(0);
+  // length in bits (little-endian, 64-bit)
+  var bitLen = n * 8;
+  for (var i = 0; i < 8; i++) { bytes.push((bitLen >>> (i * 8)) & 0xff); }
+
+  var state = [1732584193, -271733879, -1732584194, 271733878];
+  for (var i = 0; i < bytes.length; i += 64) {
+    var w = [];
+    for (var j = 0; j < 16; j++) {
+      w[j] = bytes[i + j * 4] | (bytes[i + j * 4 + 1] << 8) | (bytes[i + j * 4 + 2] << 16) | (bytes[i + j * 4 + 3] << 24);
+    }
+    md5cycle(state, w);
+  }
+
+  // hex output
+  var hex = '';
+  for (var i = 0; i < 4; i++) {
+    for (var j = 0; j < 4; j++) {
+      var byte = (state[i] >>> (j * 8)) & 0xff;
+      hex += (byte < 16 ? '0' : '') + byte.toString(16);
+    }
+  }
+  return hex;
+}
+
+function stableHash(str) {
+  // 与后端 int(hashlib.md5(text.encode()).hexdigest(), 16) 一致
+  var hex = md5(str);
+  // 取前12位hex转数字（避免JS精度溢出）
+  return parseInt(hex.substring(0, 12), 16);
+}
+
+// ------ 炁脉分析 ------
+function analyzeNameQi(name) {
+  const results = [];
+  for (const ch of name) {
+    const scores = {};
+    QI_KEYS.forEach(k => scores[k] = 0);
+    const upper = ch.toUpperCase();
+    let mapped = CHAR_QI_MAP[ch] || ALPHA_QI_MAP[upper] || ALPHA_QI_MAP[ch] || NUM_QI_MAP[ch];
+    if (!mapped) {
+      const idx = stableHash(ch) % 6;
+      mapped = QI_KEYS[idx];
+    }
+    scores[mapped] = 0.7;
+    const others = QI_KEYS.filter(k => k !== mapped);
+    const remaining = 0.3;
+    others.forEach((k, i) => {
+      scores[k] = Math.round((remaining / others.length + (i === 0 ? 0.02 : -0.004)) * 1000) / 1000;
+    });
+    results.push({ char: ch, scores, dominant: mapped });
+  }
+  // 汇总
+  const total = {};
+  QI_KEYS.forEach(k => total[k] = 0);
+  results.forEach(r => {
+    QI_KEYS.forEach(k => total[k] += r.scores[k]);
+  });
+  // 归一化
+  const sum = Object.values(total).reduce((a, b) => a + b, 0);
+  if (sum > 0) QI_KEYS.forEach(k => total[k] = Math.round((total[k] / sum) * 100));
+
+  const dominant = QI_KEYS.reduce((a, b) => total[a] >= total[b] ? a : b);
+  // 潜力评级
+  const vals = Object.values(total);
+  const maxVal = Math.max(...vals);
+  const minVal = Math.min(...vals);
+  const balance = maxVal > 0 ? (1 - (maxVal - minVal) / maxVal) : 0;
+  const lenFactor = Math.min(name.length / 4, 1);
+  const unique = new Set(results.map(r => r.dominant)).size;
+  const diversity = unique / 6;
+  const potentialScore = balance * 0.4 + lenFactor * 0.3 + diversity * 0.3;
+  let potentialGrade;
+  if (potentialScore >= 0.7) potentialGrade = '甲等·破格';
+  else if (potentialScore >= 0.5) potentialGrade = '乙等·上品';
+  else if (potentialScore >= 0.3) potentialGrade = '丙等·良才';
+  else potentialGrade = '丁等·待觉醒';
+
+  return { charResults: results, totalScores: total, dominant, potentialGrade, potentialScore };
+}
+
+// ------ 根据名字确定性生成命数 ------
+function generateFortune(name) {
+  const h = stableHash(name);
+  const score = 60 + (h % 36);
+  const qi = analyzeNameQi(name);
+  const qiType = QI_TYPES[qi.dominant];
+
+  const comments = [
+    `此名暗合${qiType.name}之道，${qiType.desc}。有意思。`,
+    `嚯，${qiType.character}那一脉的路子？${qiType.desc}，根骨不错。`,
+    `这名字里藏着${qiType.name}的气息，${qiType.desc}。贫道看好你。`,
+    `${qiType.name}的底子，暗合${qiType.character}的路数。且看后续造化。`
+  ];
+  const comment = comments[h % comments.length];
+
+  return { name, score, qiType: qi.dominant, qiTypeName: qiType.name, qiEmoji: qiType.emoji,
+    qiColor: qiType.color, alignedCharacter: qiType.character, potentialGrade: qi.potentialGrade,
+    comment, qiAnalysis: qi };
+}
+
+// ------ 彩蛋 ------
+const easterEggs = {
+  '张楚岚': { text: '张楚岚？你可真敢报这个名字。炁体源流加性命双修，命硬得很。暗合本体，贫道多说无益。', score: 99 },
+  '冯宝宝': { text: '冯宝宝……你确定？那位大姐的名号可不是随便能用的。先天炁体，万法不侵。', score: 98 },
+  '王也':   { text: '嗯？有人冒充贫道？风后奇门本座的看家本领，你也想学？算了，给你个满分，权当自恋。', score: 100 },
+  '诸葛青': { text: '诸葛家的？风后奇门的同道中人。不过你们诸葛家那套，跟贫道的还是有点差距的。', score: 95 },
+  '张灵玉': { text: '武当大师兄？通明拳意冠绝同辈。不过灵玉啊，别老绷着脸，笑一个呗。', score: 96 }
+};
+
+// ------ 应用状态 ------
+const appState = {
+  userName: '',
+  visitorId: '',
+  fortune: null,
+  currentRound: 0,
+  chatHistory: [],
+  dimensions: null,
+  isProcessing: false
+};
+
+// ------ 场景切换 ------
+function switchScene(targetId) {
+  document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+  const target = document.getElementById(targetId);
+  if (target) {
+    target.classList.add('active');
+    target.scrollTop = 0;
+  }
+}
+
+function updateProgress(current, total, fillEl, textEl, text) {
+  const pct = Math.min((current / total) * 100, 100);
+  if (fillEl) fillEl.style.width = pct + '%';
+  if (textEl) textEl.textContent = text || '';
+}
+
+// ------ 批命流程 ------
+function startFortune() {
+  const name = document.getElementById('nameInput').value.trim();
+  if (!name) { showToast('请先输入你的名字'); return; }
+  appState.userName = name;
+  appState.visitorId = 'v_' + stableHash(name + '_visitor');
+  switchScene('scene-fortune');
+  
+  const progressFill = document.getElementById('fortuneProgress');
+  const progressText = document.getElementById('fortuneProgressText');
+  const card = document.getElementById('fortuneCard');
+
+  // 模拟望气过程
+  let step = 0;
+  const steps = [
+    { pct: 20, text: '感应炁脉波动...' },
+    { pct: 45, text: '解析六脉共鸣...' },
+    { pct: 70, text: '比对角色炁息...' },
+    { pct: 90, text: '生成鉴定结果...' },
+    { pct: 100, text: '鉴定完成' }
+  ];
+
+  const timer = setInterval(() => {
+    if (step >= steps.length) {
+      clearInterval(timer);
+      showFortuneResult();
+      return;
+    }
+    progressFill.style.width = steps[step].pct + '%';
+    progressText.textContent = steps[step].text;
+    step++;
+  }, 600);
+}
+
+function showFortuneResult() {
+  // 检查彩蛋
+  const egg = easterEggs[appState.userName];
+  let fortune;
+  if (egg) {
+    const qi = analyzeNameQi(appState.userName);
+    const qiType = QI_TYPES[qi.dominant];
+    fortune = {
+      name: appState.userName, score: egg.score, qiType: qi.dominant,
+      qiTypeName: qiType.name, qiEmoji: qiType.emoji, qiColor: qiType.color,
+      alignedCharacter: qiType.character, potentialGrade: qi.potentialGrade,
+      comment: egg.text, qiAnalysis: qi
+    };
+  } else {
+    fortune = generateFortune(appState.userName);
+  }
+  appState.fortune = fortune;
+
+  const card = document.getElementById('fortuneCard');
+  card.style.display = 'block';
+
+  document.getElementById('fortuneName').textContent = fortune.name;
+  animateNumber(document.getElementById('fortuneScore'), 0, fortune.score, 1500);
+  document.getElementById('fortuneQiEmoji').textContent = fortune.qiEmoji;
+  document.getElementById('fortuneQiName').textContent = fortune.qiTypeName;
+  document.getElementById('fortuneQiName').style.color = fortune.qiColor;
+  document.getElementById('fortunePotential').textContent = '潜力评级: ' + fortune.potentialGrade + ' | 暗合: ' + fortune.alignedCharacter;
+
+  renderQiAnalysis(fortune.qiAnalysis);
+
+  // 延迟显示评语
+  setTimeout(() => {
+    document.getElementById('fortuneComment').textContent = fortune.comment;
+    document.getElementById('fortuneComment').style.opacity = '1';
+  }, 1600);
+}
+
+// ------ 炁脉拆字渲染 ------
+function renderQiAnalysis(analysis) {
+  const container = document.getElementById('qiAnalysis');
+  let html = '<div class="qi-analysis__title">炁脉拆字</div><div class="qi-analysis__chars">';
+  analysis.charResults.forEach(r => {
+    const qi = QI_TYPES[r.dominant];
+    html += `<div class="qi-analysis__char">
+      <span class="qi-analysis__char-text" style="color:${qi.color}">${r.char}</span>
+      <span class="qi-analysis__char-type">${qi.emoji} ${qi.name}</span>
+      <div class="qi-analysis__char-bar" style="background:${qi.color};width:${r.scores[r.dominant]*100}%"></div>
+    </div>`;
+  });
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+// ------ 数字动画 ------
+function animateNumber(el, from, to, duration) {
+  const start = performance.now();
+  function update(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.round(from + (to - from) * eased);
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+// ------ 打字机效果 ------
+function typeWriter(el, text, speed, callback) {
+  let i = 0;
+  el.textContent = '';
+  function type() {
+    if (i < text.length) {
+      el.textContent += text.charAt(i);
+      i++;
+      // 自动滚动
+      const msgContainer = document.getElementById('chatMessages');
+      if (msgContainer) msgContainer.scrollTop = msgContainer.scrollHeight;
+      setTimeout(type, speed);
+    } else if (callback) {
+      callback();
+    }
+  }
+  type();
+}
+
+// ------ 星级渲染 ------
+function renderStars(score, max) {
+  max = max || 5;
+  let html = '';
+  for (let i = 0; i < max; i++) {
+    html += i < score ? '★' : '☆';
+  }
+  return html;
+}
+
+// ------ 聊天系统 ------
+function startChat() {
+  appState.currentRound = 0;
+  appState.chatHistory = [];
+  appState.dimensions = null;
+  switchScene('scene-chat');
+  document.getElementById('chatMessages').innerHTML = '';
+  showChatRound();
+}
+
+function showChatRound() {
+  if (appState.currentRound >= window.CHAT_ROUNDS.length) {
+    startReport();
+    return;
+  }
+  const round = window.CHAT_ROUNDS[appState.currentRound];
+  document.getElementById('chatRoundCurrent').textContent = appState.currentRound + 1;
+  updateProgress(
+    appState.currentRound + 1, 5,
+    document.getElementById('chatProgress'), null, null
+  );
+  // AI问题消息
+  addAiMessage(round.aiMessage, () => {
+    showOptions(round);
+  });
+}
+
+function addAiMessage(text, callback) {
+  const messages = document.getElementById('chatMessages');
+  const msgDiv = document.createElement('div');
+  msgDiv.className = 'chat-message chat-message--ai';
+  msgDiv.innerHTML = '<div class="chat-message__avatar">🌀</div><div class="chat-message__bubble"><span class="chat-message__text"></span></div>';
+  messages.appendChild(msgDiv);
+  messages.scrollTop = messages.scrollHeight;
+  const textEl = msgDiv.querySelector('.chat-message__text');
+  typeWriter(textEl, text, 30, callback);
+}
+
+function addUserMessage(text) {
+  const messages = document.getElementById('chatMessages');
+  const msgDiv = document.createElement('div');
+  msgDiv.className = 'chat-message chat-message--user';
+  msgDiv.innerHTML = `<div class="chat-message__bubble"><span class="chat-message__text">${text}</span></div>`;
+  messages.appendChild(msgDiv);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function showOptions(round) {
+  const area = document.getElementById('chatInputArea');
+  area.style.display = 'block';
+  const optionsDiv = document.getElementById('chatOptions');
+  const freeDiv = document.getElementById('chatFreeInput');
+  optionsDiv.innerHTML = '';
+  optionsDiv.style.display = 'flex';
+  optionsDiv.style.flexDirection = 'column';
+  optionsDiv.style.gap = '8px';
+
+  if (round.options && round.options.length > 0) {
+    round.options.forEach((opt, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'chat-option';
+      btn.textContent = opt.text;
+      btn.onclick = () => selectOption(idx);
+      optionsDiv.appendChild(btn);
+    });
+  }
+
+  if (round.hasFreeInput) {
+    freeDiv.style.display = 'flex';
+    document.getElementById('freeInput').value = '';
+    document.getElementById('freeInput').focus();
+  } else {
+    freeDiv.style.display = 'none';
+  }
+}
+
+function selectOption(idx) {
+  if (appState.isProcessing) return;
+  appState.isProcessing = true;
+  const round = window.CHAT_ROUNDS[appState.currentRound];
+  const selected = round.options[idx];
+  addUserMessage(selected.text);
+  hideInputArea();
+
+  appState.chatHistory.push({
+    round: appState.currentRound,
+    type: 'option',
+    optionId: selected.id,
+    optionIndex: idx,
+    text: selected.text,
+    scores: selected.scores || {}
+  });
+
+  // AI回应 — 从 round.responses[selected.id] 取
+  setTimeout(() => {
+    const resp = (round.responses && round.responses[selected.id]) || '有意思……';
+    addAiMessage(resp, () => {
+      appState.currentRound++;
+      appState.isProcessing = false;
+      showChatRound();
+    });
+  }, 500);
+}
+
+function submitFreeInput() {
+  if (appState.isProcessing) return;
+  const input = document.getElementById('freeInput');
+  const text = input.value.trim();
+  if (!text) return;
+  appState.isProcessing = true;
+  addUserMessage(text);
+  hideInputArea();
+
+  appState.chatHistory.push({
+    round: appState.currentRound,
+    type: 'free',
+    text: text
+  });
+
+  setTimeout(() => {
+    const round = window.CHAT_ROUNDS[appState.currentRound];
+    let resp = (round.responses && round.responses['free']) || '贫道记下了。';
+    // 终极之问：动态生成回复
+    if (round.isFinalRound && !round.responses['free'] && window.generateFinalResponse) {
+      const prevChoices = appState.chatHistory.map(h => {
+        if (h.type === 'free') return 'free';
+        return h.optionId || 'free';
+      });
+      resp = window.generateFinalResponse(text, prevChoices);
+    }
+    addAiMessage(resp, () => {
+      appState.currentRound++;
+      appState.isProcessing = false;
+      showChatRound();
+    });
+  }, 500);
+}
+
+function hideInputArea() {
+  document.getElementById('chatInputArea').style.display = 'none';
+  document.getElementById('chatOptions').innerHTML = '';
+  document.getElementById('chatFreeInput').style.display = 'none';
+}
+
+// ------ 报告生成 ------
+function startReport() {
+  switchScene('scene-report');
+  appState.dimensions = window.calculateDimensions ? window.calculateDimensions(appState.chatHistory) : {
+    attack: 50, defense: 50, reaction: 50, read: 50, pressure: 50, slack: 40
+  };
+  showReport();
+}
+
+function showReport() {
+  const f = appState.fortune;
+  const d = appState.dimensions;
+  const qiType = QI_TYPES[f.qiType];
+
+  // 提取用户选择的 ID 列表（用于传给 chat_rounds 函数）
+  const userChoices = appState.chatHistory.map(h => {
+    if (h.type === 'free') return 'free';
+    return h.optionId || 'free';
+  });
+
+  // 获取最后一轮的自由输入文本（终极之问的三个字）
+  const lastFreeEntry = appState.chatHistory.find(h => h.type === 'free' && h.round === window.CHAT_ROUNDS.length - 1);
+  const selfEval = lastFreeEntry ? lastFreeEntry.text : '未作答';
+
+  // 先计算战斗风格（generateDeepComment 和 generateProphecy 需要用到）
+  const combatStyle = window.determineCombatStyle ? window.determineCombatStyle(d) : { name: '未知', desc: '' };
+
+  const finalResp = window.generateFinalResponse ? window.generateFinalResponse(selfEval, userChoices) : '你的问诊到此结束。';
+  const deepComment = window.generateDeepComment ? window.generateDeepComment(appState.userName, f, userChoices, combatStyle) : '';
+  const prophecy = window.generateProphecy ? window.generateProphecy(combatStyle) : '';
+  const report = window.generateReport ? window.generateReport(appState.userName, f, userChoices) : {};
+
+  const reportEl = document.getElementById('reportContent');
+  reportEl.innerHTML = `
+    <div class="report__header" style="border-color:${qiType.color}">
+      <div class="report__header-badge">异人体检站 · 完整报告</div>
+      <h1 class="report__header-title">${f.name}</h1>
+      <div class="report__header-qi">${qiType.emoji} ${qiType.name} · ${f.potentialGrade}</div>
+      <div class="report__header-char">暗合角色: ${qiType.character}</div>
+    </div>
+
+    <div class="report-section">
+      <h3 class="report-section__title">📊 六维能力</h3>
+      <canvas id="radarChart" width="300" height="300" style="display:block;margin:0 auto;"></canvas>
+      <div id="dimensionBars" class="dimension-bars"></div>
+    </div>
+
+    <div class="report-section">
+      <h3 class="report-section__title">⚔️ 战斗风格</h3>
+      <div class="combat-style">
+        <div class="combat-style__name">${combatStyle.name}</div>
+        <div class="combat-style__desc">${combatStyle.desc || ''}</div>
+      </div>
+    </div>
+
+    <div class="report-section">
+      <h3 class="report-section__title">🔮 王也批语</h3>
+      <div class="prophecy">
+        <p class="prophecy__text">${finalResp}</p>
+        ${deepComment ? '<p class="prophecy__deep">' + deepComment + '</p>' : ''}
+      </div>
+    </div>
+
+    <div class="report-section">
+      <h3 class="report-section__title">📜 命运预言</h3>
+      <div class="prophecy">
+        <p class="prophecy__text">${prophecy}</p>
+      </div>
+    </div>
+
+    ${report.hiddenStory ? '<div class="report-section"><h3 class="report-section__title">📖 隐藏剧情</h3><button class="btn btn--secondary" id="hiddenStoryBtn"><span>查看隐藏剧情</span></button></div>' : ''}
+
+    <div class="report-section report-section--actions">
+      <button class="btn btn--primary" onclick="shareReport()">
+        <span>分享结果</span>
+      </button>
+      <button class="btn btn--secondary" onclick="restartTest()">
+        <span>重新鉴定</span>
+      </button>
+    </div>
+  `;
+
+  setTimeout(function() {
+    renderRadarChart(d);
+    renderDimensions(d);
+    // 安全绑定隐藏剧情按钮
+    var hiddenStoryBtn = document.getElementById('hiddenStoryBtn');
+    if (hiddenStoryBtn && report.hiddenStory) {
+      hiddenStoryBtn.onclick = function() {
+        openStorySheet(report.hiddenStory.title || '隐藏剧情', report.hiddenStory.content || '');
+      };
+    }
+  }, 300);
+}
+
+// ------ 雷达图 ------
+function renderRadarChart(dimensions) {
+  var canvas = document.getElementById('radarChart');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var w = canvas.width, h = canvas.height;
+  var cx = w / 2, cy = h / 2, r = Math.min(w, h) * 0.35;
+  var labels = ['攻击性', '防御力', '反应速', '读招力', '抗压值', '摸鱼值'];
+  var values = [dimensions.attack, dimensions.defense, dimensions.reaction, dimensions.read, dimensions.pressure, dimensions.slack];
+  var n = labels.length;
+
+  ctx.clearRect(0, 0, w, h);
+  // 背景网格
+  for (var ring = 1; ring <= 5; ring++) {
+    ctx.beginPath();
+    for (var i = 0; i <= n; i++) {
+      var angle = (Math.PI * 2 * i) / n - Math.PI / 2;
+      var rr = r * (ring / 5);
+      var x = cx + rr * Math.cos(angle);
+      var y = cy + rr * Math.sin(angle);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+    ctx.stroke();
+  }
+  // 轴线
+  for (var i = 0; i < n; i++) {
+    var angle = (Math.PI * 2 * i) / n - Math.PI / 2;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + r * Math.cos(angle), cy + r * Math.sin(angle));
+    ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+    ctx.stroke();
+  }
+  // 数据区域
+  var qiColor = appState.fortune ? QI_TYPES[appState.fortune.qiType].color : '#4ECDC4';
+  ctx.beginPath();
+  for (var i = 0; i <= n; i++) {
+    var idx = i % n;
+    var angle = (Math.PI * 2 * idx) / n - Math.PI / 2;
+    var val = Math.min(values[idx] / 100, 1);
+    var x = cx + r * val * Math.cos(angle);
+    var y = cy + r * val * Math.sin(angle);
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+  ctx.fillStyle = qiColor + '33';
+  ctx.fill();
+  ctx.strokeStyle = qiColor;
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  // 标签
+  ctx.fillStyle = '#ccc';
+  ctx.font = '12px sans-serif';
+  ctx.textAlign = 'center';
+  for (var i = 0; i < n; i++) {
+    var angle = (Math.PI * 2 * i) / n - Math.PI / 2;
+    var lx = cx + (r + 20) * Math.cos(angle);
+    var ly = cy + (r + 20) * Math.sin(angle);
+    ctx.fillText(labels[i] + ' ' + values[i], lx, ly + 4);
+  }
+}
+
+// ------ 维度条 ------
+function renderDimensions(dimensions) {
+  var container = document.getElementById('dimensionBars');
+  if (!container) return;
+  var items = [
+    { label: '攻击性', key: 'attack', icon: '⚔️' },
+    { label: '防御力', key: 'defense', icon: '🛡️' },
+    { label: '反应速', key: 'reaction', icon: '⚡' },
+    { label: '读招力', key: 'read', icon: '🧠' },
+    { label: '抗压值', key: 'pressure', icon: '🔥' },
+    { label: '摸鱼值', key: 'slack', icon: '🎣' }
+  ];
+  var qiColor = appState.fortune ? QI_TYPES[appState.fortune.qiType].color : '#4ECDC4';
+  var html = '';
+  items.forEach(function(item) {
+    var val = dimensions[item.key] || 50;
+    html += '<div class="dimension-bar">' +
+      '<div class="dimension-bar__label">' + item.icon + ' ' + item.label + '</div>' +
+      '<div class="dimension-bar__track"><div class="dimension-bar__fill" style="width:' + val + '%;background:' + qiColor + '"></div></div>' +
+      '<div class="dimension-bar__value">' + val + '</div></div>';
+  });
+  container.innerHTML = html;
+}
+
+// ------ 分享 ------
+function shareReport() {
+  var f = appState.fortune;
+  var qi = QI_TYPES[f.qiType];
+  var text = '【异人体检站】' + f.name + ' 的炁脉鉴定结果：' + qi.emoji + ' ' + qi.name + '，暗合' + qi.character + '！潜力评级：' + f.potentialGrade + '。快来测测你的炁脉→';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(function() { showToast('已复制到剪贴板'); });
+  } else {
+    showToast('分享文案：' + text);
+  }
+}
+
+// ------ 故事面板 ------
+function openStorySheet(title, content) {
+  document.getElementById('storyTitle').textContent = title;
+  document.getElementById('storyBody').textContent = content;
+  document.getElementById('storySheet').classList.add('open');
+}
+
+function closeStorySheet() {
+  document.getElementById('storySheet').classList.remove('open');
+}
+
+// ------ Toast ------
+function showToast(msg) {
+  var toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(function() { toast.classList.remove('show'); }, 2500);
+}
+
+// ------ 重新开始 ------
+function restartTest() {
+  appState.userName = '';
+  appState.fortune = null;
+  appState.currentRound = 0;
+  appState.chatHistory = [];
+  appState.dimensions = null;
+  appState.isProcessing = false;
+  document.getElementById('nameInput').value = '';
+  document.getElementById('fortuneCard').style.display = 'none';
+  document.getElementById('fortuneComment').style.opacity = '0';
+  document.getElementById('chatMessages').innerHTML = '';
+  switchScene('scene-landing');
+}
+
+// ------ 粒子系统 ------
+function initParticles(canvasId) {
+  var container = document.getElementById(canvasId);
+  if (!container) return;
+  var canvas = document.createElement('canvas');
+  canvas.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;';
+  container.appendChild(canvas);
+
+  function resize() {
+    canvas.width = container.offsetWidth;
+    canvas.height = container.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  var ctx = canvas.getContext('2d');
+  var particles = [];
+  for (var i = 0; i < 30; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 2 + 1,
+      dx: (Math.random() - 0.5) * 0.5,
+      dy: (Math.random() - 0.5) * 0.5,
+      alpha: Math.random() * 0.5 + 0.1
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(function(p) {
+      p.x += p.dx;
+      p.y += p.dy;
+      if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(78, 205, 196, ' + p.alpha + ')';
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// ------ 初始化 ------
+document.addEventListener('DOMContentLoaded', function() {
+  initParticles('particles-landing');
+  initParticles('particles-fortune');
+  initParticles('particles-report');
+
+  document.getElementById('nameInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') startFortune();
+  });
+  document.getElementById('freeInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') submitFreeInput();
+  });
+});
+</script>
+</body>
+</html>

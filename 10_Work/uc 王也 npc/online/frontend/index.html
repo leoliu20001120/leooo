@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>异人体检站 — 王也 AI 体检（在线版）</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* ==================== CSS — 完整复用离线版样式 ==================== */
+:root {
+  --bg-deep: #06060e; --bg-dark: #0a0a14;
+  --bg-card: rgba(16, 16, 32, 0.85); --bg-card-alt: rgba(22, 22, 44, 0.9);
+  --gold: #d4a853; --gold-light: #f0d68a; --gold-dim: #9a7b3a; --gold-glow: rgba(212, 168, 83, 0.3);
+  --cyan: #5ce0d8; --cyan-dim: #2a7a74; --cyan-glow: rgba(92, 224, 216, 0.2);
+  --red: #ff6b6b; --green: #5ce07a;
+  --text-primary: #eaeaf4; --text-secondary: #9898b8; --text-dim: #5a5a78; --text-muted: #3a3a55;
+  --border: rgba(255, 255, 255, 0.06); --border-gold: rgba(212, 168, 83, 0.2);
+  --radius: 14px; --radius-sm: 10px; --radius-lg: 22px; --radius-xl: 28px;
+  --fire: #ff6b5a; --water: #5a9eff; --wood: #5aff7a; --metal: #ffd76a; --earth: #dea06a;
+  --font-cn: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-title: 'Ma Shan Zheng', 'PingFang SC', cursive;
+  --shadow-gold: 0 4px 30px rgba(212, 168, 83, 0.12);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font-cn); background: var(--bg-deep); color: var(--text-primary); min-height: 100vh; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+#particleCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+.texture-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 0; background: radial-gradient(ellipse at 25% 15%, rgba(212, 168, 83, 0.04) 0%, transparent 60%), radial-gradient(ellipse at 75% 85%, rgba(92, 224, 216, 0.03) 0%, transparent 55%); }
+.glow-top { position: fixed; top: -200px; left: 50%; transform: translateX(-50%); width: 600px; height: 400px; background: radial-gradient(ellipse, rgba(212, 168, 83, 0.05) 0%, transparent 70%); pointer-events: none; z-index: 0; animation: glowPulse 8s ease-in-out infinite; }
+@keyframes glowPulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+.bagua-watermark { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 500px; height: 500px; opacity: 0.012; pointer-events: none; z-index: 0; font-size: 350px; line-height: 500px; text-align: center; color: var(--gold); animation: baguaSpin 120s linear infinite; }
+@keyframes baguaSpin { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+.app-container { position: relative; z-index: 1; max-width: 430px; margin: 0 auto; min-height: 100vh; padding: 0; }
+.scene { display: none; opacity: 0; padding: 20px; }
+.scene.active { display: block; opacity: 1; }
+.scene.fade-in { animation: sceneFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+@keyframes sceneFadeIn { 0% { opacity: 0; transform: translateY(40px) scale(0.97); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes iconFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+@keyframes cardReveal { 0% { opacity: 0; transform: translateY(30px) scale(0.95); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+@keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+@keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+@keyframes messageIn { from { opacity: 0; transform: translateY(16px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes typingDot { 0%, 60%, 100% { opacity: 0.3; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-5px); } }
+@keyframes sectionReveal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes avatarPulse { 0%, 100% { box-shadow: 0 0 16px var(--gold-glow), 0 0 0 2px rgba(212, 168, 83, 0.15); } 50% { box-shadow: 0 0 24px var(--gold-glow), 0 0 0 4px rgba(212, 168, 83, 0.1); } }
+@keyframes spinYinYang { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* Top Bar */
+.top-bar { position: sticky; top: 0; z-index: 50; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; background: rgba(6, 6, 14, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+.top-bar__logo { font-size: 13px; color: var(--gold); letter-spacing: 3px; font-weight: 700; text-shadow: 0 0 20px var(--gold-glow); }
+.top-bar__step { font-size: 11px; color: var(--text-secondary); background: rgba(255, 255, 255, 0.04); padding: 5px 14px; border-radius: 20px; border: 1px solid var(--border); letter-spacing: 1px; }
+.top-bar__badge { font-size: 10px; color: var(--cyan); background: rgba(92,224,216,0.1); padding: 3px 10px; border-radius: 12px; border: 1px solid rgba(92,224,216,0.2); letter-spacing: 1px; }
+.progress-bar { height: 2px; background: rgba(255, 255, 255, 0.03); position: relative; overflow: hidden; }
+.progress-bar__fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--cyan)); transition: width 1s cubic-bezier(0.25, 0.46, 0.45, 0.94); box-shadow: 0 0 12px var(--gold-glow), 0 0 24px var(--cyan-glow); }
+.progress-bar__fill::after { content: ''; position: absolute; right: -2px; top: -3px; width: 8px; height: 8px; background: var(--cyan); border-radius: 50%; box-shadow: 0 0 12px var(--cyan); }
+
+/* Landing */
+.landing { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px 24px; }
+.landing__deco-line { width: 60px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin-bottom: 24px; opacity: 0; animation: fadeIn 1s ease 0.2s forwards; }
+.landing__icon { font-size: 72px; margin-bottom: 16px; filter: drop-shadow(0 0 30px var(--gold-glow)); opacity: 0; animation: iconFloat 4s ease-in-out infinite, fadeIn 0.8s ease 0.3s forwards; }
+.landing__title { font-family: var(--font-title); font-size: 42px; color: var(--gold); margin-bottom: 6px; letter-spacing: 8px; text-shadow: 0 0 40px var(--gold-glow); opacity: 0; animation: fadeInUp 0.8s ease 0.5s forwards; }
+.landing__subtitle { font-size: 11px; color: var(--text-dim); letter-spacing: 8px; margin-bottom: 48px; text-transform: uppercase; font-weight: 300; opacity: 0; animation: fadeInUp 0.8s ease 0.7s forwards; }
+.landing__dialogue { background: var(--bg-card); border: 1px solid var(--border-gold); border-radius: var(--radius-xl); padding: 28px 24px 24px; margin-bottom: 36px; max-width: 340px; width: 100%; position: relative; text-align: left; backdrop-filter: blur(20px); box-shadow: var(--shadow-gold); opacity: 0; animation: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards; }
+.landing__dialogue::before { content: '☯ 王也'; position: absolute; top: -12px; left: 24px; background: linear-gradient(135deg, var(--gold), var(--gold-dim)); color: var(--bg-deep); font-size: 12px; font-weight: 700; padding: 4px 14px; border-radius: 12px; letter-spacing: 2px; box-shadow: 0 2px 10px var(--gold-glow); }
+.landing__dialogue p { font-size: 16px; line-height: 2; color: var(--text-primary); font-weight: 300; }
+.landing__dialogue .highlight { color: var(--gold-light); font-weight: 600; text-shadow: 0 0 10px var(--gold-glow); }
+.input-group { width: 100%; max-width: 340px; margin-bottom: 16px; opacity: 0; animation: fadeInUp 0.6s ease 1.1s forwards; }
+.input-group__input { width: 100%; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-gold); border-radius: var(--radius-lg); padding: 18px 24px; font-size: 17px; color: var(--text-primary); font-family: var(--font-cn); outline: none; transition: all 0.4s; text-align: center; letter-spacing: 2px; }
+.input-group__input::placeholder { color: var(--text-dim); font-weight: 300; }
+.input-group__input:focus { border-color: var(--gold); box-shadow: 0 0 0 4px rgba(212, 168, 83, 0.08); background: rgba(212, 168, 83, 0.03); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 16px 36px; border: none; border-radius: var(--radius-lg); font-size: 16px; font-weight: 700; font-family: var(--font-cn); cursor: pointer; transition: all 0.4s; position: relative; overflow: hidden; letter-spacing: 2px; }
+.btn--primary { background: linear-gradient(135deg, var(--gold), var(--gold-dim)); color: var(--bg-deep); width: 100%; max-width: 340px; box-shadow: 0 4px 20px var(--gold-glow); opacity: 0; animation: fadeInUp 0.6s ease 1.3s forwards; }
+.btn--primary::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: left 0.6s; }
+.btn--primary:hover::before { left: 100%; }
+.btn--primary:hover { transform: translateY(-3px); box-shadow: 0 8px 30px var(--gold-glow); }
+.btn--primary:active { transform: translateY(0); }
+.btn--primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.btn--secondary { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 12px 28px; opacity: 1; animation: none; }
+.btn--secondary:hover { background: rgba(212, 168, 83, 0.1); }
+
+/* Fortune Card */
+.fortune-loading { text-align: center; padding: 60px 20px; }
+.fortune-loading__spinner { width: 60px; height: 60px; margin: 0 auto 24px; position: relative; }
+.fortune-loading__spinner::before { content: '☯'; position: absolute; font-size: 50px; animation: spinYinYang 2s linear infinite; color: var(--gold); }
+.fortune-loading__text { color: var(--text-secondary); font-size: 14px; animation: pulse 1.5s ease-in-out infinite; }
+.fortune-card { background: var(--bg-card); border: 1px solid var(--border-gold); border-radius: var(--radius-xl); padding: 32px 24px 28px; margin-bottom: 20px; position: relative; overflow: hidden; backdrop-filter: blur(20px); box-shadow: var(--shadow-gold); animation: cardReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.fortune-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--gold), var(--cyan), var(--gold)); background-size: 200% 100%; animation: shimmer 3s linear infinite; }
+.fortune-card.element-fire::before { background: linear-gradient(90deg, var(--fire), var(--gold), var(--fire)); background-size: 200% 100%; animation: shimmer 3s linear infinite; }
+.fortune-card.element-water::before { background: linear-gradient(90deg, var(--water), var(--cyan), var(--water)); background-size: 200% 100%; animation: shimmer 3s linear infinite; }
+.fortune-card.element-wood::before { background: linear-gradient(90deg, var(--wood), var(--cyan), var(--wood)); background-size: 200% 100%; animation: shimmer 3s linear infinite; }
+.fortune-card.element-metal::before { background: linear-gradient(90deg, var(--metal), var(--gold), var(--metal)); background-size: 200% 100%; animation: shimmer 3s linear infinite; }
+.fortune-card.element-earth::before { background: linear-gradient(90deg, var(--earth), var(--gold), var(--earth)); background-size: 200% 100%; animation: shimmer 3s linear infinite; }
+.fortune-card__header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+.fortune-card__badge { background: var(--gold); color: var(--bg-deep); font-size: 11px; font-weight: 700; padding: 5px 14px; border-radius: 20px; letter-spacing: 1px; }
+.fortune-card__element { font-size: 36px; filter: drop-shadow(0 0 15px var(--gold-glow)); animation: iconFloat 3s ease-in-out infinite; }
+.fortune-card__id { font-family: var(--font-title); font-size: 28px; margin-bottom: 8px; color: var(--gold-light); text-shadow: 0 0 20px var(--gold-glow); }
+.fortune-card__tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.fortune-card__tag { display: inline-block; font-size: 12px; color: var(--bg-dark); background: var(--gold); padding: 2px 10px; border-radius: 10px; font-weight: 600; }
+.fortune-card__text { font-size: 15px; line-height: 1.8; color: var(--text-primary); margin-bottom: 20px; min-height: 60px; }
+.fortune-card__text .cursor { display: inline-block; width: 2px; height: 16px; background: var(--gold); margin-left: 2px; animation: blink 0.8s infinite; vertical-align: text-bottom; }
+.fortune-card__stars { display: flex; gap: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
+.star-group { flex: 1; }
+.star-group__label { font-size: 11px; color: var(--text-secondary); margin-bottom: 6px; }
+.star-group__stars { font-size: 16px; letter-spacing: 2px; }
+.fortune-card__score { text-align: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
+.fortune-card__score-number { font-size: 56px; font-weight: 900; color: var(--gold); text-shadow: 0 0 30px var(--gold-glow); line-height: 1; }
+.fortune-card__score-label { font-size: 12px; color: var(--text-dim); letter-spacing: 3px; margin-top: 4px; }
+
+/* Wuxing */
+.wuxing-analysis { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--border); animation: fadeInUp 0.6s ease 0.3s backwards; }
+.wuxing-analysis__title { font-size: 11px; color: var(--text-dim); letter-spacing: 3px; margin-bottom: 14px; font-weight: 600; }
+.wuxing-chars { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.wuxing-char { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 10px 12px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: var(--radius-sm); min-width: 52px; }
+.wuxing-char__text { font-size: 18px; font-weight: 700; }
+.wuxing-char__el { font-size: 10px; font-weight: 600; padding: 1px 8px; border-radius: 8px; letter-spacing: 1px; }
+.wuxing-char__el.el-金 { color: var(--metal); background: rgba(255, 215, 106, 0.1); }
+.wuxing-char__el.el-木 { color: var(--wood); background: rgba(90, 255, 122, 0.1); }
+.wuxing-char__el.el-水 { color: var(--water); background: rgba(90, 158, 255, 0.1); }
+.wuxing-char__el.el-火 { color: var(--fire); background: rgba(255, 107, 90, 0.1); }
+.wuxing-char__el.el-土 { color: var(--earth); background: rgba(222, 160, 106, 0.1); }
+.wuxing-bar { display: flex; gap: 3px; height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 10px; background: rgba(255, 255, 255, 0.03); }
+.wuxing-bar__segment { height: 100%; border-radius: 4px; transition: width 1s; }
+.wuxing-bar__segment.el-金 { background: var(--metal); }
+.wuxing-bar__segment.el-木 { background: var(--wood); }
+.wuxing-bar__segment.el-水 { background: var(--water); }
+.wuxing-bar__segment.el-火 { background: var(--fire); }
+.wuxing-bar__segment.el-土 { background: var(--earth); }
+.wuxing-legend { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.wuxing-legend__item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-secondary); }
+.wuxing-legend__dot { width: 6px; height: 6px; border-radius: 50%; }
+.wuxing-legend__dot.el-金 { background: var(--metal); }
+.wuxing-legend__dot.el-木 { background: var(--wood); }
+.wuxing-legend__dot.el-水 { background: var(--water); }
+.wuxing-legend__dot.el-火 { background: var(--fire); }
+.wuxing-legend__dot.el-土 { background: var(--earth); }
+.wuxing-relation { margin-top: 14px; padding: 12px 14px; background: linear-gradient(135deg, rgba(212, 168, 83, 0.04), rgba(92, 224, 216, 0.02)); border: 1px solid rgba(212, 168, 83, 0.1); border-radius: var(--radius-sm); }
+.wuxing-relation__text { font-size: 12px; line-height: 1.8; color: var(--text-secondary); }
+.wuxing-relation__text .wx-hl { color: var(--gold-light); font-weight: 600; }
+
+/* Chat */
+.chat-container { display: flex; flex-direction: column; min-height: calc(100vh - 80px); padding: 0 16px 20px; }
+.chat-round-indicator { text-align: center; padding: 14px 0; font-size: 12px; color: var(--text-dim); letter-spacing: 2px; position: relative; }
+.chat-round-indicator::after { content: ''; position: absolute; bottom: 0; left: 20%; right: 20%; height: 1px; background: linear-gradient(90deg, transparent, var(--border-gold), transparent); }
+.chat-round-indicator span { color: var(--gold); font-weight: 700; text-shadow: 0 0 10px var(--gold-glow); }
+.chat-messages { flex: 1; overflow-y: auto; padding-bottom: 20px; scroll-behavior: smooth; }
+.message { margin-bottom: 18px; animation: messageIn 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+.message--ai { display: flex; gap: 12px; align-items: flex-start; }
+.message--ai__avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-dim)); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; box-shadow: 0 0 16px var(--gold-glow); animation: avatarPulse 4s ease-in-out infinite; }
+.message--ai__bubble { background: var(--bg-card); border: 1px solid var(--border-gold); border-radius: 4px var(--radius) var(--radius) var(--radius); padding: 14px 18px; max-width: 85%; font-size: 15px; line-height: 1.8; color: var(--text-primary); backdrop-filter: blur(12px); box-shadow: 0 2px 16px rgba(0,0,0,0.2); position: relative; }
+.message--ai__bubble::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, var(--gold-glow), transparent); }
+.message--user { display: flex; justify-content: flex-end; }
+.message--user__bubble { background: linear-gradient(135deg, rgba(212, 168, 83, 0.12), rgba(92, 224, 216, 0.06)); border: 1px solid rgba(212, 168, 83, 0.25); border-radius: var(--radius) 4px var(--radius) var(--radius); padding: 14px 18px; max-width: 80%; font-size: 15px; line-height: 1.7; color: var(--gold-light); }
+.options-container { padding: 10px 0; animation: fadeInUp 0.5s; }
+.option-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 10px; cursor: pointer; transition: all 0.4s; display: flex; align-items: center; gap: 14px; position: relative; overflow: hidden; }
+.option-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--gold); opacity: 0; transition: opacity 0.3s; }
+.option-card:hover { border-color: var(--gold); background: rgba(212, 168, 83, 0.06); transform: translateX(6px); }
+.option-card:hover::before { opacity: 1; }
+.option-card__emoji { font-size: 26px; flex-shrink: 0; }
+.option-card__text { font-size: 14px; flex: 1; line-height: 1.5; }
+.option-card__id { font-size: 11px; color: var(--text-dim); background: rgba(255, 255, 255, 0.04); width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid var(--border); font-weight: 600; }
+.option-card:hover .option-card__id { background: var(--gold); color: var(--bg-deep); border-color: var(--gold); }
+.free-input { display: flex; gap: 10px; padding: 14px 0; animation: fadeInUp 0.5s; }
+.free-input__input { flex: 1; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-gold); border-radius: var(--radius); padding: 14px 18px; font-size: 14px; color: var(--text-primary); font-family: var(--font-cn); outline: none; transition: all 0.3s; }
+.free-input__input::placeholder { color: var(--text-dim); }
+.free-input__input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212, 168, 83, 0.08); }
+.free-input__btn { background: linear-gradient(135deg, var(--gold), var(--gold-dim)); color: var(--bg-deep); border: none; border-radius: var(--radius); padding: 14px 20px; font-weight: 700; cursor: pointer; font-family: var(--font-cn); font-size: 14px; transition: all 0.3s; }
+.typing-indicator { display: flex; gap: 5px; padding: 10px 4px; align-items: center; }
+.typing-indicator span { width: 7px; height: 7px; background: var(--gold); border-radius: 50%; animation: typingDot 1.4s infinite; }
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+/* Story Sheet */
+.story-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 90; opacity: 0; visibility: hidden; transition: opacity 0.35s, visibility 0.35s; backdrop-filter: blur(4px); }
+.story-overlay.visible { opacity: 1; visibility: visible; }
+.story-sheet { position: fixed; bottom: 0; left: 0; right: 0; z-index: 91; background: linear-gradient(180deg, rgba(18,18,36,0.98), rgba(10,10,20,0.99)); border-top: 1px solid var(--border-gold); border-radius: 24px 24px 0 0; max-height: 70vh; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); overflow: hidden; }
+.story-sheet.open { transform: translateY(0); }
+.story-sheet__handle { padding: 14px 0 6px; display: flex; justify-content: center; cursor: pointer; }
+.story-sheet__handle-bar { width: 40px; height: 4px; background: rgba(255,255,255,0.15); border-radius: 2px; }
+.story-sheet__content { padding: 8px 24px 36px; overflow-y: auto; max-height: calc(70vh - 50px); }
+.story-sheet__badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(212,168,83,0.1); border: 1px solid rgba(212,168,83,0.25); color: var(--gold); font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 14px; margin-bottom: 14px; }
+.story-sheet__title { font-family: var(--font-title); font-size: 24px; color: var(--gold-light); margin-bottom: 20px; }
+.story-sheet__section-label { font-size: 11px; color: var(--text-dim); letter-spacing: 2px; margin-bottom: 10px; text-transform: uppercase; font-weight: 600; }
+.story-sheet__characters { display: flex; flex-direction: column; gap: 10px; margin-bottom: 22px; }
+.story-char { display: flex; align-items: baseline; gap: 10px; padding: 10px 14px; background: rgba(255,255,255,0.02); border-radius: var(--radius-sm); border-left: 3px solid var(--gold-dim); }
+.story-char__name { font-size: 14px; font-weight: 700; color: var(--gold); white-space: nowrap; flex-shrink: 0; }
+.story-char__desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+.story-sheet__story { font-size: 14px; line-height: 2; color: var(--text-primary); font-weight: 300; margin-bottom: 22px; }
+.story-sheet__crux { background: linear-gradient(135deg, rgba(212,168,83,0.06), rgba(92,224,216,0.03)); border: 1px solid rgba(212,168,83,0.15); border-radius: var(--radius); padding: 16px 18px; }
+.story-sheet__crux-label { font-size: 11px; color: var(--gold); letter-spacing: 2px; margin-bottom: 8px; font-weight: 600; }
+.story-sheet__crux-text { font-size: 14px; line-height: 1.9; }
+.story-hint { display: inline-flex; align-items: center; gap: 4px; margin-top: 10px; padding: 5px 0; font-size: 12px; color: var(--text-dim); cursor: pointer; transition: color 0.3s; border: none; background: none; font-family: var(--font-cn); }
+.story-hint:hover { color: var(--gold); }
+
+/* Report */
+.report-generating { text-align: center; padding: 80px 20px; }
+.report-generating__icon { font-size: 64px; margin-bottom: 24px; animation: iconFloat 2s ease-in-out infinite; filter: drop-shadow(0 0 30px var(--gold-glow)); }
+.report-generating__text { font-size: 14px; color: var(--text-secondary); margin-bottom: 10px; }
+.report-generating__narrative { font-family: var(--font-title); font-size: 18px; color: var(--gold); max-width: 300px; margin: 0 auto; line-height: 1.8; transition: opacity 0.3s; text-shadow: 0 0 20px var(--gold-glow); }
+.report { padding: 0 4px; }
+.report__header { text-align: center; padding: 36px 0 28px; position: relative; }
+.report__header::after { content: ''; position: absolute; bottom: 0; left: 15%; right: 15%; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.report__header-icon { font-size: 44px; margin-bottom: 14px; filter: drop-shadow(0 0 20px var(--gold-glow)); }
+.report__header-title { font-family: var(--font-title); font-size: 32px; color: var(--gold); letter-spacing: 6px; text-shadow: 0 0 30px var(--gold-glow); }
+.report__header-subtitle { font-size: 11px; color: var(--text-dim); letter-spacing: 4px; margin-top: 6px; text-transform: uppercase; }
+.report__header-no { font-size: 11px; color: var(--text-dim); margin-top: 10px; font-family: 'Courier New', monospace; }
+.report-section { background: var(--bg-card); border: 1px solid var(--border-gold); border-radius: var(--radius-lg); padding: 26px; margin-bottom: 16px; position: relative; overflow: hidden; backdrop-filter: blur(16px); box-shadow: 0 2px 20px rgba(0,0,0,0.2); animation: sectionReveal 0.6s backwards; }
+.report-section:nth-child(2) { animation-delay: 0.15s; }
+.report-section:nth-child(3) { animation-delay: 0.3s; }
+.report-section:nth-child(4) { animation-delay: 0.45s; }
+.report-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold-glow), transparent); }
+.report-section__title { font-family: var(--font-title); font-size: 20px; color: var(--gold); margin-bottom: 18px; display: flex; align-items: center; letter-spacing: 2px; }
+.report-section__icon { font-size: 20px; margin-right: 10px; }
+.first-impression__id { font-family: var(--font-title); font-size: 22px; color: var(--gold-light); margin-bottom: 10px; }
+.first-impression__text { font-size: 14px; line-height: 1.8; padding-left: 14px; border-left: 2px solid var(--gold); font-weight: 300; }
+.combat-style { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+.combat-style__tag { background: linear-gradient(135deg, var(--gold), var(--gold-dim)); color: var(--bg-deep); padding: 8px 20px; border-radius: 22px; font-size: 14px; font-weight: 700; letter-spacing: 1px; }
+.combat-style__desc { font-size: 13px; color: var(--text-secondary); }
+.radar-chart-container { width: 100%; max-width: 300px; margin: 0 auto 20px; }
+.dimension-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+.dimension-item { display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: rgba(255,255,255,0.02); border-radius: var(--radius-sm); border: 1px solid var(--border); }
+.dimension-item__name { font-size: 12px; color: var(--text-secondary); min-width: 36px; font-weight: 500; }
+.dimension-item__bar { flex: 1; height: 6px; background: rgba(255,255,255,0.04); border-radius: 3px; overflow: hidden; }
+.dimension-item__bar-fill { height: 100%; border-radius: 3px; transition: width 1.2s; }
+.dimension-item__score { font-size: 13px; font-weight: 700; color: var(--gold); min-width: 22px; text-align: right; }
+.combat-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.combat-tags__tag { background: rgba(92,224,216,0.08); border: 1px solid rgba(92,224,216,0.2); color: var(--cyan); padding: 5px 14px; border-radius: 20px; font-size: 12px; }
+.alien-profile { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.alien-profile__item { padding: 14px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: var(--radius-sm); }
+.alien-profile__item-label { font-size: 11px; color: var(--text-dim); margin-bottom: 6px; }
+.alien-profile__item-value { font-size: 15px; font-weight: 600; }
+.alien-profile__tags { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; padding-top: 8px; }
+.alien-profile__tag { background: rgba(212,168,83,0.08); border: 1px solid rgba(212,168,83,0.2); color: var(--gold); padding: 5px 14px; border-radius: 20px; font-size: 12px; }
+.deep-comment__text { font-size: 15px; line-height: 2.2; font-weight: 300; position: relative; padding-left: 16px; }
+.deep-comment__text::before { content: '\201C'; position: absolute; left: -4px; top: -8px; font-family: var(--font-title); font-size: 48px; color: var(--gold-glow); line-height: 1; }
+.prophecy { background: linear-gradient(135deg, rgba(212,168,83,0.06), rgba(92,224,216,0.04)); border: 1px solid rgba(212,168,83,0.2); border-radius: var(--radius-xl); padding: 28px; text-align: center; margin-bottom: 16px; position: relative; overflow: hidden; }
+.prophecy::before { content: '☯'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 120px; opacity: 0.02; animation: baguaSpin 60s linear infinite; }
+.prophecy__icon { font-size: 36px; margin-bottom: 14px; }
+.prophecy__text { font-family: var(--font-title); font-size: 20px; line-height: 2; color: var(--gold-light); text-shadow: 0 0 20px var(--gold-glow); position: relative; z-index: 1; }
+.share-section { text-align: center; padding: 28px 0; }
+.share-section__title { font-size: 13px; color: var(--text-secondary); margin-bottom: 18px; }
+.share-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+.share-btn { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 16px; cursor: pointer; transition: all 0.4s; text-align: center; }
+.share-btn:hover { border-color: var(--gold); transform: translateY(-4px); }
+.share-btn__icon { font-size: 32px; margin-bottom: 10px; display: block; }
+.share-btn__text { font-size: 13px; font-weight: 500; }
+.game-cta { margin-top: 28px; padding-top: 28px; border-top: 1px solid var(--border); }
+.game-cta__coming { font-size: 12px; color: var(--text-dim); margin-top: 18px; letter-spacing: 2px; animation: pulse 3s infinite; }
+
+/* Toast */
+.toast { position: fixed; bottom: 50px; left: 50%; transform: translateX(-50%) translateY(100px); background: rgba(16,16,32,0.95); border: 1px solid var(--gold); color: var(--gold-light); padding: 14px 28px; border-radius: var(--radius-lg); font-size: 14px; z-index: 100; opacity: 0; transition: all 0.4s; backdrop-filter: blur(20px); box-shadow: 0 4px 30px rgba(212,168,83,0.15); }
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+@media (max-width: 375px) {
+  .landing__title { font-size: 36px; letter-spacing: 6px; }
+  .fortune-card { padding: 28px 20px 24px; }
+  .fortune-card__id { font-size: 24px; }
+  .fortune-card__score-number { font-size: 48px; }
+  .report__header-title { font-size: 28px; }
+  .report-section { padding: 22px; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="particleCanvas"></canvas>
+<div class="texture-overlay"></div>
+<div class="glow-top"></div>
+<div class="bagua-watermark">☯</div>
+
+<div class="app-container">
+  <div class="top-bar" id="topBar" style="display:none;">
+    <div class="top-bar__logo">⚔️ 异人体检站</div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <div class="top-bar__badge">🌐 在线版</div>
+      <div class="top-bar__step" id="stepIndicator">STEP 0</div>
+    </div>
+  </div>
+  <div class="progress-bar" id="progressBar" style="display:none;">
+    <div class="progress-bar__fill" id="progressFill" style="width: 0%"></div>
+  </div>
+
+  <!-- STEP 0: Landing -->
+  <div class="scene active" id="sceneLanding">
+    <div class="landing">
+      <div class="landing__deco-line"></div>
+      <div class="landing__icon">⚔️</div>
+      <div class="landing__title">异人体检站</div>
+      <div class="landing__subtitle">COMBAT APTITUDE TEST · ONLINE</div>
+      <div class="landing__dialogue">
+        <p>我是<span class="highlight">王也</span>。</p>
+        <p>在你进入异人世界之前，</p>
+        <p>先让我看看你够不够格。</p>
+        <p><span class="highlight">报上名来。</span></p>
+      </div>
+      <div class="input-group">
+        <input type="text" class="input-group__input" id="inputId" placeholder="输入你的 ID / 网名 / 姓名" maxlength="50" autocomplete="off">
+      </div>
+      <button class="btn btn--primary" id="btnStart" onclick="startFortune()">开始体检 →</button>
+    </div>
+  </div>
+
+  <!-- STEP 1: Fortune -->
+  <div class="scene" id="sceneFortune">
+    <div id="fortuneLoading">
+      <div class="fortune-loading">
+        <div class="fortune-loading__spinner"></div>
+        <div class="fortune-loading__text">王也正在看你的名字…</div>
+      </div>
+    </div>
+    <div id="fortuneResult" style="display:none;">
+      <div class="fortune-card" id="fortuneCard">
+        <div class="fortune-card__header">
+          <div><div class="fortune-card__badge" id="fortuneBadge">王也批命</div></div>
+          <div class="fortune-card__element" id="fortuneElement">🔥</div>
+        </div>
+        <div class="fortune-card__id" id="fortuneId"></div>
+        <div class="fortune-card__tags" id="fortuneTags"></div>
+        <div class="fortune-card__text" id="fortuneText"><span class="cursor"></span></div>
+        <div class="fortune-card__stars">
+          <div class="star-group"><div class="star-group__label">异人潜质</div><div class="star-group__stars" id="starsAbnormal"></div></div>
+          <div class="star-group"><div class="star-group__label">异人直觉</div><div class="star-group__stars" id="starsCombat"></div></div>
+        </div>
+        <div class="fortune-card__score">
+          <div class="fortune-card__score-number" id="fortuneScore">0</div>
+          <div class="fortune-card__score-label">命数分</div>
+        </div>
+        <div class="wuxing-analysis" id="wuxingAnalysis" style="display:none;">
+          <div class="wuxing-analysis__title">☯ 五行拆字</div>
+          <div class="wuxing-chars" id="wuxingChars"></div>
+          <div class="wuxing-bar" id="wuxingBar"></div>
+          <div class="wuxing-legend" id="wuxingLegend"></div>
+          <div class="wuxing-relation" id="wuxingRelation"></div>
+        </div>
+      </div>
+      <div style="margin-top:24px;">
+        <button class="btn btn--primary" style="opacity:1;animation:none;" onclick="startChat()">🔍 开始灵魂拷问（3+1问）→</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: Chat -->
+  <div class="scene" id="sceneChat">
+    <div class="chat-container">
+      <div class="chat-round-indicator">灵魂拷问 · 第 <span id="chatRoundCurrent">1</span> / <span id="chatRoundTotal">4</span> 问</div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <div id="chatInputArea"></div>
+    </div>
+  </div>
+
+  <!-- STEP 3: Report -->
+  <div class="scene" id="sceneReport">
+    <div id="reportGenerating">
+      <div class="report-generating">
+        <div class="report-generating__icon">🔮</div>
+        <div class="report-generating__text">王也正在撰写你的体检报告…</div>
+        <div class="report-generating__narrative" id="reportNarrative">"让我仔细看看你这些回答…"</div>
+      </div>
+    </div>
+    <div id="reportContent" style="display:none;">
+      <div class="report">
+        <div class="report__header">
+          <div class="report__header-icon">⚔️</div>
+          <div class="report__header-title">异人体检报告</div>
+          <div class="report__header-subtitle">COMBAT APTITUDE REPORT · AI GENERATED</div>
+          <div class="report__header-no" id="reportNo"></div>
+        </div>
+        <div class="report-section">
+          <div class="report-section__title"><span class="report-section__icon">🏷️</span> 第一印象</div>
+          <div class="first-impression__id" id="reportFirstId"></div>
+          <div class="first-impression__text" id="reportFirstText"></div>
+        </div>
+        <div class="report-section">
+          <div class="report-section__title"><span class="report-section__icon">⚔️</span> 异人心性</div>
+          <div class="combat-style"><div class="combat-style__tag" id="reportCombatStyle"></div><div class="combat-style__desc" id="reportCombatStyleDesc"></div></div>
+          <div class="radar-chart-container"><canvas id="radarChart" width="300" height="300"></canvas></div>
+          <div class="dimension-list" id="dimensionList"></div>
+          <div class="combat-tags" id="combatTags"></div>
+        </div>
+        <div class="report-section">
+          <div class="report-section__title"><span class="report-section__icon">🧬</span> 异人人格</div>
+          <div class="alien-profile" id="alienProfile"></div>
+        </div>
+        <div class="report-section">
+          <div class="report-section__title"><span class="report-section__icon">📝</span> 王也深度评语</div>
+          <div class="deep-comment__text" id="deepComment"></div>
+        </div>
+        <div class="prophecy"><div class="prophecy__icon">🔮</div><div class="prophecy__text" id="prophecyText"></div></div>
+        <div class="share-section">
+          <div class="share-section__title">📱 分享给好友，看看TA是什么异人人格</div>
+          <div class="share-buttons">
+            <div class="share-btn" onclick="copyShareText()"><div class="share-btn__icon">📋</div><div class="share-btn__text">复制文案</div></div>
+            <div class="share-btn" onclick="restartTest()"><div class="share-btn__icon">🔄</div><div class="share-btn__text">再测一次</div></div>
+          </div>
+          <div class="game-cta">
+            <button class="btn btn--primary" style="opacity:1;animation:none;" onclick="showToast('🎮 已跳转预约页面！')">🎮 预约《一人之下》手游</button>
+            <div class="game-cta__coming" id="daoQuote">☯ 道可道，非常道</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Story Sheet -->
+<div class="story-overlay" id="storyOverlay" onclick="closeStorySheet()"></div>
+<div class="story-sheet" id="storySheet">
+  <div class="story-sheet__handle" onclick="closeStorySheet()"><div class="story-sheet__handle-bar"></div></div>
+  <div class="story-sheet__content" id="storySheetContent"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ==================== API 配置 ====================
+const API_BASE = window.location.origin;
+
+// ==================== App State ====================
+let state = {
+  sessionId: '',
+  userId: '',
+  fortuneData: null,
+  chatRounds: [],
+  currentRound: 0,
+  reportData: null,
+};
+
+// ==================== 工具函数 ====================
+function switchScene(id) {
+  document.querySelectorAll('.scene').forEach(s => { s.classList.remove('active', 'fade-in'); s.style.display = 'none'; });
+  const sc = document.getElementById(id);
+  sc.style.display = 'block';
+  requestAnimationFrame(() => sc.classList.add('active', 'fade-in'));
+}
+function updateProgress(step) {
+  const t = document.getElementById('topBar'), p = document.getElementById('progressBar');
+  if (step > 0) { t.style.display = 'flex'; p.style.display = 'block'; }
+  const names = ['STEP 0', 'STEP 1 · 批命', 'STEP 2 · 灵魂拷问', 'STEP 3 · 出报告'];
+  const pcts = [0, 20, 40, 100];
+  document.getElementById('stepIndicator').textContent = names[step] || '';
+  document.getElementById('progressFill').style.width = pcts[step] + '%';
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+function renderStars(n) { return '★'.repeat(n) + '☆'.repeat(5 - n); }
+function animateNumber(elId, from, to, dur) {
+  const el = document.getElementById(elId), st = performance.now();
+  function u(t) {
+    const p = Math.min((t - st) / dur, 1), e = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(from + (to - from) * e);
+    if (p < 1) requestAnimationFrame(u);
+  }
+  requestAnimationFrame(u);
+}
+function typeWriter(elId, text, speed, cb) {
+  const el = document.getElementById(elId); el.innerHTML = ''; let i = 0;
+  function t() {
+    if (i < text.length) { el.innerHTML = text.substring(0, i + 1) + '<span class="cursor"></span>'; i++; setTimeout(t, speed); }
+    else { el.innerHTML = text; if (cb) cb(); }
+  }
+  t();
+}
+function scrollToBottom() {
+  const c = document.getElementById('chatMessages');
+  setTimeout(() => c.scrollTop = c.scrollHeight, 50);
+}
+
+// ==================== STEP 0 → STEP 1: 批命 ====================
+async function startFortune() {
+  const input = document.getElementById('inputId').value.trim();
+  if (!input) { showToast('请先输入你的 ID'); return; }
+  state.userId = input;
+  updateProgress(1);
+  switchScene('sceneFortune');
+
+  try {
+    const res = await fetch(`${API_BASE}/api/fortune`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user_id: input }),
+    });
+    if (!res.ok) throw new Error(`API ${res.status}`);
+    const data = await res.json();
+    state.sessionId = data.session_id;
+    state.fortuneData = data;
+    showFortuneResult(data);
+  } catch (e) {
+    console.error('批命失败:', e);
+    showToast('⚠️ AI 连接失败，请稍后重试');
+    document.querySelector('.fortune-loading__text').textContent = '连接失败，请刷新重试…';
+  }
+}
+
+function showFortuneResult(data) {
+  document.getElementById('fortuneLoading').style.display = 'none';
+  document.getElementById('fortuneResult').style.display = 'block';
+
+  const ELEMENT_MAP = { '金': 'metal', '木': 'wood', '水': 'water', '火': 'fire', '土': 'earth' };
+  const card = document.getElementById('fortuneCard');
+  card.className = `fortune-card element-${ELEMENT_MAP[data.element] || 'fire'}`;
+
+  document.getElementById('fortuneElement').textContent = data.element_emoji;
+  document.getElementById('fortuneId').textContent = state.userId;
+  document.getElementById('fortuneBadge').textContent = `五行 · ${data.element}`;
+
+  // Tags
+  const tagsHtml = data.tags.map(t => `<span class="fortune-card__tag">${t}</span>`).join('');
+  document.getElementById('fortuneTags').innerHTML = tagsHtml;
+
+  // AI 评语 — 打字机效果
+  typeWriter('fortuneText', data.ai_comment, 40, () => {
+    document.getElementById('starsAbnormal').textContent = renderStars(data.abnormal_star);
+    document.getElementById('starsCombat').textContent = renderStars(data.combat_star);
+    animateNumber('fortuneScore', 0, data.fortune_score, 1000);
+
+    // 五行分析
+    if (data.wuxing_analysis) renderWuxing(data.wuxing_analysis);
+  });
+}
+
+function renderWuxing(analysis) {
+  const WUXING_SHENG = { '木': '火', '火': '土', '土': '金', '金': '水', '水': '木' };
+  const WUXING_KE = { '木': '土', '土': '水', '水': '火', '火': '金', '金': '木' };
+  document.getElementById('wuxingAnalysis').style.display = 'block';
+  const chars = analysis.char_results.slice(0, 8);
+  document.getElementById('wuxingChars').innerHTML = chars.map(r =>
+    `<div class="wuxing-char"><span class="wuxing-char__text">${r.char}</span><span class="wuxing-char__el el-${r.element}">${r.element}</span></div>`
+  ).join('');
+
+  const total = chars.length || 1;
+  const wc = analysis.wuxing_count;
+  document.getElementById('wuxingBar').innerHTML = ['金','木','水','火','土'].filter(e => wc[e] > 0)
+    .map(e => `<div class="wuxing-bar__segment el-${e}" style="width:${(wc[e]/total*100).toFixed(1)}%"></div>`).join('');
+  document.getElementById('wuxingLegend').innerHTML = ['金','木','水','火','土'].filter(e => wc[e] > 0)
+    .map(e => `<span class="wuxing-legend__item"><span class="wuxing-legend__dot el-${e}"></span>${e}·${wc[e]}</span>`).join('');
+
+  let rel = `主五行 <span class="wx-hl">${analysis.primary}</span>`;
+  if (analysis.secondary) {
+    rel += `，辅五行 <span class="wx-hl">${analysis.secondary}</span>`;
+    if (WUXING_SHENG[analysis.secondary] === analysis.primary || WUXING_SHENG[analysis.primary] === analysis.secondary) rel += `。<span class="wx-hl">五行相生</span>`;
+    else if (WUXING_KE[analysis.primary] === analysis.secondary || WUXING_KE[analysis.secondary] === analysis.primary) rel += `。<span class="wx-hl">五行相克</span>`;
+  }
+  rel += `。平衡度 <span class="wx-hl">${analysis.balance}%</span>`;
+  document.getElementById('wuxingRelation').innerHTML = `<div class="wuxing-relation__text">${rel}</div>`;
+}
+
+// ==================== STEP 1 → STEP 2: 对话 ====================
+async function startChat() {
+  updateProgress(2);
+  switchScene('sceneChat');
+
+  // 获取对话轮次配置
+  try {
+    const res = await fetch(`${API_BASE}/api/chat/rounds`);
+    const data = await res.json();
+    state.chatRounds = data.rounds;
+    document.getElementById('chatRoundTotal').textContent = data.total_rounds;
+    setTimeout(() => showChatRound(0), 500);
+  } catch (e) {
+    console.error('获取对话配置失败:', e);
+    showToast('⚠️ 网络错误');
+  }
+}
+
+function showChatRound(idx) {
+  if (idx >= state.chatRounds.length) {
+    // 对话结束 → 过渡动画后进入报告
+    document.getElementById('chatInputArea').innerHTML = '';
+    const c = document.getElementById('chatMessages');
+    const d = document.createElement('div');
+    d.className = 'message message--ai';
+    d.innerHTML = `<div class="message--ai__avatar">☯</div><div class="message--ai__bubble" style="color:var(--gold);font-weight:500;">好了，体检结束。让我看看你的报告……</div>`;
+    c.appendChild(d);
+    scrollToBottom();
+    setTimeout(() => startReport(), 2000);
+    return;
+  }
+  state.currentRound = idx;
+  const round = state.chatRounds[idx];
+  document.getElementById('chatRoundCurrent').textContent = idx + 1;
+
+  addAiMessage(round.ai_question, () => showOptions(round, idx), idx);
+  document.getElementById('progressFill').style.width = (40 + ((idx + 1) / state.chatRounds.length) * 40) + '%';
+}
+
+function addAiMessage(text, cb, roundIdx) {
+  const c = document.getElementById('chatMessages');
+  const d = document.createElement('div');
+  d.className = 'message message--ai';
+  d.innerHTML = `<div class="message--ai__avatar">☯</div><div class="message--ai__bubble"><div class="typing-indicator"><span></span><span></span><span></span></div></div>`;
+  c.appendChild(d);
+  scrollToBottom();
+
+  setTimeout(() => {
+    const b = d.querySelector('.message--ai__bubble');
+    b.innerHTML = ''; let i = 0;
+    function t() {
+      if (i < text.length) { b.innerHTML = text.substring(0, i + 1) + '<span class="cursor"></span>'; i++; scrollToBottom(); setTimeout(t, 30); }
+      else {
+        b.innerHTML = text;
+        if (roundIdx !== undefined && state.chatRounds[roundIdx]?.story_context) {
+          const hint = document.createElement('button');
+          hint.className = 'story-hint';
+          hint.innerHTML = `<span class="story-hint__text">了解这个故事</span><span>›</span>`;
+          hint.onclick = (e) => { e.stopPropagation(); openStorySheet(roundIdx); };
+          b.appendChild(hint);
+        }
+        if (cb) cb();
+      }
+    }
+    t();
+  }, 800);
+}
+
+function addAiStreamMessage(cb) {
+  const c = document.getElementById('chatMessages');
+  const d = document.createElement('div');
+  d.className = 'message message--ai';
+  d.innerHTML = `<div class="message--ai__avatar">☯</div><div class="message--ai__bubble"><div class="typing-indicator"><span></span><span></span><span></span></div></div>`;
+  c.appendChild(d);
+  scrollToBottom();
+  const b = d.querySelector('.message--ai__bubble');
+  if (cb) cb(b);
+  return b;
+}
+
+function addUserMessage(text) {
+  const c = document.getElementById('chatMessages');
+  const d = document.createElement('div');
+  d.className = 'message message--user';
+  d.innerHTML = `<div class="message--user__bubble">${text}</div>`;
+  c.appendChild(d);
+  scrollToBottom();
+}
+
+function showOptions(round, idx) {
+  const area = document.getElementById('chatInputArea');
+  let html = '<div class="options-container">';
+  if (round.options?.length > 0) {
+    round.options.forEach(opt => {
+      html += `<div class="option-card" onclick="selectOption(${idx},'${opt.id}','${opt.text.replace(/'/g, "\\'")}')"><div class="option-card__emoji">${opt.emoji}</div><div class="option-card__text">${opt.text}</div><div class="option-card__id">${opt.id}</div></div>`;
+    });
+  }
+  if (round.has_free_input) {
+    html += `<div class="free-input"><input type="text" class="free-input__input" id="freeInput" placeholder="${round.is_final ? '三个字，说吧' : '或者你自己说…'}" maxlength="${round.is_final ? 10 : 200}" onkeypress="if(event.key==='Enter')submitFree(${idx})"><button class="free-input__btn" onclick="submitFree(${idx})">发送</button></div>`;
+  }
+  html += '</div>';
+  area.innerHTML = html;
+  scrollToBottom();
+}
+
+async function selectOption(idx, optId, optText) {
+  document.getElementById('chatInputArea').innerHTML = '';
+  addUserMessage(optText);
+  await streamReply(idx, optId);
+}
+
+async function submitFree(idx) {
+  const inp = document.getElementById('freeInput');
+  const text = inp.value.trim();
+  if (!text) return;
+  document.getElementById('chatInputArea').innerHTML = '';
+  addUserMessage(text);
+  await streamReply(idx, text);
+}
+
+async function streamReply(roundIdx, choice) {
+  const bubble = addAiStreamMessage();
+
+  try {
+    const res = await fetch(`${API_BASE}/api/chat/stream`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ session_id: state.sessionId, round_index: roundIdx, choice: choice }),
+    });
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let fullText = '';
+    let buffer = '';
+    let firstToken = true;
+    let isDone = false;
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n');
+      buffer = lines.pop() || '';
+
+      for (const line of lines) {
+        if (line.startsWith('data:')) {
+          try {
+            const data = JSON.parse(line.slice(5).trim());
+            if (data.text) {
+              if (firstToken) { bubble.innerHTML = ''; firstToken = false; }
+              fullText += data.text;
+              bubble.innerHTML = fullText + '<span class="cursor"></span>';
+              scrollToBottom();
+            }
+            if (data.full_text !== undefined) {
+              fullText = data.full_text;
+              bubble.textContent = fullText;
+              isDone = true;
+            }
+          } catch (e) { /* SSE parse error, skip */ }
+        }
+      }
+    }
+
+    // 清除光标
+    bubble.textContent = fullText;
+    // 对话结束，进入下一轮
+    setTimeout(() => showChatRound(roundIdx + 1), 800);
+
+  } catch (e) {
+    console.error('流式对话失败:', e);
+    bubble.textContent = '（AI 思考中断，请重试）';
+    // fallback: 非流式
+    try {
+      const res = await fetch(`${API_BASE}/api/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ session_id: state.sessionId, round_index: roundIdx, choice: choice }),
+      });
+      const data = await res.json();
+      bubble.textContent = data.ai_reply;
+      setTimeout(() => showChatRound(roundIdx + 1), 800);
+    } catch (e2) {
+      bubble.textContent = '网络错误，请刷新重试。';
+    }
+  }
+}
+
+// ==================== STEP 2 → STEP 3: 报告 ====================
+async function startReport() {
+  updateProgress(3);
+  switchScene('sceneReport');
+
+  const narratives = ["「让我仔细看看你这些回答…」", "「嗯……有意思。」", "「异人心性快出来了……你这六维有点东西。」", "「报告写好了。来看看吧。」"];
+  let ni = 0;
+  const ne = document.getElementById('reportNarrative');
+  const timer = setInterval(() => { ni++; if (ni < narratives.length) { ne.style.opacity = 0; setTimeout(() => { ne.textContent = narratives[ni]; ne.style.opacity = 1; }, 300); } }, 1500);
+
+  try {
+    const res = await fetch(`${API_BASE}/api/report`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ session_id: state.sessionId }),
+    });
+    if (!res.ok) throw new Error(`API ${res.status}`);
+    const data = await res.json();
+    state.reportData = data;
+    clearInterval(timer);
+    // 至少展示 3 秒等待动画
+    setTimeout(() => showReport(data), 1000);
+  } catch (e) {
+    console.error('报告生成失败:', e);
+    clearInterval(timer);
+    ne.textContent = '「出了点问题……刷新再来。」';
+  }
+}
+
+function showReport(rpt) {
+  document.getElementById('reportGenerating').style.display = 'none';
+  document.getElementById('reportContent').style.display = 'block';
+
+  document.getElementById('reportNo').textContent = `No. ${rpt.report_id} · ${new Date().toLocaleDateString('zh-CN').replace(/\//g, '.')}`;
+  document.getElementById('reportFirstId').textContent = `ID：${rpt.user_name}`;
+  document.getElementById('reportFirstText').textContent = rpt.first_impression;
+  document.getElementById('reportCombatStyle').textContent = rpt.fighting_profile.style;
+  document.getElementById('reportCombatStyleDesc').textContent = rpt.fighting_profile.style_desc;
+
+  // Radar
+  renderRadarChart(rpt.fighting_profile.dimensions);
+  renderDimensions(rpt.fighting_profile.dimensions);
+
+  document.getElementById('combatTags').innerHTML = rpt.fighting_profile.tags.map(t => `<span class="combat-tags__tag">${t}</span>`).join('');
+
+  const ap = rpt.alien_personality;
+  document.getElementById('alienProfile').innerHTML = `
+    <div class="alien-profile__item"><div class="alien-profile__item-label">炁体类型</div><div class="alien-profile__item-value">${ap.ability}</div></div>
+    <div class="alien-profile__item"><div class="alien-profile__item-label">门派归属</div><div class="alien-profile__item-value">${ap.faction}</div></div>
+    <div class="alien-profile__item" style="grid-column: 1 / -1;">
+      <div class="alien-profile__item-label">🎓 最适师父 · ${ap.master}</div>
+      <div class="alien-profile__item-value" style="font-size:13px; font-weight:300; color:var(--text-secondary); line-height:1.7; margin-top:4px;">${ap.master_reason || ''}</div>
+    </div>
+    <div class="alien-profile__item" style="grid-column: 1 / -1;">
+      <div class="alien-profile__item-label">🤝 最佳搭档 · ${ap.partner}</div>
+      <div class="alien-profile__item-value" style="font-size:13px; font-weight:300; color:var(--text-secondary); line-height:1.7; margin-top:4px;">${ap.partner_reason || ''}</div>
+    </div>
+    <div class="alien-profile__item" style="grid-column: 1 / -1;">
+      <div class="alien-profile__item-label">⚡ 天敌 · ${ap.enemy}</div>
+      <div class="alien-profile__item-value" style="font-size:13px; font-weight:300; color:var(--text-secondary); line-height:1.7; margin-top:4px;">${ap.enemy_reason || ''}</div>
+    </div>
+    <div class="alien-profile__tags">${ap.personality_tags.map(t => `<span class="alien-profile__tag">${t}</span>`).join('')}</div>`;
+
+  document.getElementById('deepComment').innerHTML = rpt.deep_comment.replace(/\n/g, '<br>');
+  document.getElementById('prophecyText').textContent = rpt.destiny_prophecy;
+}
+
+function renderRadarChart(dims) {
+  const ctx = document.getElementById('radarChart').getContext('2d');
+  const existing = Chart.getChart(ctx);
+  if (existing) existing.destroy();
+  new Chart(ctx, {
+    type: 'radar',
+    data: { labels: dims.map(d => d.name), datasets: [{ label: '异人心性', data: dims.map(d => d.score), fill: true, backgroundColor: 'rgba(212,168,83,0.15)', borderColor: 'rgba(212,168,83,0.8)', pointBackgroundColor: 'rgba(212,168,83,1)', pointRadius: 4, borderWidth: 2 }] },
+    options: { responsive: true, maintainAspectRatio: true, scales: { r: { angleLines: { color: 'rgba(255,255,255,0.08)' }, grid: { color: 'rgba(255,255,255,0.06)' }, pointLabels: { color: '#8888a0', font: { size: 12 } }, ticks: { display: false }, suggestedMin: 0, suggestedMax: 100 } }, plugins: { legend: { display: false } }, animation: { duration: 1500, easing: 'easeOutQuart' } }
+  });
+}
+
+function renderDimensions(dims) {
+  const c = document.getElementById('dimensionList'); c.innerHTML = '';
+  dims.forEach((d, i) => {
+    const div = document.createElement('div');
+    div.className = 'dimension-item';
+    div.innerHTML = `<div class="dimension-item__name">${d.name}</div><div class="dimension-item__bar"><div class="dimension-item__bar-fill" style="width:0%;background:${d.color}"></div></div><div class="dimension-item__score">${d.score}</div>`;
+    c.appendChild(div);
+    setTimeout(() => div.querySelector('.dimension-item__bar-fill').style.width = `${d.score}%`, 200 + i * 150);
+  });
+}
+
+// ==================== Story Sheet ====================
+function openStorySheet(idx) {
+  const round = state.chatRounds[idx];
+  if (!round?.story_context) return;
+  const ctx = round.story_context;
+  document.getElementById('storySheetContent').innerHTML = `
+    <div class="story-sheet__badge">📖 故事背景</div>
+    <div class="story-sheet__title">${ctx.title}</div>
+    <div class="story-sheet__section-label">关键人物</div>
+    <div class="story-sheet__characters">${ctx.characters.map(c => `<div class="story-char"><span class="story-char__name">${c.name}</span><span class="story-char__desc">${c.desc}</span></div>`).join('')}</div>
+    <div class="story-sheet__section-label">故事经过</div>
+    <div class="story-sheet__story">${ctx.story}</div>
+    <div class="story-sheet__crux"><div class="story-sheet__crux-label">⚡ 核心矛盾</div><div class="story-sheet__crux-text">${ctx.crux}</div></div>`;
+  document.getElementById('storyOverlay').classList.add('visible');
+  document.getElementById('storySheet').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeStorySheet() {
+  document.getElementById('storyOverlay').classList.remove('visible');
+  document.getElementById('storySheet').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function restartTest() {
+  state = { sessionId: '', userId: '', fortuneData: null, chatRounds: [], currentRound: 0, reportData: null };
+  document.getElementById('inputId').value = '';
+  document.getElementById('topBar').style.display = 'none';
+  document.getElementById('progressBar').style.display = 'none';
+  document.getElementById('progressFill').style.width = '0%';
+  document.getElementById('fortuneLoading').style.display = 'block';
+  document.getElementById('fortuneResult').style.display = 'none';
+  document.getElementById('wuxingAnalysis').style.display = 'none';
+  document.getElementById('reportGenerating').style.display = 'block';
+  document.getElementById('reportContent').style.display = 'none';
+  document.getElementById('chatMessages').innerHTML = '';
+  document.getElementById('chatInputArea').innerHTML = '';
+  switchScene('sceneLanding');
+  showToast('🔄 准备好再来一次了！');
+}
+
+function copyShareText() {
+  if (!state.reportData) return;
+  const rpt = state.reportData;
+  const text = `⚔️ 异人体检站 · AI 体检报告\n\n我是「${rpt.user_name}」\n异人心性：${rpt.fighting_profile.style}\n${rpt.share_summary}\n\n🔮 ${rpt.destiny_prophecy}\n\n👉 来测测你是什么异人人格`;
+  navigator.clipboard.writeText(text).then(() => showToast('📋 分享文案已复制！')).catch(() => showToast('⚠️ 复制失败，请长按手动复制'));
+}
+
+// ==================== Init ====================
+document.getElementById('inputId').addEventListener('keypress', (e) => { if (e.key === 'Enter') startFortune(); });
+
+// Particle System
+(function() {
+  // 道家文案池（道家名言 + 王也人设解读）
+  const daoQuotes = [
+    '☯「道可道，非常道」—— 王也从不解释自己为什么摸鱼，懂的人自然懂。',
+    '☯「上善若水，水善利万物而不争」—— 王也帮了你，但他会说"顺手的"。',
+    '☯「知者不言，言者不知」—— 王也看穿了一切，但他选择躺在摇椅上喝茶。',
+    '☯「天地不仁，以万物为刍狗」—— 王也说："规则就是规则，但我可以选择不玩。"',
+    '☯「大巧若拙，大辩若讷」—— 别被王也那副懒样骗了，他比谁都精。',
+    '☯「千里之行，始于足下」—— 王也：千里之行？能打车不？',
+    '☯「知人者智，自知者明」—— 王也最了解自己：有实力，但就是不想动。',
+    '☯「为无为，则无不治」—— 王也的人生哲学：不管闲事，闲事自己就解决了。',
+    '☯「致虚极，守静笃」—— 王也打坐不是修炼，是真的在睡觉。',
+    '☯「柔弱胜刚强」—— 王也从不硬碰硬，但你发现他赢了的时候，仗已经打完了。',
+    '☯「功成身退，天之道也」—— 王也：事办完了？那我先走了，别叫我。',
+    '☯「人法地，地法天，天法道，道法自然」—— 王也：自然点，别卷了。',
+    '☯「祸兮福之所倚，福兮祸之所伏」—— 王也看透了福祸，所以什么都不慌。',
+    '☯「飘风不终朝，骤雨不终日」—— 王也：别急，再大的事也会过去的。',
+    '☯「大道至简」—— 王也解决问题的方式：能一招搞定，绝不出第二招。',
+    '☯「抱朴守真」—— 王也活得最通透：不装，不卷，不解释。',
+  ];
+  const quoteEl = document.getElementById('daoQuote');
+  if (quoteEl) {
+    quoteEl.textContent = daoQuotes[Math.floor(Math.random() * daoQuotes.length)];
+  }
+})();
+
+// Particle System
+(function() {
+  const canvas = document.getElementById('particleCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+  class P {
+    constructor() { this.reset(); }
+    reset() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.size = Math.random() * 2 + 0.5; this.sx = (Math.random() - 0.5) * 0.3; this.sy = -Math.random() * 0.4 - 0.1; this.o = Math.random() * 0.4 + 0.1; this.fs = Math.random() * 0.003 + 0.001; this.g = Math.random() > 0.3; this.ph = Math.random() * Math.PI * 2; }
+    update() { this.x += this.sx + Math.sin(this.ph) * 0.15; this.y += this.sy; this.ph += 0.01; this.o -= this.fs; if (this.o <= 0 || this.y < -10) { this.reset(); this.y = canvas.height + 10; this.o = Math.random() * 0.4 + 0.1; } }
+    draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fillStyle = this.g ? `rgba(212,168,83,${this.o})` : `rgba(92,224,216,${this.o})`; ctx.shadowColor = this.g ? 'rgba(212,168,83,0.3)' : 'rgba(92,224,216,0.3)'; ctx.shadowBlur = 8; ctx.fill(); ctx.shadowBlur = 0; }
+  }
+  for (let i = 0; i < 35; i++) particles.push(new P());
+  function anim() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(anim); }
+  anim();
+})();
+</script>
+</body>
+</html>

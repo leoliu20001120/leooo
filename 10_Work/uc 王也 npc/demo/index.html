@@ -2011,10 +2011,10 @@ body {
           <div class="first-impression__text" id="reportFirstText"></div>
         </div>
 
-        <!-- 格斗画像 -->
+        <!-- 异人心性 -->
         <div class="report-section">
           <div class="report-section__title">
-            <span class="report-section__icon">⚔️</span> 格斗画像
+            <span class="report-section__icon">⚔️</span> 异人心性
           </div>
           <div class="combat-style">
             <div class="combat-style__tag" id="reportCombatStyle"></div>
@@ -2051,7 +2051,7 @@ body {
 
         <!-- 分享 & CTA -->
         <div class="share-section">
-          <div class="share-section__title">📱 分享给好友，看看TA是什么格斗人格</div>
+          <div class="share-section__title">📱 分享给好友，看看TA是什么异人人格</div>
           <div class="share-buttons">
             <div class="share-btn" onclick="showToast('📤 已复制分享链接！')">
               <div class="share-btn__icon">💬</div>
@@ -2422,9 +2422,9 @@ const CHAT_ROUNDS = [
     ],
     hasFreeInput: true,
     responses: {
-      'A': "父爱？呵。老廖确实是个好人。可你想过没有——他替陈朵做了所有决定，跟药仙会的囚禁有什么区别？只不过笼子更漂亮罢了。但话说回来，换了你在那个位置，你能做得更好吗？",
-      'B': "看得挺透。保护变成控制，善意变成枷锁——这世上多少悲剧都是这么来的。不过你要是老廖，眼看着一个孩子随时可能被当工具回收，你真能放手让她自己选？",
-      'free': "有自己的看法，不随大流。不过这个问题没有标准答案——老廖用命给了她最后一次选择权，这已经比大多数人强了。"
+      'A': "你选了保护——说明你心里有一份柔软。老廖确实是个好人，他用尽一切想给陈朵一个「正常人的生活」。不过你可以想想，保护和尊重之间，怎么才能两全？这也是老廖一辈子没想明白的事。",
+      'B': "看得挺透的。能分清保护和控制的边界，这份清醒很难得。善意变成枷锁，世上多少遗憾就是这么来的。老廖如果早想明白这一点，也许结局会不一样。",
+      'free': "有自己的看法，不随大流——这就是你的态度。老廖用命给了陈朵最后一次选择权，这份父爱很重。每个人看到的面不一样，你看到的那一面也很真实。"
     }
   },
   {
@@ -2446,9 +2446,9 @@ const CHAT_ROUNDS = [
     ],
     hasFreeInput: true,
     responses: {
-      'A': "尊重？也许吧。陈朵这辈子从没自己做过主，张楚岚给了她知情权和选择权。她死前说「开心」——因为这是她第一次掌控自己的命运。但你要想清楚：「尊重」和「放弃拯救」之间，界限在哪儿？",
-      'B': "你看到了另一面。张楚岚确实用陈朵的死团结了临时工、保护了宝宝。但你想过没有——如果他不说，陈朵就只有「回去做工具」这一条路。给她选择的权利，和利用她的死……这两件事，真的不能同时存在吗？",
-      'free': "你的角度跟大多数人不一样。陈朵这件事，是全作最沉重的选择题。不管怎么答，都会被另一半人骂。但能认真想这个问题的人，至少不是冷漠的。"
+      'A': "你看到的是尊重——这说明你在乎一个人的尊严。陈朵这辈子从没自己做过主，张楚岚给了她知情权和选择权，她死前说「开心」——这是她第一次掌控自己的命运。你能看到这一层，说明你懂得什么叫真正的善意。",
+      'B': "你看到了另一面——这份洞察力不是谁都有的。张楚岚确实从陈朵的死中得到了好处。不过你也可以想想：如果尊重和算计同时存在呢？人做的每个决定都有多层动机，能看到复杂性本身就是一种能力。",
+      'free': "你的角度跟大多数人不一样——这说明你在认真思考。陈朵这件事是全作最沉重的选择题，没有标准答案，但你愿意花心思想清楚，这份认真本身就很珍贵。"
     }
   },
   {
@@ -2470,9 +2470,9 @@ const CHAT_ROUNDS = [
     ],
     hasFreeInput: true,
     responses: {
-      'A': "能理解……但理解不等于认同。吕慈目睹过族人惨死，他的恐惧是真的。可端木瑛是个救人的大夫，被他关了一辈子，从医者仁心变成了复仇恶魔。你理解吕慈的苦衷，那端木瑛的苦衷呢？",
-      'B': "你倒是立场坚定。但我问你——如果你是吕慈，你的家人一个接一个死在你面前，你真能放走那个唯一能保护他们的人？别急着回答，这个问题比你想的重。",
-      'free': "吕家这笔账，算不清的。守护与掠夺之间，往往只差一个「为了谁」。吕慈以为自己是守护者，端木瑛觉得自己是囚徒——他们都没说错。"
+      'A': "能理解他的苦衷——说明你看事情不只看对错，还看处境。吕慈目睹过族人惨死，他的恐惧和守护都是真实的。不过你也可以想想端木瑛——一个救人的大夫，被逼成了复仇恶魔。这种共情的广度，也许能帮你看到更完整的图景。",
+      'B': "有底线的人——守护重要，但不该以另一个人的一生为代价。你能看清这个边界，比吕慈更早想明白了。不过也不妨想想：吕慈看着族人一个个倒下时的恐惧，也是真实的。你的立场和他的苦衷，其实可以共存。",
+      'free': "吕家这笔账，确实不简单。你没有急着站队——这说明你看到了问题的复杂性。守护和代价之间，吕慈和端木瑛都有自己的真实。能容纳两种真实的人，走得更远。"
     }
   },
   {
@@ -2494,9 +2494,9 @@ const CHAT_ROUNDS = [
     ],
     hasFreeInput: true,
     responses: {
-      'A': "必要之恶？这四个字说起来轻巧。老天师确实镇住了场子，但异人界的规则从此变成了「谁拳头大谁说了算」。你今天认可他是因为他用对了方向，万一下一个最强的人方向错了呢？",
-      'B': "理想主义者啊。在异人界没有法律、没有法庭的情况下，你告诉我——除了绝对力量，还有什么能阻止更大的灾难？光喊「不认可」没用，你得给出替代方案。",
-      'free': "老天师这事儿，武当内部也吵了几十年。力量、正义、秩序——这三个词凑在一起，就没有简单的答案。但至少你在想这个问题，而不是无脑站队。"
+      'A': "你看到了混乱中需要有人站出来——这份务实很清醒。老天师确实镇住了场子，阻止了更大的灾难。不过你也可以接着想：当力量定义了秩序，怎么保证这份力量一直用在对的方向？想清楚这个，你就比大多数人更深一层了。",
+      'B': "你在乎规则和公平——这份坚持很珍贵。在异人界没有法律的情况下，质疑「以力量定义正义」本身就需要勇气。不过也可以想想：在没有更好方案之前，老天师的选择是不是当时唯一能止血的办法？思考替代方案，这条路更难，但也更值得走。",
+      'free': "老天师这事儿，武当内部也吵了几十年——你能独立思考而不是急着站队，这就很难得。力量、正义、秩序，这三个词凑在一起确实没有简单的答案。但你愿意去想，就已经比大多数人走得更远了。"
     }
   },
   {
@@ -2518,9 +2518,9 @@ const CHAT_ROUNDS = [
     ],
     hasFreeInput: true,
     responses: {
-      'A': "好一个「修行人的本分」。但你想过没有——他们背后有师门、有同门，他们走了，留下的人怎么办？追求大道和不顾一切，有时候只是同一件事的两种说法。",
-      'B': "自私？也许吧。但换个角度想——如果他们找到了异人的终极真理，全天下的异人都会受益。他们赌的不是自己的命，是所有人的未来。你说他们自私，那那些阻止他们的人就不自私？",
-      'free': "三十六贼的故事，本质上是个「理想主义者的代价」。他们没有做错，但也没有做对。世间事，哪有那么多对错分明。"
+      'A': "追求大道——这份心气儿难得。能理解三十六贼的选择，说明你心里有一股不甘平庸的劲儿。不过走这条路的人，总得想清楚自己愿意付出什么代价。想清楚了，就值得。他们身后的师门和同门，也是代价的一部分。",
+      'B': "在乎身边人——这不叫目光短浅，叫有担当。不是每个人都得抛下一切去追真理，守住眼前人也是一种道。不过你也可以想想：如果他们真找到了终极真理，所有异人都会受益。理想和责任之间的张力，本身就是修行。",
+      'free': "三十六贼的故事，你没有急着下结论——这说明你看到了其中的复杂。理想主义者的追求和他们造成的伤害，确实很难用简单的对错来衡量。能看到灰色地带的人，通常也活得更通透。"
     }
   },
   {
@@ -2542,9 +2542,9 @@ const CHAT_ROUNDS = [
     ],
     hasFreeInput: true,
     responses: {
-      'A': "活着？呵。张楚岚确实活下来了，也保护了宝宝。但你有没有想过——他每一次「不择手段」，都在消耗身边人对他的信任。工具人用多了，终有一天自己也会变成工具。",
-      'B': "「手段污染目的」——说得好。但你回头看看张楚岚的处境：爷爷的秘密、宝宝的身世、全性的追杀……你给他一条光明正大还能活命的路出来？别站着说话不腰疼。",
-      'free': "张楚岚这个人，最可怕的不是他的手段，是他清楚地知道自己在做什么——然后还是做了。你对他的看法，暴露了你自己的底线在哪里。"
+      'A': "你看到了生存的分量——在那种处境下，活着本身就需要勇气。张楚岚确实保护了在乎的人。不过你也可以想想：每一次「不择手段」都在消耗信任，长远来看，怎么在活着和守住底线之间找到平衡？这个问题值得一直想。",
+      'B': "守住底线——这份坚持很有力量。「手段污染目的」说得很到位。不过张楚岚的处境确实很难：爷爷的秘密、宝宝的身世、全性的追杀……在那种绝境里守住原则更需要智慧。你的坚持加上更多的方法，也许就是最好的答案。",
+      'free': "你对张楚岚有自己的判断——这说明你在认真思考底线这件事。他最特别的地方是清楚知道自己在做什么，然后承担后果。你怎么看他，其实也映照出你自己看重什么。这种自我认知，挺好。"
     }
   },
   {
@@ -2564,9 +2564,9 @@ const CHAT_ROUNDS = [
 // 最终轮的动态回复
 function generateFinalResponse(selfEval, userChoices) {
   const templates = [
-    `"${selfEval}"？七道选择题，你每一道都在权衡代价。现在告诉我你最愿意为"${selfEval}"付出代价——说明你想明白了。这世上没有正确答案，只有你愿意为之承受的东西。记住这三个字，它会在你每一次面对选择的时候提醒你。`,
-    `"${selfEval}"——陈朵为选择付出了生命，三十六贼为真理付出了名声，老天师为秩序付出了半生骂名。你说你愿意为"${selfEval}"付出代价？行。那等代价真的来了，别后悔就行。`,
-    `"${selfEval}"。我问了你七个没有标准答案的问题，你都认真答了。这说明你不是那种逃避选择的人。在一人之下的世界里，敢选的人不一定活得好，但至少活得明白。你这三个字，我记下了。`
+    `"${selfEval}"？七道选择题，你每一道都在认真权衡。现在告诉我你最愿意为"${selfEval}"付出代价——说明你想明白了。这世上没有正确答案，只有你真正在乎的东西。记住这三个字，它会在你每一次犹豫的时候给你力量。`,
+    `"${selfEval}"——陈朵为选择付出了生命，三十六贼为真理付出了名声，老天师为秩序付出了半生争议。你说你愿意为"${selfEval}"付出代价？好。这份笃定本身就很珍贵。等代价真的来了，你已经准备好了。`,
+    `"${selfEval}"。我问了你七个没有标准答案的问题，你都认真答了。这说明你不是那种逃避选择的人。在一人之下的世界里，敢选的人不一定活得最轻松，但一定活得最明白。你这三个字，我记下了。`
   ];
   return templates[Math.abs(selfEval.length) % templates.length];
 }
@@ -2587,26 +2587,29 @@ function generateReport(inputId, fortuneData, userChoices) {
         style: style.name,
         style_desc: style.desc,
         dimensions: [
-          { name: '攻击性', score: dims.attack, label: dims.attack > 70 ? '重拳出击' : '内敛型', unlocked: true, color: '#e05c5c' },
-          { name: '防御力', score: dims.defense, label: dims.defense > 70 ? '铜墙铁壁' : '纸糊型', unlocked: true, color: '#5c8ae0' },
-          { name: '反应速', score: dims.reaction, label: dims.reaction > 70 ? '闪电反应' : '慢半拍', unlocked: true, color: '#5ce07a' },
-          { name: '读招力', score: dims.read, label: dims.read > 70 ? '擂台诸葛' : '凭直觉', unlocked: true, color: '#d4a853' },
-          { name: '抗压值', score: dims.pressure, label: dims.pressure > 70 ? '不动如山' : '心态波动', unlocked: true, color: '#c47a4a' },
-          { name: '摸鱼值', score: dims.slack, label: dims.slack > 70 ? '道家无为' : '勤奋苦修', unlocked: true, color: '#5ce0d8' },
+          { name: '锋芒', score: dims.attack, label: dims.attack > 70 ? '正义感强，不吐不快' : '内敛含蓄，蓄势待发', unlocked: true, color: '#e05c5c' },
+          { name: '守护', score: dims.defense, label: dims.defense > 70 ? '重情重义，护短到底' : '轻装上阵，独行侠客', unlocked: true, color: '#5c8ae0' },
+          { name: '洞察', score: dims.reaction, label: dims.reaction > 70 ? '心思敏锐，看穿表象' : '大智若愚，后知后觉', unlocked: true, color: '#5ce07a' },
+          { name: '深谋', score: dims.read, label: dims.read > 70 ? '深思熟虑，兼顾两面' : '跟着感觉走', unlocked: true, color: '#d4a853' },
+          { name: '定力', score: dims.pressure, label: dims.pressure > 70 ? '心有定见，不动如山' : '感性敏锐，随机应变', unlocked: true, color: '#c47a4a' },
+          { name: '超然', score: dims.slack, label: dims.slack > 70 ? '看透不说透，道家无为' : '入世勤勉，脚踏实地', unlocked: true, color: '#5ce0d8' },
         ],
         tags: style.tags
       },
       alien_personality: {
         faction: style.faction,
         master: style.master,
+        masterReason: style.masterReason,
         ability: style.ability,
         partner: style.partner,
+        partnerReason: style.partnerReason,
         enemy: style.enemy,
+        enemyReason: style.enemyReason,
         confidence: 'confirmed',
         personality_tags: style.personalityTags
       },
       deep_comment: generateDeepComment(inputId, fortuneData, userChoices, style),
-      destiny_prophecy: generateProphecy(style),
+      destiny_prophecy: generateProphecy(style, userChoices, appState.finalAnswer),
       share_summary: `王也说我骨子里藏着${style.ability}，你也来测测？`,
       completion_rate: 100
     }
@@ -2614,26 +2617,26 @@ function generateReport(inputId, fortuneData, userChoices) {
 }
 
 function calculateDimensions(choices) {
-  // 默认值
+  // 六维心性：锋芒(attack) 守护(defense) 洞察(reaction) 深谋(read) 定力(pressure) 超然(slack)
   let attack = 60, defense = 60, reaction = 60, read = 60, pressure = 60, slack = 45;
   
   choices.forEach((c, i) => {
     if (c === 'A') {
       // A 选项整体偏向「务实/理解/结果导向」
-      if (i === 0) { defense += 12; pressure += 8; }    // Q1 理解老廖=重感情+抗压
-      if (i === 1) { read += 10; pressure += 10; }      // Q2 尊重选择=洞察力+承受力
-      if (i === 2) { defense += 10; read += 8; }        // Q3 理解吕慈=大局观+防御
-      if (i === 3) { attack += 12; pressure += 8; }     // Q4 认可老天师=果断+力量
-      if (i === 4) { read += 12; slack += 8; }          // Q5 追求大道=智慧+超脱
-      if (i === 5) { attack += 10; reaction += 8; }     // Q6 不择手段=攻击性+反应
+      if (i === 0) { defense += 12; pressure += 8; }    // Q1 理解老廖=守护心强+定力高
+      if (i === 1) { read += 10; pressure += 10; }      // Q2 尊重选择=深谋+定力
+      if (i === 2) { defense += 10; read += 8; }        // Q3 理解吕慈=守护心+深谋
+      if (i === 3) { attack += 12; pressure += 8; }     // Q4 认可老天师=锋芒+定力
+      if (i === 4) { read += 12; slack += 8; }          // Q5 追求大道=深谋+超然
+      if (i === 5) { attack += 10; reaction += 8; }     // Q6 不择手段=锋芒+洞察
     } else if (c === 'B') {
       // B 选项整体偏向「理想/原则/底线」
-      if (i === 0) { read += 12; reaction += 8; }       // Q1 质疑控制=洞察+警觉
-      if (i === 1) { attack += 8; defense += 8; }       // Q2 质疑算计=锋利+自保
-      if (i === 2) { attack += 10; reaction += 10; }    // Q3 不原谅=正义感+反应
-      if (i === 3) { read += 10; defense += 10; }       // Q4 质疑力量=思辨+底线
-      if (i === 4) { defense += 8; pressure += 12; }    // Q5 不值得=重情义+抗压
-      if (i === 5) { defense += 12; read += 8; }        // Q6 讲底线=防御+智慧
+      if (i === 0) { read += 12; reaction += 8; }       // Q1 质疑控制=深谋+洞察
+      if (i === 1) { attack += 8; defense += 8; }       // Q2 质疑算计=锋芒+守护
+      if (i === 2) { attack += 10; reaction += 10; }    // Q3 不原谅=锋芒+洞察
+      if (i === 3) { read += 10; defense += 10; }       // Q4 质疑力量=深谋+守护
+      if (i === 4) { defense += 8; pressure += 12; }    // Q5 不值得=守护+定力
+      if (i === 5) { defense += 12; read += 8; }        // Q6 讲底线=守护+深谋
     } else {
       // 自由输入，展示独立思考
       attack += 4; defense += 4; reaction += 6; read += 8; pressure += 4; slack += 5;
@@ -2654,11 +2657,56 @@ function calculateDimensions(choices) {
 
 function determineCombatStyle(dims) {
   const styles = [
-    { name: '压制型 · 正面强攻', desc: '以力制胜', condition: () => dims.attack > 75 && dims.pressure > 65, tags: ['#正面刚王', '#不服就打', '#输了再来'], faction: '武当', master: '张灵玉', ability: '炁体源流 · 刚猛', partner: '陆瑾', enemy: '吕良', personalityTags: ['#热血沸腾', '#不服就干', '#拳头说话'] },
-    { name: '反击型 · 后发先至', desc: '以柔克刚', condition: () => dims.read > 70 && dims.reaction > 65, tags: ['#后发先至', '#读招大师', '#你先请'], faction: '武当', master: '王也', ability: '风后奇门', partner: '诸葛青', enemy: '陆瑾', personalityTags: ['#外冷内热', '#深藏不露', '#以退为进'] },
-    { name: '铁壁型 · 打不死的小强', desc: '防守为王', condition: () => dims.defense > 75 && dims.pressure > 70, tags: ['#打不死的小强', '#越打越精神', '#你打累了没'], faction: '全性', master: '吕良', ability: '炁体源流 · 坚', partner: '冯宝宝', enemy: '张灵玉', personalityTags: ['#沉默寡言', '#意志如铁', '#大器晚成'] },
-    { name: '摸鱼型 · 上擂台也想摸鱼', desc: '道家无为', condition: () => dims.slack > 65, tags: ['#上擂台也想摸鱼', '#道家无为', '#你打你的'], faction: '武当', master: '王也', ability: '通天箓（偷学的）', partner: '张楚岚', enemy: '加班', personalityTags: ['#佛系', '#随缘', '#有实力但不想动'] },
-    { name: '灵活型 · 见招拆招', desc: '均衡全面', condition: () => true, tags: ['#见招拆招', '#灵活多变', '#什么都会一点'], faction: '天师府', master: '张之维', ability: '炁体源流', partner: '冯宝宝', enemy: '全性', personalityTags: ['#外冷内热', '#嘴硬心软', '#社恐但能打'] },
+    {
+      name: '压制型 · 正面强攻', desc: '以力制胜',
+      condition: () => dims.attack > 75 && dims.pressure > 65,
+      tags: ['#正面刚王', '#不服就打', '#输了再来'],
+      faction: '武当', master: '张灵玉', ability: '炁体源流 · 刚猛', partner: '陆瑾', enemy: '吕良',
+      masterReason: '你锋芒外露、定力又强——张灵玉最欣赏这种敢正面刚的人，他会教你把这股劲用在刀刃上。',
+      partnerReason: '你需要一个跟你一样猛、但比你更不怕死的搭档——陆瑾刚好，你们俩凑一起就是碾压局。',
+      enemyReason: '吕良这种打不死的铁壁型，专克你的强攻流——你越猛他越硬，最消耗你的耐心。',
+      personalityTags: ['#热血沸腾', '#不服就干', '#拳头说话']
+    },
+    {
+      name: '反击型 · 后发先至', desc: '以柔克刚',
+      condition: () => dims.read > 70 && dims.reaction > 65,
+      tags: ['#后发先至', '#读招大师', '#你先请'],
+      faction: '武当', master: '王也', ability: '风后奇门', partner: '诸葛青', enemy: '陆瑾',
+      masterReason: '你七道选择里多次选了「看清两面再出手」——后发先至，王也的打法跟你最合拍。',
+      partnerReason: '你偏深谋、讲洞察，需要一个同样冷静但执行力更强的人——诸葛青刚好补你的短板。',
+      enemyReason: '你最怕的不是强敌，而是完全不讲道理的人——陆瑾的莽，专克你的谋。',
+      personalityTags: ['#外冷内热', '#深藏不露', '#以退为进']
+    },
+    {
+      name: '铁壁型 · 打不死的小强', desc: '守护为王',
+      condition: () => dims.defense > 75 && dims.pressure > 70,
+      tags: ['#打不死的小强', '#越打越精神', '#你打累了没'],
+      faction: '全性', master: '吕良', ability: '炁体源流 · 坚', partner: '冯宝宝', enemy: '张灵玉',
+      masterReason: '你守护心极强、定力也高——吕良这种「越挨打越强」的路子，你天生就适合。',
+      partnerReason: '你守得住，但需要一个能帮你终结战斗的人——冯宝宝不讲道理的爆发力，正好和你互补。',
+      enemyReason: '张灵玉的纯阳之力克你的防御——他不跟你耗，一招比一招重，专破铁壁。',
+      personalityTags: ['#沉默寡言', '#意志如铁', '#大器晚成']
+    },
+    {
+      name: '摸鱼型 · 上擂台也想摸鱼', desc: '道家无为',
+      condition: () => dims.slack > 65,
+      tags: ['#上擂台也想摸鱼', '#道家无为', '#你打你的'],
+      faction: '武当', master: '王也', ability: '通天箓（偷学的）', partner: '张楚岚', enemy: '加班',
+      masterReason: '你超然度这么高，摸鱼摸出了道家无为的境界——王也看了直呼知己，非收你不可。',
+      partnerReason: '张楚岚也是个擅长装傻偷懒的主——你俩凑一起，表面摸鱼、暗中把事办了。',
+      enemyReason: '你天生克星就是「加班」——任何打破你摸鱼节奏的东西，都是你的天敌。',
+      personalityTags: ['#佛系', '#随缘', '#有实力但不想动']
+    },
+    {
+      name: '灵活型 · 见招拆招', desc: '均衡全面',
+      condition: () => true,
+      tags: ['#见招拆招', '#灵活多变', '#什么都会一点'],
+      faction: '天师府', master: '张之维', ability: '炁体源流', partner: '冯宝宝', enemy: '全性',
+      masterReason: '你六维均衡、没有明显短板——张之维最喜欢这种底子好的苗子，啥都能教。',
+      partnerReason: '你灵活多变，搭配冯宝宝的绝对战力——你负责策略，她负责执行，天衣无缝。',
+      enemyReason: '全性这种不按套路出牌的组织，最克你的「见招拆招」——因为他们根本没有招。',
+      personalityTags: ['#外冷内热', '#嘴硬心软', '#社恐但能打']
+    },
   ];
   
   return styles.find(s => s.condition()) || styles[styles.length - 1];
@@ -2681,18 +2729,50 @@ function generateDeepComment(inputId, fortuneData, choices, style) {
     tendency = '你的选择时而务实时而理想，说明你不是教条主义者——你会根据具体情境做判断。这在异人世界里是最稀缺的能力。';
   }
   
-  return `你这人吧，表面上取了个"${inputId}"的名字，第一眼我就看出——${fortuneData?.fortune_text?.substring(0, 20) || '不简单'}。\n\n七道争议题答下来，${tendency}\n\n陈朵的选择权、吕家的守护与掠夺、老天师的力量与秩序——这些问题没有标准答案，但你的回答暴露了你是什么人。\n\n${style.master}要是看到你，估计会说：「${style.master === '王也' ? '这小子有意思，值得摸鱼时聊聊' : '还行，至少不无聊'}。」\n\n记住了——在一人之下的世界里，最难的不是选对，是选了之后不后悔。`;
+  return `"${inputId}"——这名字有意思，第一眼我就看出——${fortuneData?.fortune_text?.substring(0, 20) || '不简单'}。\n\n七道争议题答下来，${tendency}\n\n陈朵的选择权、吕家的守护与代价、老天师的力量与秩序——这些问题没有标准答案，但你的回答里藏着你真正在乎的东西。\n\n${style.master}要是看到你，大概会说：「${style.master === '王也' ? '这人挺有意思，值得摸鱼时聊聊' : '不错，是个能聊到一起的人'}。」\n\n记住了——在一人之下的世界里，最难的不是选对，是选了之后坚定走下去。你可以的。`;
 }
 
-function generateProphecy(style) {
-  const prophecies = [
-    "选择即代价，代价即修行。你已在路上。",
-    "世间没有绝对的正义，只有你愿意守住的东西。守好了，就是你的道。",
-    "陈朵选了死亡，却活出了自由。你选了什么，只有你自己知道。",
-    "力量不是正义，但没有力量，连选择的资格都没有。先变强，再谈对错。",
-    "三十六贼追寻的大道至今没人找到，但他们的选择本身——就是答案。",
+function generateProphecy(style, choices, finalAnswer) {
+  // 统计选择倾向
+  const aCount = (choices || []).filter(c => c === 'A').length;
+  const bCount = (choices || []).filter(c => c === 'B').length;
+  const freeCount = (choices || []).filter(c => c === 'free').length;
+  
+  // 用户终极之问的回答
+  const answer = finalAnswer || '自己';
+  
+  // 三类预言池
+  const pragmaticProphecies = [
+    `你说愿意为「${answer}」付出代价——务实的人不说空话。这三个字会在你每次权衡利弊时，帮你做出选择。`,
+    `看得清现实的人，才知道什么值得争取。「${answer}」——记住它，这是你清醒时给自己的答案。`,
+    `代价从不打折，但你已经想明白了。为「${answer}」付出的一切，终会成为你最硬的底牌。`,
   ];
-  return prophecies[Math.abs(style.name.length) % prophecies.length];
+  
+  const idealistProphecies = [
+    `守住「${answer}」——这是你在七道没有标准答案的题里，给自己立的唯一标准。理想主义者不好当，但你撑得住。`,
+    `你选了更难走的路，也选了更值得守护的东西。「${answer}」三个字，比任何炁体源流都有力量。`,
+    `世间没有绝对的正义，但有你愿意坚守的东西。「${answer}」——这就是你的道。`,
+  ];
+  
+  const thinkerProphecies = [
+    `不急着站队的人，看到的世界更完整。「${answer}」——你的三个字里藏着你自己都没发现的笃定。`,
+    `你用七道选择证明了一件事：你不是非黑即白的人。为「${answer}」付出代价？你会的，而且会付得很聪明。`,
+    `灰色地带最难走，但风景最好。「${answer}」——这是你给自己的方向，走下去就对了。`,
+  ];
+  
+  // 根据倾向选择预言池
+  let pool;
+  if (aCount > bCount + 1) {
+    pool = pragmaticProphecies;  // 务实派
+  } else if (bCount > aCount + 1) {
+    pool = idealistProphecies;   // 理想派
+  } else {
+    pool = thinkerProphecies;    // 独立思考/混合型
+  }
+  
+  // 用终极之问的字数做选择（确保同一个 answer 总是得到同一句）
+  const idx = Math.abs(answer.length + aCount * 3 + bCount * 7) % pool.length;
+  return pool[idx];
 }
 
 // ==================== App State ====================
@@ -2702,6 +2782,7 @@ let appState = {
   fortuneData: null,
   chatRound: 0,
   userChoices: [],
+  finalAnswer: '',
   reportData: null,
 };
 
@@ -3076,6 +3157,11 @@ function submitFreeInput(roundIdx) {
   appState.userChoices.push('free');
   
   const round = CHAT_ROUNDS[roundIdx];
+  
+  // 如果是终极之问（最后一轮），保存用户输入的三个字
+  if (round.isFinalRound) {
+    appState.finalAnswer = text;
+  }
   let response;
   
   if (round.isFinalRound) {
@@ -3108,7 +3194,7 @@ function startReport() {
   const narratives = [
     "「让我仔细看看你这些回答…」",
     "「嗯……有意思。跟我想的不太一样。」",
-    "「格斗画像快出来了……你这六维有点东西。」",
+    "「异人心性快出来了……你这六维有点东西。」",
     "「报告写好了。来看看吧。」"
   ];
   
@@ -3175,17 +3261,17 @@ function showReport() {
       <div class="alien-profile__item-label">门派归属</div>
       <div class="alien-profile__item-value">${ap.faction}</div>
     </div>
-    <div class="alien-profile__item">
-      <div class="alien-profile__item-label">最适师父</div>
-      <div class="alien-profile__item-value">${ap.master}</div>
+    <div class="alien-profile__item" style="grid-column: 1 / -1;">
+      <div class="alien-profile__item-label">🎓 最适师父 · ${ap.master}</div>
+      <div class="alien-profile__item-value" style="font-size:13px; font-weight:300; color:var(--text-secondary); line-height:1.7; margin-top:4px;">${ap.masterReason}</div>
     </div>
-    <div class="alien-profile__item">
-      <div class="alien-profile__item-label">最佳搭档</div>
-      <div class="alien-profile__item-value">${ap.partner}</div>
+    <div class="alien-profile__item" style="grid-column: 1 / -1;">
+      <div class="alien-profile__item-label">🤝 最佳搭档 · ${ap.partner}</div>
+      <div class="alien-profile__item-value" style="font-size:13px; font-weight:300; color:var(--text-secondary); line-height:1.7; margin-top:4px;">${ap.partnerReason}</div>
     </div>
-    <div class="alien-profile__item">
-      <div class="alien-profile__item-label">天敌</div>
-      <div class="alien-profile__item-value">${ap.enemy}</div>
+    <div class="alien-profile__item" style="grid-column: 1 / -1;">
+      <div class="alien-profile__item-label">⚡ 天敌 · ${ap.enemy}</div>
+      <div class="alien-profile__item-value" style="font-size:13px; font-weight:300; color:var(--text-secondary); line-height:1.7; margin-top:4px;">${ap.enemyReason}</div>
     </div>
     <div class="alien-profile__item">
       <div class="alien-profile__item-label">判定</div>
@@ -3218,7 +3304,7 @@ function renderRadarChart(dimensions) {
     data: {
       labels: dimensions.map(d => d.name),
       datasets: [{
-        label: '格斗属性',
+        label: '异人心性',
         data: dimensions.map(d => d.score),
         fill: true,
         backgroundColor: 'rgba(212, 168, 83, 0.15)',
@@ -3412,6 +3498,7 @@ function restartTest() {
   appState.fortuneData = null;
   appState.chatRound = 0;
   appState.userChoices = [];
+  appState.finalAnswer = '';
   appState.reportData = null;
 
   // 重置 UI

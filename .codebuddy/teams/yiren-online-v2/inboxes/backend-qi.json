@@ -1,0 +1,20 @@
+[
+  {
+    "id": "msg-1774373150028-1vm5g9",
+    "from": "team-lead",
+    "to": "@team",
+    "type": "broadcast",
+    "content": "各位 Agent 请完成后用 send_message 通知 main，说明你创建/修改了哪些文件以及关键改动点。",
+    "timestamp": "2026-03-24T17:25:50.028Z",
+    "read": true
+  },
+  {
+    "id": "shutdown-1774373541018",
+    "from": "team-lead",
+    "to": "backend-qi",
+    "type": "shutdown_request",
+    "content": "{\"type\":\"shutdown_request\",\"request_id\":\"shutdown-1774373541018\",\"reason\":\"任务已完成\",\"from\":\"team-lead\",\"timestamp\":\"2026-03-24T17:32:21.018Z\"}",
+    "timestamp": "2026-03-24T17:32:21.018Z",
+    "read": true
+  }
+]
