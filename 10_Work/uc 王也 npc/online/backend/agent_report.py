@@ -95,14 +95,206 @@ def determine_style(dims: dict) -> dict:
     return COMBAT_STYLES[-1]
 
 
-# ==================== 命运预言 ====================
-PROPHECIES = [
-    "选择即代价，代价即修行。你已在路上。",
-    "世间没有绝对的正义，只有你愿意守住的东西。守好了，就是你的道。",
-    "陈朵选了死亡，却活出了自由。你选了什么，只有你自己知道。",
-    "力量不是正义，但没有力量，连选择的资格都没有。先变强，再谈对错。",
-    "三十六贼追寻的大道至今没人找到，但他们的选择本身——就是答案。",
+# ==================== 命运预言 · 道德经版 ====================
+# 每条包含：道德经原文、出处、适用的格斗风格标签、适用的选择倾向标签、适用的五行
+# 匹配逻辑：style_tags ∩ 用户风格 + tendency_tags ∩ 用户倾向 + element_tags ∩ 用户五行
+DAO_DE_JING_QUOTES = [
+    # ── 攻击型 / 刚猛派 ──
+    {
+        "quote": "天下之至柔，驰骋天下之至坚。",
+        "source": "《道德经》第四十三章",
+        "wangye": "你够猛，但真正的高手不是拳头硬——是柔到让对手找不到发力点。",
+        "style_tags": ["压制型", "灵活型"],
+        "tendency_tags": ["务实"],
+        "element_tags": ["火", "金"],
+    },
+    {
+        "quote": "勇于敢则杀，勇于不敢则活。",
+        "source": "《道德经》第七十三章",
+        "wangye": "莽不是勇，知道什么时候不出手——那才是真正的胆量。",
+        "style_tags": ["压制型"],
+        "tendency_tags": ["务实", "兼具"],
+        "element_tags": ["火"],
+    },
+    # ── 反击型 / 后发先至 ──
+    {
+        "quote": "曲则全，枉则直，洼则盈。",
+        "source": "《道德经》第二十二章",
+        "wangye": "弯了才能全，低了才能满。你这种后发先至的人，天生就懂这个道理。",
+        "style_tags": ["反击型"],
+        "tendency_tags": ["理想", "兼具"],
+        "element_tags": ["水", "木"],
+    },
+    {
+        "quote": "将欲取之，必固与之。",
+        "source": "《道德经》第三十六章",
+        "wangye": "想赢？先让对手觉得自己赢了。你骨子里就是这个路数。",
+        "style_tags": ["反击型", "灵活型"],
+        "tendency_tags": ["务实"],
+        "element_tags": ["水"],
+    },
+    # ── 铁壁型 / 防御派 ──
+    {
+        "quote": "上善若水，水善利万物而不争。",
+        "source": "《道德经》第八章",
+        "wangye": "你守得住、扛得住，不跟人争——这就是水的境界，也是最难打败的。",
+        "style_tags": ["铁壁型"],
+        "tendency_tags": ["理想", "兼具"],
+        "element_tags": ["水", "土"],
+    },
+    {
+        "quote": "飘风不终朝，骤雨不终日。",
+        "source": "《道德经》第二十三章",
+        "wangye": "再猛的攻势也有尽头。你要做的，就是扛到对面自己累趴。",
+        "style_tags": ["铁壁型", "反击型"],
+        "tendency_tags": ["务实"],
+        "element_tags": ["土", "金"],
+    },
+    # ── 摸鱼型 / 无为派 ──
+    {
+        "quote": "为无为，则无不治。",
+        "source": "《道德经》第三章",
+        "wangye": "你摸鱼摸出了境界——什么都不做，事情自己就办了。老子看了都得点头。",
+        "style_tags": ["摸鱼型"],
+        "tendency_tags": ["兼具", "独立"],
+        "element_tags": ["木", "水"],
+    },
+    {
+        "quote": "大巧若拙，大辩若讷。",
+        "source": "《道德经》第四十五章",
+        "wangye": "看着笨，其实精得很。看着懒，其实什么都想清楚了。你跟我是一路人。",
+        "style_tags": ["摸鱼型"],
+        "tendency_tags": ["务实", "独立"],
+        "element_tags": ["木"],
+    },
+    # ── 理想主义者 ──
+    {
+        "quote": "天之道，利而不害；圣人之道，为而不争。",
+        "source": "《道德经》第八十一章",
+        "wangye": "你选择帮人、不争——这不是软弱，是天道本身的样子。",
+        "style_tags": ["灵活型", "铁壁型"],
+        "tendency_tags": ["理想"],
+        "element_tags": ["木", "水"],
+    },
+    {
+        "quote": "知人者智，自知者明。胜人者有力，自胜者强。",
+        "source": "《道德经》第三十三章",
+        "wangye": "打赢别人不算什么，打赢自己心里那点犹豫——那才叫真强。",
+        "style_tags": ["压制型", "灵活型"],
+        "tendency_tags": ["理想", "兼具"],
+        "element_tags": ["火", "金"],
+    },
+    # ── 独立思考者 ──
+    {
+        "quote": "道可道，非常道；名可名，非常名。",
+        "source": "《道德经》第一章",
+        "wangye": "你拒绝被定义——好，真正的道本来就说不清。你自己就是自己的道。",
+        "style_tags": ["灵活型", "摸鱼型"],
+        "tendency_tags": ["独立"],
+        "element_tags": ["火", "水", "木", "金", "土"],
+    },
+    {
+        "quote": "大道废，有仁义。",
+        "source": "《道德经》第十八章",
+        "wangye": "你看到了规则的荒谬——当大道崩了，人们才开始谈仁义。你不被规则框住，好。",
+        "style_tags": ["反击型", "摸鱼型"],
+        "tendency_tags": ["独立"],
+        "element_tags": ["火", "金"],
+    },
+    # ── 通用 / 高匹配度兜底 ──
+    {
+        "quote": "千里之行，始于足下。",
+        "source": "《道德经》第六十四章",
+        "wangye": "道理都懂，关键是迈出那一步。你今天来了——已经在路上了。",
+        "style_tags": ["压制型", "反击型", "铁壁型", "摸鱼型", "灵活型"],
+        "tendency_tags": ["务实", "理想", "兼具", "独立"],
+        "element_tags": ["火", "水", "木", "金", "土"],
+    },
+    {
+        "quote": "祸兮福之所倚，福兮祸之所伏。",
+        "source": "《道德经》第五十八章",
+        "wangye": "好事坏事，谁说得准呢？走到最后才知道——都是经历，都算数。",
+        "style_tags": ["压制型", "反击型", "铁壁型", "摸鱼型", "灵活型"],
+        "tendency_tags": ["务实", "理想", "兼具", "独立"],
+        "element_tags": ["火", "水", "木", "金", "土"],
+    },
+    {
+        "quote": "功成身退，天之道也。",
+        "source": "《道德经》第九章",
+        "wangye": "事办完了就走，不贪功、不恋战——这是天道，也是我的活法。",
+        "style_tags": ["摸鱼型", "反击型"],
+        "tendency_tags": ["务实", "兼具"],
+        "element_tags": ["金", "水"],
+    },
+    {
+        "quote": "柔弱胜刚强。",
+        "source": "《道德经》第三十六章",
+        "wangye": "别看不起柔——水能穿石，你这种人最后赢的时候，别人还没反应过来。",
+        "style_tags": ["反击型", "铁壁型"],
+        "tendency_tags": ["理想", "兼具"],
+        "element_tags": ["水", "木"],
+    },
+    {
+        "quote": "致虚极，守静笃。万物并作，吾以观复。",
+        "source": "《道德经》第十六章",
+        "wangye": "安静下来看清本质——世界再怎么乱，你只要守住自己那个「静」，就稳了。",
+        "style_tags": ["反击型", "摸鱼型", "铁壁型"],
+        "tendency_tags": ["理想", "独立"],
+        "element_tags": ["水", "土"],
+    },
 ]
+
+
+def _get_tendency_tag(user_choices: list[str]) -> str:
+    """根据用户选择分析倾向标签"""
+    a_count = sum(1 for c in user_choices if c == "A")
+    b_count = sum(1 for c in user_choices if c == "B")
+    free_count = sum(1 for c in user_choices if c not in ["A", "B"])
+    if a_count > b_count + 1:
+        return "务实"
+    elif b_count > a_count + 1:
+        return "理想"
+    elif free_count >= 2:
+        return "独立"
+    else:
+        return "兼具"
+
+
+def _get_style_keyword(style_name: str) -> str:
+    """从格斗风格名称提取匹配关键词"""
+    for kw in ["压制型", "反击型", "铁壁型", "摸鱼型", "灵活型"]:
+        if kw in style_name:
+            return kw
+    return "灵活型"
+
+
+def match_dao_quote(user_choices: list[str], style: dict, element: str) -> dict:
+    """根据用户画像匹配最贴合的道德经名句"""
+    tendency = _get_tendency_tag(user_choices)
+    style_kw = _get_style_keyword(style["name"])
+
+    scored = []
+    for q in DAO_DE_JING_QUOTES:
+        score = 0
+        # 风格匹配（权重最高）
+        if style_kw in q["style_tags"]:
+            score += 3
+        # 倾向匹配
+        if tendency in q["tendency_tags"]:
+            score += 2
+        # 五行匹配
+        if element in q["element_tags"]:
+            score += 1
+        scored.append((score, q))
+
+    # 按得分降序，取最高分中随机一个（用 user_id hash 保持确定性）
+    scored.sort(key=lambda x: -x[0])
+    top_score = scored[0][0]
+    top_quotes = [q for s, q in scored if s == top_score]
+
+    # 确定性选择（基于 user_choices 的 hash）
+    choice_hash = int(hashlib.md5("".join(user_choices).encode()).hexdigest(), 16)
+    return top_quotes[choice_hash % len(top_quotes)]
 
 
 # ==================== LLM 深度评语 ====================
@@ -216,9 +408,9 @@ async def run_report(session_data: dict) -> ReportResponse:
         user_id, fortune_data.get("element", "火"), user_choices, style
     )
 
-    # 4. 命运预言（确定性）
-    h = int(hashlib.md5(user_id.encode()).hexdigest(), 16)
-    prophecy = PROPHECIES[h % len(PROPHECIES)]
+    # 4. 命运预言 · 道德经匹配（基于用户选择 + 风格 + 五行）
+    dao = match_dao_quote(user_choices, style, fortune_data.get("element", "火"))
+    prophecy = f"「{dao['quote']}」\n—— {dao['source']}\n\n{dao['wangye']}"
 
     # 5. 组装报告
     return ReportResponse(

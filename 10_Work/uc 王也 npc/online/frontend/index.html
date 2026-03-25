@@ -240,7 +240,10 @@ body { font-family: var(--font-cn); background: var(--bg-deep); color: var(--tex
 .prophecy { background: linear-gradient(135deg, rgba(212,168,83,0.06), rgba(92,224,216,0.04)); border: 1px solid rgba(212,168,83,0.2); border-radius: var(--radius-xl); padding: 28px; text-align: center; margin-bottom: 16px; position: relative; overflow: hidden; }
 .prophecy::before { content: '☯'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 120px; opacity: 0.02; animation: baguaSpin 60s linear infinite; }
 .prophecy__icon { font-size: 36px; margin-bottom: 14px; }
-.prophecy__text { font-family: var(--font-title); font-size: 20px; line-height: 2; color: var(--gold-light); text-shadow: 0 0 20px var(--gold-glow); position: relative; z-index: 1; }
+.prophecy__text { font-family: var(--font-title); font-size: 20px; line-height: 2; color: var(--gold-light); text-shadow: 0 0 20px var(--gold-glow); position: relative; z-index: 1; white-space: pre-line; }
+.prophecy__quote { font-family: var(--font-title); font-size: 22px; line-height: 1.8; color: var(--gold-light); text-shadow: 0 0 20px var(--gold-glow); margin-bottom: 8px; }
+.prophecy__source { font-size: 12px; color: var(--text-dim); letter-spacing: 2px; margin-bottom: 16px; }
+.prophecy__wangye { font-size: 14px; line-height: 1.8; color: var(--text-secondary); font-style: italic; padding-top: 12px; border-top: 1px solid rgba(212,168,83,0.12); margin-top: 4px; }
 .share-section { text-align: center; padding: 28px 0; }
 .share-section__title { font-size: 13px; color: var(--text-secondary); margin-bottom: 18px; }
 .share-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
@@ -803,7 +806,15 @@ function showReport(rpt) {
     <div class="alien-profile__tags">${ap.personality_tags.map(t => `<span class="alien-profile__tag">${t}</span>`).join('')}</div>`;
 
   document.getElementById('deepComment').innerHTML = rpt.deep_comment.replace(/\n/g, '<br>');
-  document.getElementById('prophecyText').textContent = rpt.destiny_prophecy;
+
+  // 道德经命运预言 — 解析「原文」「出处」「王也解读」
+  const prophecyEl = document.getElementById('prophecyText');
+  const pLines = rpt.destiny_prophecy.split('\n').filter(l => l.trim());
+  if (pLines.length >= 3) {
+    prophecyEl.innerHTML = `<div class="prophecy__quote">${pLines[0]}</div><div class="prophecy__source">${pLines[1]}</div><div class="prophecy__wangye">${pLines.slice(2).join('<br>')}</div>`;
+  } else {
+    prophecyEl.textContent = rpt.destiny_prophecy;
+  }
 }
 
 function renderRadarChart(dims) {
@@ -872,7 +883,9 @@ function restartTest() {
 function copyShareText() {
   if (!state.reportData) return;
   const rpt = state.reportData;
-  const text = `⚔️ 异人体检站 · AI 体检报告\n\n我是「${rpt.user_name}」\n异人心性：${rpt.fighting_profile.style}\n${rpt.share_summary}\n\n🔮 ${rpt.destiny_prophecy}\n\n👉 来测测你是什么异人人格`;
+  // 提取道德经原文行（第一行）
+  const daoLine = rpt.destiny_prophecy.split('\n').filter(l => l.trim())[0] || rpt.destiny_prophecy;
+  const text = `⚔️ 异人体检站 · AI 体检报告\n\n我是「${rpt.user_name}」\n异人心性：${rpt.fighting_profile.style}\n${rpt.share_summary}\n\n🔮 王也送我一句道德经：\n${daoLine}\n\n👉 来测测你是什么异人人格`;
   navigator.clipboard.writeText(text).then(() => showToast('📋 分享文案已复制！')).catch(() => showToast('⚠️ 复制失败，请长按手动复制'));
 }
 
