@@ -90,7 +90,7 @@
 ## 系统配置
 
 - Git自动同步: launchd 每天11:00+23:00（不用crontab，macOS睡眠不执行）
-- Skills: 22个（17官方+5第三方），Skills周报每周一9:00自动生成
+- Skills: 34个（17官方+13 Superpowers+4第三方），Skills周报每周一9:00自动生成
 - CodeBuddy Rules: 5个专业角色（data-analyst / product-manager / game-designer / marketing-strategist / project-shepherd），全部 requested 类型。product-manager 已植入分级审查 Harness
 - 同步脚本: `~/.local/bin/obsidian_git_sync.sh`（通过 osascript 绕过 TCC）
 - UC 对局复盘 git: `10_Work/uc对局复盘/ucgit/go_ai_yr_postmatch_analysis_svr/`（master分支，git.woa.com）

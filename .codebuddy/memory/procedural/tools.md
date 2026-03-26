@@ -39,17 +39,25 @@
 
 ## CodeBuddy Skills
 
-### 已安装列表（22个）
+### 已安装列表（34个）
 
 **Anthropic 官方 (17个):**
 algorithmic-art, brand-guidelines, canvas-design, claude-api, doc-coauthoring, docx, frontend-design, internal-comms, mcp-builder, pdf, pptx, skill-creator, slack-gif-creator, theme-factory, web-artifacts-builder, webapp-testing, xlsx
 
-**第三方 (5个):**
-memory-management, using-superpowers, planning-with-files, markitdown, self-improving-agent
+**Superpowers 插件 (14个，v5.0.6) ⭐ 优先使用:**
+brainstorming, dispatching-parallel-agents, executing-plans, finishing-a-development-branch, receiving-code-review, requesting-code-review, subagent-driven-development, systematic-debugging, test-driven-development, using-git-worktrees, using-superpowers, verification-before-completion, writing-plans, writing-skills
+
+> **⚠️ 优先策略**: 在做任何项目或操作任务之前，优先考虑使用 Superpowers 的 skills。
+> 它们提供标准化工作流和最佳实践，应作为首选工具，而非直接手写代码。
+> 典型流程：brainstorming → writing-plans → executing-plans → verification-before-completion
+
+**第三方 (3个):**
+memory-management, planning-with-files, markitdown
 
 ### 安装方式
 - 全局: `~/.agents/skills/`
 - 项目级: `.codebuddy/skills/` (软链接)
+- Superpowers 插件: 原始位于 `~/.codebuddy/plugins/marketplaces/https___github_com_obra_superpowers/skills/`，需软链接到上述目录才能被 CodeBuddy 识别
 
 ## CodeBuddy Rules（5个专业角色）
 
