@@ -91,3 +91,18 @@ memory-management, using-superpowers, planning-with-files, markitdown, self-impr
   }
 }
 ```
+
+## Self-Improvement 系统 (.learnings/)
+
+| 文件 | 用途 |
+|------|------|
+| `.learnings/LEARNINGS.md` | 教训/最佳实践/纠正记录（LRN-YYYYMMDD-XXX格式） |
+| `.learnings/ERRORS.md` | 命令/工具执行错误记录 |
+| `.learnings/FEATURE_REQUESTS.md` | 用户请求的缺失能力 |
+
+**当前状态**: 10条Learning（1条 correction + 8条 best_practice + 1条 knowledge_gap），6条已promoted，2条pending，1条resolved
+
+**与记忆系统的关系**:
+- `.learnings/` = 系统化分析（为什么错/怎么变好）
+- `procedural/skills.md` 错题本 = 简洁教训速查
+- 两者互补，`.learnings/` 详细分析 → 提炼为错题本简洁条目 + 关键教训写入 MEMORY.md

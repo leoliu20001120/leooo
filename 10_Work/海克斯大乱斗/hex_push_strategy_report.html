@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>海克斯大乱斗 — 用户推送策略分析</title>
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: #0f1923; color: #c8d6e5; line-height: 1.6; }
+.container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+h1 { text-align: center; font-size: 28px; color: #f0c040; margin: 30px 0 10px; }
+.subtitle { text-align: center; color: #8395a7; font-size: 14px; margin-bottom: 40px; }
+h2 { font-size: 22px; color: #f0c040; margin: 40px 0 20px; padding-left: 12px; border-left: 4px solid #f0c040; }
+h3 { font-size: 18px; color: #ffd700; margin: 30px 0 15px; }
+.card { background: #1a2a3a; border-radius: 12px; padding: 24px; margin-bottom: 24px; border: 1px solid #2a3a4a; }
+.card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.card-header .icon { font-size: 24px; }
+.card-header .title { font-size: 18px; font-weight: 700; color: #fff; }
+.card-header .badge { background: #f0c040; color: #0f1923; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; }
+.chart-container { margin: 20px 0; border-radius: 8px; overflow: hidden; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+th { background: #243447; color: #f0c040; padding: 10px 14px; text-align: left; font-size: 13px; border-bottom: 2px solid #f0c040; }
+td { padding: 10px 14px; border-bottom: 1px solid #2a3a4a; font-size: 13px; }
+tr:hover { background: #1e3045; }
+.tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; margin: 1px 2px; }
+.tag-s { background: linear-gradient(135deg, #f0c040, #ff8c00); color: #0f1923; }
+.tag-a { background: #2ecc71; color: #fff; }
+.tag-b { background: #3498db; color: #fff; }
+.tag-fun { background: #9b59b6; color: #fff; }
+.tag-hack { background: #e74c3c; color: #fff; }
+.tag-new { background: #e67e22; color: #fff; }
+.tag-combo { background: #1abc9c; color: #fff; }
+.insight { background: #1e3045; border-left: 4px solid #3498db; padding: 16px 20px; margin: 16px 0; border-radius: 0 8px 8px 0; }
+.insight strong { color: #3498db; }
+.key-number { font-size: 36px; font-weight: 900; color: #f0c040; }
+.key-label { font-size: 13px; color: #8395a7; }
+.metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin: 20px 0; }
+.metric { background: #243447; border-radius: 10px; padding: 20px; text-align: center; }
+.strategy-box { background: #0d2137; border: 1px solid #2a4a6a; border-radius: 10px; padding: 20px; margin: 12px 0; }
+.strategy-box h4 { color: #ffd700; margin-bottom: 10px; }
+.strategy-box ul { padding-left: 20px; }
+.strategy-box li { margin: 6px 0; color: #b0c4de; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+.toc { background: #1a2a3a; border-radius: 12px; padding: 20px; margin-bottom: 30px; }
+.toc a { color: #3498db; text-decoration: none; display: block; padding: 4px 0; }
+.toc a:hover { color: #f0c040; }
+.divider { border: none; border-top: 1px solid #2a3a4a; margin: 40px 0; }
+.conclusion { background: linear-gradient(135deg, #1a2a3a, #0d2137); border: 2px solid #f0c040; border-radius: 12px; padding: 30px; margin: 40px 0; }
+.conclusion h2 { border-left: none; margin-top: 0; text-align: center; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>🎮 海克斯大乱斗 — 用户推送策略分析</h1>
+<p class="subtitle">基于 291 个符文 × 1587 个英雄组合 × 1794 条 UGC 评论的知识库数据 | 2026-03-26</p>
+
+<div class="toc">
+<strong style="color:#f0c040">📑 目录</strong>
+<a href="#overview">一、数据总览</a>
+<a href="#s1">二、推送场景①：强力单卡 — "碰到就拿"</a>
+<a href="#s2">三、推送场景②：黑科技 — "这俩搭一起会炸"</a>
+<a href="#s3">四、推送场景③：娱乐玩法 — "这么玩贼好玩"</a>
+<a href="#push-strategy">五、推送策略总方案</a>
+<a href="#content-template">六、推送内容模板</a>
+</div>
+
+<!-- =================== 一、数据总览 =================== -->
+<h2 id="overview">一、数据总览</h2>
+
+<div class="metrics">
+<div class="metric"><div class="key-number">291</div><div class="key-label">符文总数</div></div>
+<div class="metric"><div class="key-number">6</div><div class="key-label">S级天胡</div></div>
+<div class="metric"><div class="key-number">27</div><div class="key-label">A级强力</div></div>
+<div class="metric"><div class="key-number">44</div><div class="key-label">新符文</div></div>
+<div class="metric"><div class="key-number">9</div><div class="key-label">套装羁绊</div></div>
+<div class="metric"><div class="key-number">253</div><div class="key-label">趣味玩法组合</div></div>
+<div class="metric"><div class="key-number">22</div><div class="key-label">有黑科技推荐的英雄</div></div>
+<div class="metric"><div class="key-number">1794</div><div class="key-label">UGC评论</div></div>
+</div>
+
+<div class="chart-container" id="chart-tier"></div>
+<div class="two-col">
+<div class="chart-container" id="chart-grade"></div>
+<div class="chart-container" id="chart-quality"></div>
+</div>
+
+<div class="insight">
+<strong>💡 核心发现：</strong>知识库中 S+A 级符文仅占 <strong>11.3%</strong>（33/291），但这些符文是用户最需要"被告知"的——他们决定了对局胜负。同时 D 级占 <strong>52.2%</strong>（152 个），意味着超半数符文是"地雷"，新手很容易踩坑。<br><br>
+三类推送的价值：<br>
+① <strong>强力单卡</strong>：告诉用户"什么值得拿" → 直接提升胜率 → 降低挫败感 → 提升留存<br>
+② <strong>黑科技</strong>：告诉用户"这俩搭配会炸" → 增加策略深度 → 制造"涨姿势"的惊喜感<br>
+③ <strong>娱乐玩法</strong>：告诉用户"这么玩贼好玩" → 增加趣味性 → 提升分享欲 → 拉新
+</div>
+
+<!-- =================== 二、强力单卡 =================== -->
+<h2 id="s1">二、推送场景①：强力单卡 — "碰到就拿"</h2>
+
+<div class="card">
+<div class="card-header">
+<span class="icon">⭐</span>
+<span class="title">强力单卡定义</span>
+<span class="badge">推荐指数 S/A + 低刷新率 + 简单易懂</span>
+</div>
+<p>强力单卡是 AI 教练最核心的推送内容——<b>不需要任何前置条件，选了就强</b>。面向所有用户（尤其新手），在海克斯选择态出现时实时推送。</p>
+</div>
+
+<div class="chart-container" id="chart-s-runes"></div>
+
+<h3>🏆 S级天胡符文（6个）</h3>
+<table>
+<tr><th>符文</th><th>等级</th><th>胜率</th><th>选取率</th><th>所属套装</th><th>新符文</th><th>推送话术</th></tr>
+<tr><td><strong>超凡邪恶</strong></td><td><span class="tag tag-s">黄金</span></td><td style="color:#2ecc71">67.39%</td><td>2.08%</td><td>叠角龙</td><td><span class="tag tag-new">新</span></td><td>"法师拿到直接起飞，叠杀法强无上限"</td></tr>
+<tr><td><strong>质变：棱彩阶</strong></td><td><span class="tag tag-s">黄金</span></td><td style="color:#2ecc71">63.47%</td><td>1.38%</td><td>掷骰狂人</td><td></td><td>"黄金直升棱彩，赌狗最爱"</td></tr>
+<tr><td><strong>祖母的辣椒油</strong></td><td><span class="tag tag-s">黄金</span></td><td style="color:#2ecc71">62.74%</td><td>1.33%</td><td>—</td><td><span class="tag tag-new">新</span></td><td>"灼烧流核心，越多灼烧越痛"</td></tr>
+<tr><td><strong>巨人杀手</strong></td><td><span class="tag tag-s">棱彩</span></td><td style="color:#2ecc71">62.28%</td><td>1.18%</td><td>—</td><td></td><td>"最通用最万能，对面越肉你越疼"</td></tr>
+<tr><td><strong>吸血习性</strong></td><td><span class="tag tag-s">黄金</span></td><td style="color:#2ecc71">62.12%</td><td>1.57%</td><td>—</td><td></td><td>"70%胜率还有30%败率是因为对面也有"</td></tr>
+<tr><td><strong>魔法飞弹</strong></td><td><span class="tag tag-s">黄金</span></td><td style="color:#2ecc71">61.22%</td><td>1.70%</td><td>神龙烈焰</td><td></td><td>"技能追加弹幕，法师和技能流必拿"</td></tr>
+</table>
+
+<h3>💪 A级强力推荐（TOP10）</h3>
+<table>
+<tr><th>符文</th><th>等级</th><th>胜率</th><th>选取率</th><th>所属套装</th><th>推送定位</th></tr>
+<tr><td><strong>扇巴掌</strong></td><td><span class="tag tag-a">白银</span></td><td>60.55%</td><td>1.19%</td><td>叠角龙</td><td>叠层核心，坦克/战士优先</td></tr>
+<tr><td><strong>属性叠属性！</strong></td><td><span class="tag tag-a">黄金</span></td><td>60.38%</td><td>0.88%</td><td>—</td><td>全面提升，通用强力</td></tr>
+<tr><td><strong>缩小引擎</strong></td><td><span class="tag tag-a">黄金</span></td><td>60.27%</td><td>1.23%</td><td>叠角龙</td><td>变小变快难集火</td></tr>
+<tr><td><strong>暴击飞弹</strong></td><td><span class="tag tag-a">黄金</span></td><td>60.07%</td><td>1.25%</td><td>—</td><td>暴击弹幕，AD英雄必拿</td></tr>
+<tr><td><strong>红包</strong></td><td><span class="tag tag-a">黄金</span></td><td>59.97%</td><td>0.87%</td><td>金币雨</td><td>杀人给钱，经济碾压</td></tr>
+<tr><td><strong>珠光护手</strong></td><td><span class="tag tag-a">棱彩</span></td><td>59.63%</td><td>1.31%</td><td>—</td><td>施法律动，法师节奏感拉满</td></tr>
+<tr><td><strong>质变：黄金阶</strong></td><td><span class="tag tag-a">白银</span></td><td>59.37%</td><td>0.76%</td><td>掷骰狂人</td><td>低保升级，白银直升黄金</td></tr>
+<tr><td><strong>尤里卡</strong></td><td><span class="tag tag-a">棱彩</span></td><td>59.14%</td><td>1.01%</td><td>—</td><td>综合强化，全英雄通用</td></tr>
+<tr><td><strong>坦克引擎</strong></td><td><span class="tag tag-a">黄金</span></td><td>59.06%</td><td>1.25%</td><td>—</td><td>肉盾输出兼顾，坦克必拿</td></tr>
+<tr><td><strong>灵巧</strong></td><td><span class="tag tag-a">白银</span></td><td>58.97%</td><td>0.97%</td><td>—</td><td>基础攻速，AD通用保底</td></tr>
+</table>
+
+<div class="strategy-box">
+<h4>📋 强力单卡推送策略</h4>
+<ul>
+<li><strong>触发时机：</strong>海克斯选择态出现时，候选符文中有 S/A 级 → 实时推送推荐</li>
+<li><strong>推送形式：</strong>选择界面内嵌角标（S/A）+ AI 教练面板一句话推荐</li>
+<li><strong>差异化推送：</strong>
+<ul>
+<li>新手：优先推 S 级万金油（巨人杀手、吸血习性），话术简洁"碰到就拿"</li>
+<li>回归玩家：重点推新符文中的 S/A 级（超凡邪恶、祖母的辣椒油、属性叠属性！），话术带"新符文，版本答案"</li>
+<li>休闲玩家：推通用型（巨人杀手、吸血习性、质变系列），话术带"不用动脑，选它就行"</li>
+</ul>
+</li>
+<li><strong>阶段策略：</strong>开局 S/A 级万金油 → 7级开始关注联动 → 15级优先保底</li>
+</ul>
+</div>
+
+<!-- =================== 三、黑科技 =================== -->
+<h2 id="s2">三、推送场景②：黑科技 — "这俩搭一起会炸"</h2>
+
+<div class="card">
+<div class="card-header">
+<span class="icon">🧪</span>
+<span class="title">黑科技定义</span>
+<span class="badge">符文 + 符文/装备的非直觉强力组合</span>
+</div>
+<p>黑科技是最具<b>"涨姿势"传播属性</b>的内容——用户看到两个普通符文搭配出逆天效果，会产生强烈的分享冲动。当前知识库已标注 <strong>418 条</strong>黑科技组合，涉及 <strong>11 种流派</strong>。</p>
+</div>
+
+<div class="chart-container" id="chart-hack-tags"></div>
+
+<h3>🔬 核心黑科技流派</h3>
+<table>
+<tr><th>流派</th><th>组合数</th><th>核心机制</th><th>代表英雄</th><th>推送吸引力</th></tr>
+<tr><td><span class="tag tag-fun">趣味玩法</span></td><td>253</td><td>非常规但有趣的符文搭配</td><td>奥莉安娜、奥瑞利安·索尔、莉莉娅</td><td>⭐⭐⭐⭐⭐ 娱乐向，分享率最高</td></tr>
+<tr><td><span class="tag tag-hack">无限叠层流</span></td><td>116</td><td>无限循环往复不断叠层，后期属性恐怖</td><td>赫卡里姆、锐雯、萨勒芬妮</td><td>⭐⭐⭐⭐ "越打越强"的爽感</td></tr>
+<tr><td><span class="tag tag-hack">灼烧流</span></td><td>54</td><td>炼狱导管持续灼烧叠层</td><td>莉莉娅、布兰德</td><td>⭐⭐⭐⭐ 火系视觉冲击力</td></tr>
+<tr><td><span class="tag tag-hack">踢踏舞流</span></td><td>23</td><td>移动频率高持续输出</td><td>莉莉娅、菲兹、锐雯</td><td>⭐⭐⭐ 独特操作体验</td></tr>
+<tr><td><span class="tag tag-hack">灼烧辣椒流</span></td><td>15</td><td>辣椒油 + 炼狱导管双灼烧</td><td>莉莉娅、布兰德</td><td>⭐⭐⭐⭐ 新符文组合，新鲜感</td></tr>
+<tr><td><span class="tag tag-hack">一板一眼流</span></td><td>10</td><td>技能和普攻交替打高收益</td><td>赵信</td><td>⭐⭐⭐ 操作有节奏感</td></tr>
+<tr><td><span class="tag tag-hack">巨人体型流</span></td><td>9</td><td>体型拉满堵路碾压</td><td>俄洛伊、塔姆、沃利贝尔</td><td>⭐⭐⭐⭐⭐ 视觉冲击力极强</td></tr>
+</table>
+
+<h3>🎯 22位英雄专属黑科技推荐（精选）</h3>
+<table>
+<tr><th>英雄</th><th>层级</th><th>黑科技名称</th><th>核心组合</th><th>推送话术</th></tr>
+<tr><td><strong>莉莉娅</strong></td><td>T1</td><td>灼烧疾风流</td><td>炼狱导管+超凡邪恶+速度恶魔</td><td>"满图飞奔边跑边烧，对面追不上也躲不掉"</td></tr>
+<tr><td><strong>布兰德</strong></td><td>T1</td><td>冰火弹射流</td><td>炼狱导管+超凡邪恶+祖母辣椒油</td><td>"火男本身就是灼烧怪，三合一直接融化全场"</td></tr>
+<tr><td><strong>凯尔</strong></td><td>T1</td><td>虚幻特效流</td><td>物法皆修+神射法师+超凡邪恶</td><td>"物法双修，进化后每一刀都是双倍伤害"</td></tr>
+<tr><td><strong>易</strong></td><td>T1</td><td>无限Q流</td><td>珠光护手+击杀叠层</td><td>"杀一个Q一个，越杀越强停不下来"</td></tr>
+<tr><td><strong>俄洛伊</strong></td><td>T3</td><td>巨人体型流</td><td>钢化你心+重量级打击手+坦克引擎</td><td>"触手怪物变成巨大化，堵住路直接碾过去"</td></tr>
+<tr><td><strong>塔姆</strong></td><td>T3</td><td>巨人体型流</td><td>扇巴掌+钢化你心+坦克引擎</td><td>"吞人蛤蟆大到荒谬，吐出的伤害随体型暴涨"</td></tr>
+</table>
+
+<div class="strategy-box">
+<h4>📋 黑科技推送策略</h4>
+<ul>
+<li><strong>触发时机1（对局内）：</strong>7级起，候选符文可与已有符文/装备构成黑科技 → 实时标签提示"🧪 黑科技"</li>
+<li><strong>触发时机2（对局外）：</strong>用户抽到特定英雄 → 开局推送该英雄的专属黑科技路线</li>
+<li><strong>触发时机3（内容推送）：</strong>版本更新/新符文上线 → 推送新发现的黑科技组合</li>
+<li><strong>内容策略：</strong>
+<ul>
+<li>标题用"XXX + XXX = 逆天效果"的公式化结构，激发好奇心</li>
+<li>优先推送有<b>视觉冲击力</b>的组合（巨人体型流、灼烧流），利于短视频传播</li>
+<li>用UGC热评做社交证据（如吸血习性的"70%胜率还有30%败率是因为对面也有"）</li>
+</ul>
+</li>
+<li><strong>分层推送：</strong>
+<ul>
+<li>T1英雄用户 → 推送该英雄专属黑科技（22个英雄已覆盖）</li>
+<li>新符文上线 → 推送涉及新符文的黑科技（超凡邪恶、祖母辣椒油相关）</li>
+<li>全体用户 → 按周推送"本周黑科技发现"专题</li>
+</ul>
+</li>
+</ul>
+</div>
+
+<!-- =================== 四、娱乐玩法 =================== -->
+<h2 id="s3">四、推送场景③：娱乐玩法 — "这么玩贼好玩"</h2>
+
+<div class="card">
+<div class="card-header">
+<span class="icon">🎪</span>
+<span class="title">娱乐玩法定义</span>
+<span class="badge">不以胜率为第一目标，追求有趣/反常规的游戏体验</span>
+</div>
+<p>娱乐玩法是<b>最具社交传播力</b>的内容类型。253 条趣味玩法组合 + 196 条冷知识，构成了丰富的"谈资"素材库。目标不是赢，而是"这把玩得爽/笑死了"。</p>
+</div>
+
+<div class="two-col">
+<div class="chart-container" id="chart-fun-heroes"></div>
+<div class="chart-container" id="chart-cold-types"></div>
+</div>
+
+<h3>🎭 娱乐玩法分类</h3>
+<table>
+<tr><th>类型</th><th>代表玩法</th><th>乐趣来源</th><th>传播属性</th><th>推送话术风格</th></tr>
+<tr><td><span class="tag tag-fun">视觉奇观</span></td><td>巨人体型流（俄洛伊/塔姆/沃利贝尔）</td><td>英雄变得巨大到荒谬</td><td>⭐⭐⭐⭐⭐ 截图/录屏传播</td><td>"今天的塔姆大到能堵住整条路"</td></tr>
+<tr><td><span class="tag tag-fun">极致速度</span></td><td>灼烧疾风流（莉莉娅+速度恶魔）</td><td>满图飞奔像开了挂</td><td>⭐⭐⭐⭐ 体验向分享</td><td>"你见过500+移速的鹿吗？"</td></tr>
+<tr><td><span class="tag tag-fun">赌狗快乐</span></td><td>质变系列（白银→黄金→棱彩）</td><td>赌博式升级的刺激感</td><td>⭐⭐⭐⭐⭐ "赌到了就拿"社交传播</td><td>"赌狗一把梭，直接白银变棱彩"</td></tr>
+<tr><td><span class="tag tag-fun">无限叠层</span></td><td>无限循环往复+叠角龙套装</td><td>后期属性膨胀到恐怖</td><td>⭐⭐⭐⭐ 数值震撼</td><td>"属性叠到四位数了还在涨"</td></tr>
+<tr><td><span class="tag tag-fun">死亡美学</span></td><td>俯冲轰炸+小丑学院</td><td>主动冲进人堆自爆</td><td>⭐⭐⭐⭐⭐ 搞笑向爆款</td><td>"我死了，但对面也全没了"</td></tr>
+<tr><td><span class="tag tag-fun">缩小PLAY</span></td><td>缩小引擎系列（体型变小）</td><td>小到看不见的搞笑体验</td><td>⭐⭐⭐⭐ 反差萌</td><td>"对面说找不到我在哪"</td></tr>
+</table>
+
+<h3>🗣️ UGC热评精选（天然推送素材）</h3>
+<table>
+<tr><th>符文</th><th>热评</th><th>点赞</th><th>推送价值</th></tr>
+<tr><td>吸血习性</td><td>"70的胜率还有30的败率是因为对面也有"</td><td>939</td><td>⭐⭐⭐⭐⭐ 金句级素材</td></tr>
+<tr><td>潘朵拉的盒子</td><td>"我是主播！"</td><td>477</td><td>⭐⭐⭐⭐ 梗文化传播</td></tr>
+<tr><td>潘朵拉的盒子</td><td>"15级来潘多拉能忍住不选的也是神人了"</td><td>172</td><td>⭐⭐⭐⭐ 共鸣感强</td></tr>
+<tr><td>咏叹奏鸣</td><td>"我琴在设计师的不懈努力下终于从英雄变成了海克斯"</td><td>164</td><td>⭐⭐⭐⭐ 吐槽向传播</td></tr>
+<tr><td>质变：棱彩阶</td><td>"有质变棱彩不选的还玩什么海斗？"</td><td>99</td><td>⭐⭐⭐ 强共识推送</td></tr>
+<tr><td>巨人杀手</td><td>"最通用，最万能"</td><td>85</td><td>⭐⭐⭐ 口碑背书</td></tr>
+</table>
+
+<h3>🧊 冷知识推送素材（196条）</h3>
+<div class="two-col">
+<div>
+<table>
+<tr><th>类型</th><th>数量</th><th>推送场景</th></tr>
+<tr><td>UGC类</td><td>171</td><td>社区热议/梗文化传播</td></tr>
+<tr><td>趣味类</td><td>13</td><td>对局前/后"你知道吗"推送</td></tr>
+<tr><td>组合类</td><td>7</td><td>黑科技深度解读</td></tr>
+<tr><td>机制类</td><td>5</td><td>进阶教学向</td></tr>
+</table>
+</div>
+<div class="strategy-box">
+<h4>冷知识推送示例</h4>
+<ul>
+<li>🔥 "维迦拿超凡邪恶量身定做——被动叠法强 + 符文叠法强，法强突破天际"</li>
+<li>🎲 "赌狗的终极快乐——黄金变棱彩，赢了就起飞"</li>
+<li>⚠️ "火男被动虽然看着像灼烧，但不触发辣椒油，别被视觉效果骗了"</li>
+</ul>
+</div>
+</div>
+
+<div class="strategy-box">
+<h4>📋 娱乐玩法推送策略</h4>
+<ul>
+<li><strong>触发时机1（对局内）：</strong>抽到特定英雄 → 推送该英雄的趣味玩法路线</li>
+<li><strong>触发时机2（社区/Feed流）：</strong>每日推送"今日趣味玩法"，配合短视频/GIF</li>
+<li><strong>触发时机3（局后）：</strong>如果用户本局使用了黑科技/趣味组合 → 局后弹出"冷知识"或"你知道吗"</li>
+<li><strong>内容策略：</strong>
+<ul>
+<li>UGC热评直接作为推送文案（已经过用户验证的"好梗"）</li>
+<li>冷知识用"你知道吗？"开头，制造信息差</li>
+<li>趣味玩法配合GIF/短视频素材，低门槛传播</li>
+<li>鼓励"晒战绩"：使用趣味玩法赢了 → "分享你的神操作"入口</li>
+</ul>
+</li>
+</ul>
+</div>
+
+<hr class="divider">
+
+<!-- =================== 五、推送策略总方案 =================== -->
+<h2 id="push-strategy">五、推送策略总方案</h2>
+
+<div class="chart-container" id="chart-funnel"></div>
+
+<h3>📊 三类内容的差异化定位</h3>
+<table>
+<tr><th>维度</th><th>⭐ 强力单卡</th><th>🧪 黑科技</th><th>🎪 娱乐玩法</th></tr>
+<tr><td><strong>核心价值</strong></td><td>降低决策成本，直接提升胜率</td><td>增加策略深度，制造"涨姿势"惊喜</td><td>增加趣味性，提升社交分享</td></tr>
+<tr><td><strong>目标用户</strong></td><td>全体（尤其新手）</td><td>有基础的玩家/回归玩家</td><td>休闲/社交型玩家</td></tr>
+<tr><td><strong>触发场景</strong></td><td>对局内·海克斯选择态</td><td>对局内·7级起 + 对局外·版本更新</td><td>对局前/后 + 社区Feed</td></tr>
+<tr><td><strong>推送频率</strong></td><td>每局4次（随海克斯选择）</td><td>每局1-2次（有条件触发时）</td><td>每日1条（对局外）</td></tr>
+<tr><td><strong>内容形态</strong></td><td>角标+一句话推荐</td><td>标签+组合链路弹窗</td><td>卡片/短视频/冷知识</td></tr>
+<tr><td><strong>衡量指标</strong></td><td>符文选择正确率↑ 胜率↑</td><td>黑科技标签点击率 组合完成率</td><td>分享率 UGC产出量</td></tr>
+<tr><td><strong>素材储备</strong></td><td>6个S级 + 27个A级</td><td>418条组合 + 22个英雄专属推荐</td><td>253条趣味 + 196条冷知识</td></tr>
+</table>
+
+<h3>🔄 推送时序编排</h3>
+
+<div class="strategy-box">
+<h4>对局全流程推送编排</h4>
+<table>
+<tr><th>时间点</th><th>推送内容</th><th>类型</th></tr>
+<tr><td>英雄选定</td><td>"你这把{英雄名}有个专属黑科技路线，留意后面海克斯选择"</td><td>🧪 黑科技预告</td></tr>
+<tr><td>开局Lv.1 海克斯</td><td>"碰到就拿"推荐 + S/A角标</td><td>⭐ 强力单卡</td></tr>
+<tr><td>7级 海克斯</td><td>如匹配黑科技 → "配上你开局拿的XX，要成了！"</td><td>🧪 黑科技</td></tr>
+<tr><td>11级 海克斯</td><td>基于已有build联动推荐</td><td>⭐ 强力单卡 + 🧪 黑科技</td></tr>
+<tr><td>15级 海克斯</td><td>保底推荐 + "最后一次了，稳一点"</td><td>⭐ 强力单卡</td></tr>
+<tr><td>局后</td><td>冷知识/趣味回顾 + "你知道吗？"</td><td>🎪 娱乐玩法</td></tr>
+</table>
+</div>
+
+<h3>📱 对局外推送渠道</h3>
+<table>
+<tr><th>渠道</th><th>内容类型</th><th>频率</th><th>示例</th></tr>
+<tr><td>App推送/弹窗</td><td>版本新符文强力推荐</td><td>版本更新时</td><td>"新版本6个S级天胡符文，碰到别错过！"</td></tr>
+<tr><td>Feed/社区</td><td>黑科技发现 + 趣味玩法</td><td>每日1条</td><td>"【本周黑科技】莉莉娅灼烧疾风流：满图飞奔边跑边烧"</td></tr>
+<tr><td>对局记录页</td><td>局后复盘 + 冷知识</td><td>每局</td><td>"你这把拿的吸血习性是目前胜率最高的符文之一"</td></tr>
+<tr><td>短视频/GIF</td><td>巨人体型流等视觉冲击内容</td><td>每周2-3条</td><td>15秒"变大到堵路"的高光时刻</td></tr>
+</table>
+
+<!-- =================== 六、推送内容模板 =================== -->
+<h2 id="content-template">六、推送内容模板</h2>
+
+<div class="two-col">
+<div class="strategy-box">
+<h4>⭐ 强力单卡模板</h4>
+<p style="color:#f0c040;margin-bottom:8px">对局内 · 海克斯选择态</p>
+<div style="background:#0a1520;padding:12px;border-radius:8px;margin:8px 0">
+💡 <strong>推荐选【{符文名}】</strong><br>
+"{一句话推荐理由}"<br>
+<span style="color:#8395a7;font-size:12px">▸ {次选点评1}<br>▸ {次选点评2}</span>
+</div>
+<p style="color:#f0c040;margin:12px 0 8px">对局外 · 版本推送</p>
+<div style="background:#0a1520;padding:12px;border-radius:8px;margin:8px 0">
+🆕 <strong>新版本天胡符文来了！</strong><br>
+⭐ 超凡邪恶 — 法师拿到直接起飞<br>
+⭐ 祖母的辣椒油 — 灼烧流核心<br>
+<span style="color:#8395a7;font-size:12px">碰到别犹豫，选就完事了</span>
+</div>
+</div>
+<div class="strategy-box">
+<h4>🧪 黑科技模板</h4>
+<p style="color:#f0c040;margin-bottom:8px">对局内 · 组合提示</p>
+<div style="background:#0a1520;padding:12px;border-radius:8px;margin:8px 0">
+🧪 <strong>黑科技：{组合名}要成了！</strong><br>
+"你已有{符文A}，选{符文B}直接成型"<br>
+<span style="color:#8395a7;font-size:12px">组合效果：{一句话原理}</span>
+</div>
+<p style="color:#f0c040;margin:12px 0 8px">对局外 · 发现推送</p>
+<div style="background:#0a1520;padding:12px;border-radius:8px;margin:8px 0">
+🔬 <strong>本周黑科技发现</strong><br>
+{英雄名}专属：{符文A} + {符文B} + {符文C}<br>
+效果：{黑科技详细说明}<br>
+<span style="color:#2ecc71;font-size:12px">▸ 下次碰到{英雄名}可以试试！</span>
+</div>
+</div>
+</div>
+
+<div class="strategy-box">
+<h4>🎪 娱乐玩法模板</h4>
+<div class="two-col">
+<div>
+<p style="color:#f0c040;margin-bottom:8px">冷知识推送</p>
+<div style="background:#0a1520;padding:12px;border-radius:8px;margin:8px 0">
+🧊 <strong>你知道吗？</strong><br>
+{冷知识内容}<br>
+<span style="color:#8395a7;font-size:12px">— 来自 {来源}</span>
+</div>
+</div>
+<div>
+<p style="color:#f0c040;margin-bottom:8px">UGC热评推送</p>
+<div style="background:#0a1520;padding:12px;border-radius:8px;margin:8px 0">
+🗣️ <strong>玩家热评</strong><br>
+关于【{符文名}】<br>
+"{评论内容}"<br>
+<span style="color:#f0c040;font-size:12px">👍 {点赞数}</span>
+</div>
+</div>
+</div>
+</div>
+
+<!-- =================== 结论 =================== -->
+<div class="conclusion">
+<h2>📌 结论与建议</h2>
+<div style="margin-top:20px">
+<table>
+<tr><th>优先级</th><th>行动项</th><th>预期效果</th></tr>
+<tr><td><span class="tag tag-s">P0</span></td><td><strong>强力单卡实时推荐</strong>：6个S级+27个A级符文，对局内海克斯选择态即时推送</td><td>符文选择正确率↑20%，新手胜率↑</td></tr>
+<tr><td><span class="tag tag-s">P0</span></td><td><strong>新符文专题推送</strong>：44个新符文中S/A级重点推荐（超凡邪恶、祖母辣椒油等）</td><td>回归玩家"版本知识"快速补齐</td></tr>
+<tr><td><span class="tag tag-a">P1</span></td><td><strong>黑科技对局内实时触发</strong>：418条组合数据驱动，7级起智能匹配</td><td>策略深度感知↑，"涨姿势"惊喜</td></tr>
+<tr><td><span class="tag tag-a">P1</span></td><td><strong>22位英雄专属黑科技推荐</strong>：抽到英雄→推送路线</td><td>英雄粘性↑，尝试新英雄意愿↑</td></tr>
+<tr><td><span class="tag tag-b">P2</span></td><td><strong>每日趣味/冷知识推送</strong>：253条趣味+196条冷知识轮播</td><td>日活触达↑，社交分享率↑</td></tr>
+<tr><td><span class="tag tag-b">P2</span></td><td><strong>UGC热评素材库</strong>：1794条评论中筛选高赞梗作为推送文案</td><td>用户共鸣↑，点击率↑</td></tr>
+<tr><td><span class="tag tag-fun">P3</span></td><td><strong>套装羁绊智能提醒</strong>：9套套装的凑套进度可视化</td><td>策略引导↑，对局多样性↑</td></tr>
+</table>
+</div>
+<div class="insight" style="margin-top:20px">
+<strong>💡 一句话总结：</strong>强力单卡解决"不知道选什么"（留存）→ 黑科技解决"不知道还能这么玩"（深度）→ 娱乐玩法解决"想分享给朋友"（拉新）。三类内容形成<b>留存→深度→拉新</b>的完整闭环。
+</div>
+</div>
+
+</div>
+
+<script>
+const darkLayout = {
+    paper_bgcolor: '#1a2a3a',
+    plot_bgcolor: '#1a2a3a',
+    font: { color: '#c8d6e5', family: 'PingFang SC, Microsoft YaHei, sans-serif' },
+    margin: { l: 60, r: 30, t: 50, b: 50 }
+};
+
+// 1. Tier分布
+Plotly.newPlot('chart-tier', [{
+    x: ['T1', 'T2', 'T3', 'T4', 'T5'],
+    y: [33, 44, 43, 38, 40],
+    type: 'bar',
+    marker: { color: ['#f0c040', '#2ecc71', '#3498db', '#e67e22', '#95a5a6'] },
+    text: [33, 44, 43, 38, 40],
+    textposition: 'outside',
+    textfont: { color: '#c8d6e5' }
+}], { ...darkLayout, title: { text: '符文Tier分级分布（291个符文）', font: { size: 16, color: '#f0c040' } }, yaxis: { title: '符文数量' } });
+
+// 2. 推荐指数分布
+Plotly.newPlot('chart-grade', [{
+    labels: ['S级天胡', 'A级强力', 'B级可选', 'C级一般', 'D级不推荐'],
+    values: [6, 27, 54, 52, 152],
+    type: 'pie',
+    hole: 0.45,
+    marker: { colors: ['#f0c040', '#2ecc71', '#3498db', '#e67e22', '#636e72'] },
+    textinfo: 'label+value+percent',
+    textfont: { size: 11, color: '#fff' }
+}], { ...darkLayout, title: { text: '推荐指数分布', font: { size: 14, color: '#f0c040' } }, showlegend: false });
+
+// 3. 品质等级分布
+Plotly.newPlot('chart-quality', [{
+    labels: ['白银', '黄金', '棱彩'],
+    values: [99, 101, 91],
+    type: 'pie',
+    hole: 0.45,
+    marker: { colors: ['#95a5a6', '#f0c040', '#9b59b6'] },
+    textinfo: 'label+value+percent',
+    textfont: { size: 12, color: '#fff' }
+}], { ...darkLayout, title: { text: '品质等级分布', font: { size: 14, color: '#f0c040' } }, showlegend: false });
+
+// 4. S级符文胜率
+Plotly.newPlot('chart-s-runes', [{
+    x: ['超凡邪恶', '质变：棱彩阶', '祖母的辣椒油', '巨人杀手', '吸血习性', '魔法飞弹'],
+    y: [67.39, 63.47, 62.74, 62.28, 62.12, 61.22],
+    type: 'bar',
+    marker: {
+        color: [67.39, 63.47, 62.74, 62.28, 62.12, 61.22],
+        colorscale: [[0, '#e67e22'], [1, '#f0c040']],
+        line: { color: '#f0c040', width: 1 }
+    },
+    text: ['67.39%', '63.47%', '62.74%', '62.28%', '62.12%', '61.22%'],
+    textposition: 'outside',
+    textfont: { color: '#f0c040', size: 14, family: 'monospace' }
+}, {
+    x: ['超凡邪恶', '质变：棱彩阶', '祖母的辣椒油', '巨人杀手', '吸血习性', '魔法飞弹'],
+    y: [50, 50, 50, 50, 50, 50],
+    type: 'scatter',
+    mode: 'lines',
+    line: { color: '#e74c3c', dash: 'dash', width: 1 },
+    name: '50%基准线'
+}], {
+    ...darkLayout,
+    title: { text: 'S级天胡符文胜率（碰到就拿！）', font: { size: 16, color: '#f0c040' } },
+    yaxis: { title: '胜率 (%)', range: [45, 72] },
+    showlegend: false,
+    annotations: [{ x: '魔法飞弹', y: 50, text: '50%基准线', showarrow: false, font: { color: '#e74c3c', size: 10 }, yshift: -12 }]
+});
+
+// 5. 黑科技标签分布
+Plotly.newPlot('chart-hack-tags', [{
+    y: ['灼烧扇巴掌流', '属性循环流', '冰火弹射流', '灼烧缩体流', '巨人体型流', '一板一眼流', '灼烧辣椒流', '踢踏舞流', '灼烧流', '无限叠层流', '趣味玩法'],
+    x: [1, 1, 2, 5, 9, 10, 15, 23, 54, 116, 253],
+    type: 'bar',
+    orientation: 'h',
+    marker: {
+        color: [1, 1, 2, 5, 9, 10, 15, 23, 54, 116, 253],
+        colorscale: [[0, '#3498db'], [0.5, '#9b59b6'], [1, '#e74c3c']]
+    },
+    text: [1, 1, 2, 5, 9, 10, 15, 23, 54, 116, 253],
+    textposition: 'outside',
+    textfont: { color: '#c8d6e5' }
+}], {
+    ...darkLayout,
+    title: { text: '黑科技流派组合数分布（共418条）', font: { size: 16, color: '#f0c040' } },
+    xaxis: { title: '组合数量' },
+    margin: { l: 130, r: 60, t: 50, b: 50 }
+});
+
+// 6. 趣味玩法英雄TOP10
+Plotly.newPlot('chart-fun-heroes', [{
+    x: ['奥莉安娜', '奥瑞利安·索尔', '莉莉娅', '弗拉基米尔', '萨勒芬妮', '莫甘娜', '阿萝拉', '黑默丁格', '梅尔', '维克托'],
+    y: [9, 8, 6, 6, 6, 6, 5, 5, 5, 5],
+    type: 'bar',
+    marker: { color: '#9b59b6' },
+    text: [9, 8, 6, 6, 6, 6, 5, 5, 5, 5],
+    textposition: 'outside',
+    textfont: { color: '#c8d6e5' }
+}], {
+    ...darkLayout,
+    title: { text: '趣味玩法组合数 TOP10 英雄', font: { size: 14, color: '#f0c040' } },
+    yaxis: { title: '组合数' }
+});
+
+// 7. 冷知识类型分布
+Plotly.newPlot('chart-cold-types', [{
+    labels: ['UGC类', '趣味类', '组合类', '机制类'],
+    values: [171, 13, 7, 5],
+    type: 'pie',
+    hole: 0.5,
+    marker: { colors: ['#e74c3c', '#9b59b6', '#1abc9c', '#3498db'] },
+    textinfo: 'label+value',
+    textfont: { size: 12, color: '#fff' }
+}], {
+    ...darkLayout,
+    title: { text: '冷知识内容类型（196条）', font: { size: 14, color: '#f0c040' } },
+    showlegend: false
+});
+
+// 8. 推送漏斗
+Plotly.newPlot('chart-funnel', [{
+    type: 'funnel',
+    y: ['全部符文', 'D级过滤后', 'B+C级可选', 'A级强力推荐', 'S级天胡'],
+    x: [291, 139, 106, 27, 6],
+    textinfo: 'value+percent initial',
+    marker: { color: ['#636e72', '#e67e22', '#3498db', '#2ecc71', '#f0c040'] },
+    textfont: { color: '#fff' }
+}], {
+    ...darkLayout,
+    title: { text: '推送内容筛选漏斗（从291个符文到6个天胡）', font: { size: 16, color: '#f0c040' } },
+    margin: { l: 120, r: 30, t: 60, b: 30 }
+});
+</script>
+
+</body>
+</html>

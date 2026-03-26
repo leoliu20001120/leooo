@@ -13,30 +13,15 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "99_Templates/tpl_daily_note.md",
+                "file": "10_Work/海克斯大乱斗/海克斯大乱斗_符文推荐系统设计方案.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "tpl_daily_note"
-            }
-          },
-          {
-            "id": "7a5615f6a6043bac",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "20_Study/Boris Cherny 访谈笔记 - Claude Code之父的AI编程进化论.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Boris Cherny 访谈笔记 - Claude Code之父的AI编程进化论"
+              "title": "海克斯大乱斗_符文推荐系统设计方案"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -238,43 +223,44 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "7a5615f6a6043bac",
+  "active": "608cb7ca128a07a4",
   "lastOpenFiles": [
-    "20_Study/Boris Power 调研 - OpenAI应用研究负责人.md",
+    "10_Work/海克斯大乱斗/海克斯大乱斗_AI教练设计方案.md",
+    "20_Study/投资调研/Tencent_2025Q4_深度调研报告.md",
+    "30_Common/方法论/VLM视觉评分验证法.md",
+    "20_Study/投资调研/PDD_2025Q4_深度调研报告.md",
+    "20_Study/段永平投资智慧.md",
+    "20_Study/17637ddde2f3d3feec8ee8c2.pdf",
+    "10_Work/海克斯大乱斗/海克斯大乱斗_符文推荐系统设计方案.md",
+    "10_Work/海克斯大乱斗/海克斯大乱斗_AI教练_PRD.md",
+    "20_Study/Claude_Code_vs_Codex_深度调研.md",
+    "10_Work/海克斯大乱斗/海克斯组合分析详情.json",
+    "10_Work/海克斯大乱斗/_analyze_combos.py",
+    "20_Study/Claude_Code_与_Codex_CLI_深度调研报告.md",
+    "10_Work/海克斯大乱斗/海克斯组合分类数据.json",
+    "10_Work/海克斯大乱斗/海克斯组合分类与黑科技路线分析.html",
+    "10_Work/海克斯大乱斗/~$海克斯大乱斗符文知识库_v3.xlsx",
+    "10_Work/海克斯大乱斗/hex_push_strategy_report.html",
+    "10_Work/海克斯大乱斗/海克斯大乱斗符文知识库_v3.xlsx",
+    "10_Work/海克斯大乱斗/_README.md",
+    "10_Work/AI 生成游戏/_README.md",
+    "10_Work/AI动作模型/_README.md",
+    "10_Work/金铲铲/以铲换铲/_README.md",
+    "10_Work/金铲铲/_README.md",
+    "10_Work/uc对局复盘/_README.md",
+    "10_Work/AI动作模型/AI动作模型生成方案讨论-纪要-20260324.md",
+    "10_Work/AI动作模型",
+    "10_Work/金铲铲/以铲换铲/以铲换X项目组讨论纪要.md",
+    "99_Templates/tpl_daily_note.md",
+    "20_Study/Tencent_2025Q4_深度调研报告.md",
+    "20_Study/AI研究/Lex Fridman 452 播客笔记 - Anthropic三巨头访谈.md",
+    "20_Study/AI研究/Boris Power 调研 - OpenAI应用研究负责人.md",
+    "20_Study/AI研究/Boris Cherny 访谈笔记 - Claude Code之父的AI编程进化论.md",
+    "20_Study/AI研究/Anthropic与Claude深度研究.md",
+    "20_Study/投资调研",
     "20_Study/Boris Cherny 访谈笔记 - Claude Code之父的AI编程进化论.md",
-    "20_Study/Lex Fridman 452 播客笔记 - Anthropic三巨头访谈.md",
-    "20_Study/Anthropic与Claude深度研究.md",
-    "10_Work/金铲铲/以铲换铲/demo.py",
-    "30_Common/方法论/被证明是错的——认知迭代面试法.md",
-    "10_Work/uc 王也 npc_副本/online/frontend/index.html",
-    "20_Study/_README.md",
-    "10_Work/uc 王也 npc_副本/online/frontend/chat_rounds.js",
-    "10_Work/uc 王也 npc/online/backend/test_e2e.py",
-    "30_Common/方法论/原型先行交付法.md",
-    "10_Work/uc 王也 npc/online/backend/__pycache__/main.cpython-311.pyc",
-    "10_Work/uc 王也 npc/online/backend/__pycache__/agent_report.cpython-311.pyc",
-    "10_Work/uc 王也 npc/online/backend/__pycache__/agent_chat.cpython-311.pyc",
-    "10_Work/uc 王也 npc/online/backend/__pycache__/session_store.cpython-311.pyc",
-    "10_Work/uc 王也 npc/online/backend/__pycache__/models.cpython-311.pyc",
-    "10_Work/uc 王也 npc/online/backend/__pycache__/llm_client.cpython-311.pyc",
-    "10_Work/uc 王也 npc_副本/异人体检站_在线版体验评审报告.md",
-    "10_Work/uc 王也 npc_副本/AI_Teams_产品经理_PRD_Review.md",
-    "10_Work/uc 王也 npc_副本/异人之下AI营销活动方案_v2（结合瓦手案例）.md",
-    "10_Work/uc 王也 npc_副本/异人体检站_项目管理方案_Phase1.md",
-    "10_Work/uc 王也 npc_副本/异人体检站_AI团队综合评审报告.md",
-    "10_Work/uc 王也 npc_副本/第一阶段产品方案_异人体检站.md",
-    "10_Work/uc 王也 npc_副本/技术评审报告_异人体检站.md",
-    "10_Work/uc 王也 npc_副本/_README.md",
-    "10_Work/uc 王也 npc_副本/异人之下AI营销活动方案.md",
-    "10_Work/uc 王也 npc_副本/异人体检站_TAPD任务拆解.md",
-    "10_Work/uc 王也 npc_副本/异人之下AI营销创意脑暴.md",
-    "10_Work/uc 王也 npc_副本/Mock数据契约_异人体检站.md",
-    "10_Work/uc 王也 npc_副本/异人体检站_开发启动包.md",
-    "10_Work/uc 王也 npc_副本/异人体检站_测试策略文档.md",
-    "10_Work/uc 王也 npc_副本/异人体检报告_融合方案.md",
-    "10_Work/uc 王也 npc_副本/异人体检站_数据埋点清单.md",
-    "10_Work/uc 王也 npc_副本/异人体检站_Week1执行清单.md",
-    "10_Work/uc 王也 npc_副本/异人体检站_Kickoff_启动会.md",
+    "00_Inbox/PDD_2025Q4_深度调研报告.md",
+    "20_Study/PDD_2025Q4_深度调研报告.md",
     "10_Work/金铲铲/以铲换铲/金铲铲的图片 3/是铲子但不符合金铲铲/O1CN01HJpulQ1uzVntXEJuu_!!2208812406108_converted.jpg",
     "10_Work/金铲铲/以铲换铲/金铲铲的图片 3/不是铲子/prada-1730707200-3493747683497385972-304662892-686f4c26d3874_converted.jpg",
     "10_Work/金铲铲/以铲换铲/金铲铲的图片 3/是铲子但不符合金铲铲/OIP_converted.jpg",

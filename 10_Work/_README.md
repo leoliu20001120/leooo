@@ -8,14 +8,18 @@
 
 ```
 10_Work/
-├── uc对局复盘/           # 对局数据分析与复盘
-├── 海克斯大乱斗/          # AI教练产品设计
-├── 景德镇/               # 景德镇工作坊（AI NPC + 景德镇游戏）
-├── 新项目名称/            # 你的其他工作项目...
-│   ├── _README.md        # 项目概述（推荐）
-│   ├── notes/            # 笔记文档
-│   ├── data/             # 数据文件
-│   └── assets/           # 图片等资源
+├── AI动作模型/            # AI 动画生成方案探索          ✅ _README.md
+├── AI 生成游戏/           # AI 生成游戏探索             ✅ _README.md
+├── uc 王也 npc/           # 一人之下 王也 NPC / 异人体检站 ✅ _README.md
+├── uc对局复盘/            # 对局数据分析与复盘           ✅ _README.md
+├── 海克斯大乱斗/          # AI 教练产品设计             ✅ _README.md
+├── 金铲铲/               # 金铲铲项目集                ✅ _README.md
+│   └── 以铲换铲/          # 以铲换X AI评分活动          ✅ _README.md
+├── 景德镇/               # 景德镇工作坊                ✅ _README.md
+│   ├── AI_NPC/           # 景德镇数字人                ✅ _README.md
+│   └── 景德镇游戏/        # 制瓷模拟经营游戏            ✅ _README.md
+├── 周报/                 # 周报归档                   ✅ _README.md
+├── skills_weekly_reports/ # Skills 周报               ✅ _README.md
 ```
 
 ## 与 20_Study 的区分

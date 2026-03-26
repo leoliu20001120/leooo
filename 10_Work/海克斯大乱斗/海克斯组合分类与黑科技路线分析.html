@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>海克斯大乱斗 · 黑科技组合分类 & 符文推荐话术</title>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<style>
+:root{--bg:#0f1923;--card:#1a2634;--border:#2a3a4a;--accent:#00d4aa;--text:#e0e6ed;--text2:#8899aa;--gold:#ffd700;--fire:#ff4444;--orange:#ffa500}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.container{max-width:1400px;margin:0 auto;padding:20px}
+h1{text-align:center;font-size:26px;padding:24px 0 6px;background:linear-gradient(135deg,var(--accent),#4ecdc4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{text-align:center;color:var(--text2);margin-bottom:24px;font-size:13px}
+.nav{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:100}
+.nav-btn{padding:7px 14px;border:1px solid var(--border);border-radius:18px;background:var(--card);color:var(--text);cursor:pointer;font-size:12px;transition:all .2s}
+.nav-btn:hover,.nav-btn.active{background:var(--accent);color:#000;border-color:var(--accent)}
+.panel{display:none;animation:fadeIn .3s}.panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:14px}
+.card h3{color:var(--accent);margin-bottom:10px;font-size:16px}
+.card h4{color:var(--gold);margin:10px 0 6px;font-size:14px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:#1e2d3d;color:var(--accent);padding:8px 6px;text-align:left;position:sticky;top:46px;z-index:10}
+td{padding:7px 6px;border-bottom:1px solid var(--border);vertical-align:top}
+tr:hover td{background:rgba(0,212,170,0.05)}
+.tag{display:inline-block;padding:2px 7px;border-radius:10px;font-size:10px;margin:1px;white-space:nowrap}
+.t-fire{background:rgba(255,68,68,.2);color:#ff6b6b;border:1px solid rgba(255,68,68,.3)}
+.t-strong{background:rgba(255,165,0,.2);color:#ffa500;border:1px solid rgba(255,165,0,.3)}
+.t-mid{background:rgba(0,212,170,.2);color:var(--accent);border:1px solid rgba(0,212,170,.3)}
+.t-fun{background:rgba(160,120,255,.2);color:#a078ff;border:1px solid rgba(160,120,255,.3)}
+.t-synergy{background:rgba(255,215,0,.15);color:var(--gold);border:1px solid rgba(255,215,0,.3)}
+.t-stack{background:rgba(0,255,128,.2);color:#00ff80;border:1px solid rgba(0,255,128,.3)}
+.t-dot{background:rgba(255,100,0,.2);color:#ff6400;border:1px solid rgba(255,100,0,.3)}
+.t-gamble{background:rgba(255,0,128,.2);color:#ff0080;border:1px solid rgba(255,0,128,.3)}
+.t-aoe{background:rgba(255,200,0,.2);color:#ffc800;border:1px solid rgba(255,200,0,.3)}
+.t-heal{background:rgba(0,255,200,.2);color:#00ffc8;border:1px solid rgba(0,255,200,.3)}
+.t-death{background:rgba(128,0,128,.2);color:#c080ff;border:1px solid rgba(128,0,128,.3)}
+.t-forge{background:rgba(180,180,180,.2);color:#ccc;border:1px solid rgba(180,180,180,.3)}
+.t-gold{background:rgba(255,215,0,.2);color:#ffd700;border:1px solid rgba(255,215,0,.3)}
+.t-auto{background:rgba(100,100,255,.2);color:#8080ff;border:1px solid rgba(100,100,255,.3)}
+.t-snow{background:rgba(150,220,255,.2);color:#96dcff;border:1px solid rgba(150,220,255,.3)}
+.t-tank{background:rgba(100,200,100,.2);color:#64c864;border:1px solid rgba(100,200,100,.3)}
+.t-burst{background:rgba(255,50,50,.2);color:#ff5050;border:1px solid rgba(255,50,50,.3)}
+.t-default{background:rgba(100,150,200,.2);color:#96b8dc;border:1px solid rgba(100,150,200,.3)}
+.search-bar{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.search-bar input,.search-bar select{padding:7px 10px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--text);font-size:12px}
+.search-bar input{flex:1;min-width:180px}
+.search-bar select{min-width:110px}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:16px}
+.stat-box{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center}
+.stat-num{font-size:26px;font-weight:bold;color:var(--accent)}.stat-label{font-size:11px;color:var(--text2);margin-top:2px}
+.insight{background:rgba(0,212,170,.08);border-left:3px solid var(--accent);padding:10px 14px;margin:10px 0;border-radius:0 8px 8px 0;font-size:12px}
+.insight strong{color:var(--accent)}
+.route-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px;transition:all .2s}
+.route-card:hover{border-color:var(--accent);box-shadow:0 2px 8px rgba(0,212,170,.1)}
+.pitch-box{background:linear-gradient(135deg,rgba(255,215,0,.08),rgba(255,128,0,.06));border:1px solid rgba(255,215,0,.25);border-radius:10px;padding:14px;margin:10px 0}
+.pitch-box h4{color:var(--gold);margin-bottom:6px;font-size:14px}
+.pitch-box p{font-size:12px;line-height:1.7}
+.muted{color:var(--text2)}
+.combo-runes{display:flex;gap:4px;flex-wrap:wrap;margin:4px 0}
+.rune-chip{padding:3px 8px;border-radius:6px;font-size:11px;border:1px solid var(--border);background:rgba(255,255,255,.03)}
+.rune-chip.t1{border-color:rgba(255,68,68,.4);color:#ff8888}
+.rune-chip.t2{border-color:rgba(255,165,0,.4);color:#ffb050}
+.rune-chip.t3{border-color:rgba(0,212,170,.4);color:#50d4b0}
+.rune-chip.t4,.rune-chip.t5,.rune-chip.nan{border-color:var(--border);color:var(--text2)}
+.chart-container{height:380px}
+.ugc-quote{font-size:11px;color:var(--text2);font-style:italic;margin-top:4px;padding-left:8px;border-left:2px solid var(--border)}
+.hero-list{font-size:11px;color:var(--text2);margin-top:2px}
+.note-box{background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.2);border-radius:8px;padding:10px 12px;margin:8px 0;font-size:12px}
+.note-box strong{color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>🎴 海克斯大乱斗 · 黑科技组合分类 & 符文推荐话术</h1>
+<p class="subtitle">基于符文知识库 v3 · 527 个唯一组合 × 167 英雄 · 组合分类 + 符文终局路线</p>
+
+<nav class="nav">
+  <button class="nav-btn active" onclick="switchPanel('overview')">📊 总览</button>
+  <button class="nav-btn" onclick="switchPanel('table')">🏷️ 组合分类表</button>
+  <button class="nav-btn" onclick="switchPanel('routes')">🗺️ 符文终局路线</button>
+  <button class="nav-btn" onclick="switchPanel('pitch')">💬 推荐话术</button>
+</nav>
+
+<!-- ===== 总览 ===== -->
+<div id="p-overview" class="panel active">
+  <div class="stat-grid">
+    <div class="stat-box"><div class="stat-num">527</div><div class="stat-label">唯一组合</div></div>
+    <div class="stat-box"><div class="stat-num">320</div><div class="stat-label">🔥 强力核心</div></div>
+    <div class="stat-box"><div class="stat-num">98</div><div class="stat-label">💪 实用推荐</div></div>
+    <div class="stat-box"><div class="stat-num">52</div><div class="stat-label">🧩 羁绊协同</div></div>
+    <div class="stat-box"><div class="stat-num">32</div><div class="stat-label">🎪 娱乐玩法</div></div>
+    <div class="stat-box"><div class="stat-num">25</div><div class="stat-label">⚡ 中规中矩</div></div>
+  </div>
+
+  <div class="card">
+    <h3>📌 修正后的理解</h3>
+    <div class="note-box">
+      <strong>关键澄清：</strong>"英雄推荐海克斯组合"是<strong>玩家社区推荐的黑科技组合</strong>，不是官方系统。
+      <br>• 英雄胜率 ≠ 组合胜率（表中胜率是英雄本身的胜率）
+      <br>• 套装羁绊是<strong>官方内置的游戏机制</strong>，不是黑科技
+      <br>• 分类依据：<strong>组合层级</strong>（数据源的 T1-T5）+ <strong>三个符文各自的单卡胜率/Tier</strong> + <strong>玩法协同关系</strong>
+    </div>
+    <div class="insight"><strong>发现1：</strong>527个唯一组合中，320个（61%）为"强力核心"——三个符文都是 T1/T2 高Tier单卡且组合层级 T1。这类组合<strong>不需要凑羁绊就很强</strong>。</div>
+    <div class="insight"><strong>发现2：</strong>52个"羁绊协同"类组合才是真正的<strong>黑科技核心</strong>——符文单卡不一定强，但凑成官方套装后协同效应拉满。典型：喂呜喂呜辅助流、俯冲炸弹死亡流、下雪天雪球流。</div>
+    <div class="insight"><strong>发现3：</strong>32个"娱乐玩法"——胜率低、单卡弱，但玩起来独特有趣。如雪球流（51%胜率但"几秒发射一个墨菲特"）。</div>
+    <div class="insight"><strong>产品洞察：</strong>当 AI Coach 推荐冷门符文时，玩家的核心疑问是"拿了这个，最终能达成什么效果？"。<strong>必须在推荐时展示终局画面</strong>：哪些组合可达、强在哪、和哪些英雄配。</div>
+  </div>
+
+  <div class="card">
+    <h3>🏷️ 分类标签体系</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div>
+        <h4>强度分类（互斥）</h4>
+        <div style="font-size:12px;line-height:2">
+          <span class="tag t-fire">🔥 强力核心</span> 组合T1 + 3卡中≥2个高Tier + 符文均胜率≥57% (320)<br>
+          <span class="tag t-strong">💪 实用推荐</span> 组合T1 + 符文均胜率≥55% (98)<br>
+          <span class="tag t-synergy">🧩 羁绊协同</span> 组合T1/T2 + 含2件以上同套装符文 (52)<br>
+          <span class="tag t-mid">⚡ 中规中矩</span> 其他 (25)<br>
+          <span class="tag t-fun">🎪 娱乐玩法</span> 组合T4/T5 或符文均胜率<53% (32)
+        </div>
+      </div>
+      <div>
+        <h4>玩法标签（可叠加）</h4>
+        <div style="font-size:12px;line-height:2">
+          <span class="tag t-stack">📈 叠层滚雪球</span> ≥2个叠层符文 (157)<br>
+          <span class="tag t-dot">🔥 灼烧DOT</span> 炼狱导管+辣椒油 (12)<br>
+          <span class="tag t-aoe">💥 弹射AOE</span> ≥2个弹射符文 (13)<br>
+          <span class="tag t-gamble">🎰 赌狗</span> 含质变类符文 (20)<br>
+          <span class="tag t-forge">🔧 锻造流</span> 含属性类符文 (15)<br>
+          <span class="tag t-death">💀 同归于尽</span> ≥2个死亡类符文 (13)<br>
+          <span class="tag t-heal">💚 辅助治疗</span> ≥2个治疗符文 (22)<br>
+          <span class="tag t-snow">❄️ 雪球流</span> ≥2个雪球符文 (9)<br>
+          <span class="tag t-gold">💰 经济流</span> ≥2个金币符文 (15)<br>
+          <span class="tag t-auto">🤖 自动施放</span> ≥2个自动技能符文 (4)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card"><h3>分类分布</h3><div id="chart-cat" class="chart-container"></div></div>
+  <div class="card"><h3>玩法标签分布 TOP 15</h3><div id="chart-tags" class="chart-container"></div></div>
+</div>
+
+<!-- ===== 组合分类表 ===== -->
+<div id="p-table" class="panel">
+  <div class="card">
+    <h3>🏷️ 全量组合分类（527个唯一组合）</h3>
+    <div class="search-bar">
+      <input id="s-rune" placeholder="搜索符文..." oninput="filterTbl()">
+      <input id="s-hero" placeholder="搜索英雄..." oninput="filterTbl()">
+      <select id="f-cat" onchange="filterTbl()">
+        <option value="">全部分类</option>
+        <option value="强力核心">🔥 强力核心</option>
+        <option value="实用推荐">💪 实用推荐</option>
+        <option value="羁绊协同">🧩 羁绊协同</option>
+        <option value="中规中矩">⚡ 中规中矩</option>
+        <option value="娱乐玩法">🎪 娱乐玩法</option>
+      </select>
+      <select id="f-tag" onchange="filterTbl()">
+        <option value="">全部标签</option>
+        <option value="叠层">📈 叠层</option><option value="灼烧">🔥 灼烧</option>
+        <option value="弹射">💥 弹射</option><option value="赌狗">🎰 赌狗</option>
+        <option value="锻造">🔧 锻造</option><option value="同归">💀 同归于尽</option>
+        <option value="辅助">💚 辅助</option><option value="雪球">❄️ 雪球</option>
+        <option value="经济">💰 经济</option><option value="自动">🤖 自动</option>
+        <option value="叠角龙">叠角龙</option><option value="喂呜喂呜">喂呜喂呜</option>
+        <option value="俯冲炸弹">俯冲炸弹</option><option value="掷骰狂人">掷骰狂人</option>
+        <option value="纯强度">纯强度</option>
+      </select>
+    </div>
+    <div style="overflow-x:auto;max-height:650px;overflow-y:auto">
+      <table><thead><tr>
+        <th style="width:30%">组合符文</th><th>组合层级</th><th>分类</th><th>标签</th>
+        <th>符文均胜率</th><th>推荐英雄</th><th>UGC</th>
+      </tr></thead><tbody id="tbl-body"></tbody></table>
+    </div>
+    <p class="muted" style="margin-top:6px;font-size:11px" id="tbl-count"></p>
+  </div>
+</div>
+
+<!-- ===== 符文终局路线 ===== -->
+<div id="p-routes" class="panel">
+  <div class="card">
+    <h3>🗺️ 符文 → 终局路线映射</h3>
+    <p class="muted" style="margin-bottom:8px;font-size:12px">
+      <strong>场景：</strong>玩家选了一个符文 → AI Coach 告诉他"拿了这个能通往什么终局"<br>
+      下面列出每个高频符文参与的所有组合路线，按参与组合数排序
+    </p>
+    <div class="search-bar">
+      <input id="s-route" placeholder="搜索符文名..." oninput="filterRoutes()">
+      <select id="f-route-cat" onchange="filterRoutes()">
+        <option value="">全部</option>
+        <option value="强力">含强力组合</option>
+        <option value="羁绊">含羁绊协同</option>
+        <option value="娱乐">含娱乐玩法</option>
+      </select>
+    </div>
+    <div id="route-list"></div>
+  </div>
+</div>
+
+<!-- ===== 推荐话术 ===== -->
+<div id="p-pitch" class="panel">
+  <div class="card">
+    <h3>💬 AI Coach 符文推荐话术模板</h3>
+    <p class="muted" style="margin-bottom:12px;font-size:12px">
+      当推荐冷门/羁绊符文时，用以下模板告诉玩家"为什么值得拿"
+    </p>
+    
+    <div class="note-box">
+      <strong>话术公式：</strong><br>
+      ① 终局画面（凑成什么效果）→ ② 凑成路径（还需要什么）→ ③ 保底价值（即使凑不齐也不亏）→ ④ 社交证据（UGC评论/冷知识）
+    </div>
+    
+    <div id="pitch-list"></div>
+  </div>
+  
+  <div class="card">
+    <h3>📐 话术设计原则</h3>
+    <div class="insight"><strong>终局可见：</strong>先说"凑成X效果后，你的英雄会怎样"——给玩家一个值得期待的画面。</div>
+    <div class="insight"><strong>路径清晰：</strong>"你现在拿了A，再拿一个B或C就能激活2件套"——让玩家知道下一步选什么。</div>
+    <div class="insight"><strong>保底兜底：</strong>"即使凑不齐套装，这个符文单卡胜率XX%，拿了不亏"——降低决策焦虑。</div>
+    <div class="insight"><strong>社交证据：</strong>引用UGC高赞评论，如"配合XXX谁用谁知道(6赞)"——用玩家的话说服玩家。</div>
+    <div class="insight"><strong>对比叙事：</strong>"单卡Tier可能只是T3，但凑成羁绊后体系有X%的胜率加成"——让收益可感知。</div>
+  </div>
+</div>
+</div>
+
+<script>
+// ===== 数据加载 =====
+let COMBOS = [], FULL_DATA = [];
+
+async function loadData() {
+  try {
+    const [detailResp, fullResp] = await Promise.all([
+      fetch('./海克斯组合分析详情.json'),
+      fetch('./海克斯组合分类数据.json')
+    ]);
+    COMBOS = await detailResp.json();
+    FULL_DATA = await fullResp.json();
+  } catch(e) { console.error('数据加载失败', e); }
+  renderAll();
+}
+
+function switchPanel(name) {
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('p-'+name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function tagClass(tag) {
+  if(tag.includes('叠层'))return 't-stack';if(tag.includes('灼烧')||tag.includes('DOT'))return 't-dot';
+  if(tag.includes('弹射'))return 't-aoe';if(tag.includes('赌狗'))return 't-gamble';
+  if(tag.includes('锻造'))return 't-forge';if(tag.includes('同归')||tag.includes('💀'))return 't-death';
+  if(tag.includes('辅助')||tag.includes('治疗'))return 't-heal';if(tag.includes('雪球'))return 't-snow';
+  if(tag.includes('经济'))return 't-gold';if(tag.includes('自动'))return 't-auto';
+  if(tag.includes('坦'))return 't-tank';if(tag.includes('爆发'))return 't-burst';
+  if(tag.includes('羁绊')||tag.includes('🎯')||tag.includes('🧩'))return 't-synergy';
+  return 't-default';
+}
+
+function catClass(cat) {
+  if(cat.includes('强力核心'))return 't-fire';if(cat.includes('实用'))return 't-strong';
+  if(cat.includes('羁绊'))return 't-synergy';if(cat.includes('娱乐'))return 't-fun';
+  return 't-mid';
+}
+
+function tierClass(t){if(t=='T1')return'rune-chip t1';if(t=='T2')return'rune-chip t2';if(t=='T3')return'rune-chip t3';return'rune-chip t4';}
+
+function renderAll() {
+  renderCharts();
+  renderTable();
+  renderRoutes();
+  renderPitches();
+}
+
+// ===== 图表 =====
+function renderCharts() {
+  const cats = {};
+  COMBOS.forEach(c => { cats[c.分类] = (cats[c.分类]||0)+1; });
+  Plotly.newPlot('chart-cat',[{type:'pie',hole:.4,
+    labels:Object.keys(cats),values:Object.values(cats),
+    marker:{colors:['#ff4444','#ffa500','#ffd700','#a078ff','#00d4aa']},
+    textinfo:'label+value+percent',textfont:{size:12,color:'#fff'}
+  }],{paper_bgcolor:'transparent',plot_bgcolor:'transparent',font:{color:'#e0e6ed'},margin:{t:10,b:10,l:10,r:10},showlegend:false});
+
+  const tagCounts = {};
+  COMBOS.forEach(c => {
+    (c.标签||'').split('|').forEach(t => {
+      t = t.trim(); if(t) { const k = t.length>12 ? t.substring(0,12)+'…' : t; tagCounts[k]=(tagCounts[k]||0)+1; }
+    });
+  });
+  const sorted = Object.entries(tagCounts).sort((a,b)=>b[1]-a[1]).slice(0,15);
+  Plotly.newPlot('chart-tags',[{type:'bar',y:sorted.map(s=>s[0]).reverse(),x:sorted.map(s=>s[1]).reverse(),
+    orientation:'h',marker:{color:sorted.map((_,i)=>`hsl(${i*24},65%,55%)`).reverse()},
+    text:sorted.map(s=>s[1]).reverse(),textposition:'outside',textfont:{color:'#e0e6ed'}
+  }],{paper_bgcolor:'transparent',plot_bgcolor:'transparent',font:{color:'#e0e6ed',size:11},
+    yaxis:{automargin:true},margin:{t:10,b:20,l:160,r:40},height:420});
+}
+
+// ===== 表格 =====
+function renderTable() {
+  const tbody = document.getElementById('tbl-body');
+  const rows = COMBOS.slice(0,600);
+  tbody.innerHTML = rows.map(c => {
+    const tags = (c.标签||'').split('|').map(t=>{t=t.trim();return t?`<span class="tag ${tagClass(t)}">${t}</span>`:''}).join(' ');
+    const r1c = tierClass(c.符文1_Tier), r2c = tierClass(c.符文2_Tier), r3c = tierClass(c.符文3_Tier);
+    const ugcShort = (c.UGC精选||'').split('||')[0]?.substring(0,50) || '';
+    return `<tr data-combo="${c.组合}" data-cat="${c.分类}" data-tag="${c.标签}" data-hero="${c.推荐英雄}">
+      <td><div class="combo-runes">
+        <span class="${r1c}">${c.符文1} <span class="muted">${c.符文1_Tier}/${c.符文1_胜率}%</span></span>
+        <span class="${r2c}">${c.符文2} <span class="muted">${c.符文2_Tier}/${c.符文2_胜率}%</span></span>
+        <span class="${r3c}">${c.符文3} <span class="muted">${c.符文3_Tier}/${c.符文3_胜率}%</span></span>
+      </div></td>
+      <td>${c.组合层级}</td>
+      <td><span class="tag ${catClass(c.分类)}">${c.分类}</span></td>
+      <td>${tags}</td>
+      <td style="color:${c.平均符文胜率>=60?'#ff4444':c.平均符文胜率>=57?'#ffa500':'var(--text)'}">${c.平均符文胜率}%</td>
+      <td class="hero-list">${(c.推荐英雄||'').substring(0,40)}${c.推荐英雄?.length>40?'…':''}</td>
+      <td class="ugc-quote">${ugcShort}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('tbl-count').textContent = `显示 ${rows.length} / ${COMBOS.length}`;
+}
+
+function filterTbl() {
+  const rune = document.getElementById('s-rune').value.toLowerCase();
+  const hero = document.getElementById('s-hero').value.toLowerCase();
+  const cat = document.getElementById('f-cat').value;
+  const tag = document.getElementById('f-tag').value;
+  let shown = 0;
+  document.querySelectorAll('#tbl-body tr').forEach(tr => {
+    const c = tr.dataset.combo?.toLowerCase()||'';
+    const ca = tr.dataset.cat||'';
+    const ta = tr.dataset.tag||'';
+    const h = tr.dataset.hero?.toLowerCase()||'';
+    const ok = (!rune||c.includes(rune)) && (!hero||h.includes(hero)) && (!cat||ca.includes(cat)) && (!tag||ta.includes(tag));
+    tr.style.display = ok?'':'none';
+    if(ok) shown++;
+  });
+  document.getElementById('tbl-count').textContent = `显示 ${shown} 条`;
+}
+
+// ===== 符文路线 =====
+function renderRoutes() {
+  // 统计每个符文参与的组合
+  const runeMap = {};
+  COMBOS.forEach(c => {
+    [c.符文1, c.符文2, c.符文3].forEach(rn => {
+      if(!rn) return;
+      if(!runeMap[rn]) runeMap[rn] = {combos:[],strong:0,synergy:0,fun:0};
+      runeMap[rn].combos.push(c);
+      if(c.分类.includes('强力')) runeMap[rn].strong++;
+      else if(c.分类.includes('实用')) runeMap[rn].strong++;
+      else if(c.分类.includes('羁绊')) runeMap[rn].synergy++;
+      else if(c.分类.includes('娱乐')) runeMap[rn].fun++;
+    });
+  });
+
+  const sorted = Object.entries(runeMap).filter(([_,v])=>v.combos.length>=3).sort((a,b)=>b[1].combos.length-a[1].combos.length);
+  
+  // 填充套装筛选
+  let html = '';
+  sorted.forEach(([rn, info]) => {
+    // 找这个符文的基础信息
+    const firstCombo = info.combos[0];
+    let tier='?', wr=0;
+    if(firstCombo.符文1===rn){tier=firstCombo.符文1_Tier;wr=firstCombo.符文1_胜率;}
+    else if(firstCombo.符文2===rn){tier=firstCombo.符文2_Tier;wr=firstCombo.符文2_胜率;}
+    else{tier=firstCombo.符文3_Tier;wr=firstCombo.符文3_胜率;}
+
+    const catDist = {};
+    info.combos.forEach(c=>{catDist[c.分类]=(catDist[c.分类]||0)+1;});
+    const catStr = Object.entries(catDist).map(([k,v])=>`${k}×${v}`).join(' ');
+    
+    // 列出最佳3个组合
+    const bestCombos = info.combos.sort((a,b)=>b.平均符文胜率-a.平均符文胜率).slice(0,3);
+    const comboListHtml = bestCombos.map(c => 
+      `<div style="font-size:11px;padding:4px 8px;background:rgba(0,212,170,.04);border-radius:4px;margin:2px 0">
+        <strong>${c.组合}</strong> <span class="tag ${catClass(c.分类)}" style="font-size:9px">${c.分类}</span>
+        <span class="muted">均胜率${c.平均符文胜率}%</span>
+        <span class="muted" style="font-size:10px">→ ${(c.推荐英雄||'').substring(0,30)}</span>
+      </div>`
+    ).join('');
+
+    // 所有适配英雄（从FULL_DATA）
+    const heroSet = new Set();
+    FULL_DATA.filter(f=>f.组合?.includes(rn)).forEach(f=>heroSet.add(f.英雄));
+    
+    html += `<div class="route-card" data-rune="${rn}" data-has-strong="${info.strong>0}" data-has-synergy="${info.synergy>0}" data-has-fun="${info.fun>0}">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <span style="font-size:16px;font-weight:bold;color:var(--accent)">${rn}</span>
+        <span class="muted" style="font-size:12px">${tier} | 单卡胜率 ${wr}%</span>
+      </div>
+      <div style="font-size:12px;margin-bottom:6px">
+        参与 <strong>${info.combos.length}</strong> 个组合 | ${catStr}
+      </div>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:4px">
+        适配英雄(${heroSet.size}): ${[...heroSet].slice(0,12).join('、')}${heroSet.size>12?'…':''}
+      </div>
+      <h4 style="font-size:12px;color:var(--gold);margin:6px 0 4px">📋 最佳组合路线</h4>
+      ${comboListHtml}
+    </div>`;
+  });
+  document.getElementById('route-list').innerHTML = html;
+}
+
+function filterRoutes() {
+  const kw = document.getElementById('s-route').value.toLowerCase();
+  const cat = document.getElementById('f-route-cat').value;
+  document.querySelectorAll('#route-list .route-card').forEach(card => {
+    const rn = card.dataset.rune.toLowerCase();
+    const matchKw = !kw || rn.includes(kw);
+    let matchCat = true;
+    if(cat==='强力') matchCat = card.dataset.hasStrong==='true';
+    if(cat==='羁绊') matchCat = card.dataset.hasSynergy==='true';
+    if(cat==='娱乐') matchCat = card.dataset.hasFun==='true';
+    card.style.display = (matchKw && matchCat) ? '' : 'none';
+  });
+}
+
+// ===== 话术 =====
+function renderPitches() {
+  // 挑选有羁绊协同的组合 + 一些代表性强力/娱乐组合来生成话术
+  const pitchCombos = COMBOS.filter(c => 
+    c.分类.includes('羁绊') || c.标签?.includes('叠层') || c.标签?.includes('赌狗') || 
+    c.标签?.includes('雪球') || c.标签?.includes('同归') || c.标签?.includes('辅助') ||
+    c.标签?.includes('经济') || c.标签?.includes('弹射')
+  ).slice(0, 40);
+
+  let html = '';
+  const seen = new Set();
+  pitchCombos.forEach(c => {
+    if(seen.has(c.组合)) return;
+    seen.add(c.组合);
+    
+    // 生成话术
+    const r = [
+      {name:c.符文1, tier:c.符文1_Tier, wr:c.符文1_胜率},
+      {name:c.符文2, tier:c.符文2_Tier, wr:c.符文2_胜率},
+      {name:c.符文3, tier:c.符文3_Tier, wr:c.符文3_胜率}
+    ];
+    
+    const tags = (c.标签||'').split('|').map(t=>t.trim()).filter(Boolean);
+    const tagHtml = tags.map(t=>`<span class="tag ${tagClass(t)}">${t}</span>`).join(' ');
+    const catCls = catClass(c.分类);
+    
+    // 话术模板
+    let pitch = '';
+    if(c.标签?.includes('叠角龙')) {
+      const stackRunes = r.filter(x=>['扇巴掌','缩小引擎','超凡邪恶','吞噬灵魂','无限循环往复','物法皆修','踢踏舞'].includes(x.name));
+      pitch = `🎯 终局：凑成叠角龙${c.套装羁绊?.includes('3')?'3':'2'}件套，叠层速度${c.套装羁绊?.includes('3')?'翻倍(+100%)':'提升50%'}！`;
+      pitch += `\n📍 路径：你已经有 ${stackRunes.map(s=>s.name).join('+')}，`;
+      pitch += `再拿一个叠层符文就能激活/升级羁绊。`;
+      pitch += `\n🛡️ 保底：即使凑不齐，${r[0].name}单卡胜率${r[0].wr}%，不亏。`;
+    } else if(c.标签?.includes('赌狗')) {
+      pitch = `🎯 终局：走赌狗路线！质变符文升级装备品质，配合锻造流属性爆炸。`;
+      pitch += `\n📍 "有质变棱彩不选还玩什么海斗？"——99赞的评论说明一切。`;
+      pitch += `\n🛡️ 保底：质变系列单卡胜率都在55%+，即使不凑套也不差。`;
+    } else if(c.标签?.includes('同归')) {
+      pitch = `🎯 终局：俯冲炸弹套装——死了爆炸+快速复活，"玉面手雷王"模式！`;
+      pitch += `\n📍 路径：凑齐小丑学院+俯冲轰炸+最终都市列车，死亡=输出。`;
+      pitch += `\n🎪 体验：不看胜率看快乐，刺客英雄拿了同归于尽循环太爽了。`;
+    } else if(c.标签?.includes('雪球')) {
+      pitch = `🎯 终局：下雪天套装——雪球急速+伤害拉满，"几秒发射一个墨菲特"！`;
+      pitch += `\n📍 路径：史上最大雪球+升级雪球+雪球扭蛋机，3件套直接起飞。`;
+      pitch += `\n🎪 娱乐警告：胜率约51%但快乐值拉满，适合想玩出花的玩家。`;
+    } else if(c.标签?.includes('辅助')) {
+      pitch = `🎯 终局：喂呜喂呜套装——移速+治疗全拉满，辅助英雄的天堂！`;
+      pitch += `\n📍 路径：${r.map(x=>x.name).join('+')}直接3件套。`;
+      pitch += `\n🛡️ 保底：辅助英雄选取率低但体系稳定，团战贡献远超面板数据。`;
+    } else if(c.标签?.includes('经济')) {
+      pitch = `🎯 终局：金币雨套装——额外金币收益，中后期经济碾压！`;
+      pitch += `\n📍 路径：${r.map(x=>x.name).join('+')}，先发育后起飞的稳健路线。`;
+      pitch += `\n🛡️ 经济优势=装备优势，后期团战质量远高于对面。`;
+    } else if(c.标签?.includes('弹射')) {
+      pitch = `🎯 终局：弹射AOE流——技能弹跳+群伤，团战清场利器！`;
+      pitch += `\n📍 配合: ${r.map(x=>x.name).join('+')}。`;
+    } else {
+      pitch = `📦 组合: ${c.组合}`;
+      pitch += `\n🏷️ ${c.分类} | 符文均胜率 ${c.平均符文胜率}%`;
+    }
+    
+    const ugc = (c.UGC精选||'').split('||')[0]?.trim();
+    const tip = (c.冷知识||'').split('||')[0]?.trim();
+    
+    html += `<div class="pitch-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:6px">
+        <h4 style="margin:0">${c.组合}</h4>
+        <span class="tag ${catCls}" style="font-size:10px">${c.分类}</span>
+      </div>
+      <div style="margin-bottom:4px">${tagHtml}</div>
+      <div style="font-size:11px;margin-bottom:6px">
+        ${r.map(x=>`<span class="${tierClass(x.tier)}">${x.name} ${x.tier}/${x.wr}%</span>`).join(' ')}
+      </div>
+      <div style="font-size:12px;color:var(--text);white-space:pre-line;line-height:1.7;padding:8px;background:rgba(0,0,0,.2);border-radius:6px">${pitch}</div>
+      ${ugc ? `<div class="ugc-quote" style="margin-top:6px">💬 ${ugc}</div>` : ''}
+      ${tip ? `<div style="font-size:11px;color:var(--text2);margin-top:4px">💡 ${tip.substring(0,80)}</div>` : ''}
+      <div class="hero-list" style="margin-top:4px">👥 推荐英雄: ${(c.推荐英雄||'').substring(0,60)}</div>
+    </div>`;
+  });
+  document.getElementById('pitch-list').innerHTML = html;
+}
+
+// Init
+loadData();
+</script>
+</body>
+</html>
