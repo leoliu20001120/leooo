@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>峡谷猫格诊断书</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════ CSS VARIABLES ═══════════════ */
+:root {
+  --bg-deep: #0a0a14;
+  --bg-card: #12121f;
+  --bg-card-hover: #1a1a2e;
+  --neon-pink: #ff2d78;
+  --neon-cyan: #00f0ff;
+  --neon-purple: #b44dff;
+  --neon-yellow: #ffe156;
+  --neon-green: #39ff7f;
+  --neon-orange: #ff8a3d;
+  --text-primary: #f0f0f8;
+  --text-secondary: #8888aa;
+  --text-muted: #555577;
+  --glass-bg: rgba(18,18,31,0.85);
+  --glass-border: rgba(255,255,255,0.08);
+  --font-display: 'ZCOOL KuaiLe', cursive;
+  --font-body: 'Noto Sans SC', sans-serif;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-xs: 6px;
+}
+
+/* ═══════════════ RESET & BASE ═══════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { 
+  height: 100%; 
+  overflow: hidden; 
+  font-family: var(--font-body);
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+body { position: relative; }
+
+/* ═══════════════ CANVAS BG ═══════════════ */
+#bgCanvas { 
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+  z-index: 0; pointer-events: none; 
+}
+
+/* ═══════════════ SCREENS ═══════════════ */
+.screen {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 1; opacity: 0; pointer-events: none;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateY(20px);
+  padding: 24px;
+  overflow-y: auto;
+}
+.screen.active { 
+  opacity: 1; pointer-events: auto; transform: translateY(0); 
+}
+
+/* ═══════════════ STAGE 1: SCAN ═══════════════ */
+#stage1 { justify-content: center; }
+.scan-container { 
+  text-align: center; width: 100%; max-width: 360px; 
+  display: flex; flex-direction: column; align-items: center; gap: 24px;
+}
+.scan-title {
+  font-family: var(--font-display); font-size: 26px;
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  letter-spacing: 2px;
+}
+.scan-subtitle { color: var(--text-secondary); font-size: 13px; line-height: 1.6; }
+
+/* Paw Button */
+.paw-area {
+  width: 200px; height: 200px; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+}
+.paw-ring {
+  position: absolute; width: 180px; height: 180px;
+  border: 2px solid rgba(0,240,255,0.3); border-radius: 50%;
+  animation: pawRingPulse 2s ease-in-out infinite;
+}
+.paw-ring:nth-child(2) { width: 160px; height: 160px; animation-delay: 0.5s; border-color: rgba(255,45,120,0.2); }
+.paw-ring:nth-child(3) { width: 140px; height: 140px; animation-delay: 1s; border-color: rgba(180,77,255,0.15); }
+@keyframes pawRingPulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+.paw-icon {
+  font-size: 72px; z-index: 2; filter: drop-shadow(0 0 20px rgba(0,240,255,0.5));
+  transition: transform 0.15s ease;
+}
+.paw-area:active .paw-icon { transform: scale(0.88); }
+.paw-area.pressing .paw-icon { transform: scale(0.85); filter: drop-shadow(0 0 40px rgba(255,45,120,0.8)); }
+
+/* Progress Ring */
+.paw-progress {
+  position: absolute; width: 190px; height: 190px; z-index: 1;
+  transform: rotate(-90deg);
+}
+.paw-progress circle {
+  fill: none; stroke-width: 3; stroke-linecap: round;
+}
+.paw-progress .track { stroke: rgba(255,255,255,0.05); }
+.paw-progress .fill { 
+  stroke: url(#pawGrad); 
+  stroke-dasharray: 565; stroke-dashoffset: 565;
+  transition: stroke-dashoffset 0.1s linear;
+}
+
+.scan-hint {
+  color: var(--neon-cyan); font-size: 14px; font-weight: 500;
+  animation: hintBlink 1.5s ease-in-out infinite;
+}
+@keyframes hintBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.scan-status {
+  color: var(--text-secondary); font-size: 13px; min-height: 20px;
+  transition: color 0.3s;
+}
+.scan-status.found { color: var(--neon-green); font-weight: 700; }
+
+/* ═══════════════ STAGE 2: QUIZ ═══════════════ */
+#stage2 { justify-content: flex-start; padding-top: 60px; }
+.quiz-container { width: 100%; max-width: 380px; }
+
+/* Cat Tail Progress */
+.tail-progress {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 32px; padding: 0 8px;
+}
+.tail-dot {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--bg-card); border: 2px solid var(--text-muted);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; color: var(--text-muted);
+  transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+.tail-dot.active { 
+  border-color: var(--neon-cyan); color: var(--neon-cyan);
+  background: rgba(0,240,255,0.1); transform: scale(1.15);
+  box-shadow: 0 0 12px rgba(0,240,255,0.3);
+}
+.tail-dot.done { 
+  border-color: var(--neon-green); color: var(--neon-green);
+  background: rgba(57,255,127,0.15);
+}
+.tail-line {
+  flex: 1; height: 2px; background: var(--text-muted);
+  transition: background 0.4s;
+}
+.tail-line.done { background: var(--neon-green); }
+
+.quiz-question-num {
+  font-family: var(--font-display); font-size: 15px;
+  color: var(--neon-pink); margin-bottom: 8px;
+}
+.quiz-question {
+  font-size: 20px; font-weight: 700; line-height: 1.5;
+  margin-bottom: 24px;
+}
+.quiz-options { display: flex; flex-direction: column; gap: 12px; }
+.quiz-option {
+  background: var(--bg-card); border: 1.5px solid var(--glass-border);
+  border-radius: var(--radius-sm); padding: 16px 18px;
+  font-size: 15px; line-height: 1.5; color: var(--text-primary);
+  cursor: pointer; transition: all 0.25s ease;
+  display: flex; align-items: flex-start; gap: 12px;
+}
+.quiz-option:active { transform: scale(0.97); }
+.quiz-option:hover { border-color: rgba(0,240,255,0.3); background: var(--bg-card-hover); }
+.quiz-option.selected {
+  border-color: var(--neon-cyan); background: rgba(0,240,255,0.08);
+  box-shadow: 0 0 20px rgba(0,240,255,0.1);
+}
+.option-letter {
+  min-width: 26px; height: 26px; border-radius: 50%;
+  background: rgba(255,255,255,0.06); 
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: var(--text-secondary);
+  transition: all 0.25s;
+}
+.quiz-option.selected .option-letter {
+  background: var(--neon-cyan); color: var(--bg-deep);
+}
+/* Paw splash on select */
+.paw-splash {
+  position: fixed; pointer-events: none; z-index: 999;
+  font-size: 48px; opacity: 0;
+  animation: pawSplash 0.6s ease-out forwards;
+}
+@keyframes pawSplash {
+  0% { opacity: 1; transform: scale(0.5) rotate(-15deg); }
+  50% { opacity: 0.8; transform: scale(1.2) rotate(5deg); }
+  100% { opacity: 0; transform: scale(1.5) rotate(10deg) translateY(-30px); }
+}
+
+/* ═══════════════ STAGE 3: LOADING ═══════════════ */
+#stage3 { justify-content: center; gap: 20px; }
+.loading-cat {
+  width: 120px; height: 120px; position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+.cat-body {
+  font-size: 80px; animation: catType 0.3s ease-in-out infinite alternate;
+}
+@keyframes catType { 
+  0% { transform: translateY(0) rotate(-2deg); }
+  100% { transform: translateY(-4px) rotate(2deg); }
+}
+.cat-keyboard {
+  position: absolute; bottom: -10px; font-size: 24px;
+  animation: kbShake 0.15s ease-in-out infinite alternate;
+}
+@keyframes kbShake { 0% { transform: rotate(-3deg); } 100% { transform: rotate(3deg); } }
+
+/* Data Barrage */
+.barrage-area {
+  width: 100%; max-width: 360px; height: 100px; position: relative; overflow: hidden;
+}
+.barrage-tag {
+  position: absolute; white-space: nowrap;
+  padding: 4px 14px; border-radius: 20px; font-size: 13px; font-weight: 500;
+  animation: barrageFloat linear forwards;
+  opacity: 0.85;
+}
+@keyframes barrageFloat {
+  0% { transform: translateX(110%); opacity: 0; }
+  10% { opacity: 0.85; }
+  90% { opacity: 0.85; }
+  100% { transform: translateX(-110%); opacity: 0; }
+}
+.loading-text {
+  text-align: center; font-size: 14px; color: var(--text-secondary);
+  animation: loadTextFade 2s ease-in-out infinite;
+}
+@keyframes loadTextFade {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+.loading-dots::after {
+  content: ''; animation: dots 1.5s steps(4) infinite;
+}
+@keyframes dots {
+  0% { content: ''; }
+  25% { content: '.'; }
+  50% { content: '..'; }
+  75% { content: '...'; }
+}
+
+/* ═══════════════ STAGE 4: RESULT ═══════════════ */
+#stage4 { 
+  justify-content: flex-start; padding-top: 32px; padding-bottom: 100px;
+  overflow-y: auto;
+}
+.result-container { width: 100%; max-width: 380px; }
+.result-header {
+  text-align: center; margin-bottom: 24px;
+}
+.result-badge {
+  display: inline-block; padding: 4px 16px; border-radius: 20px;
+  font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+  color: white; margin-bottom: 12px;
+}
+.result-title {
+  font-family: var(--font-display); font-size: 28px;
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-yellow));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+/* Cat Avatar */
+.cat-avatar-card {
+  background: var(--bg-card); border: 1px solid var(--glass-border);
+  border-radius: var(--radius); padding: 24px; text-align: center;
+  margin-bottom: 16px; position: relative; overflow: hidden;
+}
+.cat-avatar-card::before {
+  content: ''; position: absolute; top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: conic-gradient(from 0deg, transparent, rgba(0,240,255,0.05), transparent, rgba(255,45,120,0.05), transparent);
+  animation: rotateBg 10s linear infinite;
+}
+@keyframes rotateBg { to { transform: rotate(360deg); } }
+.cat-avatar {
+  width: 160px; height: 160px; margin: 0 auto 16px;
+  position: relative; z-index: 1;
+}
+.cat-avatar-emoji { font-size: 100px; line-height: 160px; }
+.cat-avatar-img {
+  width: 160px; height: 160px; border-radius: 50%;
+  object-fit: cover; border: 3px solid rgba(0,240,255,0.3);
+  box-shadow: 0 0 30px rgba(0,240,255,0.15), 0 0 60px rgba(255,45,120,0.1);
+  animation: avatarGlow 3s ease-in-out infinite alternate;
+}
+@keyframes avatarGlow {
+  0% { box-shadow: 0 0 20px rgba(0,240,255,0.15), 0 0 40px rgba(255,45,120,0.08); }
+  100% { box-shadow: 0 0 35px rgba(0,240,255,0.25), 0 0 70px rgba(255,45,120,0.15); }
+}
+.cat-name-tag {
+  font-family: var(--font-display); font-size: 22px; color: var(--neon-yellow);
+  position: relative; z-index: 1;
+}
+.cat-owner {
+  font-size: 13px; color: var(--text-secondary); margin-top: 4px;
+  position: relative; z-index: 1;
+}
+
+/* Diagnosis */
+.diag-card {
+  background: var(--bg-card); border: 1px solid var(--glass-border);
+  border-radius: var(--radius); padding: 20px; margin-bottom: 16px;
+}
+.diag-label {
+  font-size: 12px; font-weight: 700; color: var(--neon-pink);
+  letter-spacing: 1px; margin-bottom: 10px;
+  display: flex; align-items: center; gap: 6px;
+}
+.diag-text {
+  font-size: 14px; line-height: 1.8; color: var(--text-primary);
+  white-space: pre-line;
+}
+.diag-text em { 
+  font-style: normal; color: var(--neon-cyan); font-weight: 700; 
+}
+
+/* Radar */
+.radar-card {
+  background: var(--bg-card); border: 1px solid var(--glass-border);
+  border-radius: var(--radius); padding: 20px; margin-bottom: 16px;
+  text-align: center;
+}
+.radar-title {
+  font-size: 12px; font-weight: 700; color: var(--neon-purple);
+  letter-spacing: 1px; margin-bottom: 16px;
+}
+#radarCanvas { max-width: 260px; width: 100%; }
+
+/* Stats */
+.stat-bars { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+.stat-row { display: flex; align-items: center; gap: 10px; }
+.stat-label { font-size: 12px; color: var(--text-secondary); min-width: 50px; text-align: right; }
+.stat-bar-bg { flex: 1; height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+.stat-bar-fill { 
+  height: 100%; border-radius: 4px; 
+  transition: width 1s cubic-bezier(0.25,1,0.5,1);
+  width: 0;
+}
+.stat-val { font-size: 12px; font-weight: 700; min-width: 28px; }
+
+/* Fun Facts */
+.fun-card {
+  background: var(--bg-card); border: 1px solid var(--glass-border);
+  border-radius: var(--radius); padding: 16px 20px; margin-bottom: 16px;
+}
+.fun-item {
+  font-size: 13px; line-height: 1.7; color: var(--text-secondary);
+  padding: 6px 0;
+}
+.fun-item + .fun-item { border-top: 1px solid var(--glass-border); }
+.fun-highlight { color: var(--neon-yellow); font-weight: 700; }
+
+/* Comment */
+.comment-card {
+  background: linear-gradient(135deg, rgba(0,240,255,0.05), rgba(180,77,255,0.05));
+  border: 1px solid rgba(0,240,255,0.15);
+  border-radius: var(--radius); padding: 16px 20px; margin-bottom: 24px;
+}
+.comment-speaker { font-size: 12px; color: var(--neon-cyan); font-weight: 700; margin-bottom: 6px; }
+.comment-text { font-size: 14px; line-height: 1.7; color: var(--text-primary); }
+
+/* CTAs */
+.cta-row {
+  display: flex; gap: 12px; position: sticky; bottom: 0; 
+  padding: 16px 0; z-index: 10;
+}
+.cta-btn {
+  flex: 1; padding: 14px; border-radius: var(--radius-sm);
+  font-size: 15px; font-weight: 700; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: all 0.2s;
+}
+.cta-btn:active { transform: scale(0.96); }
+.cta-primary {
+  background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+  color: white; box-shadow: 0 4px 20px rgba(255,45,120,0.3);
+}
+.cta-secondary {
+  background: var(--bg-card); color: var(--neon-cyan);
+  border: 1.5px solid rgba(0,240,255,0.3);
+}
+
+/* ═══════════════ STAGE 5: PK ═══════════════ */
+#stage5 { 
+  justify-content: flex-start; padding-top: 32px; padding-bottom: 100px;
+  overflow-y: auto;
+}
+.pk-container { width: 100%; max-width: 400px; }
+.pk-header {
+  text-align: center; margin-bottom: 24px;
+}
+.pk-title {
+  font-family: var(--font-display); font-size: 26px;
+  color: var(--neon-orange);
+}
+.pk-versus {
+  display: flex; align-items: center; justify-content: center; gap: 16px;
+  margin-bottom: 20px;
+}
+.pk-cat-card {
+  flex: 1; background: var(--bg-card); border: 1px solid var(--glass-border);
+  border-radius: var(--radius); padding: 16px; text-align: center;
+}
+.pk-cat-emoji { font-size: 56px; }
+.pk-cat-img {
+  width: 80px; height: 80px; border-radius: 50%;
+  object-fit: cover; border: 2px solid rgba(255,255,255,0.15);
+  box-shadow: 0 0 15px rgba(0,240,255,0.1);
+}
+.pk-cat-name { font-family: var(--font-display); font-size: 15px; margin-top: 6px; }
+.pk-cat-owner { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+.pk-vs-badge {
+  font-family: var(--font-display); font-size: 28px;
+  color: var(--neon-orange); text-shadow: 0 0 20px rgba(255,138,61,0.5);
+  flex-shrink: 0;
+}
+.pk-relation-badge {
+  text-align: center; margin-bottom: 16px;
+}
+.pk-relation-tag {
+  display: inline-block; padding: 6px 20px; border-radius: 20px;
+  font-family: var(--font-display); font-size: 16px;
+}
+.pk-relation-tag.love { background: rgba(255,45,120,0.15); color: var(--neon-pink); border: 1px solid rgba(255,45,120,0.3); }
+.pk-relation-tag.fight { background: rgba(255,138,61,0.15); color: var(--neon-orange); border: 1px solid rgba(255,138,61,0.3); }
+.pk-relation-tag.crush { background: rgba(180,77,255,0.15); color: var(--neon-purple); border: 1px solid rgba(180,77,255,0.3); }
+
+.pk-compat {
+  text-align: center; margin-bottom: 20px;
+}
+.pk-compat-num {
+  font-family: var(--font-display); font-size: 48px;
+}
+.pk-compat-label { font-size: 12px; color: var(--text-secondary); }
+
+.pk-report {
+  background: var(--bg-card); border: 1px solid var(--glass-border);
+  border-radius: var(--radius); padding: 20px; margin-bottom: 24px;
+}
+.pk-report-title { font-size: 12px; font-weight: 700; color: var(--neon-orange); margin-bottom: 10px; }
+.pk-report-text { font-size: 14px; line-height: 1.8; color: var(--text-primary); }
+
+.pk-cta-row { display: flex; flex-direction: column; gap: 10px; }
+.pk-cta-row .cta-btn { width: 100%; }
+.cta-game {
+  background: linear-gradient(135deg, var(--neon-green), #00c853);
+  color: var(--bg-deep); box-shadow: 0 4px 20px rgba(57,255,127,0.2);
+}
+
+/* ═══════════════ PK INPUT OVERLAY ═══════════════ */
+.pk-invite-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.7); z-index: 100;
+  display: none; align-items: center; justify-content: center;
+  padding: 24px;
+}
+.pk-invite-overlay.visible { display: flex; }
+.pk-invite-modal {
+  background: var(--bg-card); border: 1px solid var(--glass-border);
+  border-radius: var(--radius); padding: 28px; width: 100%; max-width: 340px;
+  text-align: center;
+}
+.pk-invite-modal h3 {
+  font-family: var(--font-display); font-size: 20px; color: var(--neon-pink);
+  margin-bottom: 8px;
+}
+.pk-invite-modal p { font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; }
+.pk-invite-input {
+  width: 100%; padding: 12px 16px; border-radius: var(--radius-sm);
+  background: var(--bg-deep); border: 1.5px solid var(--glass-border);
+  color: var(--text-primary); font-size: 15px; font-family: var(--font-body);
+  outline: none; margin-bottom: 16px;
+}
+.pk-invite-input:focus { border-color: var(--neon-cyan); }
+.pk-invite-input::placeholder { color: var(--text-muted); }
+
+/* ═══════════════ UTILITIES ═══════════════ */
+.fade-in { animation: fadeInUp 0.5s ease forwards; }
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.delay-1 { animation-delay: 0.1s; opacity: 0; }
+.delay-2 { animation-delay: 0.2s; opacity: 0; }
+.delay-3 { animation-delay: 0.3s; opacity: 0; }
+.delay-4 { animation-delay: 0.4s; opacity: 0; }
+.delay-5 { animation-delay: 0.5s; opacity: 0; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<!-- Background Particle Canvas -->
+<canvas id="bgCanvas"></canvas>
+
+<!-- SVG Defs -->
+<svg width="0" height="0"><defs>
+  <linearGradient id="pawGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" style="stop-color:#00f0ff"/>
+    <stop offset="100%" style="stop-color:#ff2d78"/>
+  </linearGradient>
+</defs></svg>
+
+<!-- ══════════ STAGE 1: SCAN ══════════ -->
+<div id="stage1" class="screen active">
+  <div class="scan-container">
+    <div class="scan-title fade-in">🐾 喵星终端 v2.0</div>
+    <div class="scan-subtitle fade-in delay-1">全峡谷喵星扫描系统已就绪<br>长按下方猫爪，启动基因读取</div>
+    
+    <div class="paw-area" id="pawArea">
+      <div class="paw-ring"></div>
+      <div class="paw-ring"></div>
+      <div class="paw-ring"></div>
+      <svg class="paw-progress" viewBox="0 0 190 190">
+        <circle class="track" cx="95" cy="95" r="90"/>
+        <circle class="fill" id="pawFill" cx="95" cy="95" r="90"/>
+      </svg>
+      <div class="paw-icon">🐾</div>
+    </div>
+    
+    <div class="scan-hint" id="scanHint">长按猫爪 · 启动扫描</div>
+    <div class="scan-status" id="scanStatus"></div>
+  </div>
+</div>
+
+<!-- ══════════ STAGE 2: QUIZ ══════════ -->
+<div id="stage2" class="screen">
+  <div class="quiz-container">
+    <div class="tail-progress" id="tailProgress"></div>
+    <div id="quizContent"></div>
+  </div>
+</div>
+
+<!-- ══════════ STAGE 3: LOADING ══════════ -->
+<div id="stage3" class="screen">
+  <div class="loading-cat">
+    <div class="cat-body">🐱</div>
+    <div class="cat-keyboard">⌨️</div>
+  </div>
+  <div class="barrage-area" id="barrageArea"></div>
+  <div class="loading-text" id="loadingText">正在分析你的 1,247 场对局<span class="loading-dots"></span></div>
+</div>
+
+<!-- ══════════ STAGE 4: RESULT ══════════ -->
+<div id="stage4" class="screen">
+  <div class="result-container" id="resultContent"></div>
+</div>
+
+<!-- ══════════ STAGE 5: PK ══════════ -->
+<div id="stage5" class="screen">
+  <div class="pk-container" id="pkContent"></div>
+</div>
+
+<!-- PK Invite Overlay -->
+<div class="pk-invite-overlay" id="pkOverlay">
+  <div class="pk-invite-modal">
+    <h3>⚔️ 邀请好友 PK</h3>
+    <p>输入好友的昵称，看看你俩是什么关系！</p>
+    <input class="pk-invite-input" id="pkFriendName" placeholder="好友昵称（随便填一个）" maxlength="12">
+    <div class="cta-btn cta-primary" id="pkStartBtn" onclick="startPK()">开始 PK</div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// DATA & CONFIG
+// ═══════════════════════════════════════════════
+
+const QUESTIONS = [
+  {
+    q: "开局30秒，你会？",
+    opts: [
+      { text: "🌿 直奔对面野区蹲草丛", tags: ["aggressive","jungle"] },
+      { text: "🗡️ 默默补兵等发育", tags: ["steady","farm"] },
+      { text: "📢 疯狂 ping 队友\"跟我来\"", tags: ["leader","social"] },
+      { text: "📱 切出去回消息", tags: ["chill","casual"] }
+    ]
+  },
+  {
+    q: "队友送了3个人头，你的反应？",
+    opts: [
+      { text: "😊 \"没事兄弟稳住\"", tags: ["tolerant","support"] },
+      { text: "😮‍💨 默默叹气继续打", tags: ["endure","solo"] },
+      { text: "🎯 开始指挥全队运营", tags: ["leader","control"] },
+      { text: "🔥 心态爆炸直接开喷", tags: ["rage","aggressive"] }
+    ]
+  },
+  {
+    q: "选一只最像你的猫？",
+    opts: [
+      { text: "🧶 追逐激光笔的橘猫", tags: ["active","aggressive"] },
+      { text: "🛋️ 沙发上躺平的英短", tags: ["chill","casual"] },
+      { text: "🏔️ 独自巡视领地的豹猫", tags: ["solo","jungle"] },
+      { text: "🐾 蹭人求摸的布偶猫", tags: ["social","support"] }
+    ]
+  },
+  {
+    q: "你的峡谷座右铭？",
+    opts: [
+      { text: "💪 \"稳住我们能赢\"", tags: ["steady","team"] },
+      { text: "⚔️ \"冲就完了\"", tags: ["aggressive","rage"] },
+      { text: "👑 \"我 carry 你们躺\"", tags: ["solo","control"] },
+      { text: "🎉 \"开心就好\"", tags: ["chill","casual"] }
+    ]
+  }
+];
+
+const CAT_TYPES = [
+  { id:"orange_tank", emoji:"🍊", img:"cats/orange_tank.png", name:"重装橘猫", color:"#ff8a3d",
+    matchTags:["aggressive","support","tolerant","team"],
+    role:"坦克/辅助", trait:"肉盾担当",
+    diagnosis: `根据你最近 <em>247 场</em>对局的分析，你是一只【重装橘猫】。\n\n你永远是团战第一个冲进去的那个，也永远是第一个倒下的那个。但你的助攻数比死亡数还多——说明你不是在送，你是在"战略性牺牲"。\n\n你用<em>牛头</em>的场次比其他英雄加起来都多。我怀疑你选英雄的标准只有一个：能不能用头撞人。`,
+    comment: "这只橘猫的体重和它的担当一样重。建议：少冲一点，你的队友需要你活着。",
+    stats: { ops:45, team:92, surv:30, vision:78, eco:55, grit:88 }
+  },
+  { id:"siamese_noble", emoji:"👑", img:"cats/siamese_noble.png", name:"高贵暹罗", color:"#b44dff",
+    matchTags:["steady","farm","solo","control"],
+    role:"中单/ADC", trait:"华丽操作",
+    diagnosis: `根据你最近 <em>189 场</em>对局的分析，你是一只【高贵暹罗】。\n\n你的 KDA <em>4.2</em> 说明你是那种"死一次就很不爽"的完美主义者。你的补刀数据在同段位排名 <em>前 15%</em>，补兵补得比你回微信还勤。\n\n你最擅长的是在安全距离输出，然后在队友冲上去的时候优雅地收掉人头。`,
+    comment: "这只暹罗猫从来不弄脏自己的爪子。建议：偶尔也可以上去冲一冲，你的队友需要你分担伤害。",
+    stats: { ops:88, team:45, surv:82, vision:55, eco:90, grit:40 }
+  },
+  { id:"hairless_heartbreak", emoji:"💔", img:"cats/hairless_heartbreak.png", name:"心碎无毛猫", color:"#ff2d78",
+    matchTags:["endure","rage"],
+    role:"随缘", trait:"永不言弃",
+    diagnosis: `根据你最近 <em>312 场</em>对局的分析，你是一只【心碎无毛猫】。\n\n你的近 <em>20 场胜率只有 35%</em>，但你的平均每场时长高达 <em>22 分钟</em>——说明你从来不提前投降。\n\n峡谷欠你一个大顺风。别灰心，毕竟连败到底之后，匹配机制会给你安排几个能carry的队友的。大概。`,
+    comment: "这只无毛猫被峡谷伤透了心，但还在坚持。建议：去打几把大乱斗缓一缓，人生不止排位。",
+    stats: { ops:50, team:60, surv:35, vision:42, eco:48, grit:95 }
+  },
+  { id:"lion_commander", emoji:"🦁", img:"cats/lion_commander.png", name:"狮子猫·指挥官", color:"#ffe156",
+    matchTags:["leader","control","social"],
+    role:"指挥位", trait:"天生领袖",
+    diagnosis: `根据你最近 <em>156 场</em>对局的分析，你是一只【狮子猫·指挥官】。\n\n你的 <em>ping 频率</em>是同段位平均值的 <em>3 倍</em>。你的参团率高达 <em>78%</em>，说明哪里有团战哪里就有你——不一定是去打的，是去指挥的。\n\n你最常说的话应该是"打龙打龙打龙"和"别追了别追了"。`,
+    comment: "这只狮子猫天生就是当老大的料。建议：偶尔听听别人的意见，也许你的辅助看到了你没看到的。",
+    stats: { ops:62, team:95, surv:58, vision:85, eco:60, grit:72 }
+  },
+  { id:"black_cat_night", emoji:"🌙", img:"cats/black_cat_night.png", name:"暗夜黑猫", color:"#00f0ff",
+    matchTags:["jungle","aggressive","solo"],
+    role:"打野位", trait:"阴影猎手",
+    diagnosis: `根据你最近 <em>203 场</em>对局的分析，你是一只【暗夜黑猫】。\n\n你的场均击杀 <em>8.3</em>，但助攻只有 <em>2.1</em>——你不是在帮队友，你是在收割整个峡谷。你最爱做的事是蹲草丛等人，平均每场在草丛里待 <em>47 秒</em>。\n\n你选<em>李信</em>的频率说明你喜欢一个人偷偷做大事。`,
+    comment: "这只黑猫从不在阳光下行动。建议：记得帮队友一下，你不能一个人1v5。好吧，也许你可以。",
+    stats: { ops:92, team:28, surv:65, vision:38, eco:70, grit:55 }
+  },
+  { id:"cloud_ragdoll", emoji:"☁️", img:"cats/cloud_ragdoll.png", name:"云端布偶", color:"#39ff7f",
+    matchTags:["chill","casual"],
+    role:"随缘", trait:"佛系王者",
+    diagnosis: `根据你最近 <em>42 场</em>对局的分析，你是一只【云端布偶】。\n\n你平均每周只打 <em>3 场</em>，但胜率高达 <em>63%</em>。你是那种"来了就赢，赢了就走"的神秘玩家。\n\n你最常玩<em>大乱斗</em>模式，因为排位太累了。你的人生哲学是：赢了开心，输了也不影响心情。`,
+    comment: "这只布偶猫活在云端，偶尔下凡打两把。建议：如果你愿意多打几场，你可能已经是王者了。可能。",
+    stats: { ops:68, team:55, surv:75, vision:50, eco:62, grit:45 }
+  }
+];
+
+const PK_RELATIONS = [
+  { type:"love", tag:"天作之合 💕", tagClass:"love", color:"#ff2d78",
+    text: (a,b) => `你们的契合度高达 99%！\n\n${a.ownerName} 的【${a.cat.name}】负责冲锋陷阵，${b.ownerName} 的【${b.cat.name}】负责在后面默默输出。这就是传说中的"一个敢送，一个敢收"的完美组合。\n\n建议：立刻组双排，但千万别分手——你们一旦分开各掉两个段位。`,
+    compat: 99 },
+  { type:"fight", tag:"一山不容二猫 🔥", tagClass:"fight", color:"#ff8a3d",
+    text: (a,b) => `危险警告！你们的契合度只有 15%！\n\n${a.ownerName} 的【${a.cat.name}】和 ${b.ownerName} 的【${b.cat.name}】——两个人都想当大哥，组队胜率感人。你们在一起的画面就是：两只猫同时扑向同一个猎物，然后撞在一起。\n\n建议：立刻开自定义单挑，谁输了谁认做猫儿子！`,
+    compat: 15 },
+  { type:"crush", tag:"血脉压制 👑", tagClass:"crush", color:"#b44dff",
+    text: (a,b) => `单方面碾压！\n\n${a.ownerName} 的【${a.cat.name}】在 ${b.ownerName} 的【${b.cat.name}】面前就是绝对的"野王爸爸"。数据不会说谎——一个场均 carry，一个场均被 carry。\n\n以后让 ${b.ownerName} 选个悠米挂 ${a.ownerName} 身上就行了，千万别让 ta 自己走路。`,
+    compat: 8 }
+];
+
+const BARRAGE_TAGS = [
+  { text:"五杀！", bg:"rgba(255,45,120,0.2)", color:"#ff2d78" },
+  { text:"超神", bg:"rgba(255,225,86,0.2)", color:"#ffe156" },
+  { text:"连跪7把", bg:"rgba(255,138,61,0.2)", color:"#ff8a3d" },
+  { text:"MVP收割机", bg:"rgba(57,255,127,0.2)", color:"#39ff7f" },
+  { text:"0/8/2", bg:"rgba(255,45,120,0.2)", color:"#ff2d78" },
+  { text:"补刀王", bg:"rgba(0,240,255,0.2)", color:"#00f0ff" },
+  { text:"视野大师", bg:"rgba(180,77,255,0.2)", color:"#b44dff" },
+  { text:"团战发动机", bg:"rgba(255,225,86,0.2)", color:"#ffe156" },
+  { text:"草丛守望者", bg:"rgba(57,255,127,0.2)", color:"#39ff7f" },
+  { text:"闪现交了", bg:"rgba(255,138,61,0.2)", color:"#ff8a3d" },
+  { text:"塔下强杀", bg:"rgba(255,45,120,0.2)", color:"#ff2d78" },
+  { text:"1v5 极限操作", bg:"rgba(0,240,255,0.2)", color:"#00f0ff" },
+  { text:"偷龙成功", bg:"rgba(180,77,255,0.2)", color:"#b44dff" },
+  { text:"送了一血", bg:"rgba(255,138,61,0.2)", color:"#ff8a3d" }
+];
+
+const LOADING_TEXTS = [
+  "正在分析你的 1,247 场对局",
+  "发现了一些不忍直视的数据",
+  "正在给你匹配猫种",
+  "AI 猫管家正在疯狂写诊断书",
+  "你的数据有点多，猫管家正在加班"
+];
+
+const FUN_FACTS = [
+  "你的总死亡次数可以绕峡谷 <span class='fun-highlight'>847 圈</span>",
+  "你在草丛里蹲的总时长相当于看完 <span class='fun-highlight'>3 部《指环王》加长版</span>",
+  "你释放技能的总次数可以按满 <span class='fun-highlight'>127 台手机的屏幕</span>",
+  "你打出的总伤害如果换成真实伤害，可以击败 <span class='fun-highlight'>5,621 只小兵</span>"
+];
+
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+let currentStage = 1;
+let currentQuestion = 0;
+let userTags = [];
+let resultCat = null;
+let playerName = "召唤师小猫" + Math.floor(Math.random()*1000);
+
+// ═══════════════════════════════════════════════
+// BACKGROUND PARTICLES
+// ═══════════════════════════════════════════════
+const bgCanvas = document.getElementById('bgCanvas');
+const bgCtx = bgCanvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas() {
+  bgCanvas.width = window.innerWidth;
+  bgCanvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+class Particle {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * bgCanvas.width;
+    this.y = Math.random() * bgCanvas.height;
+    this.size = Math.random() * 2 + 0.5;
+    this.speedX = (Math.random() - 0.5) * 0.3;
+    this.speedY = (Math.random() - 0.5) * 0.3;
+    this.opacity = Math.random() * 0.4 + 0.1;
+    const colors = ['0,240,255','255,45,120','180,77,255','255,225,86'];
+    this.color = colors[Math.floor(Math.random()*colors.length)];
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    if(this.x < 0 || this.x > bgCanvas.width || this.y < 0 || this.y > bgCanvas.height) this.reset();
+  }
+  draw() {
+    bgCtx.beginPath();
+    bgCtx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+    bgCtx.fillStyle = `rgba(${this.color},${this.opacity})`;
+    bgCtx.fill();
+  }
+}
+
+for(let i=0;i<60;i++) particles.push(new Particle());
+
+function animateBg() {
+  bgCtx.clearRect(0,0,bgCanvas.width,bgCanvas.height);
+  particles.forEach(p => { p.update(); p.draw(); });
+  // Draw connecting lines
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<100){
+        bgCtx.beginPath();
+        bgCtx.moveTo(particles[i].x, particles[i].y);
+        bgCtx.lineTo(particles[j].x, particles[j].y);
+        bgCtx.strokeStyle=`rgba(0,240,255,${0.06*(1-dist/100)})`;
+        bgCtx.lineWidth=0.5;
+        bgCtx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(animateBg);
+}
+animateBg();
+
+// ═══════════════════════════════════════════════
+// STAGE TRANSITIONS
+// ═══════════════════════════════════════════════
+function goToStage(n) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('stage'+n).classList.add('active');
+  currentStage = n;
+  if(n===2) renderQuiz();
+  if(n===3) startLoading();
+  if(n===4) renderResult();
+}
+
+// ═══════════════════════════════════════════════
+// STAGE 1: SCAN — LONG PRESS
+// ═══════════════════════════════════════════════
+const pawArea = document.getElementById('pawArea');
+const pawFill = document.getElementById('pawFill');
+const scanHint = document.getElementById('scanHint');
+const scanStatus = document.getElementById('scanStatus');
+let pressTimer = null, pressStart = 0, pressProgress = 0;
+const PRESS_DURATION = 2000; // 2s
+const CIRCUMFERENCE = 2 * Math.PI * 90; // r=90
+
+function onPressStart(e) {
+  e.preventDefault();
+  pressStart = Date.now();
+  pawArea.classList.add('pressing');
+  scanHint.textContent = '正在读取峡谷基因……';
+  scanHint.style.color = 'var(--neon-pink)';
+  
+  pressTimer = requestAnimationFrame(function tick(){
+    const elapsed = Date.now() - pressStart;
+    pressProgress = Math.min(elapsed / PRESS_DURATION, 1);
+    pawFill.style.strokeDashoffset = CIRCUMFERENCE * (1 - pressProgress);
+    
+    if(pressProgress >= 1) {
+      // Success
+      pawArea.classList.remove('pressing');
+      scanHint.textContent = '✅ 扫描完成！';
+      scanHint.style.animation = 'none';
+      scanStatus.textContent = '🐱 检测到一只隐藏的猫！';
+      scanStatus.classList.add('found');
+      setTimeout(() => goToStage(2), 800);
+      return;
+    }
+    
+    // Update status text
+    if(pressProgress > 0.3 && pressProgress < 0.7) {
+      scanStatus.textContent = '🔍 正在解码召唤师数据……';
+    } else if(pressProgress >= 0.7) {
+      scanStatus.textContent = '🧬 发现猫咪基因片段！';
+    }
+    
+    pressTimer = requestAnimationFrame(tick);
+  });
+}
+
+function onPressEnd(e) {
+  e.preventDefault();
+  if(pressProgress < 1) {
+    cancelAnimationFrame(pressTimer);
+    pawArea.classList.remove('pressing');
+    pawFill.style.strokeDashoffset = CIRCUMFERENCE;
+    pressProgress = 0;
+    scanHint.textContent = '长按猫爪 · 启动扫描';
+    scanHint.style.color = 'var(--neon-cyan)';
+    scanHint.style.animation = '';
+    scanStatus.textContent = '';
+    scanStatus.classList.remove('found');
+  }
+}
+
+pawArea.addEventListener('mousedown', onPressStart);
+pawArea.addEventListener('mouseup', onPressEnd);
+pawArea.addEventListener('mouseleave', onPressEnd);
+pawArea.addEventListener('touchstart', onPressStart, {passive:false});
+pawArea.addEventListener('touchend', onPressEnd, {passive:false});
+pawArea.addEventListener('touchcancel', onPressEnd, {passive:false});
+
+// ═══════════════════════════════════════════════
+// STAGE 2: QUIZ
+// ═══════════════════════════════════════════════
+function renderQuiz() {
+  // Progress dots
+  const tp = document.getElementById('tailProgress');
+  let tpHTML = '';
+  for(let i=0;i<QUESTIONS.length;i++){
+    const cls = i < currentQuestion ? 'done' : (i === currentQuestion ? 'active' : '');
+    tpHTML += `<div class="tail-dot ${cls}">${i<currentQuestion?'✓':(i+1)}</div>`;
+    if(i < QUESTIONS.length-1) {
+      tpHTML += `<div class="tail-line ${i<currentQuestion?'done':''}"></div>`;
+    }
+  }
+  tp.innerHTML = tpHTML;
+  
+  // Question
+  const q = QUESTIONS[currentQuestion];
+  const letters = ['A','B','C','D'];
+  const qc = document.getElementById('quizContent');
+  qc.innerHTML = `
+    <div class="quiz-question-num fade-in">Q${currentQuestion+1} / ${QUESTIONS.length}</div>
+    <div class="quiz-question fade-in delay-1">${q.q}</div>
+    <div class="quiz-options">
+      ${q.opts.map((o,i) => `
+        <div class="quiz-option fade-in delay-${i+2}" onclick="selectOption(${i}, event)">
+          <div class="option-letter">${letters[i]}</div>
+          <div>${o.text}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function selectOption(idx, event) {
+  const opt = QUESTIONS[currentQuestion].opts[idx];
+  userTags.push(...opt.tags);
+  
+  // Visual feedback
+  const allOpts = document.querySelectorAll('.quiz-option');
+  allOpts.forEach((o,i) => {
+    if(i === idx) o.classList.add('selected');
+    o.style.pointerEvents = 'none';
+  });
+  
+  // Paw splash
+  const rect = allOpts[idx].getBoundingClientRect();
+  const splash = document.createElement('div');
+  splash.className = 'paw-splash';
+  splash.textContent = '🐾';
+  splash.style.left = (rect.left + rect.width/2 - 24) + 'px';
+  splash.style.top = (rect.top + rect.height/2 - 24) + 'px';
+  document.body.appendChild(splash);
+  setTimeout(() => splash.remove(), 600);
+  
+  // Next question or go to loading
+  setTimeout(() => {
+    currentQuestion++;
+    if(currentQuestion < QUESTIONS.length) {
+      renderQuiz();
+    } else {
+      goToStage(3);
+    }
+  }, 500);
+}
+
+// ═══════════════════════════════════════════════
+// STAGE 3: LOADING
+// ═══════════════════════════════════════════════
+let barrageInterval = null;
+let loadTextInterval = null;
+
+function startLoading() {
+  // Match cat type based on tags
+  matchCat();
+  
+  // Start barrage
+  let barrageIdx = 0;
+  function addBarrage() {
+    const tag = BARRAGE_TAGS[barrageIdx % BARRAGE_TAGS.length];
+    const el = document.createElement('div');
+    el.className = 'barrage-tag';
+    el.textContent = tag.text;
+    el.style.background = tag.bg;
+    el.style.color = tag.color;
+    el.style.top = (Math.random() * 70) + 'px';
+    el.style.animationDuration = (2 + Math.random()) + 's';
+    document.getElementById('barrageArea').appendChild(el);
+    setTimeout(() => el.remove(), 3500);
+    barrageIdx++;
+  }
+  barrageInterval = setInterval(addBarrage, 350);
+  addBarrage();
+  
+  // Loading text rotation
+  let textIdx = 0;
+  loadTextInterval = setInterval(() => {
+    textIdx = (textIdx + 1) % LOADING_TEXTS.length;
+    document.getElementById('loadingText').innerHTML = LOADING_TEXTS[textIdx] + '<span class="loading-dots"></span>';
+  }, 1800);
+  
+  // Transition to result
+  setTimeout(() => {
+    clearInterval(barrageInterval);
+    clearInterval(loadTextInterval);
+    goToStage(4);
+  }, 3500);
+}
+
+function matchCat() {
+  // Score each cat type
+  let best = CAT_TYPES[0], bestScore = 0;
+  CAT_TYPES.forEach(cat => {
+    let score = 0;
+    cat.matchTags.forEach(t => { if(userTags.includes(t)) score++; });
+    // Add some randomness
+    score += Math.random() * 0.5;
+    if(score > bestScore) { bestScore = score; best = cat; }
+  });
+  resultCat = best;
+}
+
+// ═══════════════════════════════════════════════
+// STAGE 4: RESULT
+// ═══════════════════════════════════════════════
+function renderResult() {
+  const c = resultCat;
+  const facts = shuffleArray([...FUN_FACTS]).slice(0,2);
+  
+  document.getElementById('resultContent').innerHTML = `
+    <div class="result-header fade-in">
+      <div class="result-badge">峡谷猫格诊断书</div>
+      <div class="result-title">🐾 诊断完成</div>
+    </div>
+    
+    <div class="cat-avatar-card fade-in delay-1">
+      <div class="cat-avatar">${c.img ? `<img class="cat-avatar-img" src="${c.img}" alt="${c.name}">` : `<div class="cat-avatar-emoji">${c.emoji}</div>`}</div>
+      <div class="cat-name-tag">${c.name}</div>
+      <div class="cat-owner">铲屎官：${playerName}</div>
+    </div>
+    
+    <div class="diag-card fade-in delay-2">
+      <div class="diag-label">🔬 AI 猫格诊断</div>
+      <div class="diag-text">${c.diagnosis}</div>
+    </div>
+    
+    <div class="radar-card fade-in delay-3">
+      <div class="radar-title">📊 猫格雷达图</div>
+      <canvas id="radarCanvas" width="260" height="260"></canvas>
+      <div class="stat-bars" id="statBars"></div>
+    </div>
+    
+    <div class="fun-card fade-in delay-4">
+      <div class="diag-label">📊 冷知识</div>
+      ${facts.map(f => `<div class="fun-item">${f}</div>`).join('')}
+    </div>
+    
+    <div class="comment-card fade-in delay-5">
+      <div class="comment-speaker">💬 猫管家点评</div>
+      <div class="comment-text">"${c.comment}"</div>
+    </div>
+    
+    <div class="cta-row fade-in delay-5">
+      <div class="cta-btn cta-secondary" onclick="shareMyCat()">📱 分享</div>
+      <div class="cta-btn cta-primary" onclick="openPKInvite()">⚔️ 邀请好友PK</div>
+    </div>
+  `;
+  
+  // Draw radar + stat bars after DOM ready
+  setTimeout(() => {
+    drawRadar(c.stats);
+    renderStatBars(c.stats, c.color);
+  }, 300);
+}
+
+function drawRadar(stats) {
+  const canvas = document.getElementById('radarCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const cx = 130, cy = 130, maxR = 100;
+  const labels = ['操作力','团队力','生存力','视野力','经济力','坚韧力'];
+  const values = [stats.ops, stats.team, stats.surv, stats.vision, stats.eco, stats.grit];
+  const n = labels.length;
+  
+  ctx.clearRect(0,0,260,260);
+  
+  // Grid
+  for(let ring=1;ring<=4;ring++){
+    const r = maxR * ring / 4;
+    ctx.beginPath();
+    for(let i=0;i<=n;i++){
+      const angle = (Math.PI*2/n)*i - Math.PI/2;
+      const x = cx + r * Math.cos(angle);
+      const y = cy + r * Math.sin(angle);
+      i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+  
+  // Axes
+  for(let i=0;i<n;i++){
+    const angle = (Math.PI*2/n)*i - Math.PI/2;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + maxR*Math.cos(angle), cy + maxR*Math.sin(angle));
+    ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+    ctx.stroke();
+  }
+  
+  // Data area
+  ctx.beginPath();
+  for(let i=0;i<=n;i++){
+    const idx = i % n;
+    const angle = (Math.PI*2/n)*idx - Math.PI/2;
+    const r = maxR * values[idx] / 100;
+    const x = cx + r * Math.cos(angle);
+    const y = cy + r * Math.sin(angle);
+    i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  }
+  ctx.closePath();
+  const grad = ctx.createRadialGradient(cx,cy,0,cx,cy,maxR);
+  grad.addColorStop(0, 'rgba(0,240,255,0.25)');
+  grad.addColorStop(1, 'rgba(255,45,120,0.15)');
+  ctx.fillStyle = grad;
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(0,240,255,0.6)';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  
+  // Points
+  for(let i=0;i<n;i++){
+    const angle = (Math.PI*2/n)*i - Math.PI/2;
+    const r = maxR * values[i] / 100;
+    ctx.beginPath();
+    ctx.arc(cx + r*Math.cos(angle), cy + r*Math.sin(angle), 4, 0, Math.PI*2);
+    ctx.fillStyle = '#00f0ff';
+    ctx.fill();
+  }
+  
+  // Labels
+  ctx.font = '11px "Noto Sans SC"';
+  ctx.fillStyle = '#8888aa';
+  ctx.textAlign = 'center';
+  for(let i=0;i<n;i++){
+    const angle = (Math.PI*2/n)*i - Math.PI/2;
+    const lr = maxR + 18;
+    let x = cx + lr * Math.cos(angle);
+    let y = cy + lr * Math.sin(angle) + 4;
+    ctx.fillText(labels[i], x, y);
+  }
+}
+
+function renderStatBars(stats, color) {
+  const el = document.getElementById('statBars');
+  if(!el) return;
+  const labels = { ops:'操作力', team:'团队力', surv:'生存力', vision:'视野力', eco:'经济力', grit:'坚韧力' };
+  const colors = { ops:'#00f0ff', team:'#39ff7f', surv:'#ffe156', vision:'#b44dff', eco:'#ff8a3d', grit:'#ff2d78' };
+  
+  el.innerHTML = Object.entries(stats).map(([k,v]) => `
+    <div class="stat-row">
+      <div class="stat-label">${labels[k]}</div>
+      <div class="stat-bar-bg"><div class="stat-bar-fill" data-val="${v}" style="background:${colors[k]}"></div></div>
+      <div class="stat-val" style="color:${colors[k]}">${v}</div>
+    </div>
+  `).join('');
+  
+  // Animate bars
+  setTimeout(() => {
+    el.querySelectorAll('.stat-bar-fill').forEach(bar => {
+      bar.style.width = bar.dataset.val + '%';
+    });
+  }, 100);
+}
+
+function shareMyCat() {
+  alert(`📱 分享功能\n\n你的【${resultCat.name}】猫格档案已生成！\n（Demo 环境，实际会调用微信/QQ 分享 SDK）`);
+}
+
+// ═══════════════════════════════════════════════
+// STAGE 5: PK
+// ═══════════════════════════════════════════════
+function openPKInvite() {
+  document.getElementById('pkOverlay').classList.add('visible');
+  document.getElementById('pkFriendName').focus();
+}
+
+function startPK() {
+  const friendName = document.getElementById('pkFriendName').value.trim() || '神秘召唤师';
+  document.getElementById('pkOverlay').classList.remove('visible');
+  
+  // Pick a random cat for friend (different from player's)
+  let friendCat;
+  do {
+    friendCat = CAT_TYPES[Math.floor(Math.random() * CAT_TYPES.length)];
+  } while(friendCat.id === resultCat.id);
+  
+  // Pick relation
+  const relation = PK_RELATIONS[Math.floor(Math.random() * PK_RELATIONS.length)];
+  
+  const playerData = { cat: resultCat, ownerName: playerName };
+  const friendData = { cat: friendCat, ownerName: friendName };
+  
+  const reportText = relation.text(playerData, friendData);
+  
+  document.getElementById('pkContent').innerHTML = `
+    <div class="pk-header fade-in">
+      <div class="result-badge">峡谷猫格 PK 报告</div>
+      <div class="pk-title">⚔️ 猫格对决</div>
+    </div>
+    
+    <div class="pk-versus fade-in delay-1">
+      <div class="pk-cat-card">
+        ${resultCat.img ? `<img class="pk-cat-img" src="${resultCat.img}" alt="${resultCat.name}">` : `<div class="pk-cat-emoji">${resultCat.emoji}</div>`}
+        <div class="pk-cat-name" style="color:${resultCat.color}">${resultCat.name}</div>
+        <div class="pk-cat-owner">${playerName}</div>
+      </div>
+      <div class="pk-vs-badge">VS</div>
+      <div class="pk-cat-card">
+        ${friendCat.img ? `<img class="pk-cat-img" src="${friendCat.img}" alt="${friendCat.name}">` : `<div class="pk-cat-emoji">${friendCat.emoji}</div>`}
+        <div class="pk-cat-name" style="color:${friendCat.color}">${friendCat.name}</div>
+        <div class="pk-cat-owner">${friendName}</div>
+      </div>
+    </div>
+    
+    <div class="pk-relation-badge fade-in delay-2">
+      <div class="pk-relation-tag ${relation.tagClass}">${relation.tag}</div>
+    </div>
+    
+    <div class="pk-compat fade-in delay-2">
+      <div class="pk-compat-num" style="color:${relation.color}">${relation.compat}%</div>
+      <div class="pk-compat-label">契合度</div>
+    </div>
+    
+    <div class="pk-report fade-in delay-3">
+      <div class="pk-report-title">🤖 AI 裁判猫判定</div>
+      <div class="pk-report-text">${reportText.replace(/\n/g,'<br>')}</div>
+    </div>
+    
+    <div class="pk-cta-row fade-in delay-4">
+      <div class="cta-btn cta-game" onclick="launchGame()">🎮 拉起游戏 · 一起开黑</div>
+      <div class="cta-btn cta-primary" onclick="sharePK()">📱 分享 PK 结果</div>
+      <div class="cta-btn cta-secondary" onclick="openPKInvite()">🔄 换个好友 PK</div>
+    </div>
+  `;
+  
+  goToStage(5);
+}
+
+function sharePK() {
+  alert('📱 分享 PK 结果\n\n（Demo 环境，实际会生成 PK 长图 + 分享链接）');
+}
+
+function launchGame() {
+  alert('🎮 拉起游戏\n\n（Demo 环境，实际会通过 Deeplink 唤起英雄联盟手游客户端）');
+}
+
+// ═══════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════
+function shuffleArray(arr) {
+  for(let i=arr.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+
+// Handle Enter key for PK input
+document.getElementById('pkFriendName').addEventListener('keydown', e => {
+  if(e.key === 'Enter') startPK();
+});
+</script>
+</body>
+</html>
