@@ -1,6 +1,6 @@
 # 🧠 MEMORY.md — AI 启动上下文
 
-> v2.5 | 更新: 2026-03-25
+> v2.6 | 更新: 2026-03-28
 > 设计原则: **读完此文件即可工作，无需跳转**
 
 ---
@@ -71,6 +71,30 @@
 - 景德镇游戏: 制瓷历史模拟经营（宋→清四幕），美术80-90%
 - 关键节点: 3月底订单系统+精修数据，4/22 CG片段，6月初成片
 
+### 🎲 海克斯大乱斗 AI Coach `10_Work/海克斯大乱斗/`
+- 状态: **数据体系搭建完成，符文推荐系统设计中**
+- 数据体系（`data/` 目录，格式定义见 `data/README.md`）:
+  - step1_1: 单符文全局胜率/选取率（204条）
+  - step1_2: 英雄×符文胜率/选取率（30503条）
+  - step1_3: 英雄出场率（173条）
+  - step1_4: 符文×符文组合胜率（20328条）
+  - step1_5: 英雄×符文×符文组合胜率（xlsx版）
+  - 映射表: 符文ID与中文名对照.xlsx、英雄id定位表.xlsx
+  - 加工数据: champion_avg_stats / champion_augment_filtered / champion_pair_stats
+- 符文图片: 172张符文图（`导出图片/`）+ 18个分批S级符文列表 + 英雄符文表.xlsx
+- 分析报告: 推送策略报告.html + 组合分类分析.html + 活跃玩家分析报告.html
+- 设计方案: 符文推荐系统设计方案.md（九章+附录A，Agent Teams产出）
+- ⚠️ 注意: `海克斯乱斗一图流.xlsx`（174MB）已删除并加入.gitignore
+
+### 🐱 LOLM 峡谷猫格 `10_Work/lolm峡谷猫格/`
+- 状态: **PRD + Demo 完成**，待评审
+- 定位: LOLM 手游创意营销 H5 — 真实数据引共鸣 → AI千人千猫造梗 → 1v1互损PK裂变
+- PRD: `PRD_峡谷猫格诊断书_H5.md`（v1.0，🟡中等定级）
+- Demo: `demo/index.html`（赛博萌系暗色调+霓虹猫爪，五阶段完整交互）
+- AI猫素材: 12+张（含亚索风格探索 yasuo_styles/）
+- 关键指标: UV≥500万 / 完成率≥65% / 分享率≥35% / 裂变K≥1.5
+- 排期估算: 5-6人 × 4-5周
+
 ### 📚 游戏策划学习 `20_Study/游戏策划/`
 - 《游戏设计艺术》Jesse Schell → 36文件课程（113个透镜）
 - 《快乐之道》Raph Koster → 16文件课程（快乐=学习理论）
@@ -90,6 +114,8 @@
 ## 系统配置
 
 - Git自动同步: launchd 每天11:00+23:00（不用crontab，macOS睡眠不执行）
+- `.gitignore`: 排除 .DS_Store / Office临时文件(~$*) / 大文件(一图流xlsx/step1_5 csv)
+- ⚠️ Git状态: 历史已用 filter-repo 重写清除大文件，需 `git push --force origin main` 完成同步
 - Skills: 34个（17官方+13 Superpowers+4第三方），Skills周报每周一9:00自动生成
 - CodeBuddy Rules: 5个专业角色（data-analyst / product-manager / game-designer / marketing-strategist / project-shepherd），全部 requested 类型。product-manager 已植入分级审查 Harness
 - 同步脚本: `~/.local/bin/obsidian_git_sync.sh`（通过 osascript 绕过 TCC）
@@ -113,6 +139,8 @@
 14. VLM评分 → **递进式验证**：快验（10张）→分层50%抽样→分层20%看图→混淆矩阵→Prompt迭代。不跳过中间环节
 15. 深度调研 → **多源交叉验证**：关键数据点至少2个独立来源确认，不依赖单一来源
 16. 文件读取 → **先搜索再读取**：禁止凭猜测拼接路径，必须 `search_file` 确认完整路径。Obsidian Vault 目录嵌套深且文件可能在非预期位置
+17. 大文件管理 → **新增大文件先查大小**：GitHub 硬限制100MB，推荐上限50MB。Excel数据文件容易超标（如一图流174MB），**新增前检查文件大小，超标的加入.gitignore**
+18. 工作日志 → **每次会话结束必须写 episodic**：这是最低要求，不写=工作记录丢失。会话独立无法跨会话恢复，不写就永久丢失
 
 ## 已验证工作流
 

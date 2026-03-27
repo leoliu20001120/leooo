@@ -4,6 +4,11 @@
 # Office 临时文件
 ~$*
 
+# 数据文件（保留本地，不上传 Git）
+*.csv
+*.xlsx
+*.xls
+
 # 大文件（超出 GitHub 限制）
 **/海克斯乱斗一图流*.xlsx
 **/step1_5_champion_pair_stats.csv
