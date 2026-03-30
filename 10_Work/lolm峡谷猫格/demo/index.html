@@ -343,7 +343,7 @@ body { position: relative; }
   font-size: 12px; font-weight: 700; color: var(--neon-purple);
   letter-spacing: 1px; margin-bottom: 16px;
 }
-#radarCanvas { max-width: 260px; width: 100%; }
+#radarCanvas { max-width: 280px; width: 100%; }
 
 /* Stats */
 .stat-bars { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
@@ -586,104 +586,273 @@ body { position: relative; }
 
 <script>
 // ═══════════════════════════════════════════════
-// DATA & CONFIG
+// DATA & CONFIG — 峡谷原创人格维度匹配系统
+// 四维度: tempo(先手开团/伺机收割), macro(运营布局/灵感博弈), tone(铁血决断/暖心共鸣), style(节奏控盘/随机应变)
+// 每个维度 -3~+3 区间：正值偏左，负值偏右
 // ═══════════════════════════════════════════════
+
+const DIMENSION_META = {
+  tempo: { left: '先手开团', right: '伺机收割', icon: '⚔️' },
+  macro: { left: '运营布局', right: '灵感博弈', icon: '🧭' },
+  tone: { left: '铁血决断', right: '暖心共鸣', icon: '🫀' },
+  style: { left: '节奏控盘', right: '随机应变', icon: '🎛️' }
+};
 
 const QUESTIONS = [
   {
-    q: "开局30秒，你会？",
+    q: "团战一触即发，你的第一反应？",
+    dimension: "tempo",
     opts: [
-      { text: "🌿 直奔对面野区蹲草丛", tags: ["aggressive","jungle"] },
-      { text: "🗡️ 默默补兵等发育", tags: ["steady","farm"] },
-      { text: "📢 疯狂 ping 队友\"跟我来\"", tags: ["leader","social"] },
-      { text: "📱 切出去回消息", tags: ["chill","casual"] }
+      { text: "📢 直接顶上去，先把口子开出来",
+        scores:{tempo:3,macro:0,tone:1,style:1},
+        shortLabel:"抢第一波开口子" },
+      { text: "🎯 卡视野等失误，露头再切入",
+        scores:{tempo:-2,macro:1,tone:1,style:0},
+        shortLabel:"卡视野等破绽" },
+      { text: "🛡️ 先护住后排，稳住阵型再说",
+        scores:{tempo:0,macro:1,tone:-2,style:1},
+        shortLabel:"先把后排兜住" },
+      { text: "📱 先看看谁先动，我补最值的一下",
+        scores:{tempo:-3,macro:-1,tone:0,style:-2},
+        shortLabel:"先观望再出手" }
     ]
   },
   {
-    q: "队友送了3个人头，你的反应？",
+    q: "逆风局，你怎么翻盘？",
+    dimension: "macro",
     opts: [
-      { text: "😊 \"没事兄弟稳住\"", tags: ["tolerant","support"] },
-      { text: "😮‍💨 默默叹气继续打", tags: ["endure","solo"] },
-      { text: "🎯 开始指挥全队运营", tags: ["leader","control"] },
-      { text: "🔥 心态爆炸直接开喷", tags: ["rage","aggressive"] }
+      { text: "📊 盯经济和资源，慢慢把地图拿回来",
+        scores:{tempo:0,macro:3,tone:1,style:1},
+        shortLabel:"靠运营一点点追" },
+      { text: "💡 找一波极限机会，赌赢就直接翻",
+        scores:{tempo:1,macro:-3,tone:1,style:-1},
+        shortLabel:"赌一波奇迹团" },
+      { text: "🗺️ 转线偷塔逼位，先让对面乱起来",
+        scores:{tempo:-1,macro:-2,tone:1,style:-2},
+        shortLabel:"转线偷塔施压" },
+      { text: "💪 拖住别炸，等阵容发力点再接管",
+        scores:{tempo:0,macro:2,tone:-1,style:2},
+        shortLabel:"稳住发力点" }
     ]
   },
   {
-    q: "选一只最像你的猫？",
+    q: "队友疯狂送人头，你的反应？",
+    dimension: "tone",
     opts: [
-      { text: "🧶 追逐激光笔的橘猫", tags: ["active","aggressive"] },
-      { text: "🛋️ 沙发上躺平的英短", tags: ["chill","casual"] },
-      { text: "🏔️ 独自巡视领地的豹猫", tags: ["solo","jungle"] },
-      { text: "🐾 蹭人求摸的布偶猫", tags: ["social","support"] }
+      { text: "🧠 直接点问题，让大家先回到正轨",
+        scores:{tempo:1,macro:1,tone:3,style:1},
+        shortLabel:"当场点问题" },
+      { text: "😊 先把情绪按住，别让队伍先崩",
+        scores:{tempo:0,macro:0,tone:-3,style:0},
+        shortLabel:"先稳情绪再说" },
+      { text: "🔥 嘴上吐槽两句，手上继续狠狠干",
+        scores:{tempo:2,macro:0,tone:2,style:-1},
+        shortLabel:"嘴硬手更硬" },
+      { text: "😮‍💨 不废话，默默把节奏接过来",
+        scores:{tempo:-1,macro:1,tone:1,style:0},
+        shortLabel:"默默接管比赛" }
     ]
   },
   {
-    q: "你的峡谷座右铭？",
+    q: "你的理想游戏节奏是？",
+    dimension: "style",
     opts: [
-      { text: "💪 \"稳住我们能赢\"", tags: ["steady","team"] },
-      { text: "⚔️ \"冲就完了\"", tags: ["aggressive","rage"] },
-      { text: "👑 \"我 carry 你们躺\"", tags: ["solo","control"] },
-      { text: "🎉 \"开心就好\"", tags: ["chill","casual"] }
+      { text: "📋 按计划控龙压线，一步一步封死",
+        scores:{tempo:0,macro:1,tone:1,style:3},
+        shortLabel:"按计划控图推进" },
+      { text: "⚡ 哪里亮灯打哪里，机会来了就扑",
+        scores:{tempo:2,macro:-1,tone:0,style:-3},
+        shortLabel:"有灯就往上扑" },
+      { text: "🎮 先苟发育，等装备成型再接管",
+        scores:{tempo:-1,macro:2,tone:0,style:1},
+        shortLabel:"装备成型再接管" },
+      { text: "🎉 开心最重要，能赚一口是一口",
+        scores:{tempo:0,macro:-1,tone:-1,style:-2},
+        shortLabel:"舒服最重要" }
     ]
   }
 ];
 
 const CAT_TYPES = [
   { id:"orange_tank", emoji:"🍊", img:"cats/orange_tank.png", name:"重装橘猫", color:"#ff8a3d",
-    matchTags:["aggressive","support","tolerant","team"],
+    vibeTitle:"护队顶前派", vibeLabel:"能扛、能顶、能替队友把第一波压力吃掉",
+    weights:{tempo:2,macro:1,tone:-2,style:1},
     role:"坦克/辅助", trait:"肉盾担当",
-    diagnosis: `根据你最近 <em>247 场</em>对局的分析，你是一只【重装橘猫】。\n\n你永远是团战第一个冲进去的那个，也永远是第一个倒下的那个。但你的助攻数比死亡数还多——说明你不是在送，你是在"战略性牺牲"。\n\n你用<em>牛头</em>的场次比其他英雄加起来都多。我怀疑你选英雄的标准只有一个：能不能用头撞人。`,
-    comment: "这只橘猫的体重和它的担当一样重。建议：少冲一点，你的队友需要你活着。",
-    stats: { ops:45, team:92, surv:30, vision:78, eco:55, grit:88 }
+    baseStats:{ops:45,team:92,surv:30,vision:78,eco:55,grit:88},
+    funFacts:["你的总死亡次数可以绕峡谷 <span class='fun-highlight'>847 圈</span>","你开团的次数比吃饭还多——场均开团 <span class='fun-highlight'>11.3 次</span>"]
   },
   { id:"siamese_noble", emoji:"👑", img:"cats/siamese_noble.png", name:"高贵暹罗", color:"#b44dff",
-    matchTags:["steady","farm","solo","control"],
+    vibeTitle:"冷面运营派", vibeLabel:"先算赢法，再优雅收割，失误率低得像开了脚本",
+    weights:{tempo:-2,macro:2,tone:3,style:2},
     role:"中单/ADC", trait:"华丽操作",
-    diagnosis: `根据你最近 <em>189 场</em>对局的分析，你是一只【高贵暹罗】。\n\n你的 KDA <em>4.2</em> 说明你是那种"死一次就很不爽"的完美主义者。你的补刀数据在同段位排名 <em>前 15%</em>，补兵补得比你回微信还勤。\n\n你最擅长的是在安全距离输出，然后在队友冲上去的时候优雅地收掉人头。`,
-    comment: "这只暹罗猫从来不弄脏自己的爪子。建议：偶尔也可以上去冲一冲，你的队友需要你分担伤害。",
-    stats: { ops:88, team:45, surv:82, vision:55, eco:90, grit:40 }
+    baseStats:{ops:88,team:45,surv:82,vision:55,eco:90,grit:40},
+    funFacts:["你的补刀数据同段位排名 <span class='fun-highlight'>前 15%</span>","你的场均死亡只有 <span class='fun-highlight'>2.1 次</span>——对\"活着\"有超凡执念"]
   },
   { id:"hairless_heartbreak", emoji:"💔", img:"cats/hairless_heartbreak.png", name:"心碎无毛猫", color:"#ff2d78",
-    matchTags:["endure","rage"],
+    vibeTitle:"逆风燃命派", vibeLabel:"越逆风越上头，永远相信下一波还有翻面机会",
+    weights:{tempo:1,macro:-2,tone:-1,style:-2},
     role:"随缘", trait:"永不言弃",
-    diagnosis: `根据你最近 <em>312 场</em>对局的分析，你是一只【心碎无毛猫】。\n\n你的近 <em>20 场胜率只有 35%</em>，但你的平均每场时长高达 <em>22 分钟</em>——说明你从来不提前投降。\n\n峡谷欠你一个大顺风。别灰心，毕竟连败到底之后，匹配机制会给你安排几个能carry的队友的。大概。`,
-    comment: "这只无毛猫被峡谷伤透了心，但还在坚持。建议：去打几把大乱斗缓一缓，人生不止排位。",
-    stats: { ops:50, team:60, surv:35, vision:42, eco:48, grit:95 }
+    baseStats:{ops:50,team:60,surv:35,vision:42,eco:48,grit:95},
+    funFacts:["你的平均每场时长高达 <span class='fun-highlight'>22 分钟</span>——从来不提前投降","你在匹配队列等待的总时长够看完 <span class='fun-highlight'>3 部《指环王》加长版</span>"]
   },
   { id:"lion_commander", emoji:"🦁", img:"cats/lion_commander.png", name:"狮子猫·指挥官", color:"#ffe156",
-    matchTags:["leader","control","social"],
+    vibeTitle:"全图指挥派", vibeLabel:"把地图当棋盘，把队友当部队，天生就想接管频道",
+    weights:{tempo:3,macro:1,tone:2,style:2},
     role:"指挥位", trait:"天生领袖",
-    diagnosis: `根据你最近 <em>156 场</em>对局的分析，你是一只【狮子猫·指挥官】。\n\n你的 <em>ping 频率</em>是同段位平均值的 <em>3 倍</em>。你的参团率高达 <em>78%</em>，说明哪里有团战哪里就有你——不一定是去打的，是去指挥的。\n\n你最常说的话应该是"打龙打龙打龙"和"别追了别追了"。`,
-    comment: "这只狮子猫天生就是当老大的料。建议：偶尔听听别人的意见，也许你的辅助看到了你没看到的。",
-    stats: { ops:62, team:95, surv:58, vision:85, eco:60, grit:72 }
+    baseStats:{ops:62,team:95,surv:58,vision:85,eco:60,grit:72},
+    funFacts:["你的 ping 频率是同段位平均值的 <span class='fun-highlight'>3 倍</span>","你的参团率高达 <span class='fun-highlight'>78%</span>，哪里有团战哪里就有你"]
   },
   { id:"black_cat_night", emoji:"🌙", img:"cats/black_cat_night.png", name:"暗夜黑猫", color:"#00f0ff",
-    matchTags:["jungle","aggressive","solo"],
+    vibeTitle:"暗影收割派", vibeLabel:"不抢镜头，但会在最痛的位置出手，一刀见血",
+    weights:{tempo:-3,macro:-1,tone:2,style:-2},
     role:"打野位", trait:"阴影猎手",
-    diagnosis: `根据你最近 <em>203 场</em>对局的分析，你是一只【暗夜黑猫】。\n\n你的场均击杀 <em>8.3</em>，但助攻只有 <em>2.1</em>——你不是在帮队友，你是在收割整个峡谷。你最爱做的事是蹲草丛等人，平均每场在草丛里待 <em>47 秒</em>。\n\n你选<em>李信</em>的频率说明你喜欢一个人偷偷做大事。`,
-    comment: "这只黑猫从不在阳光下行动。建议：记得帮队友一下，你不能一个人1v5。好吧，也许你可以。",
-    stats: { ops:92, team:28, surv:65, vision:38, eco:70, grit:55 }
+    baseStats:{ops:92,team:28,surv:65,vision:38,eco:70,grit:55},
+    funFacts:["你在草丛里蹲的总时长够看完 <span class='fun-highlight'>3 部《指环王》加长版</span>","你的场均击杀 <span class='fun-highlight'>8.3</span> 但助攻只有 <span class='fun-highlight'>2.1</span>"]
   },
   { id:"cloud_ragdoll", emoji:"☁️", img:"cats/cloud_ragdoll.png", name:"云端布偶", color:"#39ff7f",
-    matchTags:["chill","casual"],
+    vibeTitle:"松弛游走派", vibeLabel:"不和节奏较劲，只挑自己舒服的赢法，主打一个轻盈上分",
+    weights:{tempo:-2,macro:1,tone:-2,style:-3},
     role:"随缘", trait:"佛系王者",
-    diagnosis: `根据你最近 <em>42 场</em>对局的分析，你是一只【云端布偶】。\n\n你平均每周只打 <em>3 场</em>，但胜率高达 <em>63%</em>。你是那种"来了就赢，赢了就走"的神秘玩家。\n\n你最常玩<em>大乱斗</em>模式，因为排位太累了。你的人生哲学是：赢了开心，输了也不影响心情。`,
-    comment: "这只布偶猫活在云端，偶尔下凡打两把。建议：如果你愿意多打几场，你可能已经是王者了。可能。",
-    stats: { ops:68, team:55, surv:75, vision:50, eco:62, grit:45 }
+    baseStats:{ops:68,team:55,surv:75,vision:50,eco:62,grit:45},
+    funFacts:["你平均每周只打 <span class='fun-highlight'>3 场</span>，但胜率高达 <span class='fun-highlight'>63%</span>","你释放技能的总次数可以按满 <span class='fun-highlight'>127 台手机</span>"]
   }
 ];
 
-const PK_RELATIONS = [
-  { type:"love", tag:"天作之合 💕", tagClass:"love", color:"#ff2d78",
-    text: (a,b) => `你们的契合度高达 99%！\n\n${a.ownerName} 的【${a.cat.name}】负责冲锋陷阵，${b.ownerName} 的【${b.cat.name}】负责在后面默默输出。这就是传说中的"一个敢送，一个敢收"的完美组合。\n\n建议：立刻组双排，但千万别分手——你们一旦分开各掉两个段位。`,
-    compat: 99 },
-  { type:"fight", tag:"一山不容二猫 🔥", tagClass:"fight", color:"#ff8a3d",
-    text: (a,b) => `危险警告！你们的契合度只有 15%！\n\n${a.ownerName} 的【${a.cat.name}】和 ${b.ownerName} 的【${b.cat.name}】——两个人都想当大哥，组队胜率感人。你们在一起的画面就是：两只猫同时扑向同一个猎物，然后撞在一起。\n\n建议：立刻开自定义单挑，谁输了谁认做猫儿子！`,
-    compat: 15 },
-  { type:"crush", tag:"血脉压制 👑", tagClass:"crush", color:"#b44dff",
-    text: (a,b) => `单方面碾压！\n\n${a.ownerName} 的【${a.cat.name}】在 ${b.ownerName} 的【${b.cat.name}】面前就是绝对的"野王爸爸"。数据不会说谎——一个场均 carry，一个场均被 carry。\n\n以后让 ${b.ownerName} 选个悠米挂 ${a.ownerName} 身上就行了，千万别让 ta 自己走路。`,
-    compat: 8 }
-];
+function getSideLabel(key, value) {
+  const meta = DIMENSION_META[key];
+  return value >= 0 ? meta.left : meta.right;
+}
+
+function buildVibeTags(scores, cat) {
+  const dominant = Object.entries(scores)
+    .sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]))
+    .slice(0, 2)
+    .map(([key, value]) => getSideLabel(key, value));
+  return [...new Set([cat.vibeTitle, ...dominant])].slice(0, 3);
+}
+
+function getPickLabel(picks, dimension) {
+  const question = QUESTIONS.find(item => item.dimension === dimension);
+  const picked = picks[dimension];
+  return question && picked !== undefined ? question.opts[picked].shortLabel : '';
+}
+
+function buildDiagnosis(cat, picks, scores) {
+  const tempoPick = getPickLabel(picks, 'tempo');
+  const macroPick = getPickLabel(picks, 'macro');
+  const tonePick = getPickLabel(picks, 'tone');
+  const stylePick = getPickLabel(picks, 'style');
+  const T = {
+    orange_tank: () => {
+      let t = `AI 猫管家把你归档为【重装橘猫】。\n\n你身上最亮的信号是“${getSideLabel('tempo', scores.tempo)}”和“${getSideLabel('tone', scores.tone)}”。一到正面接团的时候，你不是在找退路，而是在找怎么替队友把第一波火力吃下来。`;
+      if (tempoPick) t += `你这次作答里一上来就选了“${tempoPick}”，说明你天然会先把局面顶住，再把空间让给别人操作。`;
+      if (scores.tone < 0) t += `\n\n更关键的是，你不只是能扛，还很会兜人。哪怕队友先出问题，你也更容易先稳情绪、补窟窿，所以你的助攻数总像在替全队收拾残局。`;
+      else t += `\n\n你嘴上也许很硬，但身体永远更诚实——该挡的技能、该开的团，你一个都不想让给别人。`;
+      t += `\n\n所以系统才把你匹配成橘猫：看着圆，冲起来也真圆，一旦顶上去，就是整队的肉垫和底气。`;
+      return t;
+    },
+    siamese_noble: () => {
+      let t = `AI 猫管家把你归档为【高贵暹罗】。\n\n你最有代表性的气质是“${getSideLabel('macro', scores.macro)}”和“${getSideLabel('style', scores.style)}”。别人还在想这波要不要打，你已经先算好了赢法和收尾路线。`;
+      if (macroPick) t += `尤其你选到“${macroPick}”这一项时，整个人像是把地图当成了棋盘——不急着吼，但很急着把局做对。`;
+      if (scores.tempo < 0) t += `\n\n你不是不上，而是只上最值的那一下。安全距离、精准补刀、优雅收头，这些都像刻在你的鼠标 DPI 里。`;
+      else t += `\n\n就算你偶尔会主动开口子，也更像是算准了收益之后的冷静出手，而不是纯靠热血上头。`;
+      t += `\n\n高贵暹罗配你很合理：爪子很轻，判断很重，失误率低得像开了胜率过滤器。`;
+      return t;
+    },
+    hairless_heartbreak: () => {
+      let t = `AI 猫管家把你归档为【心碎无毛猫】。\n\n你身上的核心味道是“${getSideLabel('macro', scores.macro)}”和“${getSideLabel('style', scores.style)}”——越是逆风，越会想去搏那一波别人不敢赌的翻面机会。`;
+      if (tonePick) t += `你在队友情绪要炸的时候给出的答案是“${tonePick}”，这说明你不是不难受，只是总想在崩掉之前再把队伍拉一下。`;
+      if (macroPick === '赌一波奇迹团') t += `\n\n你特别像那种“明知道这波不稳，但不试更难受”的玩家。不是上头，是你真的相信奇迹能在最后一秒落地。`;
+      else t += `\n\n就算嘴上说随缘，你的骨子里还是有一股“不服输”的劲，不把最后一波打完都不舍得点投降。`;
+      t += `\n\n所以无毛猫很适合你：看起来脆，实际上最能熬，输了会心碎，但下一把还是会接着爱峡谷。`;
+      return t;
+    },
+    lion_commander: () => {
+      let t = `AI 猫管家把你归档为【狮子猫·指挥官】。\n\n你的作答几乎把“${getSideLabel('tempo', scores.tempo)}”和“${getSideLabel('style', scores.style)}”写在了脸上。你不是在参与一把对局，你是在试图把每个人都拖进你的节奏里。`;
+      if (tempoPick) t += `第一题你选了“${tempoPick}”，这几乎等于告诉系统：别给我观众席，我要站在喊开的人那个位置。`;
+      if (scores.tone > 0) t += `\n\n你讲话可能不算温柔，但大多是有效信息。你会催龙、催线、催开团，因为你脑子里的胜利路径已经比队友快了半分钟。`;
+      else t += `\n\n就算你偶尔会照顾情绪，本质上也还是想把全队重新拉回你定义的秩序里。`;
+      t += `\n\n狮子猫会成为你的匹配结果并不意外：气场先到，命令后到，哪里有团战哪里就像你的临时指挥部。`;
+      return t;
+    },
+    black_cat_night: () => {
+      let t = `AI 猫管家把你归档为【暗夜黑猫】。\n\n你最强的信号是“${getSideLabel('tempo', scores.tempo)}”——你不喜欢无脑顶脸，更擅长把自己藏进信息差，然后在最疼的位置补那一下。`;
+      if (tempoPick) t += `你选到“${tempoPick}”时，系统几乎立刻判定你是草丛和侧翼的长期住户。`;
+      if (stylePick === '有灯就往上扑') t += `\n\n虽然你的节奏也有一部分是看机会就扑，但那种扑不是乱，是闻到破绽之后的爆发。`;
+      else t += `\n\n你对“计划”没那么迷信，因为你的反应速度和临场判断，本身就是一种更高级的计划。`;
+      t += `\n\n暗夜黑猫适配你，是因为你从不抢镜头，但总能在最关键的那一秒，让对面血条突然蒸发。`;
+      return t;
+    },
+    cloud_ragdoll: () => {
+      let t = `AI 猫管家把你归档为【云端布偶】。\n\n你的关键词是“${getSideLabel('tone', scores.tone)}”和“${getSideLabel('style', scores.style)}”。你不跟胜负较劲，也不想被一局游戏把心情拖下水，主打一个舒服但不摆烂。`;
+      if (stylePick) t += `尤其当你选了“${stylePick}”，系统会默认你属于那种节奏松弛、但真打起来也不一定会输的人。`;
+      if (scores.tempo < 0) t += `\n\n你不是不敢上，而是更愿意等局面对你友好一点再出手。该躲的团先躲，该赚的一口慢慢赚，这就是你的胜率密码。`;
+      else t += `\n\n偶尔你也会站出来帮队友顶一下，但整体还是偏爱轻盈、不消耗心情的赢法。`;
+      t += `\n\n所以云端布偶很像你：看着佛，实则很稳，不一定天天打，但真来一把通常也不会太难看。`;
+      return t;
+    }
+  };
+  return T[cat.id] ? T[cat.id]() : '';
+}
+
+function buildComment(cat, picks, scores) {
+  const C = {
+    orange_tank: () => scores.tone < 0
+      ? "你属于那种会先兜队友、再兜团战的人。建议：继续当定海神针，但别把每一波都当成自己必须肉身接住的 KPI。"
+      : "你是标准的前排压力承担者。建议：顶可以顶，记得留半条命给下一波，不然队友会失去他们的移动城墙。",
+    siamese_noble: () => scores.style > 0
+      ? "你像在下棋，不像在排位。建议：保持这份运营感，但偶尔也允许自己冲动一次，别把所有精彩都留给计算器。"
+      : "你的精致感和收割欲都很强。建议：继续优雅，但别太贪完美，否则队友会以为你只想拿最后一刀。",
+    hairless_heartbreak: () => scores.macro < 0
+      ? "你是会在逆风里主动点火的人。建议：保留这股燃命感，但把奇迹团的频率从每把三次降到每把一次，胜率会更爱你。"
+      : "你的韧性很夸张，像被峡谷伤过无数次还愿意再爱的玩家。建议：偶尔去轻松模式回血，快乐也是一种续航。",
+    lion_commander: () => scores.tone > 0
+      ? "你天生就想接过麦克风。建议：你的判断通常没错，但留一点点空间给队友，会让你的指挥更像领袖，不像军训教官。"
+      : "你是带秩序的人。建议：继续掌控节奏，但别只想着统一动作，队友偶尔也需要被鼓励才会跟得更紧。",
+    black_cat_night: () => scores.tempo < 0
+      ? "你最可怕的地方是不抢正面，却总能补到最致命的一下。建议：维持你的信息差打法，但偶尔给队友一点存在感，他们会更愿意给你让野区。"
+      : "你出手很猛，只是大多发生在别人没反应过来的时刻。建议：继续当黑夜里的刀，但别把所有人都当成独奏的背景板。",
+    cloud_ragdoll: () => scores.style < 0
+      ? "你拥有很稀缺的松弛感。建议：保持舒服上分的节奏，这种不被游戏反向拿捏的气质，本身就很像高段位玩家。"
+      : "你看似佛系，实际比很多人更稳。建议：如果愿意再多打一点、再认真一点，你可能会把“随便玩玩”玩成真上分。"
+  };
+  return C[cat.id] ? C[cat.id]() : '';
+}
+
+// PK关系——基于双方猫种特性动态生成
+function generatePKReport(playerCat, friendCat, playerName, friendName) {
+  const sameType = playerCat.id === friendCat.id;
+  // 互补检测(坦克配输出、指挥配执行)
+  const complementPairs = [['orange_tank','siamese_noble'],['orange_tank','black_cat_night'],['lion_commander','orange_tank'],['lion_commander','siamese_noble']];
+  const isComplement = complementPairs.some(([a,b]) => (playerCat.id===a&&friendCat.id===b)||(playerCat.id===b&&friendCat.id===a));
+  // 碾压检测
+  const strongCats = ['siamese_noble','black_cat_night'];
+  const weakCats = ['hairless_heartbreak','cloud_ragdoll'];
+  const isCrush = (strongCats.includes(playerCat.id)&&weakCats.includes(friendCat.id))||(strongCats.includes(friendCat.id)&&weakCats.includes(playerCat.id));
+
+  let relation, compat, text;
+  if(isComplement) {
+    relation = {tag:"天作之合 💕",tagClass:"love",color:"#ff2d78"};
+    compat = 85 + Math.floor(Math.random()*15);
+    text = `你们的契合度高达 ${compat}%！\n\n${playerName} 的【${playerCat.name}】和 ${friendName} 的【${friendCat.name}】——一个${playerCat.trait}，一个${friendCat.trait}。这就是传说中的"一个敢送一个敢收"的完美组合。\n\n建议：立刻组双排，但千万别分手——你们一旦分开各掉两个段位。`;
+  } else if(sameType || (!isComplement && !isCrush && Math.random()>0.5)) {
+    relation = {tag:"一山不容二猫 🔥",tagClass:"fight",color:"#ff8a3d"};
+    compat = 5 + Math.floor(Math.random()*20);
+    if(sameType) {
+      text = `危险警告！你们的契合度只有 ${compat}%！\n\n两只【${playerCat.name}】在一起？这画面就是：两只一模一样的猫同时扑向同一个猎物，然后撞在一起。\n\n你们都是${playerCat.trait}，谁都不服谁。建议：立刻开自定义单挑，谁输了谁认做猫儿子！`;
+    } else {
+      text = `危险警告！你们的契合度只有 ${compat}%！\n\n${playerName} 的【${playerCat.name}】和 ${friendName} 的【${friendCat.name}】——一个${playerCat.trait}，一个${friendCat.trait}，组队画面太美不敢看。\n\n建议：千万别组队，否则你们会成为对面最喜欢的对手。`;
+    }
+  } else {
+    relation = {tag:"血脉压制 👑",tagClass:"crush",color:"#b44dff"};
+    compat = 3 + Math.floor(Math.random()*10);
+    const strong = strongCats.includes(playerCat.id) ? playerName : friendName;
+    const weak = strong===playerName ? friendName : playerName;
+    const weakCat = strong===playerName ? friendCat : playerCat;
+    text = `单方面碾压！契合度只有 ${compat}%！\n\n${strong} 在 ${weak} 面前就是绝对的"野王爸爸"。数据不会说谎——一个场均 carry，一个${weakCat.trait}。\n\n以后让 ${weak} 选个悠米挂 ${strong} 身上就行了，千万别让 ta 自己走路。`;
+  }
+  return { relation, compat, text };
+}
 
 const BARRAGE_TAGS = [
   { text:"五杀！", bg:"rgba(255,45,120,0.2)", color:"#ff2d78" },
@@ -710,19 +879,14 @@ const LOADING_TEXTS = [
   "你的数据有点多，猫管家正在加班"
 ];
 
-const FUN_FACTS = [
-  "你的总死亡次数可以绕峡谷 <span class='fun-highlight'>847 圈</span>",
-  "你在草丛里蹲的总时长相当于看完 <span class='fun-highlight'>3 部《指环王》加长版</span>",
-  "你释放技能的总次数可以按满 <span class='fun-highlight'>127 台手机的屏幕</span>",
-  "你打出的总伤害如果换成真实伤害，可以击败 <span class='fun-highlight'>5,621 只小兵</span>"
-];
-
 // ═══════════════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════════════
 let currentStage = 1;
 let currentQuestion = 0;
-let userTags = [];
+let dimensionScores = {tempo:0,macro:0,tone:0,style:0};
+let userPicks = {}; // {tempo:0-3, macro:0-3, tone:0-3, style:0-3}
+let userPickLabels = []; // [{shortLabel, dimension}]
 let resultCat = null;
 let playerName = "召唤师小猫" + Math.floor(Math.random()*1000);
 
@@ -903,8 +1067,13 @@ function renderQuiz() {
 }
 
 function selectOption(idx, event) {
-  const opt = QUESTIONS[currentQuestion].opts[idx];
-  userTags.push(...opt.tags);
+  const q = QUESTIONS[currentQuestion];
+  const opt = q.opts[idx];
+  // 累加维度积分
+  Object.entries(opt.scores).forEach(([dim,val]) => { dimensionScores[dim] += val; });
+  // 记录该题选择
+  userPicks[q.dimension] = idx;
+  userPickLabels.push({shortLabel:opt.shortLabel, dimension:q.dimension});
   
   // Visual feedback
   const allOpts = document.querySelectorAll('.quiz-option');
@@ -941,18 +1110,20 @@ let barrageInterval = null;
 let loadTextInterval = null;
 
 function startLoading() {
-  // Match cat type based on tags
   matchCat();
   
-  // Start barrage
+  // 弹幕中混入用户的选择标签
+  const userBarrage = userPickLabels.map(p => ({text:`✨ ${p.shortLabel}`,bg:"rgba(0,240,255,0.2)",color:"#00f0ff",isUser:true}));
+  const allBarrage = [...BARRAGE_TAGS, ...userBarrage];
   let barrageIdx = 0;
   function addBarrage() {
-    const tag = BARRAGE_TAGS[barrageIdx % BARRAGE_TAGS.length];
+    const tag = allBarrage[barrageIdx % allBarrage.length];
     const el = document.createElement('div');
     el.className = 'barrage-tag';
     el.textContent = tag.text;
     el.style.background = tag.bg;
     el.style.color = tag.color;
+    if(tag.isUser) { el.style.fontWeight='700'; el.style.border='1px solid rgba(0,240,255,0.4)'; }
     el.style.top = (Math.random() * 70) + 'px';
     el.style.animationDuration = (2 + Math.random()) + 's';
     document.getElementById('barrageArea').appendChild(el);
@@ -962,29 +1133,36 @@ function startLoading() {
   barrageInterval = setInterval(addBarrage, 350);
   addBarrage();
   
-  // Loading text rotation
+  // 加载文案——前置提示报告基于作答轨迹+对局数据
+  const vibePreview = buildVibeTags(dimensionScores, resultCat).join(' · ');
+  const dynamicTexts = [
+    "正在读取你的作答轨迹",
+    "正在交叉比对 1,247 场历史对局信号",
+    `正在标记你的峡谷气质：${vibePreview}`,
+    "AI 猫管家正在生成你的专属猫格档案",
+    "即将揭晓：最像你的峡谷猫种"
+  ];
   let textIdx = 0;
+  document.getElementById('loadingText').innerHTML = dynamicTexts[0] + '<span class="loading-dots"></span>';
   loadTextInterval = setInterval(() => {
-    textIdx = (textIdx + 1) % LOADING_TEXTS.length;
-    document.getElementById('loadingText').innerHTML = LOADING_TEXTS[textIdx] + '<span class="loading-dots"></span>';
-  }, 1800);
+    textIdx = (textIdx + 1) % dynamicTexts.length;
+    document.getElementById('loadingText').innerHTML = dynamicTexts[textIdx] + '<span class="loading-dots"></span>';
+  }, 1600);
   
-  // Transition to result
   setTimeout(() => {
     clearInterval(barrageInterval);
     clearInterval(loadTextInterval);
     goToStage(4);
-  }, 3500);
+  }, 4000);
 }
 
 function matchCat() {
-  // Score each cat type
-  let best = CAT_TYPES[0], bestScore = 0;
+  // 维度加权匹配：玩家维度向量 · 猫种权重向量
+  let best = CAT_TYPES[0], bestScore = -Infinity;
   CAT_TYPES.forEach(cat => {
     let score = 0;
-    cat.matchTags.forEach(t => { if(userTags.includes(t)) score++; });
-    // Add some randomness
-    score += Math.random() * 0.5;
+    Object.entries(cat.weights).forEach(([dim,w]) => { score += (dimensionScores[dim]||0) * w; });
+    score += Math.random() * 0.3; // 微量随机打破平局
     if(score > bestScore) { bestScore = score; best = cat; }
   });
   resultCat = best;
@@ -995,7 +1173,44 @@ function matchCat() {
 // ═══════════════════════════════════════════════
 function renderResult() {
   const c = resultCat;
-  const facts = shuffleArray([...FUN_FACTS]).slice(0,2);
+  const diagText = buildDiagnosis(c, userPicks, dimensionScores);
+  const commentText = buildComment(c, userPicks, dimensionScores);
+  const vibeTags = buildVibeTags(dimensionScores, c);
+  
+  const tagsHTML = userPickLabels.map(p => 
+    `<span style="display:inline-block;padding:3px 10px;margin:3px;border-radius:12px;font-size:12px;background:rgba(0,240,255,0.1);border:1px solid rgba(0,240,255,0.2);color:var(--neon-cyan)">${p.shortLabel}</span>`
+  ).join('');
+  const vibeHTML = vibeTags.map(tag =>
+    `<span style="display:inline-block;padding:5px 12px;margin:4px;border-radius:14px;font-size:12px;background:rgba(255,45,120,0.08);border:1px solid rgba(255,45,120,0.18);color:var(--text-primary)">${tag}</span>`
+  ).join('');
+
+  let dimensionTrendHTML = '';
+  Object.entries(DIMENSION_META).forEach(([key, meta]) => {
+    const value = dimensionScores[key] || 0;
+    const pct = Math.min(Math.max((value + 9) / 18 * 100, 5), 95);
+    const currentLabel = getSideLabel(key, value);
+    const leftActive = value >= 0;
+    dimensionTrendHTML += `<div style="margin:8px 0 10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--text-secondary);margin-bottom:4px">
+        <span>${meta.icon} ${meta.left}</span>
+        <span>${meta.right}</span>
+      </div>
+      <div style="height:6px;background:rgba(255,255,255,0.06);border-radius:999px;position:relative;overflow:hidden">
+        <div style="position:absolute;left:0;top:0;height:100%;width:${pct}%;background:linear-gradient(90deg,var(--neon-cyan),var(--neon-pink));border-radius:999px;transition:width 0.8s ease"></div>
+      </div>
+      <div style="margin-top:4px;font-size:11px;color:${leftActive ? 'var(--neon-cyan)' : 'var(--neon-pink)'}">当前偏向：${currentLabel}</div>
+    </div>`;
+  });
+  
+  const clamp = (v,a,b) => Math.max(a,Math.min(b,v));
+  const stats = {
+    ops: clamp(c.baseStats.ops + dimensionScores.tone*2, 15, 98),
+    team: clamp(c.baseStats.team + dimensionScores.tempo*2, 15, 98),
+    surv: clamp(c.baseStats.surv + dimensionScores.style*2, 15, 98),
+    vision: clamp(c.baseStats.vision + dimensionScores.macro*2, 15, 98),
+    eco: clamp(c.baseStats.eco + dimensionScores.style*2, 15, 98),
+    grit: clamp(c.baseStats.grit + dimensionScores.tone*2, 15, 98)
+  };
   
   document.getElementById('resultContent').innerHTML = `
     <div class="result-header fade-in">
@@ -1003,31 +1218,42 @@ function renderResult() {
       <div class="result-title">🐾 诊断完成</div>
     </div>
     
-    <div class="cat-avatar-card fade-in delay-1">
+    <div class="diag-card fade-in delay-1" style="background:linear-gradient(135deg,rgba(0,240,255,0.03),rgba(180,77,255,0.03))">
+      <div style="text-align:center;margin-bottom:12px">
+        <span style="display:inline-block;padding:6px 18px;border-radius:20px;font-family:var(--font-display);font-size:20px;background:linear-gradient(135deg,rgba(0,240,255,0.1),rgba(180,77,255,0.1));border:1px solid rgba(0,240,255,0.2);color:var(--neon-cyan)">${c.vibeTitle}</span>
+        <div style="font-size:12px;color:var(--text-secondary);margin-top:6px">${c.vibeLabel}</div>
+      </div>
+      <div style="margin-bottom:10px"><div style="font-size:11px;color:var(--text-secondary);margin-bottom:4px">📋 你的答题标签</div><div>${tagsHTML}</div></div>
+      <div style="margin-bottom:10px"><div style="font-size:11px;color:var(--text-secondary);margin-bottom:4px">🧭 你的峡谷气质</div><div>${vibeHTML}</div></div>
+      ${dimensionTrendHTML}
+      <div style="margin-top:8px;font-size:12px;color:var(--text-muted);text-align:center">AI 已根据你的作答轨迹 × 历史对局信号，为你匹配最像的猫种</div>
+    </div>
+    
+    <div class="cat-avatar-card fade-in delay-2">
       <div class="cat-avatar">${c.img ? `<img class="cat-avatar-img" src="${c.img}" alt="${c.name}">` : `<div class="cat-avatar-emoji">${c.emoji}</div>`}</div>
       <div class="cat-name-tag">${c.name}</div>
       <div class="cat-owner">铲屎官：${playerName}</div>
+      <div style="font-size:12px;color:var(--text-secondary);margin-top:8px;position:relative;z-index:1">${c.vibeLabel}</div>
     </div>
     
-    <div class="diag-card fade-in delay-2">
+    <div class="diag-card fade-in delay-3">
       <div class="diag-label">🔬 AI 猫格诊断</div>
-      <div class="diag-text">${c.diagnosis}</div>
+      <div class="diag-text">${diagText}</div>
     </div>
     
-    <div class="radar-card fade-in delay-3">
-      <div class="radar-title">📊 猫格雷达图</div>
-      <canvas id="radarCanvas" width="260" height="260"></canvas>
-      <div class="stat-bars" id="statBars"></div>
+    <div class="radar-card fade-in delay-4">
+      <div class="radar-title">📊 峡谷猫格雷达图</div>
+      <canvas id="radarCanvas" width="280" height="280"></canvas>
     </div>
     
     <div class="fun-card fade-in delay-4">
       <div class="diag-label">📊 冷知识</div>
-      ${facts.map(f => `<div class="fun-item">${f}</div>`).join('')}
+      ${c.funFacts.map(f => `<div class="fun-item">${f}</div>`).join('')}
     </div>
     
     <div class="comment-card fade-in delay-5">
       <div class="comment-speaker">💬 猫管家点评</div>
-      <div class="comment-text">"${c.comment}"</div>
+      <div class="comment-text">"${commentText}"</div>
     </div>
     
     <div class="cta-row fade-in delay-5">
@@ -1036,25 +1262,21 @@ function renderResult() {
     </div>
   `;
   
-  // Draw radar + stat bars after DOM ready
-  setTimeout(() => {
-    drawRadar(c.stats);
-    renderStatBars(c.stats, c.color);
-  }, 300);
+  setTimeout(() => { drawRadar(stats); }, 300);
 }
 
 function drawRadar(stats) {
   const canvas = document.getElementById('radarCanvas');
   if(!canvas) return;
   const ctx = canvas.getContext('2d');
-  const cx = 130, cy = 130, maxR = 100;
+  const W = 280, cx = W/2, cy = W/2, maxR = 95;
   const labels = ['操作力','团队力','生存力','视野力','经济力','坚韧力'];
   const values = [stats.ops, stats.team, stats.surv, stats.vision, stats.eco, stats.grit];
   const n = labels.length;
   
-  ctx.clearRect(0,0,260,260);
+  ctx.clearRect(0,0,W,W);
   
-  // Grid
+  // Grid rings
   for(let ring=1;ring<=4;ring++){
     const r = maxR * ring / 4;
     ctx.beginPath();
@@ -1100,49 +1322,41 @@ function drawRadar(stats) {
   ctx.lineWidth = 2;
   ctx.stroke();
   
-  // Points
+  // Points + value labels
+  const valColors = ['#00f0ff','#39ff7f','#ffe156','#b44dff','#ff8a3d','#ff2d78'];
   for(let i=0;i<n;i++){
     const angle = (Math.PI*2/n)*i - Math.PI/2;
     const r = maxR * values[i] / 100;
+    const px = cx + r*Math.cos(angle);
+    const py = cy + r*Math.sin(angle);
+    // Point dot
     ctx.beginPath();
-    ctx.arc(cx + r*Math.cos(angle), cy + r*Math.sin(angle), 4, 0, Math.PI*2);
-    ctx.fillStyle = '#00f0ff';
+    ctx.arc(px, py, 4, 0, Math.PI*2);
+    ctx.fillStyle = valColors[i];
     ctx.fill();
+    // Value number near the point
+    const vr = r + 14;
+    const vx = cx + vr*Math.cos(angle);
+    const vy = cy + vr*Math.sin(angle);
+    ctx.font = 'bold 11px "Noto Sans SC"';
+    ctx.fillStyle = valColors[i];
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(values[i], vx, vy);
   }
   
-  // Labels
+  // Labels (outside)
   ctx.font = '11px "Noto Sans SC"';
   ctx.fillStyle = '#8888aa';
   ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
   for(let i=0;i<n;i++){
     const angle = (Math.PI*2/n)*i - Math.PI/2;
-    const lr = maxR + 18;
-    let x = cx + lr * Math.cos(angle);
-    let y = cy + lr * Math.sin(angle) + 4;
+    const lr = maxR + 30;
+    const x = cx + lr * Math.cos(angle);
+    const y = cy + lr * Math.sin(angle);
     ctx.fillText(labels[i], x, y);
   }
-}
-
-function renderStatBars(stats, color) {
-  const el = document.getElementById('statBars');
-  if(!el) return;
-  const labels = { ops:'操作力', team:'团队力', surv:'生存力', vision:'视野力', eco:'经济力', grit:'坚韧力' };
-  const colors = { ops:'#00f0ff', team:'#39ff7f', surv:'#ffe156', vision:'#b44dff', eco:'#ff8a3d', grit:'#ff2d78' };
-  
-  el.innerHTML = Object.entries(stats).map(([k,v]) => `
-    <div class="stat-row">
-      <div class="stat-label">${labels[k]}</div>
-      <div class="stat-bar-bg"><div class="stat-bar-fill" data-val="${v}" style="background:${colors[k]}"></div></div>
-      <div class="stat-val" style="color:${colors[k]}">${v}</div>
-    </div>
-  `).join('');
-  
-  // Animate bars
-  setTimeout(() => {
-    el.querySelectorAll('.stat-bar-fill').forEach(bar => {
-      bar.style.width = bar.dataset.val + '%';
-    });
-  }, 100);
 }
 
 function shareMyCat() {
@@ -1161,19 +1375,13 @@ function startPK() {
   const friendName = document.getElementById('pkFriendName').value.trim() || '神秘召唤师';
   document.getElementById('pkOverlay').classList.remove('visible');
   
-  // Pick a random cat for friend (different from player's)
   let friendCat;
   do {
     friendCat = CAT_TYPES[Math.floor(Math.random() * CAT_TYPES.length)];
   } while(friendCat.id === resultCat.id);
   
-  // Pick relation
-  const relation = PK_RELATIONS[Math.floor(Math.random() * PK_RELATIONS.length)];
-  
-  const playerData = { cat: resultCat, ownerName: playerName };
-  const friendData = { cat: friendCat, ownerName: friendName };
-  
-  const reportText = relation.text(playerData, friendData);
+  // 基于双方猫种特性生成PK报告
+  const pk = generatePKReport(resultCat, friendCat, playerName, friendName);
   
   document.getElementById('pkContent').innerHTML = `
     <div class="pk-header fade-in">
@@ -1196,17 +1404,17 @@ function startPK() {
     </div>
     
     <div class="pk-relation-badge fade-in delay-2">
-      <div class="pk-relation-tag ${relation.tagClass}">${relation.tag}</div>
+      <div class="pk-relation-tag ${pk.relation.tagClass}">${pk.relation.tag}</div>
     </div>
     
     <div class="pk-compat fade-in delay-2">
-      <div class="pk-compat-num" style="color:${relation.color}">${relation.compat}%</div>
+      <div class="pk-compat-num" style="color:${pk.relation.color}">${pk.compat}%</div>
       <div class="pk-compat-label">契合度</div>
     </div>
     
     <div class="pk-report fade-in delay-3">
       <div class="pk-report-title">🤖 AI 裁判猫判定</div>
-      <div class="pk-report-text">${reportText.replace(/\n/g,'<br>')}</div>
+      <div class="pk-report-text">${pk.text.replace(/\n/g,'<br>')}</div>
     </div>
     
     <div class="pk-cta-row fade-in delay-4">
@@ -1230,14 +1438,6 @@ function launchGame() {
 // ═══════════════════════════════════════════════
 // UTILS
 // ═══════════════════════════════════════════════
-function shuffleArray(arr) {
-  for(let i=arr.length-1;i>0;i--){
-    const j=Math.floor(Math.random()*(i+1));
-    [arr[i],arr[j]]=[arr[j],arr[i]];
-  }
-  return arr;
-}
-
 // Handle Enter key for PK input
 document.getElementById('pkFriendName').addEventListener('keydown', e => {
   if(e.key === 'Enter') startPK();

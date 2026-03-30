@@ -273,3 +273,60 @@ PDD 2025Q4 深度调研：
 - Last-Seen: 2026-03-25
 
 ---
+
+## [LRN-20260330-001] correction
+
+**Logged**: 2026-03-30T00:39:00+08:00
+**Priority**: medium
+**Status**: pending
+**Area**: docs
+
+### Summary
+视觉参考需求应直接产出真实生成图，不应用占位方案页代替。
+
+### Details
+在"可爱点吗"的续轮中，错误地用浏览器可视化对比页（emoji + 文字描述）代替真实生成图交付。用户明确指出"这不是真的图啊"。此类需求的核心交付物是可直接判断风格的真实图片。
+
+### Suggested Action
+遇到视觉参考、风格探索、素材发散类请求时，优先直接生成真实图；只有在用户明确要求做方案比选或版式评审时，再使用浏览器可视化对比页。
+
+### Metadata
+- Source: user_feedback
+- Related Files: 10_Work/lolm峡谷猫格/
+- Tags: correction, image-generation, visual-reference
+
+---
+
+## [LRN-20260330-002] correction
+
+**Logged**: 2026-03-30T00:48:00+08:00
+**Priority**: critical
+**Status**: pending
+**Area**: config
+
+### Summary
+绝不能对已有内容的文件使用 write_to_file 覆写，必须先读取再用 replace_in_file 追加。
+
+### Details
+在记录 LRN-20260330-001 时，直接用 `write_to_file` 写入 `.learnings/LEARNINGS.md`，导致文件中原有的 9 条 learnings 记录（LRN-20260325-001 ~ 009）全部被覆盖丢失。用户不得不手动恢复文件。
+
+**根因**：没有先 `read_file` 查看现有内容，就对已存在的文件使用了 `write_to_file`（整体覆写）。
+
+**正确做法**：
+1. 先 `read_file` 确认文件是否已有内容
+2. 用 `replace_in_file` 在末尾追加新记录
+3. **永远不要对已有内容的文件直接 write_to_file，这是破坏性操作**
+
+### Suggested Action
+将此规则提升为硬性约束：对 `.learnings/`、`episodic/`、`semantic/`、`procedural/` 等积累型文件，只允许 read_file + replace_in_file，禁止 write_to_file。
+
+### Metadata
+- Source: user_feedback
+- Related Files: .learnings/LEARNINGS.md
+- Tags: correction, data-loss, write-safety, critical-error
+- Pattern-Key: harden.no_overwrite_accumulative_files
+- Recurrence-Count: 1
+- First-Seen: 2026-03-30
+- Last-Seen: 2026-03-30
+
+---
