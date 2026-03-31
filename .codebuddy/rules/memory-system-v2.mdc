@@ -2,11 +2,11 @@
 description: 
 alwaysApply: true
 enabled: true
-updatedAt: 2026-03-19T13:19:59.246Z
+updatedAt: 2026-03-31T00:27:00.000Z
 provider: 
 ---
 
-# 🧠 记忆系统 v2.1 操作规范
+# 🧠 记忆系统 v3.0 操作规范
 
 ## 文件结构
 
@@ -14,11 +14,16 @@ provider:
 .codebuddy/memory/
 ├── MEMORY.md              ← 启动文件（每次会话必读，读完即可工作）
 ├── semantic/
-│   ├── context.md         ←   项目+领域+人物（按需读取）
+│   ├── context.md         ←   全局知识（用户画像+学习等非项目信息）
 │   └── tech_stack.md      ←   技术偏好（按需读取）
 ├── procedural/
 │   ├── skills.md          ←   工作流+错题本+代码约定（按需读取）
 │   └── tools.md           ←   工具配置（按需读取）
+├── projects/              ← 🆕 项目分区（每个项目独立目录）
+│   └── <project-id>/
+│       ├── context.md     ←   项目知识（状态/数据/文档索引等）
+│       ├── decisions.md   ←   决策记录（日期/决策/理由/影响）
+│       └── learnings.md   ←   教训沉淀（方法论/坑/可复用经验）
 ├── episodic/
 │   └── YYYY-MM-DD.md      ←   每日日志
 └── working/
@@ -30,8 +35,27 @@ provider:
 1. **必读** `MEMORY.md` — 读完即可工作，不需要跳转其他文件
 2. **必读** `working/current.md` — 有未完成任务？接着做
 3. **按需** 其他文件 — 仅当任务涉及特定项目细节/工作流/工具时
+4. **按需** `projects/<id>/context.md` — 当任务涉及具体项目时，读取对应项目分区
 
-> 设计原则：MEMORY.md 是自给自足的弹药库，不是指路牌。
+> 设计原则：MEMORY.md 是自给自足的弹药库，不是指路牌。项目分区是按需深入的弹药补给站。
+
+## 项目分区协议（v3 新增）
+
+### 读取规则
+- MEMORY.md 中的项目表 = **索引**（项目名/ID/路径/状态）
+- 涉及具体项目时 → 读取 `projects/<id>/context.md` 获取完整上下文
+- 需要回顾决策时 → 读取 `projects/<id>/decisions.md`
+- 需要查教训时 → 读取 `projects/<id>/learnings.md`
+
+### 写入规则
+- **项目状态变化** → 同时更新 MEMORY.md 表格状态列 + `projects/<id>/context.md`
+- **新决策产生** → 追加到 `projects/<id>/decisions.md`（时间倒序）
+- **新教训/方法论** → 追加到 `projects/<id>/learnings.md`
+- **新项目** → 创建 `projects/<新id>/` 目录 + 三个文件 + MEMORY.md 加一行
+
+### 项目 ID 命名约定
+- 英文小写 + 连字符（如 `uc-wangye-npc`、`hex-arena`）
+- 简短可辨识，与工作目录名无需一致
 
 ## 写入规则（完成工作后）
 
@@ -43,11 +67,14 @@ provider:
    - 记录粒度：一句话概括做了什么 + 关键结论（如有）
    - 📌 **每条日志末尾标注本次会话使用的 Skills**，格式：`Skills: skill1, skill2`（未使用则写 `Skills: 无`）
 2. **按需更新**（只在信息有持久价值时）：
-   - 新项目/项目重大变化 → `semantic/context.md`
+   - 项目知识变化 → `projects/<id>/context.md`
+   - 项目决策 → `projects/<id>/decisions.md`
+   - 项目教训 → `projects/<id>/learnings.md`
+   - 新项目/项目状态变化 → `MEMORY.md` 项目表
+   - 全局知识变化 → `semantic/context.md`
    - 新技术偏好 → `semantic/tech_stack.md`
-   - 新教训/新工作流 → `procedural/skills.md`
+   - 新通用教训/新工作流 → `procedural/skills.md`
    - 工具配置变化 → `procedural/tools.md`
-   - 活跃项目变化 → `MEMORY.md`
 
 > 不要为了写记忆而写记忆。但**每日工作日志（episodic）必须写**，这是最低要求。
 
@@ -57,3 +84,4 @@ provider:
 - ❌ 不追加重复内容到长期记忆文件（原地更新）
 - ❌ 不在 working/current.md 中记录已完成任务（那是 episodic 的职责）
 - ❌ 不创建没有消费者的文件（索引、架构文档等）
+- ❌ 不在 semantic/context.md 中存储项目细节（那是 projects/ 的职责）

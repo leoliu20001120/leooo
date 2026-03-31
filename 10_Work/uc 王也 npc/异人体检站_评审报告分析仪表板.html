@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>「异人体检站」评审报告综合分析</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: #0f1117;
+            color: #e1e4e8;
+            line-height: 1.6;
+        }
+        .container { max-width: 1400px; margin: 0 auto; padding: 24px; }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1a1e2e 0%, #2d1b4e 50%, #1a1e2e 100%);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #c084fc, #818cf8, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+        .header .subtitle { color: #9ca3af; font-size: 14px; }
+        .header .meta { display: flex; gap: 24px; margin-top: 16px; flex-wrap: wrap; }
+        .header .meta-item {
+            background: rgba(255,255,255,0.05);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .meta-item strong { color: #c084fc; }
+        
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 24px;
+            background: #161b22;
+            border-radius: 12px;
+            padding: 4px;
+            overflow-x: auto;
+        }
+        .tab-btn {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            color: #8b949e;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 8px;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .tab-btn:hover { color: #e1e4e8; background: rgba(255,255,255,0.05); }
+        .tab-btn.active {
+            background: linear-gradient(135deg, #7c3aed, #6366f1);
+            color: white;
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        /* KPI Cards */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .kpi-card {
+            background: #161b22;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #30363d;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .kpi-card:hover { transform: translateY(-2px); border-color: rgba(139, 92, 246, 0.5); }
+        .kpi-card .label { font-size: 12px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; }
+        .kpi-card .value { font-size: 28px; font-weight: 700; margin: 8px 0 4px; }
+        .kpi-card .change { font-size: 12px; }
+        .kpi-card .change.up { color: #f87171; }
+        .kpi-card .change.down { color: #34d399; }
+        .kpi-card .change.neutral { color: #fbbf24; }
+        .kpi-card .value.purple { color: #c084fc; }
+        .kpi-card .value.blue { color: #60a5fa; }
+        .kpi-card .value.orange { color: #fb923c; }
+        .kpi-card .value.red { color: #f87171; }
+        .kpi-card .value.green { color: #34d399; }
+        .kpi-card .value.yellow { color: #fbbf24; }
+        
+        /* Chart Cards */
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+        .chart-grid.single { grid-template-columns: 1fr; }
+        .chart-card {
+            background: #161b22;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid #30363d;
+        }
+        .chart-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #e1e4e8;
+        }
+        .chart-card .chart-desc {
+            font-size: 12px;
+            color: #8b949e;
+            margin-bottom: 16px;
+        }
+        .chart-card.full { grid-column: 1 / -1; }
+        canvas { max-height: 350px; }
+        
+        /* Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        .data-table thead th {
+            background: rgba(139, 92, 246, 0.1);
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #c084fc;
+            border-bottom: 2px solid #30363d;
+            white-space: nowrap;
+        }
+        .data-table tbody td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #21262d;
+        }
+        .data-table tbody tr:hover { background: rgba(255,255,255,0.02); }
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .badge.critical { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+        .badge.major { background: rgba(251, 191, 36, 0.15); color: #fbbf24; }
+        .badge.minor { background: rgba(52, 211, 153, 0.15); color: #34d399; }
+        .badge.pm { background: rgba(192, 132, 252, 0.15); color: #c084fc; }
+        .badge.tech { background: rgba(96, 165, 250, 0.15); color: #60a5fa; }
+        .badge.qa { background: rgba(251, 146, 60, 0.15); color: #fb923c; }
+        .badge.pjm { background: rgba(52, 211, 153, 0.15); color: #34d399; }
+        
+        /* Insight Cards */
+        .insight-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .insight-card {
+            background: #161b22;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #7c3aed;
+        }
+        .insight-card.warn { border-left-color: #f59e0b; }
+        .insight-card.danger { border-left-color: #ef4444; }
+        .insight-card.success { border-left-color: #10b981; }
+        .insight-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+        .insight-card p { font-size: 13px; color: #9ca3af; }
+        .insight-card .highlight { color: #c084fc; font-weight: 600; }
+        .insight-card .red { color: #f87171; font-weight: 600; }
+        .insight-card .yellow { color: #fbbf24; font-weight: 600; }
+        .insight-card .green { color: #34d399; font-weight: 600; }
+        
+        /* Section Header */
+        .section-header {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 32px 0 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #30363d;
+        }
+        .section-header span { color: #8b949e; font-size: 13px; font-weight: 400; margin-left: 12px; }
+        
+        /* Score Meter */
+        .score-meters { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; }
+        .score-meter { text-align: center; }
+        .score-meter .score-label { font-size: 12px; color: #8b949e; margin-top: 8px; }
+        .score-meter .score-value { font-size: 14px; font-weight: 700; margin-top: 4px; }
+        
+        /* Progress Bar */
+        .progress-bar-container { margin: 8px 0; }
+        .progress-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
+        .progress-bar {
+            height: 8px;
+            background: #21262d;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.6s ease;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .chart-grid { grid-template-columns: 1fr; }
+            .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+            .header h1 { font-size: 22px; }
+        }
+        
+        /* Annotation */
+        .annotation {
+            background: rgba(139, 92, 246, 0.08);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+            font-size: 13px;
+        }
+        .annotation strong { color: #c084fc; }
+        
+        /* Timeline */
+        .timeline { position: relative; padding: 16px 0; }
+        .timeline-item {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            position: relative;
+        }
+        .timeline-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-top: 6px;
+            flex-shrink: 0;
+        }
+        .timeline-content h5 { font-size: 14px; font-weight: 600; }
+        .timeline-content p { font-size: 12px; color: #8b949e; margin-top: 2px; }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 32px;
+            font-size: 12px;
+            color: #484f58;
+            border-top: 1px solid #21262d;
+            margin-top: 32px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <h1>🏥「异人体检站」评审报告综合分析</h1>
+        <p class="subtitle">基于 AI 团队 4 视角评审报告的跨维度分析 · 发现核心风险与优先行动</p>
+        <div class="meta">
+            <div class="meta-item">📄 报告数量: <strong>4 份</strong></div>
+            <div class="meta-item">📝 总行数: <strong>~1,900 行</strong></div>
+            <div class="meta-item">👥 评审角色: <strong>PM / Tech Lead / QA Lead / 项目经理</strong></div>
+            <div class="meta-item">📅 评审日期: <strong>2026-03-22</strong></div>
+            <div class="meta-item">🎯 评审对象: <strong>第一阶段产品方案 v1.0</strong></div>
+        </div>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+        <button class="tab-btn active" data-tab="overview">📊 总览</button>
+        <button class="tab-btn" data-tab="risks">⚠️ 风险矩阵</button>
+        <button class="tab-btn" data-tab="effort">📐 工作量差异</button>
+        <button class="tab-btn" data-tab="kpi">🎯 KPI 评估</button>
+        <button class="tab-btn" data-tab="consensus">🤝 共识与分歧</button>
+        <button class="tab-btn" data-tab="priority">🚀 优先行动</button>
+    </div>
+
+    <!-- Tab 1: Overview -->
+    <div class="tab-content active" id="tab-overview">
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="label">总评级</div>
+                <div class="value purple">B+ → A-</div>
+                <div class="change neutral">技术评审后上调</div>
+            </div>
+            <div class="kpi-card">
+                <div class="label">Critical 风险</div>
+                <div class="value red">5</div>
+                <div class="change up">↑ 需开发前解决</div>
+            </div>
+            <div class="kpi-card">
+                <div class="label">Major 风险</div>
+                <div class="value orange">9</div>
+                <div class="change neutral">开发中优先解决</div>
+            </div>
+            <div class="kpi-card">
+                <div class="label">排期膨胀</div>
+                <div class="value yellow">+50%</div>
+                <div class="change up">5-6 周 → 8-9 周</div>
+            </div>
+            <div class="kpi-card">
+                <div class="label">人天膨胀</div>
+                <div class="value orange">+80-110%</div>
+                <div class="change up">45 → 80-95 人天</div>
+            </div>
+            <div class="kpi-card">
+                <div class="label">测试用例</div>
+                <div class="value blue">470+</div>
+                <div class="change up">↑ PRD 未定义</div>
+            </div>
+        </div>
+
+        <!-- 四方评审雷达 -->
+        <div class="chart-grid">
+            <div class="chart-card">
+                <h3>🎯 四方评审综合评分</h3>
+                <p class="chart-desc">各评审角色对不同维度的评分（1-5 分制）</p>
+                <canvas id="radarChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h3>📊 问题严重度分布</h3>
+                <p class="chart-desc">按严重度统计所有评审发现的问题</p>
+                <canvas id="severityChart"></canvas>
+            </div>
+        </div>
+
+        <!-- 核心发现 -->
+        <div class="section-header">💡 核心发现<span>跨 4 份报告提炼的关键洞察</span></div>
+        <div class="insight-grid">
+            <div class="insight-card danger">
+                <h4>🔴 最大风险：AI 输出质量</h4>
+                <p>王也人设一致性是<span class="red">全员共识的头号风险</span>。4 份报告中有 3 份将其列为 Critical。Prompt 工程被定义为「项目生命线」，建议配 2 名 Prompt 工程师 + ≥5 版迭代。</p>
+            </div>
+            <div class="insight-card warn">
+                <h4>🟡 最大分歧：排期预估</h4>
+                <p>PRD 原估 <span class="yellow">45 人天 / 5-6 周</span>，技术评审调整为 54-65 人天 / 6-7 周，项目经理最终建议 <span class="yellow">80-95 人天 / 8-9 周</span>。测试周期差异最大（7天 → 15-18天，+150%）。</p>
+            </div>
+            <div class="insight-card">
+                <h4>💜 最强共识：核心架构可行</h4>
+                <p>3 Agent Workflow + 双链路 + K-V Cache 的架构设计获得<span class="highlight">全员认可</span>。瓦手验证的工程基建可直接复用，K-V Cache 可实现单实例 100→3000 QPM 提升。</p>
+            </div>
+            <div class="insight-card success">
+                <h4>🟢 最佳设计：漏斗式渐进体验</h4>
+                <p>「5 秒被吊住 → 2 分钟体检 → 一份值得分享的报告」的<span class="green">双分享物 + 叙事弧线</span>设计获得 PM 高度评价，被认为是比瓦手更优的设计。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab 2: Risks -->
+    <div class="tab-content" id="tab-risks">
+        <div class="section-header">🔴 统一风险清单<span>跨 4 个视角汇总，共 18 项风险</span></div>
+        
+        <div class="chart-grid">
+            <div class="chart-card">
+                <h3>风险来源分布</h3>
+                <p class="chart-desc">各评审角色识别的风险数量</p>
+                <canvas id="riskSourceChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h3>风险影响领域</h3>
+                <p class="chart-desc">风险按影响领域分类</p>
+                <canvas id="riskDomainChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-card full" style="margin-bottom: 24px;">
+            <h3>🔴 Critical 风险详情（5 项）</h3>
+            <p class="chart-desc">必须在开发前或开发初期解决的关键风险</p>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>风险描述</th>
+                        <th>来源</th>
+                        <th>影响</th>
+                        <th>预案状态</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="badge critical">R01</span></td>
+                        <td>王也人设还原度不足</td>
+                        <td><span class="badge pm">PM</span><span class="badge tech">Tech</span><span class="badge qa">QA</span></td>
+                        <td>IP 粉差评、舆情危机</td>
+                        <td>✅ 100+ ID 测试集 ≥ 4.0 分；≥5 版迭代</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge critical">R02</span></td>
+                        <td>高并发首日崩溃</td>
+                        <td><span class="badge tech">Tech</span><span class="badge qa">QA</span></td>
+                        <td>用户流失、负面口碑</td>
+                        <td>✅ 80K QPM 压测 + 排队 + 弹性 3x</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge critical">R03</span></td>
+                        <td>报告渲染 Android 兼容</td>
+                        <td><span class="badge tech">Tech</span></td>
+                        <td>30%+ 用户报告变形</td>
+                        <td>✅ Puppeteer 服务端 + html2canvas 降级</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge critical">R04</span></td>
+                        <td>离线命中率 &lt;60%</td>
+                        <td><span class="badge tech">Tech</span></td>
+                        <td>实时推理压力翻倍</td>
+                        <td>⚠️ 扩大至 200 万 + ES 模糊匹配</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge critical">R05</span></td>
+                        <td>混元团队排期冲突</td>
+                        <td><span class="badge pjm">PM</span></td>
+                        <td>后端开发被阻塞</td>
+                        <td>⚠️ Week 1 签资源承诺书</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="chart-card full">
+            <h3>🟡 Major 风险详情（9 项）</h3>
+            <p class="chart-desc">建议在开发中优先解决</p>
+            <table class="data-table">
+                <thead>
+                    <tr><th>ID</th><th>风险描述</th><th>来源</th><th>核心预案</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><span class="badge major">R06</span></td><td>AI 输出跑题/出戏</td><td><span class="badge tech">Tech</span><span class="badge qa">QA</span></td><td>四层防护 + Prompt 约束</td></tr>
+                    <tr><td><span class="badge major">R07</span></td><td>IP 版权审核延迟</td><td><span class="badge pjm">PJM</span></td><td>Week 2 送审，预留 2 周</td></tr>
+                    <tr><td><span class="badge major">R08</span></td><td>安全绕过攻击</td><td><span class="badge qa">QA</span></td><td>7 类绕过向量 + 红队测试</td></tr>
+                    <tr><td><span class="badge major">R09</span></td><td>Jaro-Winkler 性能不达标</td><td><span class="badge tech">Tech</span></td><td>改用 ES fuzzy query</td></tr>
+                    <tr><td><span class="badge major">R10</span></td><td>L2 安全审核延迟叠加</td><td><span class="badge tech">Tech</span></td><td>对话环节改异步审核</td></tr>
+                    <tr><td><span class="badge major">R11</span></td><td>7 轮对话弃出率 &gt;30%</td><td><span class="badge pm">PM</span></td><td>中途退出兜底 + 5 轮快速模式</td></tr>
+                    <tr><td><span class="badge major">R12</span></td><td>分享率 &lt;20%</td><td><span class="badge pm">PM</span></td><td>AB 测试 + 对比排名元素</td></tr>
+                    <tr><td><span class="badge major">R13</span></td><td>需求蔓延</td><td><span class="badge pjm">PJM</span></td><td>严格变更流程</td></tr>
+                    <tr><td><span class="badge major">R14</span></td><td>人力不足（Prompt 工程师瓶颈）</td><td><span class="badge pjm">PJM</span></td><td>配 2 名 Prompt 工程师</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Tab 3: Effort -->
+    <div class="tab-content" id="tab-effort">
+        <div class="section-header">📐 工作量评估对比<span>PRD 原估 vs 技术评审 vs 项目管理</span></div>
+        
+        <div class="chart-grid">
+            <div class="chart-card full">
+                <h3>各模块人天估算对比</h3>
+                <p class="chart-desc">PRD 原始估算 vs 技术评审调整（人天）</p>
+                <canvas id="effortCompareChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-grid">
+            <div class="chart-card">
+                <h3>排期膨胀率分析</h3>
+                <p class="chart-desc">各模块的排期膨胀百分比</p>
+                <canvas id="inflationChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h3>团队配置对比</h3>
+                <p class="chart-desc">PRD 原方案 vs 评审建议</p>
+                <canvas id="teamChart"></canvas>
+            </div>
+        </div>
+
+        <div class="annotation">
+            <strong>💡 关键发现：</strong>排期膨胀最严重的是<strong>测试周期（+150%）</strong>，从 7 天飙升到 15-18 天。这说明 PRD 对 AI 产品的测试复杂度严重低估——需要覆盖功能测试、AI 质量测试、安全测试、压测、兼容性测试和 IP 粉内测六大维度。其次是总人天（+80-110%），主要来自知识库压缩、联调 buffer、报告渲染服务等 PRD 未计入的隐性工作。
+        </div>
+
+        <div class="chart-card full" style="margin-top: 16px;">
+            <h3>⏱ 建议时间线（8-9 周）</h3>
+            <p class="chart-desc">项目经理规划的里程碑驱动时间线</p>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot" style="background: #c084fc;"></div>
+                    <div class="timeline-content">
+                        <h5>M0 Kick-off · Week 1</h5>
+                        <p>知识库压缩 + Agent1 批命 Prompt + 格斗知识库 P0 + 视觉设计 + 前端框架</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot" style="background: #818cf8;"></div>
+                    <div class="timeline-content">
+                        <h5>M1 Prompt v1 · Week 2 末</h5>
+                        <p>Agent2/3 Prompt + 后端 API + 前端对话 UI + IP 方送审</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot" style="background: #60a5fa;"></div>
+                    <div class="timeline-content">
+                        <h5>M2 内部灰度 · Week 3 末</h5>
+                        <p>离线管线 + 安全系统部署 + 前端联调 → 全链路可跑通版本</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot" style="background: #34d399;"></div>
+                    <div class="timeline-content">
+                        <h5>M3 联调完成 · Week 4 末</h5>
+                        <p>功能测试 + AI 质量测试 R1 + 安全测试 R1 + 全链路联调</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot" style="background: #fbbf24;"></div>
+                    <div class="timeline-content">
+                        <h5>M4 压测通过 · Week 5 末</h5>
+                        <p>压测（80K QPM 尖峰）+ 安全测试 R2 + AI 质量 R2 + 兼容性测试</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot" style="background: #fb923c;"></div>
+                    <div class="timeline-content">
+                        <h5>M5 内测完成 · Week 6 末</h5>
+                        <p>IP 粉内测 50-100 人（核心粉 50 + 泛游戏 30 + 路人 20）</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot" style="background: #f87171;"></div>
+                    <div class="timeline-content">
+                        <h5>M6 Go/No-Go · Week 7 末</h5>
+                        <p>Bug Fix + 优化 + 最终回归 → 四项否决条件评估</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot" style="background: #ef4444;"></div>
+                    <div class="timeline-content">
+                        <h5>M7 正式上线 · Week 8-9</h5>
+                        <p>全量上线 + KOL 首发 🚀</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab 4: KPI -->
+    <div class="tab-content" id="tab-kpi">
+        <div class="section-header">🎯 KPI 评估分析<span>PRD 目标 vs PM 评估 vs 三档建议</span></div>
+
+        <div class="chart-grid">
+            <div class="chart-card full">
+                <h3>KPI 目标三档对比</h3>
+                <p class="chart-desc">PRD 原目标（乐观）vs PM 建议的保守/基准/挑战三档</p>
+                <canvas id="kpiChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-grid">
+            <div class="chart-card">
+                <h3>漏斗转化率评审</h3>
+                <p class="chart-desc">PRD 假设 vs PM 修正估算</p>
+                <canvas id="funnelChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h3>成功指标 SMART 评估</h3>
+                <p class="chart-desc">7 个核心指标的 SMART 维度覆盖度</p>
+                <canvas id="smartChart"></canvas>
+            </div>
+        </div>
+
+        <div class="annotation">
+            <strong>⚠️ PM 核心结论：</strong>所有指标都缺少<strong>时间限定（T）</strong>。PM 认为漏斗各环节假设偏乐观，建议将 KPI 分为保守/基准/挑战三档。最大争议点：<strong>K-factor ≥1.5</strong>（PM 认为在非功能驱动的营销活动中非常罕见，建议基准 1.0-1.2）和<strong>分享率 ≥30%</strong>（行业基准 10-20%，建议基准 20-25%）。
+        </div>
+
+        <div class="chart-card full" style="margin-top: 16px;">
+            <h3>漏斗转化率逐级分析</h3>
+            <table class="data-table">
+                <thead>
+                    <tr><th>漏斗环节</th><th>PRD 假设</th><th>PM 修正</th><th>评估</th><th>关键论据</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>曝光 → 进入</td><td>16.7%</td><td>偏乐观</td><td>⚠️</td><td>信息流 CTR 通常 1-3%，KOL/社交分享量级有限</td></tr>
+                    <tr><td>进入 → 输入 ID</td><td>60%</td><td>合理</td><td>✅</td><td>门槛低，只需输入名字</td></tr>
+                    <tr><td>输入 → 批命卡</td><td>95%</td><td>合理</td><td>✅</td><td>自动生成，几乎无弃出</td></tr>
+                    <tr><td>批命卡 → 深度体检</td><td>60-70%</td><td>45-55%</td><td>⚠️</td><td>瓦手有功能激励，我们是纯情感驱动</td></tr>
+                    <tr><td>深度体检完成率</td><td>80%</td><td>65-75%</td><td>⚠️</td><td>7 轮 = 2 分钟，碎片化场景下偏高</td></tr>
+                    <tr><td>分享率</td><td>≥30%</td><td>20-25%</td><td>⚠️</td><td>行业基准 10-20%，30% 需要极高分享物质量</td></tr>
+                    <tr><td>K-factor</td><td>≥1.5</td><td>1.0-1.2</td><td>⚠️</td><td>1.5 = 病毒式传播，非功能驱动中很罕见</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Tab 5: Consensus -->
+    <div class="tab-content" id="tab-consensus">
+        <div class="section-header">🤝 跨团队共识与分歧<span>4 个评审角色的交叉视角</span></div>
+
+        <div class="chart-grid">
+            <div class="chart-card">
+                <h3>已达成共识项</h3>
+                <p class="chart-desc">各对组合的共识决策数量</p>
+                <canvas id="consensusChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h3>关键技术决策一览</h3>
+                <p class="chart-desc">评审中确认的 7 项核心技术选型</p>
+                <div style="padding: 8px 0;">
+                    <div class="progress-bar-container">
+                        <div class="progress-label"><span>SSE 对话推送</span><span style="color:#34d399;">✅ 全员通过</span></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#34d399;"></div></div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-label"><span>Puppeteer 报告渲染</span><span style="color:#34d399;">✅ 全员通过</span></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#34d399;"></div></div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-label"><span>ES fuzzy 模糊匹配</span><span style="color:#34d399;">✅ 全员通过</span></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#34d399;"></div></div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-label"><span>Stateless + HMAC 签名</span><span style="color:#34d399;">✅ 全员通过</span></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#34d399;"></div></div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-label"><span>混元 TurboS + Prompt 工程</span><span style="color:#34d399;">✅ 全员通过</span></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#34d399;"></div></div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-label"><span>H5（非小程序）</span><span style="color:#34d399;">✅ 全员通过</span></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#34d399;"></div></div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-label"><span>批命同步 + 对话异步审核</span><span style="color:#34d399;">✅ 全员通过</span></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width:100%;background:#34d399;"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-card full" style="margin-bottom: 24px;">
+            <h3>📋 PRD 确认调整项</h3>
+            <p class="chart-desc">基于评审反馈，产品经理已确认的 PRD 变更</p>
+            <table class="data-table">
+                <thead><tr><th>调整项</th><th>原方案</th><th>新方案</th><th>发起方</th></tr></thead>
+                <tbody>
+                    <tr><td>排期估算</td><td>PRD 原始人天</td><td>采用 tech-lead 估算</td><td><span class="badge tech">Tech</span></td></tr>
+                    <tr><td>离线命中率预期</td><td>80%</td><td>60-70%（+叙事化等待）</td><td><span class="badge tech">Tech</span></td></tr>
+                    <tr><td>报告渲染方案</td><td>未明确</td><td>Puppeteer 服务端为主</td><td><span class="badge tech">Tech</span></td></tr>
+                    <tr><td>响应时间承诺</td><td>"5 秒出结果"</td><td>"秒出结果"/"几秒内"</td><td><span class="badge tech">Tech</span></td></tr>
+                    <tr><td>前端载体</td><td>H5 + 小程序待定</td><td>统一 H5</td><td><span class="badge tech">Tech</span><span class="badge pm">PM</span></td></tr>
+                    <tr><td>KPI 模式</td><td>单一目标</td><td>三档分层</td><td><span class="badge pm">PM</span></td></tr>
+                    <tr><td>内测人群</td><td>IP 粉 50-100 人</td><td>核心粉 50 + 泛游戏 30 + 路人 20</td><td><span class="badge qa">QA</span></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="annotation">
+            <strong>🎯 分析结论：</strong>评审团队在技术选型上达成了<strong>100% 共识</strong>——7 项核心技术决策全票通过。主要分歧集中在<strong>排期估算</strong>（PM 接受 Tech Lead 估算但项目经理在此基础上又加了缓冲）和<strong>KPI 目标</strong>（PM 认为全部偏乐观，建议降低基准预期）。融合方案作为创意文档未参与技术评审，但其漏斗设计已被 PRD 采纳。
+        </div>
+    </div>
+
+    <!-- Tab 6: Priority -->
+    <div class="tab-content" id="tab-priority">
+        <div class="section-header">🚀 优先行动清单<span>按紧迫度排序的行动建议</span></div>
+
+        <div class="kpi-grid" style="margin-bottom: 24px;">
+            <div class="kpi-card">
+                <div class="label">P0 紧急行动</div>
+                <div class="value red">3</div>
+                <div class="change up">Kick-off 当天</div>
+            </div>
+            <div class="kpi-card">
+                <div class="label">P1 高优行动</div>
+                <div class="value orange">4</div>
+                <div class="change neutral">Week 1 内</div>
+            </div>
+            <div class="kpi-card">
+                <div class="label">P2 常规行动</div>
+                <div class="value yellow">3</div>
+                <div class="change down">Week 2 内</div>
+            </div>
+            <div class="kpi-card">
+                <div class="label">Go/No-Go 否决条件</div>
+                <div class="value purple">4</div>
+                <div class="change neutral">任一不过 = 不上线</div>
+            </div>
+        </div>
+
+        <div class="chart-card full" style="margin-bottom: 24px;">
+            <h3>🔴 P0 紧急行动（Kick-off 当天/开发前）</h3>
+            <table class="data-table">
+                <thead><tr><th>#</th><th>行动</th><th>负责人</th><th>来源</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td><strong>锁定混元资源，拿书面承诺</strong> — 后端开发依赖 GPU 资源，延迟 = 项目延期</td><td>PM</td><td><span class="badge pjm">PJM</span></td></tr>
+                    <tr><td>2</td><td><strong>解决 3 个 Critical PRD 问题</strong> — 中途退出兜底 + KPI 分层 + 时间维度</td><td>产品</td><td><span class="badge pm">PM</span></td></tr>
+                    <tr><td>3</td><td><strong>Prompt 工程 = 项目生命线</strong> — 配 2 名 Prompt 工程师，≥5 版迭代</td><td>Prompt</td><td>全员共识</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="chart-card full" style="margin-bottom: 24px;">
+            <h3>🟡 P1 高优行动（Week 1 内）</h3>
+            <table class="data-table">
+                <thead><tr><th>#</th><th>行动</th><th>负责人</th><th>来源</th></tr></thead>
+                <tbody>
+                    <tr><td>4</td><td><strong>测试资源扩充</strong> — 从 1 名 QA 扩展到 6-7 人，安全测试前置到 Week 3</td><td>QA Lead</td><td><span class="badge qa">QA</span></td></tr>
+                    <tr><td>5</td><td><strong>技术方案落地</strong> — 模糊匹配改 ES、报告渲染改 Puppeteer、L2 审核改异步</td><td>Tech Lead</td><td><span class="badge tech">Tech</span></td></tr>
+                    <tr><td>6</td><td><strong>约定 Mock 数据契约</strong> — 3 Agent JSON Schema，并行开发的前提</td><td>Prompt</td><td><span class="badge pm">PM</span><span class="badge tech">Tech</span></td></tr>
+                    <tr><td>7</td><td><strong>设计师安排 Lottie 动画素材</strong> — 掐指/八卦盘/执笔书写</td><td>设计</td><td><span class="badge pm">PM</span></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="chart-card full" style="margin-bottom: 24px;">
+            <h3>🏁 Go/No-Go 四项否决条件</h3>
+            <p class="chart-desc">Week 7 末评估，任一不通过 = 不上线</p>
+            <table class="data-table">
+                <thead><tr><th>条件</th><th>标准</th><th>否决权</th></tr></thead>
+                <tbody>
+                    <tr><td>AI 输出质量</td><td>100 次随机测试非负评率 ≥ 95%</td><td>✅ 有</td></tr>
+                    <tr><td>IP 方审核</td><td>正式书面通过</td><td>✅ 有</td></tr>
+                    <tr><td>压测通过</td><td>支撑 2 倍预估峰值无崩溃</td><td>✅ 有</td></tr>
+                    <tr><td>全链路功能</td><td>核心漏斗无 P0 Bug</td><td>✅ 有</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="chart-grid">
+            <div class="chart-card full">
+                <h3>📈 行动优先级矩阵</h3>
+                <p class="chart-desc">按紧迫度 × 影响力定位的行动分布</p>
+                <canvas id="priorityMatrixChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>「异人体检站」第一阶段 · AI 团队评审综合分析 · 生成日期: 2026-03-31</p>
+        <p>数据来源: PRD Review (PM) · 技术评审 (Tech Lead) · 测试策略 (QA Lead) · 项目管理方案 (PJM) · 融合方案</p>
+    </div>
+</div>
+
+<script>
+// Chart.js defaults
+Chart.defaults.color = '#8b949e';
+Chart.defaults.borderColor = '#30363d';
+Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif';
+
+// Tab switching
+document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+});
+
+// ============ CHART 1: Radar - 四方评审综合评分 ============
+new Chart(document.getElementById('radarChart'), {
+    type: 'radar',
+    data: {
+        labels: ['产品设计', '技术架构', '安全体系', '排期合理性', '测试覆盖', '风险预案'],
+        datasets: [
+            {
+                label: '产品经理',
+                data: [4.5, 4, 4, 2.5, 1.5, 4],
+                borderColor: '#c084fc',
+                backgroundColor: 'rgba(192,132,252,0.1)',
+                pointBackgroundColor: '#c084fc',
+            },
+            {
+                label: '技术负责人',
+                data: [4, 4.5, 4, 3, 3, 4],
+                borderColor: '#60a5fa',
+                backgroundColor: 'rgba(96,165,250,0.1)',
+                pointBackgroundColor: '#60a5fa',
+            },
+            {
+                label: '测试负责人',
+                data: [3.5, 4, 4, 2, 4.5, 3.5],
+                borderColor: '#fb923c',
+                backgroundColor: 'rgba(251,146,60,0.1)',
+                pointBackgroundColor: '#fb923c',
+            },
+            {
+                label: '项目经理',
+                data: [4, 4, 3.5, 2.5, 2, 4.5],
+                borderColor: '#34d399',
+                backgroundColor: 'rgba(52,211,153,0.1)',
+                pointBackgroundColor: '#34d399',
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            r: {
+                min: 0, max: 5,
+                ticks: { stepSize: 1, backdropColor: 'transparent' },
+                grid: { color: '#30363d' },
+                angleLines: { color: '#30363d' },
+                pointLabels: { font: { size: 12 } }
+            }
+        },
+        plugins: { legend: { position: 'bottom', labels: { padding: 16 } } }
+    }
+});
+
+// ============ CHART 2: Doughnut - 问题严重度分布 ============
+new Chart(document.getElementById('severityChart'), {
+    type: 'doughnut',
+    data: {
+        labels: ['🔴 Critical (5)', '🟡 Major (9)', '🟢 Minor (4)'],
+        datasets: [{
+            data: [5, 9, 4],
+            backgroundColor: ['#ef4444', '#f59e0b', '#10b981'],
+            borderColor: '#161b22',
+            borderWidth: 3,
+        }]
+    },
+    options: {
+        responsive: true,
+        cutout: '60%',
+        plugins: {
+            legend: { position: 'bottom', labels: { padding: 16 } },
+        }
+    }
+});
+
+// ============ CHART 3: Bar - 风险来源分布 ============
+new Chart(document.getElementById('riskSourceChart'), {
+    type: 'bar',
+    data: {
+        labels: ['产品经理', '技术负责人', '测试负责人', '项目经理', '多方共识'],
+        datasets: [{
+            label: 'Critical',
+            data: [0, 3, 0, 1, 1],
+            backgroundColor: '#ef4444',
+        }, {
+            label: 'Major',
+            data: [3, 3, 1, 2, 0],
+            backgroundColor: '#f59e0b',
+        }, {
+            label: 'Minor',
+            data: [0, 3, 1, 0, 0],
+            backgroundColor: '#10b981',
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            x: { stacked: true, grid: { display: false } },
+            y: { stacked: true, ticks: { stepSize: 1 } }
+        },
+        plugins: { legend: { position: 'bottom' } }
+    }
+});
+
+// ============ CHART 4: Pie - 风险影响领域 ============
+new Chart(document.getElementById('riskDomainChart'), {
+    type: 'polarArea',
+    data: {
+        labels: ['AI 质量/人设', '性能/并发', '安全', '产品体验', '项目管理', '兼容性'],
+        datasets: [{
+            data: [4, 3, 3, 3, 3, 2],
+            backgroundColor: [
+                'rgba(239,68,68,0.6)', 'rgba(251,146,60,0.6)', 'rgba(251,191,36,0.6)',
+                'rgba(192,132,252,0.6)', 'rgba(52,211,153,0.6)', 'rgba(96,165,250,0.6)'
+            ],
+            borderColor: '#161b22',
+            borderWidth: 2,
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: { r: { ticks: { stepSize: 1, backdropColor: 'transparent' }, grid: { color: '#30363d' } } },
+        plugins: { legend: { position: 'bottom', labels: { padding: 12 } } }
+    }
+});
+
+// ============ CHART 5: Grouped Bar - 工作量对比 ============
+new Chart(document.getElementById('effortCompareChart'), {
+    type: 'bar',
+    data: {
+        labels: ['Prompt 工程', '格斗知识库', '离线预生成', 'H5 前端', '后端 API+安全', '报告渲染', '视觉设计', '联调测试+内测'],
+        datasets: [{
+            label: 'PRD 估算（人天）',
+            data: [9, 3, 3, 10, 8, 0, 5, 7],
+            backgroundColor: 'rgba(96,165,250,0.7)',
+            borderColor: '#60a5fa',
+            borderWidth: 1,
+        }, {
+            label: 'Tech Lead 评估（人天，取中值）',
+            data: [12, 3, 4.5, 13, 10, 2, 6, 5],
+            backgroundColor: 'rgba(251,146,60,0.7)',
+            borderColor: '#fb923c',
+            borderWidth: 1,
+        }, {
+            label: '项目经理规划（含缓冲）',
+            data: [13, 3, 5, 14, 11, 2, 7, 18],
+            backgroundColor: 'rgba(192,132,252,0.7)',
+            borderColor: '#c084fc',
+            borderWidth: 1,
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            x: { grid: { display: false } },
+            y: { title: { display: true, text: '人天' } }
+        },
+        plugins: { legend: { position: 'bottom' } }
+    }
+});
+
+// ============ CHART 6: Horizontal Bar - 排期膨胀率 ============
+new Chart(document.getElementById('inflationChart'), {
+    type: 'bar',
+    data: {
+        labels: ['测试周期', '总人天', '总工期', '团队规模', '关键路径'],
+        datasets: [{
+            label: '膨胀率 %',
+            data: [150, 95, 50, 50, 25],
+            backgroundColor: ['#ef4444', '#f59e0b', '#fb923c', '#fb923c', '#fbbf24'],
+            borderRadius: 4,
+        }]
+    },
+    options: {
+        indexAxis: 'y',
+        responsive: true,
+        scales: {
+            x: { title: { display: true, text: '膨胀 %' }, ticks: { callback: v => v + '%' } },
+            y: { grid: { display: false } }
+        },
+        plugins: {
+            legend: { display: false },
+        }
+    }
+});
+
+// ============ CHART 7: Doughnut - 团队配置 ============
+new Chart(document.getElementById('teamChart'), {
+    type: 'doughnut',
+    data: {
+        labels: ['核心开发 (7人)', 'QA 团队 (6-7人)', '运营 (2人)'],
+        datasets: [{
+            data: [7, 6.5, 2],
+            backgroundColor: ['#60a5fa', '#fb923c', '#34d399'],
+            borderColor: '#161b22',
+            borderWidth: 3,
+        }]
+    },
+    options: {
+        responsive: true,
+        cutout: '55%',
+        plugins: {
+            legend: { position: 'bottom' },
+            title: { display: true, text: '评审建议: 15-17 人', font: { size: 14 } }
+        }
+    }
+});
+
+// ============ CHART 8: Grouped Bar - KPI 三档对比 ============
+new Chart(document.getElementById('kpiChart'), {
+    type: 'bar',
+    data: {
+        labels: ['输入 ID（万）', '深度体检完成（万）', '分享次数（万）', '新增预约（万）'],
+        datasets: [{
+            label: 'PRD 原目标',
+            data: [300, 200, 90, 100],
+            backgroundColor: 'rgba(239,68,68,0.6)',
+            borderColor: '#ef4444',
+            borderWidth: 1,
+        }, {
+            label: '保守目标',
+            data: [100, 30, 10, 30],
+            backgroundColor: 'rgba(52,211,153,0.6)',
+            borderColor: '#34d399',
+            borderWidth: 1,
+        }, {
+            label: '基准目标',
+            data: [200, 60, 25, 60],
+            backgroundColor: 'rgba(251,191,36,0.6)',
+            borderColor: '#fbbf24',
+            borderWidth: 1,
+        }, {
+            label: '挑战目标',
+            data: [300, 100, 50, 100],
+            backgroundColor: 'rgba(192,132,252,0.6)',
+            borderColor: '#c084fc',
+            borderWidth: 1,
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            x: { grid: { display: false } },
+            y: { title: { display: true, text: '万人/万次' } }
+        },
+        plugins: { legend: { position: 'bottom' } }
+    }
+});
+
+// ============ CHART 9: Bar - 漏斗转化率 ============
+new Chart(document.getElementById('funnelChart'), {
+    type: 'bar',
+    data: {
+        labels: ['曝光→进入', '进入→输入 ID', '输入→批命卡', '批命→深度体检', '体检完成率', '分享率'],
+        datasets: [{
+            label: 'PRD 假设 %',
+            data: [16.7, 60, 95, 65, 80, 30],
+            backgroundColor: 'rgba(96,165,250,0.6)',
+        }, {
+            label: 'PM 修正 %',
+            data: [10, 60, 95, 50, 70, 22.5],
+            backgroundColor: 'rgba(251,146,60,0.6)',
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            x: { grid: { display: false } },
+            y: { title: { display: true, text: '%' }, max: 100 }
+        },
+        plugins: { legend: { position: 'bottom' } }
+    }
+});
+
+// ============ CHART 10: Radar - SMART 评估 ============
+new Chart(document.getElementById('smartChart'), {
+    type: 'radar',
+    data: {
+        labels: ['S 具体', 'M 可衡量', 'A 可实现', 'R 相关', 'T 时限'],
+        datasets: [{
+            label: 'SMART 覆盖度',
+            data: [5, 5, 2.5, 5, 0.5],
+            borderColor: '#c084fc',
+            backgroundColor: 'rgba(192,132,252,0.15)',
+            pointBackgroundColor: '#c084fc',
+            fill: true,
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            r: {
+                min: 0, max: 5,
+                ticks: { stepSize: 1, backdropColor: 'transparent' },
+                grid: { color: '#30363d' },
+                angleLines: { color: '#30363d' },
+            }
+        },
+        plugins: { legend: { display: false } }
+    }
+});
+
+// ============ CHART 11: Bar - 共识分布 ============
+new Chart(document.getElementById('consensusChart'), {
+    type: 'bar',
+    data: {
+        labels: ['产品 × 技术', '技术 × 测试', '产品 × 测试'],
+        datasets: [{
+            label: '已达成共识项数',
+            data: [5, 4, 4],
+            backgroundColor: ['#c084fc', '#60a5fa', '#fb923c'],
+            borderRadius: 8,
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            x: { grid: { display: false } },
+            y: { ticks: { stepSize: 1 }, max: 6 }
+        },
+        plugins: { legend: { display: false } }
+    }
+});
+
+// ============ CHART 12: Scatter - 优先级矩阵 ============
+new Chart(document.getElementById('priorityMatrixChart'), {
+    type: 'scatter',
+    data: {
+        datasets: [{
+            label: 'P0 紧急',
+            data: [
+                { x: 5, y: 5, label: '锁混元资源' },
+                { x: 4.5, y: 5, label: '解决 Critical PRD' },
+                { x: 5, y: 4.5, label: 'Prompt 工程启动' },
+            ],
+            backgroundColor: '#ef4444',
+            pointRadius: 12,
+            pointHoverRadius: 14,
+        }, {
+            label: 'P1 高优',
+            data: [
+                { x: 4, y: 4, label: '测试资源扩充' },
+                { x: 4.5, y: 3.5, label: '技术方案落地' },
+                { x: 3.5, y: 4.5, label: 'Mock 数据契约' },
+                { x: 3, y: 3.5, label: 'Lottie 动画素材' },
+            ],
+            backgroundColor: '#f59e0b',
+            pointRadius: 10,
+            pointHoverRadius: 12,
+        }, {
+            label: 'P2 常规',
+            data: [
+                { x: 2.5, y: 3, label: '统一 KPI 数字' },
+                { x: 3, y: 2.5, label: '全局降级策略' },
+                { x: 2, y: 2, label: '埋点清单' },
+            ],
+            backgroundColor: '#10b981',
+            pointRadius: 8,
+            pointHoverRadius: 10,
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            x: {
+                title: { display: true, text: '紧迫度 →' },
+                min: 0, max: 6,
+                grid: { color: '#21262d' },
+            },
+            y: {
+                title: { display: true, text: '影响力 →' },
+                min: 0, max: 6,
+                grid: { color: '#21262d' },
+            }
+        },
+        plugins: {
+            legend: { position: 'bottom' },
+            tooltip: {
+                callbacks: {
+                    label: (ctx) => ctx.raw.label || ''
+                }
+            }
+        }
+    }
+});
+</script>
+</body>
+</html>

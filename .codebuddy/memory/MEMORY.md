@@ -1,7 +1,8 @@
 # 🧠 MEMORY.md — AI 启动上下文
 
-> v2.6 | 更新: 2026-03-28
+> v3.0 | 更新: 2026-03-31
 > 设计原则: **读完此文件即可工作，无需跳转**
+> v3.0 变更: 新增 `projects/` 项目分区，每个项目独立存储知识/决策/教训
 
 ---
 
@@ -34,82 +35,23 @@
 99_Templates/→ 模板库
 ```
 
-## 活跃项目
+## 活跃项目（详情见 `projects/<id>/context.md`）
 
-### 🎮 UC 王也 NPC / 异人体检站 `10_Work/uc 王也 npc/`
-- 状态: **已完成评审，Ready for Kick-off**
-- 知识库: 1125+ 条（7个Excel文件），28条分场景回复、甲申之乱23条详解、十佬11人完整档案
-- 异人体检站 H5:
-  - 完整 Demo 已实现（`demo/index.html`），覆盖 STEP 0-4 全流程
-  - 功能: 五行拆字批命 + 7轮争议话题对话 + 六维雷达报告 + 分享
-  - 特色: Canvas粒子系统、玻璃态UI、Story Bottom Sheet、彩蛋ID
-  - AI 团队综合评审完成（A-），评审报告 + 技术评审 + 测试策略 + Mock数据契约 + 开发启动包（73个TAPD任务）
-  - 关键结论: 总工期 5-6周→8-9周，人天45→80-95，团队15-17人
-- 文档索引: `_README.md`（18个文档 + 10个数据文件，5阶段分类）
-- 决策: 新数据独立文件存储，不覆盖原有知识库
+| 项目 | ID | 路径 | 状态 |
+|------|-----|------|------|
+| 🎮 UC 王也 NPC / 异人体检站 | `uc-wangye-npc` | `10_Work/uc 王也 npc/` | 已完成评审，Ready for Kick-off |
+| 🎯 UC 对局复盘 | `uc-postmatch` | `10_Work/uc对局复盘/` | 迭代调优中 |
+| 📱 CaloriSnap | `calorisnap` | `40_Projects/CaloriSnap/` | v0.3完成，待Phase 0 |
+| 🏺 景德镇工作坊 | `jingdezhen` | `10_Work/景德镇/` | 中期开发 |
+| 🎲 海克斯大乱斗 AI Coach | `hex-arena` | `10_Work/海克斯大乱斗/` | 数据体系完成，符文推荐设计中 |
+| 🐱 LOLM 峡谷猫格 | `lolm-cat-personality` | `10_Work/lolm峡谷猫格/` | PRD+Demo完成，待评审 |
+| 🃏 金铲铲「以铲换X」 | `jinchancha` | `10_Work/金铲铲/以铲换铲/` | VLM验证通过，待动态Demo |
+| 🎴 小丑牌游戏 | `joker-card-game` | `40_Projects/joker-card-game/` | 开发完成，待内部测试 |
+| 📚 游戏策划学习 | `game-study` | `20_Study/游戏策划/` | 持续学习中 |
 
-### 🎯 UC 对局复盘 `10_Work/uc对局复盘/`
-- 状态: **迭代调优中**
-- 后端仓库: `10_Work/uc对局复盘/ucgit/go_ai_yr_postmatch_analysis_svr/`（git.woa.com）
-- 核心文件: `analysis.go`（复盘分析逻辑）
-- 测试工具: `upload_and_report.py`（批量46个JSON→POST接口→result.xlsx）
-- 数据分析产出:
-  - 交互式分析报告 `analysis_report.html`（Plotly，五维雷达+趋势+角色进步+短板诊断）
-  - label分布分析：「有待提升」集中于脱出反打(43.5%)+防御反击(34.8%)
-  - 指标数字覆盖率：93.5% 无具体数字（模板化问题）
-- 近期修改: jPoints跳转点调整、subdim_behId修复、子维度ID映射(27-30→41-44)
-
-### 📱 CaloriSnap `40_Projects/CaloriSnap/`
-- 状态: v0.3原型完成，待Phase 0技术验证
-- 定位: 拍照识别奶茶/咖啡标签→计算热量+咖啡因
-- 技术: 微信小程序 + FastAPI + Supabase + OCR/LLM
-- 数据: 7品牌160+SKU，35+小料，8表+2视图+RLS
-
-### 🏺 景德镇工作坊 `10_Work/景德镇/`
-- 状态: 中期开发，设计方案与监修（清华）基本对齐
-- AI NPC: 动画数据驱动+LLM+TTS，延迟7-8s待优化至≤3s
-- 景德镇游戏: 制瓷历史模拟经营（宋→清四幕），美术80-90%
-- 关键节点: 3月底订单系统+精修数据，4/22 CG片段，6月初成片
-
-### 🎲 海克斯大乱斗 AI Coach `10_Work/海克斯大乱斗/`
-- 状态: **数据体系搭建完成，符文推荐系统设计中**
-- 数据体系（`data/` 目录，格式定义见 `data/README.md`）:
-  - step1_1: 单符文全局胜率/选取率（204条）
-  - step1_2: 英雄×符文胜率/选取率（30503条）
-  - step1_3: 英雄出场率（173条）
-  - step1_4: 符文×符文组合胜率（20328条）
-  - step1_5: 英雄×符文×符文组合胜率（xlsx版）
-  - 映射表: 符文ID与中文名对照.xlsx、英雄id定位表.xlsx
-  - 加工数据: champion_avg_stats / champion_augment_filtered / champion_pair_stats
-- 符文图片: 172张符文图（`导出图片/`）+ 18个分批S级符文列表 + 英雄符文表.xlsx
-- 分析报告: 推送策略报告.html + 组合分类分析.html + 活跃玩家分析报告.html
-- 设计方案: 符文推荐系统设计方案.md（九章+附录A，Agent Teams产出）
-- ⚠️ 注意: `海克斯乱斗一图流.xlsx`（174MB）已删除并加入.gitignore
-
-### 🐱 LOLM 峡谷猫格 `10_Work/lolm峡谷猫格/`
-- 状态: **PRD + Demo 完成**，待评审
-- 定位: LOLM 手游创意营销 H5 — 真实数据引共鸣 → AI千人千猫造梗 → 1v1互损PK裂变
-- PRD: `PRD_峡谷猫格诊断书_H5.md`（v1.0，🟡中等定级）
-- Demo: `demo/index.html`（赛博萌系暗色调+霓虹猫爪，五阶段完整交互）
-- AI猫素材: 12+张（含亚索风格探索 yasuo_styles/）
-- 关键指标: UV≥500万 / 完成率≥65% / 分享率≥35% / 裂变K≥1.5
-- 排期估算: 5-6人 × 4-5周
-
-### 📚 游戏策划学习 `20_Study/游戏策划/`
-- 《游戏设计艺术》Jesse Schell → 36文件课程（113个透镜）
-- 《快乐之道》Raph Koster → 16文件课程（快乐=学习理论）
-
-### 🃏 金铲铲「以铲换X」 `10_Work/金铲铲/以铲换铲/`
-- 状态: **需求评估完成，VLM验证通过**，待动态Demo
-- AI 图片评分活动：用户制作金铲铲→拍照→AI评分+评语
-- VLM验证：大类100%/精确≥96%/评语质量4.2/5
-- 产出：需求评估+VLM验证报告+3个WebUI（50%/20%/自包含版）
-- P0风险：评分一致性、3小时高并发、合规兜底
-
-### 🎴 小丑牌游戏 `40_Projects/joker-card-game/`
-- 状态: **开发完成**，推荐进入内部体验测试
-- Balatro风格扑克Roguelike，~2631行单文件HTML
-- 2轮QA共110项测试，Bug-1~12全部修复
+> **项目分区路径**: `.codebuddy/memory/projects/<id>/`
+> 每个项目包含: `context.md`（项目知识）+ `decisions.md`（决策记录）+ `learnings.md`（教训沉淀）
+> **读取规则**: 涉及具体项目时，按需读取对应 `projects/<id>/` 下的文件
 
 ## 系统配置
 
@@ -157,3 +99,4 @@
 - **🔍 深度调研**: 多源Web搜索→网页抓取→交叉验证（关键数据≥2独立来源）→金字塔原理结构化报告
 - **🎮 多Agent团队游戏开发**: GDD先行→多角色团队(dev/qa/art/design)→QA独立验证→多轮Bug修复闭环→达标关闭
 - **🖼️ VLM视觉评分验证**: 快验(10张)→50%分层抽样→20%看图→混淆矩阵→WebUI→自包含HTML→Prompt迭代
+- **🧹 子代理委派（上下文减负）**: 探索性操作（搜索≥3文件/Web搜索≥3次/批量读取≥5文件）→必须委派子代理→只取摘要→主上下文做决策执行
