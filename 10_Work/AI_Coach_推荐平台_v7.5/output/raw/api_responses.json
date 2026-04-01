@@ -1,0 +1,82 @@
+[
+  {
+    "url": "https://hextech.dtodo.cn/zh-CN/augments",
+    "status": 200,
+    "body_preview": "<!DOCTYPE html><!--7dfCoXtmDCs7YqoYXqJct--><html lang=\"zh-CN\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\"/><link rel=\"preload\" href=\"/_next/static/media/797e433ab948586e.p.dbea232f.woff2\" as=\"font\" crossorigin=\"\" type=\"font/woff2\"/><link rel=\"preload\" as=\"image\" href=\"https://cdn.dtodo.cn/hextech/augment-icons/aram_phenomenalevil_large.png\" fetchPriority=\"high\"/><link rel=\"preload\" as=\"image\" href=\"https://cdn.dtodo.cn/hext"
+  },
+  {
+    "url": "https://hextech.dtodo.cn/data/aram-mayhem-augments.zh_cn.json",
+    "status": 200,
+    "body_preview": "{\n  \"1002\": {\n    \"description\": \"获得<scaleBonus>@ItemHaste@装备急速</scaleBonus>(相当于@TooltipCDR@%装备冷却缩减)。<br><br><rules>装备急速可缩减所有装备技能的冷却时间%i:cooldown%。</rules>\",\n    \"displayName\": \"尖端发明家\",\n    \"enabled\": true,\n    \"iconLarge\": \"ApexInventor_large.png\",\n    \"iconSmall\": \"ApexInventor_small.png\",\n    \"id\": 1002,\n    \"name\": \"ARAM_ApexInventor\",\n    \"rarity\": 1,\n    \"spellDataValues\": {\n      \"ItemHaste\": 100,\n      \"TooltipCDR\": 50\n    },\n    \"tooltip\": \"获得<scaleBonus>@ItemHaste@装备急速</scaleBonus>(相当于"
+  },
+  {
+    "url": "https://hextech.dtodo.cn/data/augments-stats-raw.json",
+    "status": 200,
+    "body_preview": "[\n  [\n    \"1342\",\n    \"{\\\"top_champions\\\":[{\\\"champion_rank\\\":\\\"1\\\",\\\"tier\\\":\\\"2\\\",\\\"win_rate\\\":\\\"0.4744897959183674\\\",\\\"num_games\\\":\\\"4704\\\",\\\"pick_rate\\\":\\\"0.036976480945792985\\\",\\\"champion_id\\\":\\\"518\\\"},{\\\"champion_rank\\\":\\\"2\\\",\\\"tier\\\":\\\"2\\\",\\\"win_rate\\\":\\\"0.46768558951965067\\\",\\\"num_games\\\":\\\"2290\\\",\\\"pick_rate\\\":\\\"0.033823703178541886\\\",\\\"champion_id\\\":\\\"85\\\"},{\\\"champion_rank\\\":\\\"3\\\",\\\"tier\\\":\\\"2\\\",\\\"win_rate\\\":\\\"0.45442404006677795\\\",\\\"num_games\\\":\\\"2995\\\",\\\"pick_rate\\\":\\\"0.0325190010857"
+  },
+  {
+    "url": "https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1091948&theme=light&t=1772893659495",
+    "status": 200,
+    "body_preview": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg width=\"250\" height=\"54\" viewBox=\"0 0 250 54\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n  <g stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\">\n    <g transform=\"translate(-130.000000, -73.000000)\">\n      <g transform=\"translate(130.000000, 73.000000)\">\n        <rect stroke=\"#FF6154\" stroke-width=\"1\" fill=\"#FFFFFF\" x=\"0.5\" y=\"0.5\" width=\"249\" height=\"53\" rx=\"10\"></rect>\n        <text font-f"
+  },
+  {
+    "url": "https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-6828100354218321&output=html&adk=1812271804&adf=3025194257&lmt=1774352613&plaf=2%3A2%2C7%3A2&plat=3%3A128%2C4%3A128%2C8%3A128%2C9%3A32776%2C16%3A8388608%2C17%3A32%2C24%3A32%2C25%3A32%2C30%3A1081344%2C32%3A32%2C41%3A32%2C42%3A32%2C43%3A32&format=0x0&url=https%3A%2F%2Fhextech.dtodo.cn%2Fzh-CN%2Faugments&pra=5&aiof=9&asro=0&aiapmd=0.1423&aiapmid=1&aiactd=0&aicctd=0&ailctd=0&aimartd=4&aieuf=1&aicrs=1&uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTQ1LjAuNzYzMi42IixudWxsLDAsbnVsbCwiNjQiLFtbIk5vdDpBLUJyYW5kIiwiOTkuMC4wLjAiXSxbIkhlYWRsZXNzQ2hyb21lIiwiMTQ1LjAuNzYzMi42Il0sWyJDaHJvbWl1bSIsIjE0NS4wLjc2MzIuNiJdXSwwXQ..&abgtt=6&dt=1774352611788&bpp=4&bdt=2254&idt=1827&shv=r20260323&mjsv=m202603190101&ptt=9&saldr=aa&abxe=1&cookie_enabled=1&eoidce=1&nras=1&correlator=5054430039858&frm=20&pv=2&u_tz=480&u_his=2&u_h=1080&u_w=1920&u_ah=1080&u_aw=1920&u_cd=24&u_sd=1&dmc=8&adx=-12245933&ady=-12245933&biw=1920&bih=1080&scr_x=0&scr_y=0&eid=95385800%2C95384743%2C95386178%2C95386359%2C95386195%2C95340252%2C95340254&oid=2&pvsid=2555425369255242&tmod=819611096&uas=0&nvt=1&fsapi=1&fc=1920&brdim=0%2C0%2C0%2C0%2C1920%2C0%2C1920%2C1080%2C1920%2C1080&vis=1&rsz=%7C%7Cs%7C&abl=NS&fu=32768&bc=31&bz=1&pgls=CAk.&ifi=1&uci=a!1&fsb=1&dtd=1850",
+    "status": 200,
+    "body_preview": "<script>window.sra_later_blocks = [];</script><script>window.sra_later_blocks.push({creative:'',reactiveConfig:{\"adWidth\":1005,\"adHeight\":124,\"adClient\":\"ca-pub-6828100354218321\",\"adFormat\":1,\"adKey\":1812271801,\"hasFillMessage\":true,\"fillMessage\":[{\"key\":\"qemId\",\"value\":\"CJ-3rcq6uJMDFXouRAgdVAUX0Q\"}],\"delayVisibleUntilCreativeReadyMessage\":false,\"blockLocationFallback\":true},trafficSource:2});</script><script data-jc=\"39\" data-jc-version=\"r20260323\">(function(){function aa(){for(var a=Number(thi"
+  },
+  {
+    "url": "https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-6828100354218321&output=html&h=600&slotname=7174282273&adk=346976611&adf=54630664&pi=t.ma~as.7174282273&w=300&fwrn=4&fwrnh=100&lmt=1774352613&rafmt=4&format=300x600&url=https%3A%2F%2Fhextech.dtodo.cn%2Fzh-CN%2Faugments&fwr=0&rh=600&rpe=1&resp_fmts=4&aieuf=1&aicrs=1&uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTQ1LjAuNzYzMi42IixudWxsLDAsbnVsbCwiNjQiLFtbIk5vdDpBLUJyYW5kIiwiOTkuMC4wLjAiXSxbIkhlYWRsZXNzQ2hyb21lIiwiMTQ1LjAuNzYzMi42Il0sWyJDaHJvbWl1bSIsIjE0NS4wLjc2MzIuNiJdXSwwXQ..&abgtt=6&dt=1774352611795&bpp=1&bdt=2262&idt=1870&shv=r20260323&mjsv=m202603190101&ptt=9&saldr=aa&abxe=1&cookie_enabled=1&eoidce=1&prev_fmts=0x0%2C300x600&nras=1&correlator=5054430039858&frm=20&pv=1&u_tz=480&u_his=2&u_h=1080&u_w=1920&u_ah=1080&u_aw=1920&u_cd=24&u_sd=1&dmc=8&adx=1480&ady=240&biw=1920&bih=1080&scr_x=0&scr_y=0&eid=95385800%2C95384743%2C95386178%2C95386359%2C95386195%2C95340252%2C95340254&oid=2&pvsid=2555425369255242&tmod=819611096&uas=0&nvt=1&fc=1920&brdim=0%2C0%2C0%2C0%2C1920%2C0%2C1920%2C1080%2C1920%2C1080&vis=1&rsz=%7C%7CfE%7C&abl=CF&pfx=0&fu=128&bc=31&bz=1&pgls=CAk.&ifi=3&uci=a!3&fsb=1&dtd=1877",
+    "status": 200,
+    "body_preview": "<!DOCTYPE html><html><head><script>window.top.postMessage('{\"msg_type\":\"unfill-fb\",\"key_value\":[{\"key\":\"r_affa\",\"value\":\"[[[],\\\\\\\"\\\\\\\\u6df1\\\\\\\\u5165\\\\\\\\u63a2\\\\\\\\u7d22\\\\\\\",null,\\\\\\\"\\\\\\\\u8fd9\\\\\\\\u4e9b\\\\\\\\u662f\\\\\\\\u4e0e\\\\\\\\u6587\\\\\\\\u7ae0\\\\\\\\u76f8\\\\\\\\u5173\\\\\\\\u4e14\\\\\\\\u60a8\\\\\\\\u53ef\\\\\\\\u80fd\\\\\\\\u611f\\\\\\\\u5174\\\\\\\\u8da3\\\\\\\\u7684\\\\\\\\u4e3b\\\\\\\\u9898\\\\\\\",null,null,\\\\\\\"zh_CN\\\\\\\",[],\\\\\\\"\\\\\\\\u7531 Gemini \\\\\\\\u751f\\\\\\\\u6210\\\\\\\",\\\\\\\"\\\\\\\\u201cTERM\\\\\\\\u201d\\\\\\\\u7684\\\\\\\\u641c\\\\\\\\u7d22\\\\\\\\u7ed3\\\\\\\\u679c\\\\\\\",null,1"
+  },
+  {
+    "url": "https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-6828100354218321&output=html&h=600&slotname=8682805063&adk=16184398&adf=1839787983&pi=t.ma~as.8682805063&w=300&fwrn=4&fwrnh=100&lmt=1774352613&rafmt=4&format=300x600&url=https%3A%2F%2Fhextech.dtodo.cn%2Fzh-CN%2Faugments&fwr=0&rh=600&rpe=1&resp_fmts=4&aieuf=1&aicrs=1&uach=WyJXaW5kb3dzIiwiMTkuMC4wIiwieDg2IiwiIiwiMTQ1LjAuNzYzMi42IixudWxsLDAsbnVsbCwiNjQiLFtbIk5vdDpBLUJyYW5kIiwiOTkuMC4wLjAiXSxbIkhlYWRsZXNzQ2hyb21lIiwiMTQ1LjAuNzYzMi42Il0sWyJDaHJvbWl1bSIsIjE0NS4wLjc2MzIuNiJdXSwwXQ..&abgtt=6&dt=1774352611792&bpp=3&bdt=2259&idt=1854&shv=r20260323&mjsv=m202603190101&ptt=9&saldr=aa&abxe=1&cookie_enabled=1&eoidce=1&prev_fmts=0x0&nras=1&correlator=5054430039858&frm=20&pv=1&u_tz=480&u_his=2&u_h=1080&u_w=1920&u_ah=1080&u_aw=1920&u_cd=24&u_sd=1&dmc=8&adx=140&ady=240&biw=1920&bih=1080&scr_x=0&scr_y=0&eid=95385800%2C95384743%2C95386178%2C95386359%2C95386195%2C95340252%2C95340254&oid=2&pvsid=2555425369255242&tmod=819611096&uas=0&nvt=1&fc=1920&brdim=0%2C0%2C0%2C0%2C1920%2C0%2C1920%2C1080%2C1920%2C1080&vis=1&rsz=%7C%7CfE%7C&abl=CF&pfx=0&fu=128&bc=31&bz=1&pgls=CAk.&ifi=2&uci=a!2&fsb=1&dtd=1865",
+    "status": 200,
+    "body_preview": "<!DOCTYPE html><html><head><script>window.top.postMessage('{\"msg_type\":\"unfill-fb\",\"key_value\":[{\"key\":\"r_affa\",\"value\":\"[[[],\\\\\\\"\\\\\\\\u6df1\\\\\\\\u5165\\\\\\\\u63a2\\\\\\\\u7d22\\\\\\\",null,\\\\\\\"\\\\\\\\u8fd9\\\\\\\\u4e9b\\\\\\\\u662f\\\\\\\\u4e0e\\\\\\\\u6587\\\\\\\\u7ae0\\\\\\\\u76f8\\\\\\\\u5173\\\\\\\\u4e14\\\\\\\\u60a8\\\\\\\\u53ef\\\\\\\\u80fd\\\\\\\\u611f\\\\\\\\u5174\\\\\\\\u8da3\\\\\\\\u7684\\\\\\\\u4e3b\\\\\\\\u9898\\\\\\\",null,null,\\\\\\\"zh_CN\\\\\\\",[],\\\\\\\"\\\\\\\\u7531 Gemini \\\\\\\\u751f\\\\\\\\u6210\\\\\\\",\\\\\\\"\\\\\\\\u201cTERM\\\\\\\\u201d\\\\\\\\u7684\\\\\\\\u641c\\\\\\\\u7d22\\\\\\\\u7ed3\\\\\\\\u679c\\\\\\\",null,1"
+  },
+  {
+    "url": "https://fonts.googleapis.com/css?family=Google%20Sans%3A400",
+    "status": 200,
+    "body_preview": "/* armenian */\n@font-face {\n  font-family: 'Google Sans';\n  font-style: normal;\n  font-weight: 400;\n  src: url(https://fonts.gstatic.com/s/googlesans/v67/4Ua_rENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RFD48TE63OOYKtrwEIJl1pynSEg.woff2) format('woff2');\n  unicode-range: U+0308, U+0530-058F, U+2010, U+2024, U+25CC, U+FB13-FB17;\n}\n/* bengali */\n@font-face {\n  font-family: 'Google Sans';\n  font-style: normal;\n  font-weight: 400;\n  src: url(https://fonts.gstatic.com/s/googlesans/v67/4Ua_rENHs"
+  },
+  {
+    "url": "https://fonts.googleapis.com/css?family=Google%20Sans%3A700",
+    "status": 200,
+    "body_preview": "/* armenian */\n@font-face {\n  font-family: 'Google Sans';\n  font-style: normal;\n  font-weight: 700;\n  src: url(https://fonts.gstatic.com/s/googlesans/v67/4Ua_rENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RFD48TE63OOYKtrzjJ5l1pynSEg.woff2) format('woff2');\n  unicode-range: U+0308, U+0530-058F, U+2010, U+2024, U+25CC, U+FB13-FB17;\n}\n/* bengali */\n@font-face {\n  font-family: 'Google Sans';\n  font-style: normal;\n  font-weight: 700;\n  src: url(https://fonts.gstatic.com/s/googlesans/v67/4Ua_rENHs"
+  },
+  {
+    "url": "https://fundingchoicesmessages.google.com/i/ca-pub-6828100354218321?href=https%3A%2F%2Fhextech.dtodo.cn%2Fzh-CN%2Faugments&ers=2",
+    "status": 200,
+    "body_preview": "if (typeof __googlefc === 'undefined' || typeof __googlefc.fcKernelManager === 'undefined') {\"use strict\";this.default_ContributorServingResponseClientJs=this.default_ContributorServingResponseClientJs||{};(function(_){var window=this;\ntry{\n_._F_toggles_initialize=function(a){(typeof globalThis!==\"undefined\"?globalThis:typeof self!==\"undefined\"?self:this)._F_toggles_default_ContributorServingResponseClientJs=a||[]};(0,_._F_toggles_initialize)([]);\nvar fa,ha,ja,ta,va,wa;_.ca=function(a){return fu"
+  },
+  {
+    "url": "https://fonts.googleapis.com/css?family=Google%20Sans%20Text%3A400%2C500",
+    "status": 200,
+    "body_preview": "/* armenian */\n@font-face {\n  font-family: 'Google Sans Text';\n  font-style: normal;\n  font-weight: 400;\n  src: url(https://fonts.gstatic.com/s/googlesanstext/v25/5aUu9-KzpRiLCAt4Unrc-xIKmCU5qFp2i1dC.woff2) format('woff2');\n  unicode-range: U+0308, U+0530-058F, U+2010, U+2024, U+25CC, U+FB13-FB17;\n}\n/* bengali */\n@font-face {\n  font-family: 'Google Sans Text';\n  font-style: normal;\n  font-weight: 400;\n  src: url(https://fonts.gstatic.com/s/googlesanstext/v25/5aUu9-KzpRiLCAt4Unrc-xIKmCU5qFh2i1dC."
+  },
+  {
+    "url": "https://fonts.googleapis.com/css2?family=Google+Symbols:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200",
+    "status": 200,
+    "body_preview": "/*\n * See: https://fonts.google.com/license/googlerestricted\n */\n/* fallback */\n@font-face {\n  font-family: 'Google Symbols';\n  font-style: normal;\n  font-weight: 100 700;\n  src: url(https://fonts.gstatic.com/s/googlesymbols/v413/HhyAU5Ak9u-oMExPeInvcuEmPosC9zSpYaEEU68cdvrHJg.woff2) format('woff2');\n}\n\n.google-symbols {\n  font-family: 'Google Symbols';\n  font-weight: normal;\n  font-style: normal;\n  font-size: 24px;\n  line-height: 1;\n  letter-spacing: normal;\n  text-transform: none;\n  display: in"
+  },
+  {
+    "url": "https://fonts.googleapis.com/css?family=Google%20Symbols%3Aopsz%2Cwght%2CFILL%2CGRAD%4020..48%2C100..700%2C0..1%2C-50..200",
+    "status": 200,
+    "body_preview": "/*\n * See: https://fonts.google.com/license/googlerestricted\n */\n/* fallback */\n@font-face {\n  font-family: 'Google Symbols';\n  font-style: normal;\n  font-weight: 100;\n  src: url(https://fonts.gstatic.com/s/googlesymbols/v413/HhzZU5Ak9u-oMExPeInvcuEmPosC9zyteYEFU68cPrjdKM1XLPTxlGmzczpgWvF1d8Yp7AudBnt3CPar1JFWjoLAUv3G-tSXmA.woff2) format('woff2');\n}\n/* fallback */\n@font-face {\n  font-family: 'Google Symbols';\n  font-style: normal;\n  font-weight: 400;\n  src: url(https://fonts.gstatic.com/s/googles"
+  },
+  {
+    "url": "https://fonts.googleapis.com/css?family=Archivo:400,500|Arimo:400,500|Bitter:400,500|EB+Garamond:400,500|Lato|Libre+Baskervill|Libre+Franklin:400,500|Lora:400,500|Google+Sans:regular,medium:400,500|Material+Icons|Google+Symbols|Merriweather|Montserrat:400,500|Mukta:400,500|Muli:400,500|Nunito:400,500|Open+Sans:400,500,600|Open+Sans+Condensed:400,600|Oswald:500|Playfair+Display:400,500|Poppins:400,500|Raleway:400,500|Roboto:400,500|Roboto+Condensed:400,500|Roboto+Slab:400,500|Slabo+27px|Source+Sans+Pro|Ubuntu:400,500|Volkhov&display=swap",
+    "status": 200,
+    "body_preview": "/*\n * See: https://fonts.google.com/license/googlerestricted\n */\n/* vietnamese */\n@font-face {\n  font-family: 'Archivo';\n  font-style: normal;\n  font-weight: 400;\n  font-stretch: 100%;\n  font-display: swap;\n  src: url(https://fonts.gstatic.com/s/archivo/v25/k3kPo8UDI-1M0wlSV9XAw6lQkqWY8Q82sLySOxK-vA.woff2) format('woff2');\n  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;\n}\n/*"
+  },
+  {
+    "url": "https://fonts.googleapis.com/css?family=Google+Sans+Text:400,500",
+    "status": 200,
+    "body_preview": "/* armenian */\n@font-face {\n  font-family: 'Google Sans Text';\n  font-style: normal;\n  font-weight: 400;\n  src: url(https://fonts.gstatic.com/s/googlesanstext/v25/5aUu9-KzpRiLCAt4Unrc-xIKmCU5qFp2i1dC.woff2) format('woff2');\n  unicode-range: U+0308, U+0530-058F, U+2010, U+2024, U+25CC, U+FB13-FB17;\n}\n/* bengali */\n@font-face {\n  font-family: 'Google Sans Text';\n  font-style: normal;\n  font-weight: 400;\n  src: url(https://fonts.gstatic.com/s/googlesanstext/v25/5aUu9-KzpRiLCAt4Unrc-xIKmCU5qFh2i1dC."
+  },
+  {
+    "url": "https://www.google.com/recaptcha/api2/aframe",
+    "status": 200,
+    "body_preview": "<!DOCTYPE HTML><html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\"></head><body><script nonce=\"4dzBrdoahi8yLMvR2i1f2Q\">/** Anti-fraud and anti-abuse applications only. See google.com/recaptcha */ try{var clients={'sodar':'https://pagead2.googlesyndication.com/pagead/sodar?'};window.addEventListener(\"message\",function(a){try{if(a.source===window.parent){var b=JSON.parse(a.data);var c=clients[b['id']];if(c){var d=document.createElement('img');d.src=c+b['params']+'&rc='+("
+  }
+]

@@ -1,0 +1,7350 @@
+{
+  "total": 202,
+  "source": "hextech.dtodo.cn (realtime)",
+  "augments": [
+    {
+      "id": "1390",
+      "name": "超凡邪恶",
+      "rarity": "黄金",
+      "win_rate": 67.39,
+      "pick_rate": 2.08,
+      "num_games": "1410443",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "45",
+          "win_rate": "0.49904474610356964",
+          "num_games": "69615"
+        },
+        {
+          "champion_id": "136",
+          "win_rate": "0.5385837193911317",
+          "num_games": "60440"
+        },
+        {
+          "champion_id": "30",
+          "win_rate": "0.5273764258555133",
+          "num_games": "49970"
+        },
+        {
+          "champion_id": "134",
+          "win_rate": "0.5190803256517011",
+          "num_games": "37709"
+        },
+        {
+          "champion_id": "69",
+          "win_rate": "0.4979274134119381",
+          "num_games": "21712"
+        }
+      ],
+      "description_raw": "在你用技能命中敌人时永久获得<scaleAP>@APPerProc@法术强度</scaleAP>。<br><br>如果是作为你的第二个强化符文，则自带<scaleAP>@StartingAPIfSecondAugment@法术强度</scaleAP>。"
+    },
+    {
+      "id": "1238",
+      "name": "质变：棱彩阶",
+      "rarity": "黄金",
+      "win_rate": 63.47,
+      "pick_rate": 1.38,
+      "num_games": "935807",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "234",
+          "win_rate": "0.5633901144931583",
+          "num_games": "7162"
+        },
+        {
+          "champion_id": "114",
+          "win_rate": "0.5894894894894895",
+          "num_games": "3330"
+        },
+        {
+          "champion_id": "240",
+          "win_rate": "0.5266067726330339",
+          "num_games": "1447"
+        },
+        {
+          "champion_id": "77",
+          "win_rate": "0.534461699528878",
+          "num_games": "5731"
+        },
+        {
+          "champion_id": "893",
+          "win_rate": "0.5607683782785371",
+          "num_games": "8121"
+        }
+      ],
+      "description_raw": "获得1个随机棱彩阶强化符文。"
+    },
+    {
+      "id": "1406",
+      "name": "祖母的辣椒油",
+      "rarity": "黄金",
+      "win_rate": 62.74,
+      "pick_rate": 1.33,
+      "num_games": "901927",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "63",
+          "win_rate": "0.6131652606236176",
+          "num_games": "51089"
+        },
+        {
+          "champion_id": "68",
+          "win_rate": "0.5990607302361988",
+          "num_games": "21719"
+        },
+        {
+          "champion_id": "90",
+          "win_rate": "0.6050436854646545",
+          "num_games": "35252"
+        },
+        {
+          "champion_id": "876",
+          "win_rate": "0.6477331052181352",
+          "num_games": "23380"
+        },
+        {
+          "champion_id": "143",
+          "win_rate": "0.5697075208913649",
+          "num_games": "28720"
+        }
+      ],
+      "description_raw": "普攻和技能在命中敌人时会对其施加一个<keywordMajor>灼烧</keywordMajor>，这个效果会在附近掉落一滩<keywordMajor>辣椒油</keywordMajor>。<keywordMajor>辣椒油</keywordMajor>会回复<healing>生命值</healing>并<keywordMajor>灼烧</keywordMajor>敌人们。<br><br>你施加的每个<keywordMajor>灼烧</keywordMajor>都会使<keywordMajor>辣椒油</keywordMajor>效果变得更强。"
+    },
+    {
+      "id": "1195",
+      "name": "巨人杀手",
+      "rarity": "棱彩",
+      "win_rate": 62.28,
+      "pick_rate": 1.18,
+      "num_games": "799321",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "221",
+          "win_rate": "0.5291064145346681",
+          "num_games": "8091"
+        },
+        {
+          "champion_id": "41",
+          "win_rate": "0.5493738707868668",
+          "num_games": "16051"
+        },
+        {
+          "champion_id": "202",
+          "win_rate": "0.5252211590539808",
+          "num_games": "27695"
+        },
+        {
+          "champion_id": "126",
+          "win_rate": "0.5073466323466324",
+          "num_games": "18648"
+        },
+        {
+          "champion_id": "876",
+          "win_rate": "0.6088789682539683",
+          "num_games": "12096"
+        }
+      ],
+      "description_raw": "体型变小，获得<speed>移动速度</speed>，并基于敌方英雄体型大于你的程度获得额外伤害。"
+    },
+    {
+      "id": "1346",
+      "name": "吸血习性",
+      "rarity": "黄金",
+      "win_rate": 62.12,
+      "pick_rate": 1.57,
+      "num_games": "1068473",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "266",
+          "win_rate": "0.45158211953792066",
+          "num_games": "19910"
+        },
+        {
+          "champion_id": "799",
+          "win_rate": "0.5115890787664505",
+          "num_games": "20364"
+        },
+        {
+          "champion_id": "233",
+          "win_rate": "0.5392024332544778",
+          "num_games": "17754"
+        },
+        {
+          "champion_id": "141",
+          "win_rate": "0.5197988323024453",
+          "num_games": "17299"
+        },
+        {
+          "champion_id": "904",
+          "win_rate": "0.547631059945879",
+          "num_games": "21803"
+        }
+      ],
+      "description_raw": "你不再能够被友军治疗或获得<healing>生命回复</healing>。获得<omnivamp>@OmniVamp*100@%</omnivamp>全能吸血。 "
+    },
+    {
+      "id": "1133",
+      "name": "魔法飞弹",
+      "rarity": "黄金",
+      "win_rate": 61.22,
+      "pick_rate": 1.7,
+      "num_games": "1153202",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "63",
+          "win_rate": "0.5501545891952214",
+          "num_games": "54661"
+        },
+        {
+          "champion_id": "101",
+          "win_rate": "0.5162310834100621",
+          "num_games": "42357"
+        },
+        {
+          "champion_id": "115",
+          "win_rate": "0.5075948292931293",
+          "num_games": "35353"
+        },
+        {
+          "champion_id": "163",
+          "win_rate": "0.4723002584560063",
+          "num_games": "17798"
+        },
+        {
+          "champion_id": "910",
+          "win_rate": "0.5246369830018581",
+          "num_games": "29062"
+        }
+      ],
+      "description_raw": "造成技能伤害会对其发射@NumberOfMissiles@个<keywordMajor>爆竹</keywordMajor>，每个爆竹基于飞行距离造成<trueDamage>百分比最大生命值的真实伤害</trueDamage>。"
+    },
+    {
+      "id": "1136",
+      "name": "扇巴掌",
+      "rarity": "白银",
+      "win_rate": 60.55,
+      "pick_rate": 1.19,
+      "num_games": "811150",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "526",
+          "win_rate": "0.5382574864418769",
+          "num_games": "16964"
+        },
+        {
+          "champion_id": "89",
+          "win_rate": "0.5176507463856129",
+          "num_games": "25523"
+        },
+        {
+          "champion_id": "113",
+          "win_rate": "0.48253968253968255",
+          "num_games": "11970"
+        },
+        {
+          "champion_id": "31",
+          "win_rate": "0.4923989737010904",
+          "num_games": "31180"
+        },
+        {
+          "champion_id": "50",
+          "win_rate": "0.5485522479148301",
+          "num_games": "29494"
+        }
+      ],
+      "description_raw": "每当你<status>定身</status>或<status>缚地</status>一个敌人时，获得@AdaptiveForce@适应之力。阵亡时损失@PercentOfStacksLost*100@%。"
+    },
+    {
+      "id": "1403",
+      "name": "属性叠属性！",
+      "rarity": "黄金",
+      "win_rate": 60.38,
+      "pick_rate": 0.88,
+      "num_games": "596663",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "114",
+          "win_rate": "0.5816125860373648",
+          "num_games": "2034"
+        },
+        {
+          "champion_id": "77",
+          "win_rate": "0.5347874102705688",
+          "num_games": "3622"
+        },
+        {
+          "champion_id": "41",
+          "win_rate": "0.5548058179637128",
+          "num_games": "6669"
+        },
+        {
+          "champion_id": "83",
+          "win_rate": "0.5139964264443121",
+          "num_games": "1679"
+        },
+        {
+          "champion_id": "254",
+          "win_rate": "0.5539550164265858",
+          "num_games": "3957"
+        }
+      ],
+      "description_raw": "获得@AmountOfStatAnvils@个【属性锻造器】，有更高几率出现黄金阶和棱彩阶锻造器！"
+    },
+    {
+      "id": "1373",
+      "name": "缩小引擎",
+      "rarity": "黄金",
+      "win_rate": 60.27,
+      "pick_rate": 1.23,
+      "num_games": "831842",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "555",
+          "win_rate": "0.5142531356898518",
+          "num_games": "14909"
+        },
+        {
+          "champion_id": "876",
+          "win_rate": "0.6233840615283914",
+          "num_games": "12222"
+        },
+        {
+          "champion_id": "27",
+          "win_rate": "0.5698142414860681",
+          "num_games": "12920"
+        },
+        {
+          "champion_id": "136",
+          "win_rate": "0.5820905075849708",
+          "num_games": "15623"
+        },
+        {
+          "champion_id": "8",
+          "win_rate": "0.5708491076257436",
+          "num_games": "7396"
+        }
+      ],
+      "description_raw": "参与击杀后会让你变小并且获得技能急速和<speed>移动速度</speed>。<br><br>阵亡时损失@PercentOfStacksLost*100@%层数。"
+    },
+    {
+      "id": "1134",
+      "name": "亮出你的剑",
+      "rarity": "棱彩",
+      "win_rate": 60.22,
+      "pick_rate": 0.18,
+      "num_games": "121051",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "104",
+          "win_rate": "0.7094481137355871",
+          "num_games": "17866"
+        },
+        {
+          "champion_id": "360",
+          "win_rate": "0.7090563165905631",
+          "num_games": "13140"
+        },
+        {
+          "champion_id": "6",
+          "win_rate": "0.5929725931131412",
+          "num_games": "7115"
+        },
+        {
+          "champion_id": "81",
+          "win_rate": "0.5782806624002111",
+          "num_games": "15157"
+        },
+        {
+          "champion_id": "42",
+          "win_rate": "0.6111345423871785",
+          "num_games": "4742"
+        }
+      ],
+      "description_raw": "变为近战状态，并且获得<physicalDamage>攻击力</physicalDamage>、<healing>生命值</healing>、<attackSpeed>攻击速度</attackSpeed>、<lifesteal>生命偷取</lifesteal>和<speed>移动速度</speed> (每个属性都基于舍弃的攻击距离而进一步提升)。"
+    },
+    {
+      "id": "1356",
+      "name": "暴击飞弹",
+      "rarity": "黄金",
+      "win_rate": 60.07,
+      "pick_rate": 1.25,
+      "num_games": "847994",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "222",
+          "win_rate": "0.5856124621041089",
+          "num_games": "62012"
+        },
+        {
+          "champion_id": "166",
+          "win_rate": "0.5482704636946474",
+          "num_games": "26828"
+        },
+        {
+          "champion_id": "498",
+          "win_rate": "0.565685012337732",
+          "num_games": "37284"
+        },
+        {
+          "champion_id": "523",
+          "win_rate": "0.5669317799932788",
+          "num_games": "26781"
+        },
+        {
+          "champion_id": "15",
+          "win_rate": "0.534491103202847",
+          "num_games": "35125"
+        }
+      ],
+      "description_raw": "当你<crit>暴击</crit>时，发射1+@AdditionalMis@个<keyworkMajor>爆竹</keyworkMajor>，每个造成<magicDamage>@Damage@魔法伤害</magicDamage>。此外，获得<crit>@CrtiChance*100@%</crit>暴击几率。"
+    },
+    {
+      "id": "1391",
+      "name": "红包",
+      "rarity": "黄金",
+      "win_rate": 59.97,
+      "pick_rate": 0.87,
+      "num_games": "590450",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "41",
+          "win_rate": "0.563980492336275",
+          "num_games": "8612"
+        },
+        {
+          "champion_id": "555",
+          "win_rate": "0.531196823596143",
+          "num_games": "7052"
+        },
+        {
+          "champion_id": "121",
+          "win_rate": "0.5244010647737356",
+          "num_games": "4508"
+        },
+        {
+          "champion_id": "202",
+          "win_rate": "0.5598283545139462",
+          "num_games": "12118"
+        },
+        {
+          "champion_id": "83",
+          "win_rate": "0.5475917431192661",
+          "num_games": "1744"
+        }
+      ],
+      "description_raw": "红包会随机出现在你周围。拾取它们会给你金币和少量的某个随机属性。"
+    },
+    {
+      "id": "1048",
+      "name": "珠光护手",
+      "rarity": "棱彩",
+      "win_rate": 59.63,
+      "pick_rate": 1.31,
+      "num_games": "890354",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "126",
+          "win_rate": "0.48255778864143883",
+          "num_games": "33138"
+        },
+        {
+          "champion_id": "13",
+          "win_rate": "0.5116328799931571",
+          "num_games": "23382"
+        },
+        {
+          "champion_id": "142",
+          "win_rate": "0.4655786350148368",
+          "num_games": "16850"
+        },
+        {
+          "champion_id": "101",
+          "win_rate": "0.5133058204070016",
+          "num_games": "28108"
+        },
+        {
+          "champion_id": "134",
+          "win_rate": "0.5111566239085912",
+          "num_games": "18554"
+        }
+      ],
+      "description_raw": "你的技能可以造成暴击。获得@CritChance*100@%暴击几率。"
+    },
+    {
+      "id": "1237",
+      "name": "质变：黄金阶",
+      "rarity": "白银",
+      "win_rate": 59.37,
+      "pick_rate": 0.76,
+      "num_games": "517246",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "83",
+          "win_rate": "0.5255070682237246",
+          "num_games": "1627"
+        },
+        {
+          "champion_id": "86",
+          "win_rate": "0.5110729613733905",
+          "num_games": "5825"
+        },
+        {
+          "champion_id": "8",
+          "win_rate": "0.5359337429869089",
+          "num_games": "3743"
+        },
+        {
+          "champion_id": "30",
+          "win_rate": "0.5526315789473685",
+          "num_games": "6726"
+        },
+        {
+          "champion_id": "234",
+          "win_rate": "0.5533875338753388",
+          "num_games": "3690"
+        }
+      ],
+      "description_raw": "获得1个随机黄金阶强化符文。"
+    },
+    {
+      "id": "1030",
+      "name": "尤里卡",
+      "rarity": "棱彩",
+      "win_rate": 59.14,
+      "pick_rate": 1.01,
+      "num_games": "682435",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "45",
+          "win_rate": "0.529454564353091",
+          "num_games": "38483"
+        },
+        {
+          "champion_id": "26",
+          "win_rate": "0.5109749568734757",
+          "num_games": "16811"
+        },
+        {
+          "champion_id": "134",
+          "win_rate": "0.54541822721598",
+          "num_games": "20025"
+        },
+        {
+          "champion_id": "30",
+          "win_rate": "0.5440123032093569",
+          "num_games": "24709"
+        },
+        {
+          "champion_id": "800",
+          "win_rate": "0.5273832262545581",
+          "num_games": "28795"
+        }
+      ],
+      "description_raw": "获得相当于<scaleAP>@APToHasteConversion*100@%法术强度</scaleAP>的技能急速。"
+    },
+    {
+      "id": "1353",
+      "name": "坦克引擎",
+      "rarity": "黄金",
+      "win_rate": 59.06,
+      "pick_rate": 1.25,
+      "num_games": "845624",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "36",
+          "win_rate": "0.55828476796076",
+          "num_games": "79103"
+        },
+        {
+          "champion_id": "516",
+          "win_rate": "0.5026890544123217",
+          "num_games": "39605"
+        },
+        {
+          "champion_id": "526",
+          "win_rate": "0.5446869590914848",
+          "num_games": "23687"
+        },
+        {
+          "champion_id": "113",
+          "win_rate": "0.519774011299435",
+          "num_games": "19116"
+        },
+        {
+          "champion_id": "201",
+          "win_rate": "0.5016519574564381",
+          "num_games": "22095"
+        }
+      ],
+      "description_raw": "参与击杀时，获得一个层数，使你的体型增大并提升<scaleHealth>最大生命值</scaleHealth>。阵亡时损失层数。"
+    },
+    {
+      "id": "1022",
+      "name": "灵巧",
+      "rarity": "白银",
+      "win_rate": 58.97,
+      "pick_rate": 0.97,
+      "num_games": "658146",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "222",
+          "win_rate": "0.5458203039416815",
+          "num_games": "50207"
+        },
+        {
+          "champion_id": "498",
+          "win_rate": "0.5524071266110689",
+          "num_games": "31656"
+        },
+        {
+          "champion_id": "15",
+          "win_rate": "0.5182567726737338",
+          "num_games": "28866"
+        },
+        {
+          "champion_id": "22",
+          "win_rate": "0.5515535367752117",
+          "num_games": "46893"
+        },
+        {
+          "champion_id": "18",
+          "win_rate": "0.5331787887568821",
+          "num_games": "34510"
+        }
+      ],
+      "description_raw": "获得@AttackSpeed*100@%<speed>攻击速度</speed>。"
+    },
+    {
+      "id": "1138",
+      "name": "渴血",
+      "rarity": "白银",
+      "win_rate": 58.97,
+      "pick_rate": 1.05,
+      "num_games": "711864",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "904",
+          "win_rate": "0.5546870229007633",
+          "num_games": "16375"
+        },
+        {
+          "champion_id": "266",
+          "win_rate": "0.458404686795854",
+          "num_games": "11095"
+        },
+        {
+          "champion_id": "360",
+          "win_rate": "0.48630068745641125",
+          "num_games": "20074"
+        },
+        {
+          "champion_id": "777",
+          "win_rate": "0.5196515397082658",
+          "num_games": "19744"
+        },
+        {
+          "champion_id": "233",
+          "win_rate": "0.5301293900184842",
+          "num_games": "10820"
+        }
+      ],
+      "description_raw": "获得<lifeSteal>@Omnivamp*100@%全能吸血</lifeSteal>。"
+    },
+    {
+      "id": "1225",
+      "name": "双刀流",
+      "rarity": "棱彩",
+      "win_rate": 58.86,
+      "pick_rate": 0.65,
+      "num_games": "444152",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "166",
+          "win_rate": "0.5587364899639732",
+          "num_games": "15544"
+        },
+        {
+          "champion_id": "67",
+          "win_rate": "0.6378780212509244",
+          "num_games": "25693"
+        },
+        {
+          "champion_id": "498",
+          "win_rate": "0.5734798111207479",
+          "num_games": "20754"
+        },
+        {
+          "champion_id": "222",
+          "win_rate": "0.5702647022100137",
+          "num_games": "32036"
+        },
+        {
+          "champion_id": "18",
+          "win_rate": "0.5811677631578948",
+          "num_games": "24320"
+        }
+      ],
+      "description_raw": "在攻击时，发射一个箭矢，它施加效能削减的{{ Item_Keyword_OnHit }}。获得<attackSpeed>@AttackSpeed*100@%总攻击速度</attackSpeed>。"
+    },
+    {
+      "id": "1071",
+      "name": "更万用的瞄准镜",
+      "rarity": "黄金",
+      "win_rate": 58.79,
+      "pick_rate": 1.26,
+      "num_games": "856108",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "222",
+          "win_rate": "0.5509985421460313",
+          "num_games": "56933"
+        },
+        {
+          "champion_id": "221",
+          "win_rate": "0.48019519614677736",
+          "num_games": "15779"
+        },
+        {
+          "champion_id": "51",
+          "win_rate": "0.5216415229885057",
+          "num_games": "55680"
+        },
+        {
+          "champion_id": "18",
+          "win_rate": "0.5215650764904923",
+          "num_games": "41966"
+        },
+        {
+          "champion_id": "523",
+          "win_rate": "0.5268306543270012",
+          "num_games": "24636"
+        }
+      ],
+      "description_raw": "获得@MeleeRangeIncrease@攻击距离，如果你是远程英雄则降低至@RangedRangeIncrease@攻击距离。"
+    },
+    {
+      "id": "1045",
+      "name": "炼狱导管",
+      "rarity": "棱彩",
+      "win_rate": 58.41,
+      "pick_rate": 0.87,
+      "num_games": "588806",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "63",
+          "win_rate": "0.635760867590692",
+          "num_games": "55049"
+        },
+        {
+          "champion_id": "90",
+          "win_rate": "0.5790964493147549",
+          "num_games": "34951"
+        },
+        {
+          "champion_id": "876",
+          "win_rate": "0.6540207367767213",
+          "num_games": "20929"
+        },
+        {
+          "champion_id": "143",
+          "win_rate": "0.5687502315758272",
+          "num_games": "26989"
+        },
+        {
+          "champion_id": "136",
+          "win_rate": "0.5540469608426357",
+          "num_games": "28577"
+        }
+      ],
+      "description_raw": "你的技能会施加一层可叠加的<keywordMajor>灼烧</keywordMajor>，持续造成魔法伤害。<br><br>你的<keywordMajor>灼烧</keywordMajor>效果会降低你各基础技能的冷却时间。"
+    },
+    {
+      "id": "1097",
+      "name": "巫师式思考",
+      "rarity": "白银",
+      "win_rate": 58.35,
+      "pick_rate": 1.06,
+      "num_games": "717137",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "30",
+          "win_rate": "0.5099461400359067",
+          "num_games": "27850"
+        },
+        {
+          "champion_id": "76",
+          "win_rate": "0.4578940518026812",
+          "num_games": "23049"
+        },
+        {
+          "champion_id": "101",
+          "win_rate": "0.5021380574221136",
+          "num_games": "29466"
+        },
+        {
+          "champion_id": "99",
+          "win_rate": "0.49817581929507315",
+          "num_games": "31521"
+        },
+        {
+          "champion_id": "61",
+          "win_rate": "0.5036565977742449",
+          "num_games": "15725"
+        }
+      ],
+      "description_raw": "获得<scaleAP>@AP@法术强度</scaleAP>。"
+    },
+    {
+      "id": "1032",
+      "name": "裁决使",
+      "rarity": "黄金",
+      "win_rate": 58.33,
+      "pick_rate": 1.57,
+      "num_games": "1067284",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "238",
+          "win_rate": "0.49870987431678826",
+          "num_games": "36043"
+        },
+        {
+          "champion_id": "91",
+          "win_rate": "0.49402152251893183",
+          "num_games": "20072"
+        },
+        {
+          "champion_id": "950",
+          "win_rate": "0.47830970096869296",
+          "num_games": "14246"
+        },
+        {
+          "champion_id": "246",
+          "win_rate": "0.43421150278293136",
+          "num_games": "13475"
+        },
+        {
+          "champion_id": "121",
+          "win_rate": "0.4637435922958244",
+          "num_games": "20093"
+        }
+      ],
+      "description_raw": "对生命值低于@HealthThreshold*100@%的敌人们多造成@BonusDamage*100@%伤害。在参与击杀后重置你的基础技能。"
+    },
+    {
+      "id": "1243",
+      "name": "质变：混沌",
+      "rarity": "棱彩",
+      "win_rate": 58.26,
+      "pick_rate": 0.59,
+      "num_games": "400160",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "83",
+          "win_rate": "0.5259911894273128",
+          "num_games": "1135"
+        },
+        {
+          "champion_id": "126",
+          "win_rate": "0.5215329159552267",
+          "num_games": "5271"
+        },
+        {
+          "champion_id": "86",
+          "win_rate": "0.5391414141414141",
+          "num_games": "3960"
+        },
+        {
+          "champion_id": "60",
+          "win_rate": "0.5",
+          "num_games": "1188"
+        },
+        {
+          "champion_id": "240",
+          "win_rate": "0.5454545454545454",
+          "num_games": "539"
+        }
+      ],
+      "description_raw": "获得2个随机的强化符文。"
+    },
+    {
+      "id": "1361",
+      "name": "任务：艾卡西亚的陷落",
+      "rarity": "棱彩",
+      "win_rate": 58.22,
+      "pick_rate": 0.36,
+      "num_games": "244580",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "33",
+          "win_rate": "0.5643352909770422",
+          "num_games": "7492"
+        },
+        {
+          "champion_id": "516",
+          "win_rate": "0.5472252848217567",
+          "num_games": "13605"
+        },
+        {
+          "champion_id": "113",
+          "win_rate": "0.550848687073843",
+          "num_games": "6893"
+        },
+        {
+          "champion_id": "89",
+          "win_rate": "0.5678779298411201",
+          "num_games": "12714"
+        },
+        {
+          "champion_id": "201",
+          "win_rate": "0.5262750161394448",
+          "num_games": "7745"
+        }
+      ],
+      "description_raw": "即刻：获得一个【斑比的熔渣】并且你可以购买2件<keywordMajor>献祭</keywordMajor>装备。<br><br>需求：持有【日炎圣盾】和【璀璨回响】。<br><br>奖励：这些装备组合成【虚空献祭】。"
+    },
+    {
+      "id": "1388",
+      "name": "无限循环往复",
+      "rarity": "棱彩",
+      "win_rate": 57.88,
+      "pick_rate": 0.92,
+      "num_games": "626923",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "8",
+          "win_rate": "0.530701072594435",
+          "num_games": "6433"
+        },
+        {
+          "champion_id": "31",
+          "win_rate": "0.4948733882243281",
+          "num_games": "12874"
+        },
+        {
+          "champion_id": "50",
+          "win_rate": "0.5660485723662619",
+          "num_games": "12188"
+        },
+        {
+          "champion_id": "26",
+          "win_rate": "0.5086763229599885",
+          "num_games": "6973"
+        },
+        {
+          "champion_id": "45",
+          "win_rate": "0.5221151119931954",
+          "num_games": "14108"
+        }
+      ],
+      "description_raw": "获得@StartingHaste@技能急速，外加每次参与击杀@HastePerStack@技能急速。"
+    },
+    {
+      "id": "1404",
+      "name": "属性！",
+      "rarity": "白银",
+      "win_rate": 57.8,
+      "pick_rate": 0.5,
+      "num_games": "342113",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "83",
+          "win_rate": "0.5238095238095238",
+          "num_games": "987"
+        },
+        {
+          "champion_id": "30",
+          "win_rate": "0.5576790237163252",
+          "num_games": "4343"
+        },
+        {
+          "champion_id": "86",
+          "win_rate": "0.5361738633114098",
+          "num_games": "3497"
+        },
+        {
+          "champion_id": "240",
+          "win_rate": "0.5532786885245902",
+          "num_games": "488"
+        },
+        {
+          "champion_id": "8",
+          "win_rate": "0.5485157288435977",
+          "num_games": "2257"
+        }
+      ],
+      "description_raw": "获得@AmountOfStatAnvils@个【属性锻造器】！"
+    },
+    {
+      "id": "1038",
+      "name": "有始有终",
+      "rarity": "黄金",
+      "win_rate": 57.4,
+      "pick_rate": 1.01,
+      "num_games": "687992",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "41",
+          "win_rate": "0.5120113047574187",
+          "num_games": "19107"
+        },
+        {
+          "champion_id": "126",
+          "win_rate": "0.4807248764415156",
+          "num_games": "18210"
+        },
+        {
+          "champion_id": "30",
+          "win_rate": "0.5361466423024212",
+          "num_games": "17512"
+        },
+        {
+          "champion_id": "142",
+          "win_rate": "0.4856155426863441",
+          "num_games": "10706"
+        },
+        {
+          "champion_id": "7",
+          "win_rate": "0.455002733734281",
+          "num_games": "9145"
+        }
+      ],
+      "description_raw": "获得<spellName>先攻</spellName>和<spellName>黑暗收割</spellName>基石符文。"
+    },
+    {
+      "id": "1308",
+      "name": "火狐",
+      "rarity": "白银",
+      "win_rate": 57.34,
+      "pick_rate": 0.65,
+      "num_games": "444076",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "103",
+          "win_rate": "0.5587818696883853",
+          "num_games": "16944"
+        },
+        {
+          "champion_id": "876",
+          "win_rate": "0.6045824847250509",
+          "num_games": "9820"
+        },
+        {
+          "champion_id": "142",
+          "win_rate": "0.5028234408332287",
+          "num_games": "7969"
+        },
+        {
+          "champion_id": "1",
+          "win_rate": "0.545176848874598",
+          "num_games": "6220"
+        },
+        {
+          "champion_id": "76",
+          "win_rate": "0.4986444212721585",
+          "num_games": "9590"
+        }
+      ],
+      "description_raw": "<keywordMajor>自动施放</keywordMajor><br>获得移动速度并召唤3道烈焰环绕于你，瞄准距离内相距最近的那个可见英雄并造成自适应伤害。"
+    },
+    {
+      "id": "1052",
+      "name": "闪电打击",
+      "rarity": "黄金",
+      "win_rate": 57.3,
+      "pick_rate": 1.0,
+      "num_games": "677269",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "429",
+          "win_rate": "0.5771707195099081",
+          "num_games": "15997"
+        },
+        {
+          "champion_id": "200",
+          "win_rate": "0.4702258726899384",
+          "num_games": "12175"
+        },
+        {
+          "champion_id": "18",
+          "win_rate": "0.5355074909770727",
+          "num_games": "38513"
+        },
+        {
+          "champion_id": "222",
+          "win_rate": "0.5470708307817922",
+          "num_games": "48990"
+        },
+        {
+          "champion_id": "498",
+          "win_rate": "0.5478804416804163",
+          "num_games": "31516"
+        }
+      ],
+      "description_raw": "获得<attackSpeed>@TotalASValue*100@%总攻击速度</attackSpeed>。<br><br>在@Breakpoint1@<attackSpeed>攻击次数/秒</attackSpeed>时，造成额外的<magicDamage>魔法伤害</magicDamage> {{ Item_Keyword_OnHit }}。"
+    },
+    {
+      "id": "2002",
+      "name": "虚空裂隙",
+      "rarity": "棱彩",
+      "win_rate": 57.21,
+      "pick_rate": 0.62,
+      "num_games": "422830",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "136",
+          "win_rate": "0.5601545545969406",
+          "num_games": "18893"
+        },
+        {
+          "champion_id": "910",
+          "win_rate": "0.5331732212548784",
+          "num_games": "13324"
+        },
+        {
+          "champion_id": "34",
+          "win_rate": "0.4892449517120281",
+          "num_games": "9112"
+        },
+        {
+          "champion_id": "90",
+          "win_rate": "0.5369722557297949",
+          "num_games": "16580"
+        },
+        {
+          "champion_id": "161",
+          "win_rate": "0.5364379421663575",
+          "num_games": "14559"
+        }
+      ],
+      "description_raw": "用技能对敌人造成伤害时，会制造一道虚空裂痕。如果附近有另一道虚空裂痕，则它们都会被消耗，以在它们之间生成一道裂隙，对其中的敌人们造成<magicDamage>魔法伤害</magicDamage>和<status>减速</status>。"
+    },
+    {
+      "id": "1310",
+      "name": "小丑学院",
+      "rarity": "棱彩",
+      "win_rate": 57.17,
+      "pick_rate": 0.46,
+      "num_games": "308975",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "121",
+          "win_rate": "0.530377358490566",
+          "num_games": "10600"
+        },
+        {
+          "champion_id": "35",
+          "win_rate": "0.4957703265395573",
+          "num_games": "22815"
+        },
+        {
+          "champion_id": "91",
+          "win_rate": "0.6090279192989607",
+          "num_games": "9814"
+        },
+        {
+          "champion_id": "246",
+          "win_rate": "0.5280972724285244",
+          "num_games": "6086"
+        },
+        {
+          "champion_id": "555",
+          "win_rate": "0.539269671062165",
+          "num_games": "13802"
+        }
+      ],
+      "description_raw": "获得召唤师技能<spellName>欺诈魔术</spellName>。<br>获得<spellName>背刺</spellName>被动。<br>在你阵亡时，生成一个爆炸盒子来对附近的敌人们造成大量<trueDamage>真实伤害</trueDamage>和<status>恐惧</status>。"
+    },
+    {
+      "id": "1420",
+      "name": "咏叹奏鸣",
+      "rarity": "黄金",
+      "win_rate": 56.97,
+      "pick_rate": 0.37,
+      "num_games": "248359",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "350",
+          "win_rate": "0.5474997591290105",
+          "num_games": "20758"
+        },
+        {
+          "champion_id": "37",
+          "win_rate": "0.5747882936246764",
+          "num_games": "22791"
+        },
+        {
+          "champion_id": "16",
+          "win_rate": "0.5374407128826714",
+          "num_games": "20873"
+        },
+        {
+          "champion_id": "117",
+          "win_rate": "0.5430814165753924",
+          "num_games": "16434"
+        },
+        {
+          "champion_id": "267",
+          "win_rate": "0.5546287658453602",
+          "num_games": "18223"
+        }
+      ],
+      "description_raw": "每@Cooldown@秒，以一个不断交替的旋律来<keywordMajor>自动施放</keywordMajor><spellName>坚毅咏叹调</spellName>和<spellName>迅捷奏鸣曲</spellName>。<br><br><rules><spellName>坚毅咏叹调</spellName><healing>治疗</healing>附近友军并提供一个临时的<shield>护盾光环</shield>。</rules><br><br><rules><spellName>迅捷奏鸣曲</spellName>提供一个临时光环来提供<speed>额外移动速度</speed>。</rules>"
+    },
+    {
+      "id": "1375",
+      "name": "吞噬灵魂",
+      "rarity": "黄金",
+      "win_rate": 56.71,
+      "pick_rate": 1.08,
+      "num_games": "730483",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "89",
+          "win_rate": "0.5191711411933752",
+          "num_games": "39669"
+        },
+        {
+          "champion_id": "526",
+          "win_rate": "0.5384745619233048",
+          "num_games": "23626"
+        },
+        {
+          "champion_id": "113",
+          "win_rate": "0.4867403314917127",
+          "num_games": "16290"
+        },
+        {
+          "champion_id": "111",
+          "win_rate": "0.5167704638757785",
+          "num_games": "35807"
+        },
+        {
+          "champion_id": "516",
+          "win_rate": "0.4796226123269662",
+          "num_games": "25862"
+        }
+      ],
+      "description_raw": "<status>定身</status>一个敌方英雄时会提供<scaleHealth>@HealthGainPerStack@最大生命值</scaleHealth>。"
+    },
+    {
+      "id": "1156",
+      "name": "任务：沃格勒特的巫师帽",
+      "rarity": "棱彩",
+      "win_rate": 56.68,
+      "pick_rate": 0.52,
+      "num_games": "355974",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "45",
+          "win_rate": "0.4951925984156739",
+          "num_games": "16537"
+        },
+        {
+          "champion_id": "142",
+          "win_rate": "0.469912544054301",
+          "num_games": "7661"
+        },
+        {
+          "champion_id": "127",
+          "win_rate": "0.509001872389457",
+          "num_games": "6943"
+        },
+        {
+          "champion_id": "61",
+          "win_rate": "0.5223278218981904",
+          "num_games": "7681"
+        },
+        {
+          "champion_id": "13",
+          "win_rate": "0.5288806812352519",
+          "num_games": "9747"
+        }
+      ],
+      "description_raw": "即刻：获得【无用大棒】。<br><br>需求：持有【灭世者的死亡之帽】和【中娅沙漏】。<br><br>奖励：获得【沃格勒特的巫师帽】。"
+    },
+    {
+      "id": "1041",
+      "name": "歌利亚巨人",
+      "rarity": "棱彩",
+      "win_rate": 56.59,
+      "pick_rate": 0.86,
+      "num_games": "585414",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "36",
+          "win_rate": "0.5826854489005209",
+          "num_games": "38973"
+        },
+        {
+          "champion_id": "516",
+          "win_rate": "0.47905695927339487",
+          "num_games": "20699"
+        },
+        {
+          "champion_id": "113",
+          "win_rate": "0.5095310712924133",
+          "num_games": "10492"
+        },
+        {
+          "champion_id": "201",
+          "win_rate": "0.47429171038824763",
+          "num_games": "12389"
+        },
+        {
+          "champion_id": "14",
+          "win_rate": "0.5572636433512682",
+          "num_games": "16913"
+        }
+      ],
+      "description_raw": "体型变大，获得<scaleHealth>@HealthAmp*100@%生命值</scaleHealth>和<scaleAP>@ADAmp*100@%适应之力</scaleAP>。"
+    },
+    {
+      "id": "1181",
+      "name": "重量级打击手",
+      "rarity": "白银",
+      "win_rate": 56.52,
+      "pick_rate": 0.64,
+      "num_games": "435947",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "36",
+          "win_rate": "0.5651162790697675",
+          "num_games": "51170"
+        },
+        {
+          "champion_id": "516",
+          "win_rate": "0.5052499429354029",
+          "num_games": "17524"
+        },
+        {
+          "champion_id": "14",
+          "win_rate": "0.5633730543360511",
+          "num_games": "17539"
+        },
+        {
+          "champion_id": "420",
+          "win_rate": "0.5132530120481927",
+          "num_games": "12035"
+        },
+        {
+          "champion_id": "6",
+          "win_rate": "0.5151162790697674",
+          "num_games": "11180"
+        }
+      ],
+      "description_raw": "你的攻击造成相当于你@HealthPercent*100@%<scaleHealth>最大生命值</scaleHealth>的额外<physicalDamage>物理伤害</physicalDamage>。"
+    },
+    {
+      "id": "1152",
+      "name": "任务：钢化你心",
+      "rarity": "黄金",
+      "win_rate": 56.4,
+      "pick_rate": 1.0,
+      "num_games": "678734",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "36",
+          "win_rate": "0.5469961810871284",
+          "num_games": "59441"
+        },
+        {
+          "champion_id": "516",
+          "win_rate": "0.48665568369028006",
+          "num_games": "30350"
+        },
+        {
+          "champion_id": "89",
+          "win_rate": "0.5136257218667083",
+          "num_games": "32035"
+        },
+        {
+          "champion_id": "526",
+          "win_rate": "0.5463838877021666",
+          "num_games": "19662"
+        },
+        {
+          "champion_id": "113",
+          "win_rate": "0.5031582746796607",
+          "num_games": "16623"
+        }
+      ],
+      "description_raw": "需求：持有【心之钢】且层数在@StackThreshold@层或以上。<br><br>奖励：将你的心之钢层数乘以@StackMultiplication@。"
+    },
+    {
+      "id": "1411",
+      "name": "升级：荆棘之甲",
+      "rarity": "白银",
+      "win_rate": 56.38,
+      "pick_rate": 0.22,
+      "num_games": "151592",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "33",
+          "win_rate": "0.576275979075357",
+          "num_games": "7073"
+        },
+        {
+          "champion_id": "36",
+          "win_rate": "0.5730839750641731",
+          "num_games": "13635"
+        },
+        {
+          "champion_id": "516",
+          "win_rate": "0.5465703971119134",
+          "num_games": "8310"
+        },
+        {
+          "champion_id": "201",
+          "win_rate": "0.5370931112793338",
+          "num_games": "5284"
+        },
+        {
+          "champion_id": "526",
+          "win_rate": "0.57063593683312",
+          "num_games": "4686"
+        }
+      ],
+      "description_raw": "在脱离战斗@ThornshieldCooldown@秒后，你的【荆棘之甲】或【棘刺背心】会生成一个甲壳来回敬更多伤害给攻击者。"
+    },
+    {
+      "id": "1340",
+      "name": "升级：米凯尔的祝福",
+      "rarity": "棱彩",
+      "win_rate": 56.37,
+      "pick_rate": 0.1,
+      "num_games": "64714",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "350",
+          "win_rate": "0.5534373194685153",
+          "num_games": "6924"
+        },
+        {
+          "champion_id": "117",
+          "win_rate": "0.541892519746012",
+          "num_games": "6457"
+        },
+        {
+          "champion_id": "16",
+          "win_rate": "0.5550930141797841",
+          "num_games": "7687"
+        },
+        {
+          "champion_id": "427",
+          "win_rate": "0.5713671539122958",
+          "num_games": "2326"
+        },
+        {
+          "champion_id": "267",
+          "win_rate": "0.553134375493447",
+          "num_games": "6333"
+        }
+      ],
+      "description_raw": "获得【米凯尔的祝福】。将【米凯尔的祝福】的冷却时间缩减至@Cooldown@秒。<br><br>使用装备的主动效果时，清除范围内友军的<status>限制</status>和<status>定身</status>效果并治疗他们。"
+    },
+    {
+      "id": "1402",
+      "name": "属性叠属性叠属性！",
+      "rarity": "棱彩",
+      "win_rate": 56.33,
+      "pick_rate": 0.42,
+      "num_games": "287926",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "41",
+          "win_rate": "0.5368722186904005",
+          "num_games": "3146"
+        },
+        {
+          "champion_id": "60",
+          "win_rate": "0.5150166852057843",
+          "num_games": "899"
+        },
+        {
+          "champion_id": "121",
+          "win_rate": "0.5246241575946086",
+          "num_games": "1929"
+        },
+        {
+          "champion_id": "126",
+          "win_rate": "0.5062358276643991",
+          "num_games": "3528"
+        },
+        {
+          "champion_id": "83",
+          "win_rate": "0.5167336010709505",
+          "num_games": "747"
+        }
+      ],
+      "description_raw": "获得@AmountOfStatAnvils@个【属性锻造器】，有更高几率出现黄金阶和棱彩阶锻造器！<br><br>在你的下一次强化符文选取时，每个栏位获得一次额外的刷新。"
+    },
+    {
+      "id": "1320",
+      "name": "升级：收集者",
+      "rarity": "白银",
+      "win_rate": 56.18,
+      "pick_rate": 0.84,
+      "num_games": "568252",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "166",
+          "win_rate": "0.4973819041720624",
+          "num_games": "17761"
+        },
+        {
+          "champion_id": "51",
+          "win_rate": "0.5148851999298931",
+          "num_games": "39939"
+        },
+        {
+          "champion_id": "523",
+          "win_rate": "0.5259422283356259",
+          "num_games": "18175"
+        },
+        {
+          "champion_id": "133",
+          "win_rate": "0.4846210759961949",
+          "num_games": "9461"
+        },
+        {
+          "champion_id": "91",
+          "win_rate": "0.49556681443951867",
+          "num_games": "12632"
+        }
+      ],
+      "description_raw": "使用【收集者】的被动处决敌人时的处决阈值提升，并且提供额外金币。<br>获得<gold>250金币</gold>。"
+    },
+    {
+      "id": "1081",
+      "name": "踢踏舞",
+      "rarity": "棱彩",
+      "win_rate": 56.14,
+      "pick_rate": 0.82,
+      "num_games": "556260",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "221",
+          "win_rate": "0.4825649850557015",
+          "num_games": "11041"
+        },
+        {
+          "champion_id": "222",
+          "win_rate": "0.5537914827764086",
+          "num_games": "34894"
+        },
+        {
+          "champion_id": "429",
+          "win_rate": "0.5436733010209344",
+          "num_games": "9697"
+        },
+        {
+          "champion_id": "6",
+          "win_rate": "0.5021601527177736",
+          "num_games": "9953"
+        },
+        {
+          "champion_id": "804",
+          "win_rate": "0.5444951801116185",
+          "num_games": "19710"
+        }
+      ],
+      "description_raw": "你的攻击会为你提供<speed>移动速度</speed>。基于你的移动速度获得<attackSpeed>攻击速度</attackSpeed>。"
+    },
+    {
+      "id": "1056",
+      "name": "由心及物",
+      "rarity": "白银",
+      "win_rate": 56.04,
+      "pick_rate": 0.57,
+      "num_games": "384624",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "13",
+          "win_rate": "0.5910974114215638",
+          "num_games": "30171"
+        },
+        {
+          "champion_id": "38",
+          "win_rate": "0.6159658017695596",
+          "num_games": "10059"
+        },
+        {
+          "champion_id": "34",
+          "win_rate": "0.5135371179039301",
+          "num_games": "10305"
+        },
+        {
+          "champion_id": "69",
+          "win_rate": "0.5018836333193805",
+          "num_games": "7167"
+        },
+        {
+          "champion_id": "16",
+          "win_rate": "0.49778556929322754",
+          "num_games": "10838"
+        }
+      ],
+      "description_raw": "使你的<scaleHealth>最大生命值</scaleHealth>提升，数额相当于你一半的<scaleMana>法力值</scaleMana>。"
+    },
+    {
+      "id": "1084",
+      "name": "穿针引线",
+      "rarity": "黄金",
+      "win_rate": 56.0,
+      "pick_rate": 1.37,
+      "num_games": "931176",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "41",
+          "win_rate": "0.49161510178459333",
+          "num_games": "22302"
+        },
+        {
+          "champion_id": "238",
+          "win_rate": "0.5048790404553771",
+          "num_games": "19676"
+        },
+        {
+          "champion_id": "121",
+          "win_rate": "0.4589973439575033",
+          "num_games": "12048"
+        },
+        {
+          "champion_id": "246",
+          "win_rate": "0.4472258064516129",
+          "num_games": "7750"
+        },
+        {
+          "champion_id": "126",
+          "win_rate": "0.4537290496086059",
+          "num_games": "20823"
+        }
+      ],
+      "description_raw": "获得@PercentPen*100@%<physicalDamage>护甲穿透</physicalDamage>和<magicDamage>法术穿透</magicDamage>。"
+    },
+    {
+      "id": "2008",
+      "name": "负重爆气",
+      "rarity": "白银",
+      "win_rate": 55.92,
+      "pick_rate": 0.97,
+      "num_games": "657763",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "63",
+          "win_rate": "0.5391696411797858",
+          "num_games": "26615"
+        },
+        {
+          "champion_id": "800",
+          "win_rate": "0.4805098493626883",
+          "num_games": "21575"
+        },
+        {
+          "champion_id": "115",
+          "win_rate": "0.491291431234345",
+          "num_games": "17167"
+        },
+        {
+          "champion_id": "8",
+          "win_rate": "0.5069227333631086",
+          "num_games": "8956"
+        },
+        {
+          "champion_id": "143",
+          "win_rate": "0.5164584999692364",
+          "num_games": "16253"
+        }
+      ],
+      "description_raw": "用技能击中敌人时，会为你提供【爆气】层数，从而缩短你的非终极技能冷却时间。"
+    },
+    {
+      "id": "1384",
+      "name": "捐赠",
+      "rarity": "黄金",
+      "win_rate": 55.86,
+      "pick_rate": 0.73,
+      "num_games": "493522",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "41",
+          "win_rate": "0.5178482276585122",
+          "num_games": "8012"
+        },
+        {
+          "champion_id": "7",
+          "win_rate": "0.4363457276532874",
+          "num_games": "4061"
+        },
+        {
+          "champion_id": "202",
+          "win_rate": "0.5026989891058985",
+          "num_games": "10189"
+        },
+        {
+          "champion_id": "121",
+          "win_rate": "0.49389272437599574",
+          "num_games": "3766"
+        },
+        {
+          "champion_id": "35",
+          "win_rate": "0.46493059820660854",
+          "num_games": "8141"
+        }
+      ],
+      "description_raw": "获得<font color=\"#ffd138\">@GoldAmount@</font>金币。无需多问。"
+    },
+    {
+      "id": "1336",
+      "name": "升级：无尽之刃",
+      "rarity": "黄金",
+      "win_rate": 55.66,
+      "pick_rate": 0.66,
+      "num_games": "445575",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "804",
+          "win_rate": "0.5563778698769818",
+          "num_games": "30402"
+        },
+        {
+          "champion_id": "42",
+          "win_rate": "0.5076378127075493",
+          "num_games": "18068"
+        },
+        {
+          "champion_id": "901",
+          "win_rate": "0.48644307621706373",
+          "num_games": "26149"
+        },
+        {
+          "champion_id": "235",
+          "win_rate": "0.4709610509333948",
+          "num_games": "26034"
+        },
+        {
+          "champion_id": "523",
+          "win_rate": "0.5724875668574646",
+          "num_games": "10657"
+        }
+      ],
+      "description_raw": "获得@CritChance*100@% %i:scaleCrit%暴击几率和<gold>500金币</gold>。<br>装备<attention>无尽之刃</attention>后，可使你的%i:scaleCrit%暴击几率在每次攻击都会提供随机的%i:scaleCritMult%暴击伤害。"
+    },
+    {
+      "id": "1205",
+      "name": "物理转魔法",
+      "rarity": "白银",
+      "win_rate": 55.58,
+      "pick_rate": 0.81,
+      "num_games": "549663",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "13",
+          "win_rate": "0.5808003173501265",
+          "num_games": "20167"
+        },
+        {
+          "champion_id": "30",
+          "win_rate": "0.5126411045806512",
+          "num_games": "21438"
+        },
+        {
+          "champion_id": "76",
+          "win_rate": "0.4578648136449779",
+          "num_games": "15830"
+        },
+        {
+          "champion_id": "45",
+          "win_rate": "0.4952914117085449",
+          "num_games": "23043"
+        },
+        {
+          "champion_id": "101",
+          "win_rate": "0.5015961065466534",
+          "num_games": "19109"
+        }
+      ],
+      "description_raw": "将<scaleAD>额外攻击力</scaleAD>转化为<scaleAP>法术强度</scaleAP>。获得<scaleAP>@APAmp*100@%法术强度</scaleAP>。"
+    },
+    {
+      "id": "1115",
+      "name": "最万用的瞄准镜",
+      "rarity": "棱彩",
+      "win_rate": 55.41,
+      "pick_rate": 0.69,
+      "num_games": "469291",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "51",
+          "win_rate": "0.5179225178951969",
+          "num_games": "36602"
+        },
+        {
+          "champion_id": "222",
+          "win_rate": "0.5487804878048781",
+          "num_games": "30586"
+        },
+        {
+          "champion_id": "202",
+          "win_rate": "0.4733335554149039",
+          "num_games": "30019"
+        },
+        {
+          "champion_id": "523",
+          "win_rate": "0.5286066048667439",
+          "num_games": "13808"
+        },
+        {
+          "champion_id": "18",
+          "win_rate": "0.5210129069715511",
+          "num_games": "22391"
+        }
+      ],
+      "description_raw": "获得@MeleeRangeIncrease@攻击距离，如果你是远程英雄则降低至@RangedRangeIncrease@攻击距离。"
+    },
+    {
+      "id": "1075",
+      "name": "慢炖",
+      "rarity": "棱彩",
+      "win_rate": 55.38,
+      "pick_rate": 0.47,
+      "num_games": "318889",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "516",
+          "win_rate": "0.5301197065259364",
+          "num_games": "15538"
+        },
+        {
+          "champion_id": "36",
+          "win_rate": "0.5540929840889952",
+          "num_games": "22563"
+        },
+        {
+          "champion_id": "113",
+          "win_rate": "0.526790248857288",
+          "num_games": "7876"
+        },
+        {
+          "champion_id": "201",
+          "win_rate": "0.4986531623747441",
+          "num_games": "9281"
+        },
+        {
+          "champion_id": "89",
+          "win_rate": "0.5616057503220994",
+          "num_games": "14747"
+        }
+      ],
+      "description_raw": "每一秒，对附近的敌方英雄们施加一层可无限叠加的<keywordMajor>灼烧</keywordMajor>，这个效果受益于你的<scaleHealth>最大生命值</scaleHealth>。"
+    },
+    {
+      "id": "1051",
+      "name": "点亮他们！",
+      "rarity": "白银",
+      "win_rate": 55.21,
+      "pick_rate": 0.69,
+      "num_games": "470350",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "22",
+          "win_rate": "0.5343135765713765",
+          "num_games": "32917"
+        },
+        {
+          "champion_id": "222",
+          "win_rate": "0.5441977510910075",
+          "num_games": "31393"
+        },
+        {
+          "champion_id": "166",
+          "win_rate": "0.5174780184430624",
+          "num_games": "13989"
+        },
+        {
+          "champion_id": "15",
+          "win_rate": "0.49604975626155656",
+          "num_games": "17847"
+        },
+        {
+          "champion_id": "498",
+          "win_rate": "0.5324944071588367",
+          "num_games": "17880"
+        }
+      ],
+      "description_raw": "每第4次攻击发射4个<keywordMajor>爆竹</keywordMajor>以造成<magicDamage>魔法伤害</magicDamage>{{ Item_Keyword_OnHit }}。"
+    },
+    {
+      "id": "1328",
+      "name": "暴击律动",
+      "rarity": "黄金",
+      "win_rate": 55.15,
+      "pick_rate": 0.81,
+      "num_games": "547118",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "222",
+          "win_rate": "0.5421262033849389",
+          "num_games": "48509"
+        },
+        {
+          "champion_id": "18",
+          "win_rate": "0.5312952444592939",
+          "num_games": "35916"
+        },
+        {
+          "champion_id": "498",
+          "win_rate": "0.5442183756790498",
+          "num_games": "29637"
+        },
+        {
+          "champion_id": "133",
+          "win_rate": "0.5034110038096926",
+          "num_games": "11287"
+        },
+        {
+          "champion_id": "523",
+          "win_rate": "0.5217561932793721",
+          "num_games": "20385"
+        }
+      ],
+      "description_raw": "获得<crit>@CritChance*100@%暴击几率</crit>。你的普攻在<crit>暴击</crit>时获得可叠加的攻击速度。<br><br><br>"
+    },
+    {
+      "id": "1333",
+      "name": "逃跑计划",
+      "rarity": "白银",
+      "win_rate": 54.96,
+      "pick_rate": 0.29,
+      "num_games": "198364",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "2",
+          "win_rate": "0.5468306527909177",
+          "num_games": "1057"
+        },
+        {
+          "champion_id": "27",
+          "win_rate": "0.5734911926075656",
+          "num_games": "3463"
+        },
+        {
+          "champion_id": "86",
+          "win_rate": "0.5005231949773282",
+          "num_games": "2867"
+        },
+        {
+          "champion_id": "240",
+          "win_rate": "0.5076142131979695",
+          "num_games": "394"
+        },
+        {
+          "champion_id": "36",
+          "win_rate": "0.547945205479452",
+          "num_games": "3577"
+        }
+      ],
+      "description_raw": "在降至<scaleHealth>@HealthThreshold*100@%生命值</scaleHealth>时，获得巨量<shield>持续衰减的护盾</shield>、持续衰减的<speed>移动速度</speed>和持续衰减的缩小效果。"
+    },
+    {
+      "id": "1095",
+      "name": "风语者的祝福",
+      "rarity": "棱彩",
+      "win_rate": 54.78,
+      "pick_rate": 0.2,
+      "num_games": "133717",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "16",
+          "win_rate": "0.5906700008622919",
+          "num_games": "11597"
+        },
+        {
+          "champion_id": "37",
+          "win_rate": "0.6192136354832461",
+          "num_games": "10326"
+        },
+        {
+          "champion_id": "117",
+          "win_rate": "0.565238859400074",
+          "num_games": "8101"
+        },
+        {
+          "champion_id": "350",
+          "win_rate": "0.5963678968951377",
+          "num_games": "8535"
+        },
+        {
+          "champion_id": "427",
+          "win_rate": "0.596130592503023",
+          "num_games": "3308"
+        }
+      ],
+      "description_raw": "你的<healing>治疗效果</healing>和<shield>护盾效果</shield>还会提升目标的<scaleArmor>护甲</scaleArmor>和<scaleMR>魔法抗性</scaleMR>，这些加成持续3秒。"
+    },
+    {
+      "id": "1009",
+      "name": "霸符兄弟",
+      "rarity": "白银",
+      "win_rate": 54.77,
+      "pick_rate": 0.35,
+      "num_games": "234986",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "13",
+          "win_rate": "0.5593445527015057",
+          "num_games": "4516"
+        },
+        {
+          "champion_id": "38",
+          "win_rate": "0.5881270133456051",
+          "num_games": "2173"
+        },
+        {
+          "champion_id": "26",
+          "win_rate": "0.5907145209087916",
+          "num_games": "3037"
+        },
+        {
+          "champion_id": "34",
+          "win_rate": "0.5039787798408488",
+          "num_games": "2639"
+        },
+        {
+          "champion_id": "101",
+          "win_rate": "0.5025550314465409",
+          "num_games": "5088"
+        }
+      ],
+      "description_raw": "你获得<font color = '#f30c1a'>余烬之冠</font>和<font color = '#1542ea'>洞悉之冠</font>。"
+    },
+    {
+      "id": "1025",
+      "name": "俯冲轰炸",
+      "rarity": "白银",
+      "win_rate": 54.77,
+      "pick_rate": 0.37,
+      "num_games": "250029",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "14",
+          "win_rate": "0.5613298337707786",
+          "num_games": "5715"
+        },
+        {
+          "champion_id": "30",
+          "win_rate": "0.5635236830455954",
+          "num_games": "6777"
+        },
+        {
+          "champion_id": "35",
+          "win_rate": "0.48926438826070384",
+          "num_games": "7871"
+        },
+        {
+          "champion_id": "59",
+          "win_rate": "0.5471952535059331",
+          "num_games": "3708"
+        },
+        {
+          "champion_id": "64",
+          "win_rate": "0.488121479304433",
+          "num_games": "4083"
+        }
+      ],
+      "description_raw": "在你阵亡时爆炸，造成<trueDamage>巨量真实伤害</trueDamage>。"
+    },
+    {
+      "id": "1311",
+      "name": "溢流",
+      "rarity": "黄金",
+      "win_rate": 54.76,
+      "pick_rate": 0.78,
+      "num_games": "529920",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "13",
+          "win_rate": "0.5912286063569682",
+          "num_games": "45808"
+        },
+        {
+          "champion_id": "38",
+          "win_rate": "0.564150387749092",
+          "num_games": "10187"
+        },
+        {
+          "champion_id": "69",
+          "win_rate": "0.48878048780487804",
+          "num_games": "7175"
+        },
+        {
+          "champion_id": "41",
+          "win_rate": "0.5236802413273002",
+          "num_games": "13260"
+        },
+        {
+          "champion_id": "34",
+          "win_rate": "0.48631366389948394",
+          "num_games": "8914"
+        }
+      ],
+      "description_raw": "你的<scaleMana>法力值</scaleMana>消耗翻倍。你的技能的<healing>治疗效果</healing>、<shield>护盾效果</shield>和伤害获得提升，提升幅度基于你的<scaleMana>最大法力值</scaleMana>。"
+    },
+    {
+      "id": "1405",
+      "name": "速度恶魔",
+      "rarity": "白银",
+      "win_rate": 54.75,
+      "pick_rate": 0.77,
+      "num_games": "525013",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "876",
+          "win_rate": "0.6029769137302552",
+          "num_games": "19752"
+        },
+        {
+          "champion_id": "27",
+          "win_rate": "0.560557271472695",
+          "num_games": "15217"
+        },
+        {
+          "champion_id": "69",
+          "win_rate": "0.49808074123097285",
+          "num_games": "7555"
+        },
+        {
+          "champion_id": "120",
+          "win_rate": "0.5238457360130364",
+          "num_games": "9205"
+        },
+        {
+          "champion_id": "8",
+          "win_rate": "0.4933827421916358",
+          "num_games": "7556"
+        }
+      ],
+      "description_raw": "用一个技能对一个敌方英雄造成伤害时，获得在@SpeedDuration@秒里持续衰减的<speed>@SpeedPerHit@移动速度</speed>。"
+    },
+    {
+      "id": "1087",
+      "name": "台风",
+      "rarity": "白银",
+      "win_rate": 54.66,
+      "pick_rate": 0.84,
+      "num_games": "566945",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "222",
+          "win_rate": "0.5144170875897529",
+          "num_games": "44149"
+        },
+        {
+          "champion_id": "22",
+          "win_rate": "0.5188771214605398",
+          "num_games": "45134"
+        },
+        {
+          "champion_id": "15",
+          "win_rate": "0.4776858254921966",
+          "num_games": "26463"
+        },
+        {
+          "champion_id": "166",
+          "win_rate": "0.494484032726313",
+          "num_games": "18945"
+        },
+        {
+          "champion_id": "498",
+          "win_rate": "0.5096535511965778",
+          "num_games": "25949"
+        }
+      ],
+      "description_raw": "你的攻击会对一个额外目标发射一个<keywordMajor>爆竹</keywordMajor>，这个爆竹会造成削减过的伤害并施加{{ Item_Keyword_OnHit }}。"
+    },
+    {
+      "id": "1064",
+      "name": "坚韧",
+      "rarity": "黄金",
+      "win_rate": 54.61,
+      "pick_rate": 0.85,
+      "num_games": "574312",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "36",
+          "win_rate": "0.5023419451921243",
+          "num_games": "47183"
+        },
+        {
+          "champion_id": "201",
+          "win_rate": "0.49490822227809905",
+          "num_games": "15908"
+        },
+        {
+          "champion_id": "516",
+          "win_rate": "0.48324643131891615",
+          "num_games": "23398"
+        },
+        {
+          "champion_id": "33",
+          "win_rate": "0.5056427662282562",
+          "num_games": "11785"
+        },
+        {
+          "champion_id": "113",
+          "win_rate": "0.5054817275747508",
+          "num_games": "12040"
+        }
+      ],
+      "description_raw": "获得巨幅提升的<healing>生命回复</healing>，这个数额会在低<scaleHealth>生命值</scaleHealth>时进一步提升。"
+    },
+    {
+      "id": "1073",
+      "name": "暗影疾奔",
+      "rarity": "白银",
+      "win_rate": 54.56,
+      "pick_rate": 0.46,
+      "num_games": "314840",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "555",
+          "win_rate": "0.5080194154268228",
+          "num_games": "18954"
+        },
+        {
+          "champion_id": "429",
+          "win_rate": "0.5754888585720782",
+          "num_games": "8796"
+        },
+        {
+          "champion_id": "67",
+          "win_rate": "0.585787128485461",
+          "num_games": "21769"
+        },
+        {
+          "champion_id": "114",
+          "win_rate": "0.563062075016451",
+          "num_games": "4559"
+        },
+        {
+          "champion_id": "35",
+          "win_rate": "0.48550254747568317",
+          "num_games": "21590"
+        }
+      ],
+      "description_raw": "在使用一个冲刺、闪烁或传送类技能或离开<stealth>潜行</stealth>状态之后，获得<speed>移动速度</speed>。"
+    },
+    {
+      "id": "1013",
+      "name": "星界躯体",
+      "rarity": "黄金",
+      "win_rate": 54.55,
+      "pick_rate": 0.83,
+      "num_games": "561646",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "201",
+          "win_rate": "0.47716720240828614",
+          "num_games": "19599"
+        },
+        {
+          "champion_id": "36",
+          "win_rate": "0.548218134429352",
+          "num_games": "39902"
+        },
+        {
+          "champion_id": "516",
+          "win_rate": "0.4829543318925014",
+          "num_games": "26605"
+        },
+        {
+          "champion_id": "33",
+          "win_rate": "0.5014194464158978",
+          "num_games": "14090"
+        },
+        {
+          "champion_id": "113",
+          "win_rate": "0.5092006900517538",
+          "num_games": "13912"
+        }
+      ],
+      "description_raw": "获得<scaleHealth>@Health@生命值</scaleHealth>，但你造成的伤害降低@DamageReduction*100@%。"
+    },
+    {
+      "id": "1338",
+      "name": "升级：狂妄",
+      "rarity": "黄金",
+      "win_rate": 54.55,
+      "pick_rate": 0.93,
+      "num_games": "633382",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "238",
+          "win_rate": "0.5278169695963704",
+          "num_games": "36147"
+        },
+        {
+          "champion_id": "950",
+          "win_rate": "0.487059598287784",
+          "num_games": "15185"
+        },
+        {
+          "champion_id": "121",
+          "win_rate": "0.4835833372033623",
+          "num_games": "21533"
+        },
+        {
+          "champion_id": "555",
+          "win_rate": "0.5063291139240507",
+          "num_games": "33417"
+        },
+        {
+          "champion_id": "91",
+          "win_rate": "0.5186365865620403",
+          "num_games": "20390"
+        }
+      ],
+      "description_raw": "你的【狂妄】现在会在参与击杀时治疗你自身，并且在增益持续期间提供<speed>移动速度</speed>，治疗量和移动速度均随层数增长。此外，获得<gold>250金币</gold>。"
+    },
+    {
+      "id": "1341",
+      "name": "帽上加帽",
+      "rarity": "白银",
+      "win_rate": 54.52,
+      "pick_rate": 0.63,
+      "num_games": "430990",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "30",
+          "win_rate": "0.5122416891284816",
+          "num_games": "17808"
+        },
+        {
+          "champion_id": "45",
+          "win_rate": "0.489035974130962",
+          "num_games": "19792"
+        },
+        {
+          "champion_id": "76",
+          "win_rate": "0.4540736469231403",
+          "num_games": "12139"
+        },
+        {
+          "champion_id": "101",
+          "win_rate": "0.4981934490315702",
+          "num_games": "16883"
+        },
+        {
+          "champion_id": "99",
+          "win_rate": "0.4870300537081476",
+          "num_games": "17502"
+        }
+      ],
+      "description_raw": "头戴式装备和帽子提供额外<scaleAP>法术强度</scaleAP>和<scaleMR>魔法抗性</scaleMR>。 "
+    },
+    {
+      "id": "2006",
+      "name": "飞身踢",
+      "rarity": "棱彩",
+      "win_rate": 54.44,
+      "pick_rate": 0.56,
+      "num_games": "381169",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "36",
+          "win_rate": "0.5543446672478931",
+          "num_games": "20646"
+        },
+        {
+          "champion_id": "516",
+          "win_rate": "0.5310173697270472",
+          "num_games": "10478"
+        },
+        {
+          "champion_id": "113",
+          "win_rate": "0.5404217926186292",
+          "num_games": "5690"
+        },
+        {
+          "champion_id": "526",
+          "win_rate": "0.5432292483916523",
+          "num_games": "6373"
+        },
+        {
+          "champion_id": "78",
+          "win_rate": "0.5204297287777386",
+          "num_games": "5678"
+        }
+      ],
+      "description_raw": "你的攻击会处决低生命值的敌方英雄，从而击退并引发一次爆炸，同时治疗你自身。"
+    },
+    {
+      "id": "1105",
+      "name": "家园卫士",
+      "rarity": "白银",
+      "win_rate": 54.25,
+      "pick_rate": 0.28,
+      "num_games": "190456",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "20",
+          "win_rate": "0.4867326732673267",
+          "num_games": "2525"
+        },
+        {
+          "champion_id": "28",
+          "win_rate": "0.5609756097560976",
+          "num_games": "697"
+        },
+        {
+          "champion_id": "26",
+          "win_rate": "0.5314053321283326",
+          "num_games": "2213"
+        },
+        {
+          "champion_id": "202",
+          "win_rate": "0.5116924296472454",
+          "num_games": "5046"
+        },
+        {
+          "champion_id": "4",
+          "win_rate": "0.5571748878923767",
+          "num_games": "2676"
+        }
+      ],
+      "description_raw": "获得<speed>@MovementSpeed*100@%移动速度</speed>，在受到伤害后失效@DisableCooldown@秒。"
+    },
+    {
+      "id": "1060",
+      "name": "海洋龙魂",
+      "rarity": "白银",
+      "win_rate": 54.17,
+      "pick_rate": 0.32,
+      "num_games": "220194",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "13",
+          "win_rate": "0.5688450472667489",
+          "num_games": "4866"
+        },
+        {
+          "champion_id": "38",
+          "win_rate": "0.5697463768115942",
+          "num_games": "2208"
+        },
+        {
+          "champion_id": "16",
+          "win_rate": "0.4959481361426256",
+          "num_games": "3702"
+        },
+        {
+          "champion_id": "34",
+          "win_rate": "0.5150869719559815",
+          "num_games": "2817"
+        },
+        {
+          "champion_id": "50",
+          "win_rate": "0.5360845295055822",
+          "num_games": "5016"
+        }
+      ],
+      "description_raw": "获得【海洋龙魂】，在对敌方英雄造成伤害后提供高额的<healing>生命</healing>和<scaleMana>法力</scaleMana>回复。"
+    },
+    {
+      "id": "1067",
+      "name": "古式佳酿",
+      "rarity": "黄金",
+      "win_rate": 54.17,
+      "pick_rate": 0.81,
+      "num_games": "553109",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "120",
+          "win_rate": "0.5380154639175257",
+          "num_games": "17072"
+        },
+        {
+          "champion_id": "69",
+          "win_rate": "0.5100731773421266",
+          "num_games": "11069"
+        },
+        {
+          "champion_id": "92",
+          "win_rate": "0.5272479564032697",
+          "num_games": "8808"
+        },
+        {
+          "champion_id": "799",
+          "win_rate": "0.4894771926483192",
+          "num_games": "10501"
+        },
+        {
+          "champion_id": "13",
+          "win_rate": "0.5437543696108134",
+          "num_games": "17164"
+        }
+      ],
+      "description_raw": "使用一个技能时会回复<healing>@HealAmount@生命值</healing>。"
+    },
+    {
+      "id": "1315",
+      "name": "快中求稳",
+      "rarity": "白银",
+      "win_rate": 54.15,
+      "pick_rate": 0.37,
+      "num_games": "253302",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "799",
+          "win_rate": "0.5669035711152057",
+          "num_games": "11397"
+        },
+        {
+          "champion_id": "92",
+          "win_rate": "0.5444845205891193",
+          "num_games": "6654"
+        },
+        {
+          "champion_id": "157",
+          "win_rate": "0.5467345089565763",
+          "num_games": "14347"
+        },
+        {
+          "champion_id": "114",
+          "win_rate": "0.54075",
+          "num_games": "4000"
+        },
+        {
+          "champion_id": "38",
+          "win_rate": "0.5389445358050531",
+          "num_games": "6689"
+        }
+      ],
+      "description_raw": "在冲刺或闪烁后，获得<shield>护盾值</shield>。"
+    },
+    {
+      "id": "1211",
+      "name": "杀戮时间到了",
+      "rarity": "黄金",
+      "win_rate": 53.96,
+      "pick_rate": 1.07,
+      "num_games": "727150",
+      "tier": "1",
+      "top_champions": [
+        {
+          "champion_id": "85",
+          "win_rate": "0.4500521648408972",
+          "num_games": "15336"
+        },
+        {
+          "champion_id": "30",
+          "win_rate": "0.5133547755558663",
+          "num_games": "35755"
+        },
+        {
+          "champion_id": "9",
+          "win_rate": "0.4800910536204654",
+          "num_games": "27676"
+        },
+        {
+          "champion_id": "238",
+          "win_rate": "0.4995104315733976",
+          "num_games": "26554"
+        },
+        {
+          "champion_id": "68",
+          "win_rate": "0.5175472006093912",
+          "num_games": "18379"
+        }
+      ],
+      "description_raw": "在施放你的终极技能后，标记所有敌人并存储你对他们造成的伤害。当它结束时，引爆该伤害。"
+    },
+    {
+      "id": "1415",
+      "name": "双生火焰",
+      "rarity": "白银",
+      "win_rate": 53.77,
+      "pick_rate": 0.67,
+      "num_games": "453719",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "901",
+          "win_rate": "0.47091378674209816",
+          "num_games": "24393"
+        },
+        {
+          "champion_id": "42",
+          "win_rate": "0.4902592646843416",
+          "num_games": "13654"
+        },
+        {
+          "champion_id": "804",
+          "win_rate": "0.5179997542695662",
+          "num_games": "16278"
+        },
+        {
+          "champion_id": "235",
+          "win_rate": "0.46992264910822734",
+          "num_games": "15643"
+        },
+        {
+          "champion_id": "115",
+          "win_rate": "0.49591057797164667",
+          "num_games": "11004"
+        }
+      ],
+      "description_raw": "造成技能伤害时，发射1+@AdditionalMis@个<keyworkMajor>爆竹</keyworkMajor>，每个造成<magicDamage>@Damage@魔法伤害</magicDamage>。此外，获得<crit>@CrtiChance*100@%</crit>暴击几率。"
+    },
+    {
+      "id": "1170",
+      "name": "万用瞄准镜",
+      "rarity": "白银",
+      "win_rate": 53.69,
+      "pick_rate": 0.66,
+      "num_games": "447655",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "51",
+          "win_rate": "0.5045827448387775",
+          "num_games": "33277"
+        },
+        {
+          "champion_id": "222",
+          "win_rate": "0.5263346470798996",
+          "num_games": "27910"
+        },
+        {
+          "champion_id": "22",
+          "win_rate": "0.526311692355597",
+          "num_games": "25692"
+        },
+        {
+          "champion_id": "18",
+          "win_rate": "0.5105842067033309",
+          "num_games": "19274"
+        },
+        {
+          "champion_id": "498",
+          "win_rate": "0.5202984146720547",
+          "num_games": "16085"
+        }
+      ],
+      "description_raw": "获得@MeleeRangeIncrease@攻击距离，如果你是远程英雄则降低至@RangedRangeIncrease@攻击距离。"
+    },
+    {
+      "id": "1409",
+      "name": "魄罗爆破手",
+      "rarity": "黄金",
+      "win_rate": 53.66,
+      "pick_rate": 0.89,
+      "num_games": "605150",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "163",
+          "win_rate": "0.5010672358591248",
+          "num_games": "7496"
+        },
+        {
+          "champion_id": "134",
+          "win_rate": "0.5257113906949252",
+          "num_games": "11843"
+        },
+        {
+          "champion_id": "101",
+          "win_rate": "0.5357357357357357",
+          "num_games": "16650"
+        },
+        {
+          "champion_id": "142",
+          "win_rate": "0.486599860172454",
+          "num_games": "8582"
+        },
+        {
+          "champion_id": "76",
+          "win_rate": "0.48614542887398515",
+          "num_games": "11332"
+        }
+      ],
+      "description_raw": "你周期性地召集魄罗。伤害一个敌人时会对其发射所有魄罗，每个魄罗造成目标<trueDamage>最大生命值真实伤害</trueDamage>以及短暂的<status>击退</status>。"
+    },
+    {
+      "id": "1344",
+      "name": "最终形态",
+      "rarity": "棱彩",
+      "win_rate": 53.6,
+      "pick_rate": 0.5,
+      "num_games": "338531",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "266",
+          "win_rate": "0.46194172799677385",
+          "num_games": "9919"
+        },
+        {
+          "champion_id": "38",
+          "win_rate": "0.598065955864121",
+          "num_games": "8066"
+        },
+        {
+          "champion_id": "360",
+          "win_rate": "0.47292926451975814",
+          "num_games": "14222"
+        },
+        {
+          "champion_id": "950",
+          "win_rate": "0.4928002450980392",
+          "num_games": "6528"
+        },
+        {
+          "champion_id": "2",
+          "win_rate": "0.5338129496402878",
+          "num_games": "4170"
+        }
+      ],
+      "description_raw": "在施放你的终极技能时，获得持续@AugDuration@秒的<shield>最大生命值护盾</shield>、<lifeSteal>全能吸血</lifeSteal>和<speed>移动速度</speed>。"
+    },
+    {
+      "id": "1180",
+      "name": "超强大脑",
+      "rarity": "黄金",
+      "win_rate": 53.58,
+      "pick_rate": 0.49,
+      "num_games": "330160",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "45",
+          "win_rate": "0.5607596678746731",
+          "num_games": "21799"
+        },
+        {
+          "champion_id": "13",
+          "win_rate": "0.5214800878018188",
+          "num_games": "9567"
+        },
+        {
+          "champion_id": "711",
+          "win_rate": "0.5352001577598107",
+          "num_games": "5071"
+        },
+        {
+          "champion_id": "134",
+          "win_rate": "0.5394175244790359",
+          "num_games": "7966"
+        },
+        {
+          "champion_id": "1",
+          "win_rate": "0.524673735725938",
+          "num_games": "4904"
+        }
+      ],
+      "description_raw": "每拥有<scaleAP>%i:scaleAP% @AP@法术强度</scaleAP>就会获得<shield> @ShieldBase@护盾值</shield>。阵亡时重置。"
+    },
+    {
+      "id": "2009",
+      "name": "狂热者",
+      "rarity": "白银",
+      "win_rate": 53.53,
+      "pick_rate": 0.56,
+      "num_games": "378590",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "268",
+          "win_rate": "0.5052037396366202",
+          "num_games": "11338"
+        },
+        {
+          "champion_id": "145",
+          "win_rate": "0.4849084036056993",
+          "num_games": "34390"
+        },
+        {
+          "champion_id": "10",
+          "win_rate": "0.5920050099154577",
+          "num_games": "19162"
+        },
+        {
+          "champion_id": "887",
+          "win_rate": "0.5507475385924395",
+          "num_games": "8227"
+        },
+        {
+          "champion_id": "17",
+          "win_rate": "0.48498149127445794",
+          "num_games": "18910"
+        }
+      ],
+      "description_raw": "获得<attention>@Calc_Crit_Chance@暴击几率</attention>和<attackSpeed>@Calc_AS@攻击速度</attackSpeed>。"
+    },
+    {
+      "id": "1007",
+      "name": "大力",
+      "rarity": "白银",
+      "win_rate": 53.5,
+      "pick_rate": 0.33,
+      "num_games": "224276",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "238",
+          "win_rate": "0.5421608448415922",
+          "num_games": "6155"
+        },
+        {
+          "champion_id": "104",
+          "win_rate": "0.5593068953197571",
+          "num_games": "5598"
+        },
+        {
+          "champion_id": "91",
+          "win_rate": "0.5400235432607416",
+          "num_games": "3398"
+        },
+        {
+          "champion_id": "119",
+          "win_rate": "0.5300190165715838",
+          "num_games": "3681"
+        },
+        {
+          "champion_id": "121",
+          "win_rate": "0.483402489626556",
+          "num_games": "3374"
+        }
+      ],
+      "description_raw": "获得<scaleAD>@ADAmp*100@%攻击力</scaleAD>。"
+    },
+    {
+      "id": "1068",
+      "name": "循环往复",
+      "rarity": "黄金",
+      "win_rate": 53.49,
+      "pick_rate": 0.73,
+      "num_games": "494062",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "26",
+          "win_rate": "0.49829879369007113",
+          "num_games": "6466"
+        },
+        {
+          "champion_id": "8",
+          "win_rate": "0.5023512574115723",
+          "num_games": "4891"
+        },
+        {
+          "champion_id": "105",
+          "win_rate": "0.5169937769267592",
+          "num_games": "6267"
+        },
+        {
+          "champion_id": "92",
+          "win_rate": "0.48785292186474066",
+          "num_games": "3046"
+        },
+        {
+          "champion_id": "134",
+          "win_rate": "0.514538951951485",
+          "num_games": "6431"
+        }
+      ],
+      "description_raw": "获得@AbilityHaste@技能急速。"
+    },
+    {
+      "id": "1322",
+      "name": "罪恶快感",
+      "rarity": "黄金",
+      "win_rate": 53.47,
+      "pick_rate": 0.82,
+      "num_games": "559454",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "221",
+          "win_rate": "0.4711256679882779",
+          "num_games": "11602"
+        },
+        {
+          "champion_id": "222",
+          "win_rate": "0.5216308255029325",
+          "num_games": "31714"
+        },
+        {
+          "champion_id": "11",
+          "win_rate": "0.5110523221634333",
+          "num_games": "17010"
+        },
+        {
+          "champion_id": "2",
+          "win_rate": "0.503200495560603",
+          "num_games": "4843"
+        },
+        {
+          "champion_id": "23",
+          "win_rate": "0.5075256716837812",
+          "num_games": "7109"
+        }
+      ],
+      "description_raw": "参与击杀后，在@BuffDuration@秒内提升<speed>移动速度</speed>和<attackSpeed>攻击速度</attackSpeed>。"
+    },
+    {
+      "id": "1077",
+      "name": "灵魂虹吸",
+      "rarity": "黄金",
+      "win_rate": 53.38,
+      "pick_rate": 0.6,
+      "num_games": "404595",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "804",
+          "win_rate": "0.5573423964852655",
+          "num_games": "24127"
+        },
+        {
+          "champion_id": "42",
+          "win_rate": "0.5032077892671145",
+          "num_games": "13249"
+        },
+        {
+          "champion_id": "235",
+          "win_rate": "0.468133535660091",
+          "num_games": "19770"
+        },
+        {
+          "champion_id": "901",
+          "win_rate": "0.46891884206335666",
+          "num_games": "17583"
+        },
+        {
+          "champion_id": "777",
+          "win_rate": "0.5312953555878084",
+          "num_games": "11024"
+        }
+      ],
+      "description_raw": "获得<crit>@CritChance*100@%暴击几率</crit>和<lifeSteal>作用于<crit>暴击</crit>的@HealPercentage*100@%生命偷取</lifeSteal>。"
+    },
+    {
+      "id": "1050",
+      "name": "基石法师",
+      "rarity": "黄金",
+      "win_rate": 53.35,
+      "pick_rate": 0.64,
+      "num_games": "437659",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "101",
+          "win_rate": "0.5136477948843771",
+          "num_games": "16303"
+        },
+        {
+          "champion_id": "99",
+          "win_rate": "0.5056325567679151",
+          "num_games": "16955"
+        },
+        {
+          "champion_id": "350",
+          "win_rate": "0.5018450184501845",
+          "num_games": "7859"
+        },
+        {
+          "champion_id": "61",
+          "win_rate": "0.49871528202618376",
+          "num_games": "8173"
+        },
+        {
+          "champion_id": "115",
+          "win_rate": "0.50360069530668",
+          "num_games": "12081"
+        }
+      ],
+      "description_raw": "获得<spellName>召唤：艾黎</spellName>和<spellName>奥术彗星</spellName>基石符文。"
+    },
+    {
+      "id": "1044",
+      "name": "冰寒",
+      "rarity": "白银",
+      "win_rate": 53.34,
+      "pick_rate": 0.58,
+      "num_games": "392341",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "136",
+          "win_rate": "0.5377470958440767",
+          "num_games": "36069"
+        },
+        {
+          "champion_id": "34",
+          "win_rate": "0.4801001948232675",
+          "num_games": "14372"
+        },
+        {
+          "champion_id": "143",
+          "win_rate": "0.5070438732677822",
+          "num_games": "17391"
+        },
+        {
+          "champion_id": "68",
+          "win_rate": "0.5123793919533952",
+          "num_games": "10986"
+        },
+        {
+          "champion_id": "90",
+          "win_rate": "0.5359332126802498",
+          "num_games": "17129"
+        }
+      ],
+      "description_raw": "你的<status>减速</status>效果可使<speed>移动速度</speed>降低额外的@ExtraSlowAmount@。"
+    },
+    {
+      "id": "1037",
+      "name": "急救用具",
+      "rarity": "白银",
+      "win_rate": 53.24,
+      "pick_rate": 0.52,
+      "num_games": "355800",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "16",
+          "win_rate": "0.5182762836185819",
+          "num_games": "32720"
+        },
+        {
+          "champion_id": "350",
+          "win_rate": "0.4991926182237601",
+          "num_games": "26010"
+        },
+        {
+          "champion_id": "37",
+          "win_rate": "0.5324380093029762",
+          "num_games": "28593"
+        },
+        {
+          "champion_id": "117",
+          "win_rate": "0.4889534371974298",
+          "num_games": "22722"
+        },
+        {
+          "champion_id": "267",
+          "win_rate": "0.502619450900067",
+          "num_games": "25387"
+        }
+      ],
+      "description_raw": "获得<healing>@HealShieldAmp*100@%治疗和护盾强度</healing>。"
+    },
+    {
+      "id": "1061",
+      "name": "回力OK镖",
+      "rarity": "黄金",
+      "win_rate": 53.2,
+      "pick_rate": 0.37,
+      "num_games": "251727",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "15",
+          "win_rate": "0.49177381446149593",
+          "num_games": "7233"
+        },
+        {
+          "champion_id": "76",
+          "win_rate": "0.5036962365591398",
+          "num_games": "5952"
+        },
+        {
+          "champion_id": "74",
+          "win_rate": "0.5312221231043711",
+          "num_games": "4484"
+        },
+        {
+          "champion_id": "350",
+          "win_rate": "0.5402542372881356",
+          "num_games": "3304"
+        },
+        {
+          "champion_id": "4",
+          "win_rate": "0.518407038666358",
+          "num_games": "4319"
+        }
+      ],
+      "description_raw": "每@BaseCooldown@秒朝着一个附近的敌人<keywordMajor>自动施放</keywordMajor>投掷一个回力镖。"
+    },
+    {
+      "id": "1118",
+      "name": "会心治疗",
+      "rarity": "黄金",
+      "win_rate": 53.17,
+      "pick_rate": 0.84,
+      "num_games": "569596",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "16",
+          "win_rate": "0.5003309650942147",
+          "num_games": "22661"
+        },
+        {
+          "champion_id": "37",
+          "win_rate": "0.5163411619283066",
+          "num_games": "20225"
+        },
+        {
+          "champion_id": "350",
+          "win_rate": "0.48656963672938114",
+          "num_games": "16902"
+        },
+        {
+          "champion_id": "267",
+          "win_rate": "0.4873135560570202",
+          "num_games": "18169"
+        },
+        {
+          "champion_id": "117",
+          "win_rate": "0.4819986763732627",
+          "num_games": "15110"
+        }
+      ],
+      "description_raw": "你的<healing>治疗</healing>和<shield>护盾</shield>可以暴击，造成@CritHeal*100@%额外数额的效果。获得%i:scaleCrit% @CritChance*100@%暴击几率。 "
+    },
+    {
+      "id": "1108",
+      "name": "自我毁灭",
+      "rarity": "白银",
+      "win_rate": 53.01,
+      "pick_rate": 0.5,
+      "num_games": "342051",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "14",
+          "win_rate": "0.532549531896364",
+          "num_games": "9186"
+        },
+        {
+          "champion_id": "421",
+          "win_rate": "0.4952681388012618",
+          "num_games": "1902"
+        },
+        {
+          "champion_id": "54",
+          "win_rate": "0.4664126563405947",
+          "num_games": "12073"
+        },
+        {
+          "champion_id": "33",
+          "win_rate": "0.4959639126305793",
+          "num_games": "4212"
+        },
+        {
+          "champion_id": "201",
+          "win_rate": "0.4856920381545649",
+          "num_games": "5137"
+        }
+      ],
+      "description_raw": "每@BaseCooldown@秒，在你身上黏附一个炸弹。在@BombDelay@秒后，它会爆炸，对敌人们造成<trueDamage>真实伤害</trueDamage>和<status>击飞</status>效果。<br>"
+    },
+    {
+      "id": "1389",
+      "name": "男爵之手",
+      "rarity": "棱彩",
+      "win_rate": 53.0,
+      "pick_rate": 0.05,
+      "num_games": "35504",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "60",
+          "win_rate": "0.5590062111801242",
+          "num_games": "161"
+        },
+        {
+          "champion_id": "26",
+          "win_rate": "0.5229357798165137",
+          "num_games": "327"
+        },
+        {
+          "champion_id": "83",
+          "win_rate": "0.5277777777777778",
+          "num_games": "108"
+        },
+        {
+          "champion_id": "34",
+          "win_rate": "0.5034246575342466",
+          "num_games": "292"
+        },
+        {
+          "champion_id": "163",
+          "win_rate": "0.4959016393442623",
+          "num_games": "244"
+        }
+      ],
+      "description_raw": "获得<scaleAP>@AFAmp*100@%适应之力</scaleAP>。附近友方小兵都获得极大增强。"
+    },
+    {
+      "id": "1004",
+      "name": "回归基本功",
+      "rarity": "棱彩",
+      "win_rate": 52.97,
+      "pick_rate": 0.1,
+      "num_games": "68813",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "13",
+          "win_rate": "0.6007173872003021",
+          "num_games": "5297"
+        },
+        {
+          "champion_id": "163",
+          "win_rate": "0.5601131541725601",
+          "num_games": "2121"
+        },
+        {
+          "champion_id": "41",
+          "win_rate": "0.6261117040199218",
+          "num_games": "2811"
+        },
+        {
+          "champion_id": "4",
+          "win_rate": "0.5593147751605996",
+          "num_games": "2335"
+        },
+        {
+          "champion_id": "80",
+          "win_rate": "0.5324675324675324",
+          "num_games": "1925"
+        }
+      ],
+      "description_raw": "获得提升过的技能伤害、<healing>治疗效果</healing>、<shield>护盾</shield>和技能急速，但你<keywordMajor>不能使用你的终极技能</keywordMajor>。"
+    },
+    {
+      "id": "2010",
+      "name": "双发快射",
+      "rarity": "黄金",
+      "win_rate": 52.97,
+      "pick_rate": 0.41,
+      "num_games": "278846",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "804",
+          "win_rate": "0.5628366611315864",
+          "num_games": "24691"
+        },
+        {
+          "champion_id": "235",
+          "win_rate": "0.507340042470686",
+          "num_games": "21662"
+        },
+        {
+          "champion_id": "42",
+          "win_rate": "0.4656295576081672",
+          "num_games": "10285"
+        },
+        {
+          "champion_id": "901",
+          "win_rate": "0.4462707524572561",
+          "num_games": "12107"
+        },
+        {
+          "champion_id": "777",
+          "win_rate": "0.5249305647401138",
+          "num_games": "7561"
+        }
+      ],
+      "description_raw": "你的暴击施加一次额外的<OnHit>%i:OnHit%攻击特效</OnHit>。获得暴击几率。"
+    },
+    {
+      "id": "1129",
+      "name": "神射法师",
+      "rarity": "黄金",
+      "win_rate": 52.86,
+      "pick_rate": 0.84,
+      "num_games": "568752",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "887",
+          "win_rate": "0.5876972138301444",
+          "num_games": "11916"
+        },
+        {
+          "champion_id": "245",
+          "win_rate": "0.5037813592030459",
+          "num_games": "19173"
+        },
+        {
+          "champion_id": "268",
+          "win_rate": "0.511166034071851",
+          "num_games": "11329"
+        },
+        {
+          "champion_id": "517",
+          "win_rate": "0.5416204690831556",
+          "num_games": "23450"
+        },
+        {
+          "champion_id": "4",
+          "win_rate": "0.48924351075648925",
+          "num_games": "19802"
+        }
+      ],
+      "description_raw": "你的攻击造成相当于你<scaleAP>@APRatio*100@%法术强度</scaleAP>的额外<physicalDamage>物理伤害</physicalDamage>。"
+    },
+    {
+      "id": "1053",
+      "name": "科学狂人",
+      "rarity": "棱彩",
+      "win_rate": 52.85,
+      "pick_rate": 0.16,
+      "num_games": "106526",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "875",
+          "win_rate": "0.5942684766214178",
+          "num_games": "1989"
+        },
+        {
+          "champion_id": "27",
+          "win_rate": "0.5493218249075216",
+          "num_games": "1622"
+        },
+        {
+          "champion_id": "421",
+          "win_rate": "0.5133333333333333",
+          "num_games": "300"
+        },
+        {
+          "champion_id": "31",
+          "win_rate": "0.4885245901639344",
+          "num_games": "1830"
+        },
+        {
+          "champion_id": "223",
+          "win_rate": "0.4925619834710744",
+          "num_games": "1815"
+        }
+      ],
+      "description_raw": "每次重生时，你的体型要么变大(获得<font color = '#8347ff'>适应之力</font>和<scaleHealth>生命值</scaleHealth>)，要么变小(获得技能急速和<speed>移动速度</speed>)。"
+    },
+    {
+      "id": "1206",
+      "name": "魔法转物理",
+      "rarity": "白银",
+      "win_rate": 52.83,
+      "pick_rate": 0.45,
+      "num_games": "305213",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "41",
+          "win_rate": "0.521245156629671",
+          "num_games": "15227"
+        },
+        {
+          "champion_id": "126",
+          "win_rate": "0.4778021978021978",
+          "num_games": "13650"
+        },
+        {
+          "champion_id": "81",
+          "win_rate": "0.46215688526472953",
+          "num_games": "17414"
+        },
+        {
+          "champion_id": "91",
+          "win_rate": "0.5392156862745098",
+          "num_games": "4896"
+        },
+        {
+          "champion_id": "238",
+          "win_rate": "0.5488502250882102",
+          "num_games": "8219"
+        }
+      ],
+      "description_raw": "将<scaleAP>法术强度</scaleAP>转化为<scaleAD>额外攻击力</scaleAD>。获得<scaleAD>@ADAmp*100@%攻击力</scaleAD>。"
+    },
+    {
+      "id": "1028",
+      "name": "侵蚀",
+      "rarity": "白银",
+      "win_rate": 52.81,
+      "pick_rate": 0.33,
+      "num_games": "223665",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "83",
+          "win_rate": "0.4833574529667149",
+          "num_games": "2073"
+        },
+        {
+          "champion_id": "27",
+          "win_rate": "0.5759533764094767",
+          "num_games": "7893"
+        },
+        {
+          "champion_id": "82",
+          "win_rate": "0.516004742145821",
+          "num_games": "6748"
+        },
+        {
+          "champion_id": "420",
+          "win_rate": "0.5090227325990156",
+          "num_games": "4267"
+        },
+        {
+          "champion_id": "6",
+          "win_rate": "0.4974832214765101",
+          "num_games": "3576"
+        }
+      ],
+      "description_raw": "对敌人造成伤害时会施加一层持续@ShredDuration@秒且可叠加的<scaleArmor>护甲</scaleArmor>和<scaleMR>魔法抗性</scaleMR>击碎效果。 "
+    },
+    {
+      "id": "1046",
+      "name": "炼狱龙魂",
+      "rarity": "白银",
+      "win_rate": 52.7,
+      "pick_rate": 0.61,
+      "num_games": "414227",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "41",
+          "win_rate": "0.4916903960652343",
+          "num_games": "19315"
+        },
+        {
+          "champion_id": "126",
+          "win_rate": "0.46573484927506",
+          "num_games": "19174"
+        },
+        {
+          "champion_id": "238",
+          "win_rate": "0.5077711056163899",
+          "num_games": "11324"
+        },
+        {
+          "champion_id": "246",
+          "win_rate": "0.44431527551732153",
+          "num_games": "4301"
+        },
+        {
+          "champion_id": "121",
+          "win_rate": "0.46579194001874413",
+          "num_games": "6402"
+        }
+      ],
+      "description_raw": "你获得炼狱龙魂，在你用技能或攻击命中敌人时造成额外伤害。"
+    },
+    {
+      "id": "1335",
+      "name": "夺金",
+      "rarity": "棱彩",
+      "win_rate": 52.54,
+      "pick_rate": 0.21,
+      "num_games": "145249",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "41",
+          "win_rate": "0.5087476979742173",
+          "num_games": "2172"
+        },
+        {
+          "champion_id": "81",
+          "win_rate": "0.46088379705400984",
+          "num_games": "3055"
+        },
+        {
+          "champion_id": "126",
+          "win_rate": "0.4555112881806109",
+          "num_games": "2259"
+        },
+        {
+          "champion_id": "60",
+          "win_rate": "0.49053030303030304",
+          "num_games": "528"
+        },
+        {
+          "champion_id": "4",
+          "win_rate": "0.52417006406523",
+          "num_games": "1717"
+        }
+      ],
+      "description_raw": "用攻击或技能对一个英雄造成伤害时会造成额外<magicDamage>魔法伤害</magicDamage>，并为你提供<gold>金币</gold>和 <speed>移动速度</speed>。"
+    },
+    {
+      "id": "1319",
+      "name": "升级：献祭",
+      "rarity": "白银",
+      "win_rate": 52.5,
+      "pick_rate": 0.32,
+      "num_games": "215332",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "36",
+          "win_rate": "0.5213780574839422",
+          "num_games": "15413"
+        },
+        {
+          "champion_id": "33",
+          "win_rate": "0.5041125936757448",
+          "num_games": "5471"
+        },
+        {
+          "champion_id": "516",
+          "win_rate": "0.5022030843180453",
+          "num_games": "9986"
+        },
+        {
+          "champion_id": "113",
+          "win_rate": "0.5096952908587258",
+          "num_games": "4693"
+        },
+        {
+          "champion_id": "32",
+          "win_rate": "0.5128031432055277",
+          "num_games": "7381"
+        }
+      ],
+      "description_raw": "<attention>【璀璨回响】</attention>和<attention>【日炎圣盾】</attention>每当有目标受到【献祭】效果影响时，提供<gold>@GoldPerTick@ 金币</gold> 。获得<gold>250金币</gold>。"
+    },
+    {
+      "id": "1062",
+      "name": "全能龙魂",
+      "rarity": "棱彩",
+      "win_rate": 52.46,
+      "pick_rate": 0.2,
+      "num_games": "137044",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "83",
+          "win_rate": "0.5119617224880383",
+          "num_games": "418"
+        },
+        {
+          "champion_id": "60",
+          "win_rate": "0.5351473922902494",
+          "num_games": "441"
+        },
+        {
+          "champion_id": "102",
+          "win_rate": "0.49176470588235294",
+          "num_games": "2125"
+        },
+        {
+          "champion_id": "126",
+          "win_rate": "0.48128019323671495",
+          "num_games": "1656"
+        },
+        {
+          "champion_id": "150",
+          "win_rate": "0.49617151607963245",
+          "num_games": "653"
+        }
+      ],
+      "description_raw": "获得3个随机龙魂。"
+    },
+    {
+      "id": "1063",
+      "name": "狂徒豪气",
+      "rarity": "黄金",
+      "win_rate": 52.41,
+      "pick_rate": 0.38,
+      "num_games": "255480",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "799",
+          "win_rate": "0.5202141739862832",
+          "num_games": "16622"
+        },
+        {
+          "champion_id": "92",
+          "win_rate": "0.5360428762840553",
+          "num_games": "11195"
+        },
+        {
+          "champion_id": "39",
+          "win_rate": "0.4691503460462377",
+          "num_games": "6791"
+        },
+        {
+          "champion_id": "114",
+          "win_rate": "0.5443258971871969",
+          "num_games": "5155"
+        },
+        {
+          "champion_id": "897",
+          "win_rate": "0.438358254501068",
+          "num_games": "6554"
+        }
+      ],
+      "description_raw": "在使用一次冲刺、闪烁或传送之后，你获得<scaleArmor>@ResistsPerStack@护甲</scaleArmor>和<scaleMR>魔法抗性</scaleMR>，这个效果至多可叠加至@MaxStacks@层。"
+    },
+    {
+      "id": "1092",
+      "name": "易损",
+      "rarity": "黄金",
+      "win_rate": 52.4,
+      "pick_rate": 0.49,
+      "num_games": "333913",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "901",
+          "win_rate": "0.4951777349131992",
+          "num_games": "14516"
+        },
+        {
+          "champion_id": "42",
+          "win_rate": "0.5148964595858383",
+          "num_games": "7485"
+        },
+        {
+          "champion_id": "63",
+          "win_rate": "0.5382260916882057",
+          "num_games": "14702"
+        },
+        {
+          "champion_id": "68",
+          "win_rate": "0.5546646106399383",
+          "num_games": "6485"
+        },
+        {
+          "champion_id": "90",
+          "win_rate": "0.5456017815568377",
+          "num_games": "9879"
+        }
+      ],
+      "description_raw": "你的装备和持续伤害效果可以暴击。获得@CritChance*100@%暴击几率。"
+    },
+    {
+      "id": "1305",
+      "name": "练腿日",
+      "rarity": "白银",
+      "win_rate": 52.4,
+      "pick_rate": 0.34,
+      "num_games": "231920",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "27",
+          "win_rate": "0.5509518477043673",
+          "num_games": "5358"
+        },
+        {
+          "champion_id": "86",
+          "win_rate": "0.47905818428797825",
+          "num_games": "4417"
+        },
+        {
+          "champion_id": "2",
+          "win_rate": "0.4847560975609756",
+          "num_games": "1312"
+        },
+        {
+          "champion_id": "122",
+          "win_rate": "0.49813200498132004",
+          "num_games": "3212"
+        },
+        {
+          "champion_id": "120",
+          "win_rate": "0.5200567980120696",
+          "num_games": "2817"
+        }
+      ],
+      "description_raw": "获得<speed>@MovementSpeed@移动速度</speed>和<speed>@SlowResist*100@%减速抗性</speed>。"
+    },
+    {
+      "id": "1070",
+      "name": "无休回复",
+      "rarity": "黄金",
+      "win_rate": 52.38,
+      "pick_rate": 0.32,
+      "num_games": "214686",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "27",
+          "win_rate": "0.5840307622709794",
+          "num_games": "8842"
+        },
+        {
+          "champion_id": "16",
+          "win_rate": "0.526621490803485",
+          "num_games": "4132"
+        },
+        {
+          "champion_id": "876",
+          "win_rate": "0.625170998632011",
+          "num_games": "3655"
+        },
+        {
+          "champion_id": "555",
+          "win_rate": "0.5439739413680782",
+          "num_games": "3991"
+        },
+        {
+          "champion_id": "497",
+          "win_rate": "0.5109851169383416",
+          "num_games": "1411"
+        }
+      ],
+      "description_raw": "你在移动时持续获得<healing>治疗</healing>。"
+    },
+    {
+      "id": "1318",
+      "name": "升级：中娅",
+      "rarity": "白银",
+      "win_rate": 52.28,
+      "pick_rate": 0.47,
+      "num_games": "319230",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "85",
+          "win_rate": "0.4547537227949599",
+          "num_games": "9603"
+        },
+        {
+          "champion_id": "9",
+          "win_rate": "0.48827352359423565",
+          "num_games": "17695"
+        },
+        {
+          "champion_id": "127",
+          "win_rate": "0.4727493689819576",
+          "num_games": "10697"
+        },
+        {
+          "champion_id": "68",
+          "win_rate": "0.5396825396825397",
+          "num_games": "11340"
+        },
+        {
+          "champion_id": "25",
+          "win_rate": "0.5149212969859477",
+          "num_games": "20139"
+        }
+      ],
+      "description_raw": "<attention>【中娅沙漏】</attention>的冷却时间降低至@UpgradeCD@秒。你现在可以在<attention>【中娅沙漏】、【探索者的护臂】</attention>或<attention>【沃格勒特的巫师帽】</attention>凝滞状态持续期间移动。<br><br>获得250<gold>金币</gold>。"
+    },
+    {
+      "id": "1039",
+      "name": "冰霜 幽灵",
+      "rarity": "白银",
+      "win_rate": 52.22,
+      "pick_rate": 0.42,
+      "num_games": "285339",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "201",
+          "win_rate": "0.48855707507675133",
+          "num_games": "7166"
+        },
+        {
+          "champion_id": "113",
+          "win_rate": "0.4930875576036866",
+          "num_games": "4774"
+        },
+        {
+          "champion_id": "89",
+          "win_rate": "0.5182481751824818",
+          "num_games": "8768"
+        },
+        {
+          "champion_id": "516",
+          "win_rate": "0.49331500687242286",
+          "num_games": "8003"
+        },
+        {
+          "champion_id": "36",
+          "win_rate": "0.5157912658551119",
+          "num_games": "11747"
+        }
+      ],
+      "description_raw": "每@Cooldown@秒，<keywordMajor>自动施放</keywordMajor>@RootDuration@秒<status>禁锢</status>给附近的敌人们。<br>"
+    },
+    {
+      "id": "1400",
+      "name": "最终都市列车",
+      "rarity": "黄金",
+      "win_rate": 52.15,
+      "pick_rate": 0.56,
+      "num_games": "378420",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "64",
+          "win_rate": "0.4865243262163108",
+          "num_games": "5714"
+        },
+        {
+          "champion_id": "14",
+          "win_rate": "0.532495401594114",
+          "num_games": "6524"
+        },
+        {
+          "champion_id": "555",
+          "win_rate": "0.5374750641208321",
+          "num_games": "7018"
+        },
+        {
+          "champion_id": "91",
+          "win_rate": "0.6043417366946778",
+          "num_games": "4284"
+        },
+        {
+          "champion_id": "35",
+          "win_rate": "0.505576983216929",
+          "num_games": "9593"
+        }
+      ],
+      "description_raw": "在你阵亡时，朝击杀你的敌人发动一辆列车，对它命中的每个敌人造成<physicalDamage>@Damage@物理伤害</physicalDamage>。这个列车不会停下。"
+    },
+    {
+      "id": "1076",
+      "name": "天音爆",
+      "rarity": "白银",
+      "win_rate": 52.06,
+      "pick_rate": 0.22,
+      "num_games": "147031",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "350",
+          "win_rate": "0.5155650588013333",
+          "num_games": "15901"
+        },
+        {
+          "champion_id": "16",
+          "win_rate": "0.5065522712581536",
+          "num_games": "17017"
+        },
+        {
+          "champion_id": "37",
+          "win_rate": "0.5247232472324723",
+          "num_games": "16260"
+        },
+        {
+          "champion_id": "117",
+          "win_rate": "0.4802516867561216",
+          "num_games": "13191"
+        },
+        {
+          "champion_id": "267",
+          "win_rate": "0.5098257065481564",
+          "num_games": "14401"
+        }
+      ],
+      "description_raw": "在为你的友军提供增益效果、<healing>治疗效果</healing>或<shield>护盾效果</shield>时，会对其附近的敌人们造成伤害和<status>减速</status>。"
+    },
+    {
+      "id": "1107",
+      "name": "接二连三",
+      "rarity": "黄金",
+      "win_rate": 52.06,
+      "pick_rate": 0.74,
+      "num_games": "499236",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "67",
+          "win_rate": "0.5515019331813225",
+          "num_games": "40348"
+        },
+        {
+          "champion_id": "166",
+          "win_rate": "0.4748853275949941",
+          "num_games": "17659"
+        },
+        {
+          "champion_id": "429",
+          "win_rate": "0.5224113968033357",
+          "num_games": "11512"
+        },
+        {
+          "champion_id": "200",
+          "win_rate": "0.4676373563872142",
+          "num_games": "8791"
+        },
+        {
+          "champion_id": "11",
+          "win_rate": "0.5332512898187154",
+          "num_games": "21127"
+        }
+      ],
+      "description_raw": "每第三次攻击，你附带的{{ Item_Keyword_OnHit }}会触发第二次。"
+    },
+    {
+      "id": "1023",
+      "name": "魔鬼之舞",
+      "rarity": "黄金",
+      "win_rate": 52.03,
+      "pick_rate": 0.36,
+      "num_games": "245704",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "164",
+          "win_rate": "0.471458148476782",
+          "num_games": "3381"
+        },
+        {
+          "champion_id": "114",
+          "win_rate": "0.5290271966527197",
+          "num_games": "3824"
+        },
+        {
+          "champion_id": "904",
+          "win_rate": "0.5657985710993316",
+          "num_games": "8678"
+        },
+        {
+          "champion_id": "83",
+          "win_rate": "0.4979209979209979",
+          "num_games": "2886"
+        },
+        {
+          "champion_id": "421",
+          "win_rate": "0.5052770448548812",
+          "num_games": "2274"
+        }
+      ],
+      "description_raw": "获得<spellName>迅捷步法</spellName>和<spellName>不灭之握</spellName>基石符文。<br>"
+    },
+    {
+      "id": "1042",
+      "name": "恶趣味",
+      "rarity": "白银",
+      "win_rate": 52.03,
+      "pick_rate": 0.34,
+      "num_games": "231824",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "89",
+          "win_rate": "0.5288368803446281",
+          "num_games": "15553"
+        },
+        {
+          "champion_id": "526",
+          "win_rate": "0.538825650850896",
+          "num_games": "8873"
+        },
+        {
+          "champion_id": "154",
+          "win_rate": "0.47902869757174393",
+          "num_games": "8154"
+        },
+        {
+          "champion_id": "57",
+          "win_rate": "0.5412585220593997",
+          "num_games": "12761"
+        },
+        {
+          "champion_id": "113",
+          "win_rate": "0.4831040923756156",
+          "num_games": "5889"
+        }
+      ],
+      "description_raw": "<status>定身</status>或<status>缚地</status>敌方英雄时<healing>对你进行治疗</healing>。"
+    },
+    {
+      "id": "1301",
+      "name": "神圣干预",
+      "rarity": "黄金",
+      "win_rate": 51.76,
+      "pick_rate": 0.44,
+      "num_games": "302038",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "350",
+          "win_rate": "0.5373111316682084",
+          "num_games": "6486"
+        },
+        {
+          "champion_id": "497",
+          "win_rate": "0.5097972972972973",
+          "num_games": "2960"
+        },
+        {
+          "champion_id": "44",
+          "win_rate": "0.5156966490299824",
+          "num_games": "2835"
+        },
+        {
+          "champion_id": "201",
+          "win_rate": "0.48835251192815043",
+          "num_games": "3563"
+        },
+        {
+          "champion_id": "888",
+          "win_rate": "0.5470839260312944",
+          "num_games": "3515"
+        }
+      ],
+      "description_raw": "在战斗开始@InitalDelay@秒后，召唤一颗护体星星缓慢地降落在你身上。在它着陆时，你和附近的友军们进入持续若干秒的<keywordMajor>免疫伤害</keywordMajor>状态。随后每@BaseCD@秒<keywordMajor>自动施放</keywordMajor>这个效果。"
+    },
+    {
+      "id": "1026",
+      "name": "唯快不破",
+      "rarity": "白银",
+      "win_rate": 51.74,
+      "pick_rate": 0.12,
+      "num_games": "79629",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "876",
+          "win_rate": "0.6098226466575716",
+          "num_games": "2932"
+        },
+        {
+          "champion_id": "120",
+          "win_rate": "0.48512820512820515",
+          "num_games": "1950"
+        },
+        {
+          "champion_id": "27",
+          "win_rate": "0.5497259201252936",
+          "num_games": "2554"
+        },
+        {
+          "champion_id": "20",
+          "win_rate": "0.4673561732385262",
+          "num_games": "1547"
+        },
+        {
+          "champion_id": "11",
+          "win_rate": "0.5341409691629956",
+          "num_games": "1816"
+        }
+      ],
+      "description_raw": "你的移动速度比目标越快，则对其造成越多伤害。"
+    },
+    {
+      "id": "1079",
+      "name": "战争交响乐",
+      "rarity": "棱彩",
+      "win_rate": 51.71,
+      "pick_rate": 0.51,
+      "num_games": "348389",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "221",
+          "win_rate": "0.45890151515151517",
+          "num_games": "5280"
+        },
+        {
+          "champion_id": "523",
+          "win_rate": "0.4863375688743956",
+          "num_games": "8893"
+        },
+        {
+          "champion_id": "222",
+          "win_rate": "0.5230235550830862",
+          "num_games": "17873"
+        },
+        {
+          "champion_id": "429",
+          "win_rate": "0.5269311865056546",
+          "num_games": "5217"
+        },
+        {
+          "champion_id": "777",
+          "win_rate": "0.48591051408948593",
+          "num_games": "9901"
+        }
+      ],
+      "description_raw": "获得<spellName>致命节奏</spellName>和<spellName>征服者</spellName>基石符文。"
+    },
+    {
+      "id": "1036",
+      "name": "火上浇油",
+      "rarity": "黄金",
+      "win_rate": 51.68,
+      "pick_rate": 0.66,
+      "num_games": "444890",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "221",
+          "win_rate": "0.4635307781649245",
+          "num_games": "8610"
+        },
+        {
+          "champion_id": "200",
+          "win_rate": "0.46464646464646464",
+          "num_games": "5940"
+        },
+        {
+          "champion_id": "429",
+          "win_rate": "0.5358392938669914",
+          "num_games": "6571"
+        },
+        {
+          "champion_id": "268",
+          "win_rate": "0.47533053853595614",
+          "num_games": "6202"
+        },
+        {
+          "champion_id": "22",
+          "win_rate": "0.5278706055340195",
+          "num_games": "22443"
+        }
+      ],
+      "description_raw": "你的攻击会施加一个可无限叠加的<keywordMajor>灼烧</keywordMajor>{{ Item_Keyword_OnHit }}，持续造成伤害。"
+    },
+    {
+      "id": "1082",
+      "name": "残暴之力",
+      "rarity": "白银",
+      "win_rate": 51.65,
+      "pick_rate": 0.51,
+      "num_games": "349098",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "41",
+          "win_rate": "0.4991516273330248",
+          "num_games": "19449"
+        },
+        {
+          "champion_id": "126",
+          "win_rate": "0.457695302361796",
+          "num_games": "23118"
+        },
+        {
+          "champion_id": "238",
+          "win_rate": "0.5063909774436091",
+          "num_games": "15960"
+        },
+        {
+          "champion_id": "91",
+          "win_rate": "0.4975317348377997",
+          "num_games": "8508"
+        },
+        {
+          "champion_id": "121",
+          "win_rate": "0.4597150997150997",
+          "num_games": "8775"
+        }
+      ],
+      "description_raw": "获得<scaleAD>@AD@攻击力</scaleAD>、@AbilityHaste@技能急速和<scaleLethality>@Lethality@穿甲</scaleLethality>。"
+    },
+    {
+      "id": "1345",
+      "name": "心灵净化",
+      "rarity": "黄金",
+      "win_rate": 51.64,
+      "pick_rate": 0.8,
+      "num_games": "541354",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "127",
+          "win_rate": "0.45892837968431227",
+          "num_games": "9313"
+        },
+        {
+          "champion_id": "555",
+          "win_rate": "0.46687070890892546",
+          "num_games": "12089"
+        },
+        {
+          "champion_id": "41",
+          "win_rate": "0.48243757934828607",
+          "num_games": "9452"
+        },
+        {
+          "champion_id": "246",
+          "win_rate": "0.4290909090909091",
+          "num_games": "3850"
+        },
+        {
+          "champion_id": "85",
+          "win_rate": "0.4383561643835616",
+          "num_games": "4015"
+        }
+      ],
+      "description_raw": "参与击杀时，产生一次爆炸，对附近其它敌人们造成@SlowAmount*100@%<status>减速</status>，并且造成基于他们<scaleHealth>当前生命值</scaleHealth>的伤害。"
+    },
+    {
+      "id": "1104",
+      "name": "仆从大师",
+      "rarity": "黄金",
+      "win_rate": 51.63,
+      "pick_rate": 0.09,
+      "num_games": "60100",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "83",
+          "win_rate": "0.4900294213795358",
+          "num_games": "3059"
+        },
+        {
+          "champion_id": "74",
+          "win_rate": "0.5613001745200699",
+          "num_games": "9168"
+        },
+        {
+          "champion_id": "143",
+          "win_rate": "0.5515568492546529",
+          "num_games": "11337"
+        },
+        {
+          "champion_id": "950",
+          "win_rate": "0.4694295216167818",
+          "num_games": "3909"
+        },
+        {
+          "champion_id": "268",
+          "win_rate": "0.4644092931290163",
+          "num_games": "4046"
+        }
+      ],
+      "description_raw": "你的召唤物获得@MinionSizeIncrease*100@%体型提升、生命值和伤害。"
+    },
+    {
+      "id": "1141",
+      "name": "全心为你",
+      "rarity": "黄金",
+      "win_rate": 51.62,
+      "pick_rate": 0.33,
+      "num_games": "221949",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "16",
+          "win_rate": "0.514327228492262",
+          "num_games": "29594"
+        },
+        {
+          "champion_id": "350",
+          "win_rate": "0.49361056963396144",
+          "num_games": "23085"
+        },
+        {
+          "champion_id": "37",
+          "win_rate": "0.5161825390403755",
+          "num_games": "24718"
+        },
+        {
+          "champion_id": "267",
+          "win_rate": "0.4957127312295974",
+          "num_games": "22975"
+        },
+        {
+          "champion_id": "117",
+          "win_rate": "0.480315356030933",
+          "num_games": "19914"
+        }
+      ],
+      "description_raw": "你的<healing>治疗</healing>和<shield>护盾</shield>在用在一个友军身上时会变强@HealShieldAmp*100@%。"
+    },
+    {
+      "id": "1080",
+      "name": "会心防御",
+      "rarity": "白银",
+      "win_rate": 51.61,
+      "pick_rate": 0.23,
+      "num_games": "154808",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "804",
+          "win_rate": "0.5465137784353615",
+          "num_games": "5407"
+        },
+        {
+          "champion_id": "42",
+          "win_rate": "0.515527950310559",
+          "num_games": "3542"
+        },
+        {
+          "champion_id": "157",
+          "win_rate": "0.5618656355727405",
+          "num_games": "4138"
+        },
+        {
+          "champion_id": "777",
+          "win_rate": "0.541548093340922",
+          "num_games": "3514"
+        },
+        {
+          "champion_id": "901",
+          "win_rate": "0.4815479752643128",
+          "num_games": "5013"
+        }
+      ],
+      "description_raw": "你可以使用你的暴击几率(最大@MaxChance*100@%几率)来进行<crit>会心防御</crit>，使你有一定几率来使所受伤害降低。获得@CritChance*100@%暴击几率。"
+    },
+    {
+      "id": "1334",
+      "name": "升级：雪球",
+      "rarity": "黄金",
+      "win_rate": 51.56,
+      "pick_rate": 0.42,
+      "num_games": "284152",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "518",
+          "win_rate": "0.4798911987565572",
+          "num_games": "5147"
+        },
+        {
+          "champion_id": "20",
+          "win_rate": "0.46302158273381294",
+          "num_games": "3475"
+        },
+        {
+          "champion_id": "85",
+          "win_rate": "0.4839476813317479",
+          "num_games": "2523"
+        },
+        {
+          "champion_id": "77",
+          "win_rate": "0.5027046520014424",
+          "num_games": "2773"
+        },
+        {
+          "champion_id": "127",
+          "win_rate": "0.4960819770946353",
+          "num_games": "3318"
+        }
+      ],
+      "description_raw": "<spellName>雪球</spellName>获得@AbilityHaste@技能急速。击中一个敌人时，会产生一次降雪，来对附近的敌人造成<magic>范围伤害</magic>和<status>减速</status>效果。<br><br><rules>如果你没有雪球，获得一个<spellName>雪球</spellName>。</rules><br>"
+    },
+    {
+      "id": "1337",
+      "name": "尊我为王",
+      "rarity": "棱彩",
+      "win_rate": 51.45,
+      "pick_rate": 0.11,
+      "num_games": "77906",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "555",
+          "win_rate": "0.49186128803963197",
+          "num_games": "1413"
+        },
+        {
+          "champion_id": "141",
+          "win_rate": "0.4868217054263566",
+          "num_games": "645"
+        },
+        {
+          "champion_id": "4",
+          "win_rate": "0.49809160305343514",
+          "num_games": "1048"
+        },
+        {
+          "champion_id": "14",
+          "win_rate": "0.5200411099691675",
+          "num_games": "973"
+        },
+        {
+          "champion_id": "80",
+          "win_rate": "0.4872364039955605",
+          "num_games": "901"
+        }
+      ],
+      "description_raw": "当你第一次<attention>携带一件传说级装备</attention>并乘坐敌人的传送门时，你会<font color = '#d158f9'>加冕为王</font>，升级你的装备并获得一个随机棱彩阶强化符文。"
+    },
+    {
+      "id": "1154",
+      "name": "任务：海牛阿福的勇士",
+      "rarity": "棱彩",
+      "win_rate": 51.3,
+      "pick_rate": 0.18,
+      "num_games": "122636",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "234",
+          "win_rate": "0.5433155080213904",
+          "num_games": "935"
+        },
+        {
+          "champion_id": "107",
+          "win_rate": "0.5264976958525346",
+          "num_games": "868"
+        },
+        {
+          "champion_id": "41",
+          "win_rate": "0.4974433893352812",
+          "num_games": "1369"
+        },
+        {
+          "champion_id": "119",
+          "win_rate": "0.48414376321353064",
+          "num_games": "946"
+        },
+        {
+          "champion_id": "121",
+          "win_rate": "0.4568469505178366",
+          "num_games": "869"
+        }
+      ],
+      "description_raw": "需求：参与击杀@TakedownsNeeded@次。<br><br>奖励：金铲铲"
+    },
+    {
+      "id": "1329",
+      "name": "史上最大雪球",
+      "rarity": "棱彩",
+      "win_rate": 51.27,
+      "pick_rate": 0.29,
+      "num_games": "198399",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "20",
+          "win_rate": "0.45487954267047775",
+          "num_games": "2449"
+        },
+        {
+          "champion_id": "518",
+          "win_rate": "0.48132271892222905",
+          "num_games": "3266"
+        },
+        {
+          "champion_id": "142",
+          "win_rate": "0.5314029363784666",
+          "num_games": "2452"
+        },
+        {
+          "champion_id": "53",
+          "win_rate": "0.48519975160422274",
+          "num_games": "4831"
+        },
+        {
+          "champion_id": "77",
+          "win_rate": "0.525323910482921",
+          "num_games": "1698"
+        }
+      ],
+      "description_raw": "你的<spellName>雪球</spellName>获得@Haste@技能急速。<br><br>你的雪球现在变得<attention>非常大</attention>，并且可以穿过小兵。它会<status>减速</status>， <status>击飞</status>英雄，并造成额外<magicDamage>伤害</magicDamage>。<br><br><rules>如果你没有雪球，则获得一个<spellName>雪球</spellName>。</rules>"
+    },
+    {
+      "id": "1058",
+      "name": "秘术冲拳",
+      "rarity": "棱彩",
+      "win_rate": 51.17,
+      "pick_rate": 0.52,
+      "num_games": "356073",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "11",
+          "win_rate": "0.5509379289309135",
+          "num_games": "13114"
+        },
+        {
+          "champion_id": "24",
+          "win_rate": "0.5459713297083539",
+          "num_games": "8092"
+        },
+        {
+          "champion_id": "114",
+          "win_rate": "0.5677257525083612",
+          "num_games": "3588"
+        },
+        {
+          "champion_id": "120",
+          "win_rate": "0.5377336448598131",
+          "num_games": "8560"
+        },
+        {
+          "champion_id": "81",
+          "win_rate": "0.43814924740301037",
+          "num_games": "18868"
+        }
+      ],
+      "description_raw": "{{ Item_Keyword_OnHit }}使你的各个技能的冷却时间缩减@CooldownRefund@秒。"
+    },
+    {
+      "id": "1323",
+      "name": "残忍",
+      "rarity": "棱彩",
+      "win_rate": 51.16,
+      "pick_rate": 0.38,
+      "num_games": "256208",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "526",
+          "win_rate": "0.5442661913250149",
+          "num_games": "8415"
+        },
+        {
+          "champion_id": "127",
+          "win_rate": "0.4818426793276017",
+          "num_games": "7793"
+        },
+        {
+          "champion_id": "12",
+          "win_rate": "0.5344163658243081",
+          "num_games": "8310"
+        },
+        {
+          "champion_id": "518",
+          "win_rate": "0.47738891073535195",
+          "num_games": "7629"
+        },
+        {
+          "champion_id": "89",
+          "win_rate": "0.5148125384142593",
+          "num_games": "8135"
+        }
+      ],
+      "description_raw": "<status>定身</status>或<status>缚地</status>一个英雄时，召唤一颗会在短暂延迟后着陆的彗星，对附近的敌人们造成<magicDamage>魔法伤害</magicDamage>。"
+    },
+    {
+      "id": "1996",
+      "name": "升级：耀光",
+      "rarity": "黄金",
+      "win_rate": 51.06,
+      "pick_rate": 0.35,
+      "num_games": "234985",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "81",
+          "win_rate": "0.49749380491101597",
+          "num_games": "35512"
+        },
+        {
+          "champion_id": "24",
+          "win_rate": "0.5348854563092307",
+          "num_games": "13401"
+        },
+        {
+          "champion_id": "901",
+          "win_rate": "0.5023143164693219",
+          "num_games": "18580"
+        },
+        {
+          "champion_id": "42",
+          "win_rate": "0.5285908473040326",
+          "num_games": "11035"
+        },
+        {
+          "champion_id": "164",
+          "win_rate": "0.4937946596464836",
+          "num_games": "2659"
+        }
+      ],
+      "description_raw": "你的<passive>咒刃</passive>效果造成<physical>额外伤害</physical>并<heal>治疗</heal>你自身，治疗量相当于目标生命值的一定百分比。此外，获得<gold>250金币</gold>。"
+    },
+    {
+      "id": "1066",
+      "name": "量子计算",
+      "rarity": "棱彩",
+      "win_rate": 51.03,
+      "pick_rate": 0.25,
+      "num_games": "168060",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "421",
+          "win_rate": "0.50480109739369",
+          "num_games": "729"
+        },
+        {
+          "champion_id": "164",
+          "win_rate": "0.4613259668508287",
+          "num_games": "724"
+        },
+        {
+          "champion_id": "59",
+          "win_rate": "0.5132391879964695",
+          "num_games": "2266"
+        },
+        {
+          "champion_id": "78",
+          "win_rate": "0.4968982630272953",
+          "num_games": "1612"
+        },
+        {
+          "champion_id": "62",
+          "win_rate": "0.51931330472103",
+          "num_games": "1631"
+        }
+      ],
+      "description_raw": "周期性地<keywordMajor>自动施放</keywordMajor>一次巨型斩击。被击中的敌人会被<status>减速</status>，受到额外<physicalDamage>最大生命值伤害</physicalDamage>，并且治疗你。"
+    },
+    {
+      "id": "1342",
+      "name": "雪球扭蛋机",
+      "rarity": "黄金",
+      "win_rate": 51.02,
+      "pick_rate": 0.38,
+      "num_games": "257363",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "518",
+          "win_rate": "0.4744897959183674",
+          "num_games": "4704"
+        },
+        {
+          "champion_id": "85",
+          "win_rate": "0.46768558951965067",
+          "num_games": "2290"
+        },
+        {
+          "champion_id": "20",
+          "win_rate": "0.45442404006677795",
+          "num_games": "2995"
+        },
+        {
+          "champion_id": "142",
+          "win_rate": "0.4951395421762308",
+          "num_games": "3189"
+        },
+        {
+          "champion_id": "77",
+          "win_rate": "0.4917319408181027",
+          "num_games": "2298"
+        }
+      ],
+      "description_raw": "<spellName>雪球</spellName>获得@AbilityHaste@技能急速。命中敌人时，随机对你自身施放一个增益型的召唤师技能并对你的目标施放一个减益型的召唤师技能。接第二段时会为你再次施放该增益型召唤师技能。<br><br><rules>如果你没有雪球，则获得一个<spellName>雪球</spellName>。</rules>"
+    },
+    {
+      "id": "1416",
+      "name": "海克斯科技龙魂",
+      "rarity": "白银",
+      "win_rate": 51.01,
+      "pick_rate": 0.28,
+      "num_games": "187525",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "101",
+          "win_rate": "0.5073760580411124",
+          "num_games": "4135"
+        },
+        {
+          "champion_id": "115",
+          "win_rate": "0.4940652818991098",
+          "num_games": "3370"
+        },
+        {
+          "champion_id": "161",
+          "win_rate": "0.5212197422194279",
+          "num_games": "3181"
+        },
+        {
+          "champion_id": "112",
+          "win_rate": "0.5343764817449028",
+          "num_games": "2109"
+        },
+        {
+          "champion_id": "143",
+          "win_rate": "0.5452510393348257",
+          "num_games": "3127"
+        }
+      ],
+      "description_raw": "周期性地使你的下一个伤害型技能或攻击触发一道闪电爆裂，连锁穿过敌人以造成伤害和<status>减速</status>。"
+    },
+    {
+      "id": "1372",
+      "name": "小猫咪找妈妈",
+      "rarity": "棱彩",
+      "win_rate": 50.97,
+      "pick_rate": 0.11,
+      "num_games": "75353",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "350",
+          "win_rate": "0.5004295532646048",
+          "num_games": "9312"
+        },
+        {
+          "champion_id": "16",
+          "win_rate": "0.5109620582640905",
+          "num_games": "9989"
+        },
+        {
+          "champion_id": "117",
+          "win_rate": "0.4818875780707842",
+          "num_games": "7205"
+        },
+        {
+          "champion_id": "37",
+          "win_rate": "0.5192743764172335",
+          "num_games": "8379"
+        },
+        {
+          "champion_id": "267",
+          "win_rate": "0.48714069591527986",
+          "num_games": "7271"
+        }
+      ],
+      "description_raw": "站在一个友军的附近并将其标记为你的妈妈。<br>当朝着妈妈移动时，获得<speed>移动速度</speed>。当靠近你的妈妈时，获得<speed>移动速度</speed>、<healing>治疗</healing>和<shield>护盾强度</shield>。"
+    },
+    {
+      "id": "1103",
+      "name": "面包和黄油",
+      "rarity": "黄金",
+      "win_rate": 50.88,
+      "pick_rate": 0.66,
+      "num_games": "446685",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "53",
+          "win_rate": "0.45538678912045216",
+          "num_games": "14155"
+        },
+        {
+          "champion_id": "114",
+          "win_rate": "0.5364697301239971",
+          "num_games": "2742"
+        },
+        {
+          "champion_id": "120",
+          "win_rate": "0.5357589006870705",
+          "num_games": "6404"
+        },
+        {
+          "champion_id": "26",
+          "win_rate": "0.4911915438821268",
+          "num_games": "6244"
+        },
+        {
+          "champion_id": "76",
+          "win_rate": "0.455295402159408",
+          "num_games": "8243"
+        }
+      ],
+      "description_raw": "你的Q获得@QAbilityHaste@技能急速。"
+    },
+    {
+      "id": "1321",
+      "name": "砍伤",
+      "rarity": "棱彩",
+      "win_rate": 50.87,
+      "pick_rate": 0.25,
+      "num_games": "168396",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "33",
+          "win_rate": "0.5267669699090273",
+          "num_games": "5716"
+        },
+        {
+          "champion_id": "200",
+          "win_rate": "0.4882769901853871",
+          "num_games": "3668"
+        },
+        {
+          "champion_id": "2",
+          "win_rate": "0.4965006175380815",
+          "num_games": "2429"
+        },
+        {
+          "champion_id": "48",
+          "win_rate": "0.5289785462696126",
+          "num_games": "3123"
+        },
+        {
+          "champion_id": "24",
+          "win_rate": "0.5427790624343073",
+          "num_games": "4757"
+        }
+      ],
+      "description_raw": "获得@AS*100@%<speed>攻击速度</speed>。造成真实伤害%i:OnHit% <OnHit>攻击附伤</OnHit>，受益于你的%i:scaleArmor%护甲。"
+    },
+    {
+      "id": "1401",
+      "name": "生机迸发",
+      "rarity": "黄金",
+      "win_rate": 50.86,
+      "pick_rate": 0.3,
+      "num_games": "206599",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "154",
+          "win_rate": "0.4713719841555636",
+          "num_games": "2777"
+        },
+        {
+          "champion_id": "497",
+          "win_rate": "0.48402652200120555",
+          "num_games": "1659"
+        },
+        {
+          "champion_id": "111",
+          "win_rate": "0.5157133167533349",
+          "num_games": "4423"
+        },
+        {
+          "champion_id": "421",
+          "win_rate": "0.5",
+          "num_games": "754"
+        },
+        {
+          "champion_id": "72",
+          "win_rate": "0.4767025089605735",
+          "num_games": "1116"
+        }
+      ],
+      "description_raw": "获得<active>生机迸发</active>作为一个召唤师技能。<br><br>生机迸发会猛然提升你的体型，<status>击飞</status>附近的敌人们并提供<scaleHealth>最大生命值</scaleHealth>。"
+    },
+    {
+      "id": "2001",
+      "name": "当心小蛋糕！",
+      "rarity": "棱彩",
+      "win_rate": 50.84,
+      "pick_rate": 0.28,
+      "num_games": "192880",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "41",
+          "win_rate": "0.5115899444988573",
+          "num_games": "3063"
+        },
+        {
+          "champion_id": "126",
+          "win_rate": "0.4692490655793408",
+          "num_games": "2943"
+        },
+        {
+          "champion_id": "202",
+          "win_rate": "0.5037466763355088",
+          "num_games": "4137"
+        },
+        {
+          "champion_id": "432",
+          "win_rate": "0.40138142747505756",
+          "num_games": "1303"
+        },
+        {
+          "champion_id": "26",
+          "win_rate": "0.4618249534450652",
+          "num_games": "1611"
+        }
+      ],
+      "description_raw": "小蛋糕将间歇性地飞越整个大桥。小蛋糕会提供金币给接住它的人，并对第一个命中的英雄及其附近的友军回复<healing>生命值</healing>。获得基于该治疗数额的金币。"
+    },
+    {
+      "id": "1020",
+      "name": "黎明使者的坚决",
+      "rarity": "黄金",
+      "win_rate": 50.81,
+      "pick_rate": 0.26,
+      "num_games": "178361",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "36",
+          "win_rate": "0.5076367219576285",
+          "num_games": "6089"
+        },
+        {
+          "champion_id": "154",
+          "win_rate": "0.46664236237695955",
+          "num_games": "2743"
+        },
+        {
+          "champion_id": "78",
+          "win_rate": "0.49759615384615385",
+          "num_games": "2080"
+        },
+        {
+          "champion_id": "14",
+          "win_rate": "0.4998609952738393",
+          "num_games": "3597"
+        },
+        {
+          "champion_id": "111",
+          "win_rate": "0.4893974385891245",
+          "num_games": "4763"
+        }
+      ],
+      "description_raw": "在跌到<scaleHealth>@HealthThreshold*100@%生命值</scaleHealth>以下时，<healing>在3秒里持续回复共@HealAmount*100@%最大生命值</healing>。<br>阵亡时或每@Cooldown@秒重置。<br>"
+    },
+    {
+      "id": "1015",
+      "name": "死亡之环",
+      "rarity": "棱彩",
+      "win_rate": 50.76,
+      "pick_rate": 0.2,
+      "num_games": "133604",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "154",
+          "win_rate": "0.5494462540716613",
+          "num_games": "7675"
+        },
+        {
+          "champion_id": "50",
+          "win_rate": "0.5167221852098601",
+          "num_games": "15010"
+        },
+        {
+          "champion_id": "16",
+          "win_rate": "0.5068789946917994",
+          "num_games": "9231"
+        },
+        {
+          "champion_id": "8",
+          "win_rate": "0.498585795097423",
+          "num_games": "6364"
+        },
+        {
+          "champion_id": "37",
+          "win_rate": "0.4899250839576337",
+          "num_games": "7742"
+        }
+      ],
+      "description_raw": "<healing>治疗效果</healing>和<healing>生命回复效果</healing>还会对相距最近的那个敌方英雄造成<magicDamage>魔法伤害</magicDamage>。<br>"
+    },
+    {
+      "id": "1313",
+      "name": "作弊：我能回城！",
+      "rarity": "黄金",
+      "win_rate": 50.76,
+      "pick_rate": 0.43,
+      "num_games": "290808",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "26",
+          "win_rate": "0.5032388663967612",
+          "num_games": "2470"
+        },
+        {
+          "champion_id": "223",
+          "win_rate": "0.484004884004884",
+          "num_games": "4095"
+        },
+        {
+          "champion_id": "555",
+          "win_rate": "0.4918636782315014",
+          "num_games": "3257"
+        },
+        {
+          "champion_id": "7",
+          "win_rate": "0.44804889515749885",
+          "num_games": "2127"
+        },
+        {
+          "champion_id": "31",
+          "win_rate": "0.45228426395939086",
+          "num_games": "3940"
+        }
+      ],
+      "description_raw": "按下【回城】能够回到基地，购买装备并且获得强化符文。"
+    },
+    {
+      "id": "1113",
+      "name": "老练狙神",
+      "rarity": "黄金",
+      "win_rate": 50.7,
+      "pick_rate": 0.64,
+      "num_games": "433361",
+      "tier": "2",
+      "top_champions": [
+        {
+          "champion_id": "126",
+          "win_rate": "0.457334090740695",
+          "num_games": "40489"
+        },
+        {
+          "champion_id": "101",
+          "win_rate": "0.4899979617389279",
+          "num_games": "34343"
+        },
+        {
+          "champion_id": "76",
+          "win_rate": "0.44206430648195655",
+          "num_games": "23388"
+        },
+        {
+          "champion_id": "115",
+          "win_rate": "0.4886293521375055",
+          "num_games": "22690"
+        },
+        {
+          "champion_id": "99",
+          "win_rate": "0.48100581316750035",
+          "num_games": "29588"
+        }
+      ],
+      "description_raw": "用一个非终极技能命中一个远处的敌人时，返还该技能@ReducedCooldownPercent*100@%冷却时间(周期性技能返还@PeriodicReductionAmount*100@%)。"
+    },
+    {
+      "id": "1421",
+      "name": "舞会女王",
+      "rarity": "棱彩",
+      "win_rate": 50.44,
+      "pick_rate": 0.25,
+      "num_games": "168094",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "27",
+          "win_rate": "0.5626869730758771",
+          "num_games": "7354"
+        },
+        {
+          "champion_id": "497",
+          "win_rate": "0.5340501792114696",
+          "num_games": "2511"
+        },
+        {
+          "champion_id": "201",
+          "win_rate": "0.4928243398392652",
+          "num_games": "3484"
+        },
+        {
+          "champion_id": "555",
+          "win_rate": "0.5389554051709179",
+          "num_games": "5763"
+        },
+        {
+          "champion_id": "78",
+          "win_rate": "0.5098330241187384",
+          "num_games": "2695"
+        }
+      ],
+      "description_raw": "每@BaseCD@秒，<keywordMajor>自动施放</keywordMajor>一道闪亮宝冠降临在你头上。当它着陆时，获得洛的终极技能，魅惑你碰到的敌人们。"
+    },
+    {
+      "id": "1034",
+      "name": "防护面纱",
+      "rarity": "白银",
+      "win_rate": 50.4,
+      "pick_rate": 0.17,
+      "num_games": "116935",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "28",
+          "win_rate": "0.5340599455040872",
+          "num_games": "367"
+        },
+        {
+          "champion_id": "7",
+          "win_rate": "0.4568888888888889",
+          "num_games": "1125"
+        },
+        {
+          "champion_id": "142",
+          "win_rate": "0.5008474576271187",
+          "num_games": "1180"
+        },
+        {
+          "champion_id": "20",
+          "win_rate": "0.4836471754212091",
+          "num_games": "1009"
+        },
+        {
+          "champion_id": "161",
+          "win_rate": "0.5499704316972206",
+          "num_games": "1691"
+        }
+      ],
+      "description_raw": "每@Cooldown@秒获得一层<attention>法术护盾</attention>来格挡下一个敌方技能。"
+    },
+    {
+      "id": "1151",
+      "name": "面包和奶酪",
+      "rarity": "黄金",
+      "win_rate": 50.39,
+      "pick_rate": 0.46,
+      "num_games": "312707",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "105",
+          "win_rate": "0.5130722820300485",
+          "num_games": "8453"
+        },
+        {
+          "champion_id": "136",
+          "win_rate": "0.519290724863601",
+          "num_games": "10264"
+        },
+        {
+          "champion_id": "112",
+          "win_rate": "0.5219690063810392",
+          "num_games": "5485"
+        },
+        {
+          "champion_id": "41",
+          "win_rate": "0.49210377890580936",
+          "num_games": "7092"
+        },
+        {
+          "champion_id": "79",
+          "win_rate": "0.4664341761115955",
+          "num_games": "4588"
+        }
+      ],
+      "description_raw": "你的E获得@EAbilityHaste@技能急速。"
+    },
+    {
+      "id": "1047",
+      "name": "关键暴击",
+      "rarity": "黄金",
+      "win_rate": 50.36,
+      "pick_rate": 0.49,
+      "num_games": "335912",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "42",
+          "win_rate": "0.4703529411764706",
+          "num_games": "8500"
+        },
+        {
+          "champion_id": "804",
+          "win_rate": "0.5108422522103304",
+          "num_games": "10745"
+        },
+        {
+          "champion_id": "901",
+          "win_rate": "0.4554220944002707",
+          "num_games": "11822"
+        },
+        {
+          "champion_id": "235",
+          "win_rate": "0.44186673860264364",
+          "num_games": "11121"
+        },
+        {
+          "champion_id": "107",
+          "win_rate": "0.5123842882161621",
+          "num_games": "3997"
+        }
+      ],
+      "description_raw": "获得<crit>@CritChance*100@%暴击几率</crit>。"
+    },
+    {
+      "id": "1018",
+      "name": "巨像的勇气",
+      "rarity": "棱彩",
+      "win_rate": 50.31,
+      "pick_rate": 0.31,
+      "num_games": "208595",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "89",
+          "win_rate": "0.5322261526470412",
+          "num_games": "16679"
+        },
+        {
+          "champion_id": "526",
+          "win_rate": "0.5292369859757547",
+          "num_games": "8414"
+        },
+        {
+          "champion_id": "111",
+          "win_rate": "0.511545407636739",
+          "num_games": "15504"
+        },
+        {
+          "champion_id": "113",
+          "win_rate": "0.4672260094389093",
+          "num_games": "5721"
+        },
+        {
+          "champion_id": "3",
+          "win_rate": "0.5129976019184652",
+          "num_games": "10425"
+        }
+      ],
+      "description_raw": "<status>定身</status>或<status>缚地</status>一个敌方英雄后获得<shield>@TotalShield@护盾值</shield>。<br>"
+    },
+    {
+      "id": "1098",
+      "name": "急急小子",
+      "rarity": "黄金",
+      "win_rate": 50.28,
+      "pick_rate": 0.25,
+      "num_games": "169069",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "120",
+          "win_rate": "0.5099791480488531",
+          "num_games": "3357"
+        },
+        {
+          "champion_id": "876",
+          "win_rate": "0.5783258987142482",
+          "num_games": "3811"
+        },
+        {
+          "champion_id": "26",
+          "win_rate": "0.49598042642432716",
+          "num_games": "2861"
+        },
+        {
+          "champion_id": "8",
+          "win_rate": "0.5430038510911425",
+          "num_games": "2337"
+        },
+        {
+          "champion_id": "555",
+          "win_rate": "0.472992700729927",
+          "num_games": "3425"
+        }
+      ],
+      "description_raw": "获得<speed>移动速度</speed>，相当于你的@AbilityHasteToMSConversion*100@%技能急速。"
+    },
+    {
+      "id": "1214",
+      "name": "旋转至胜",
+      "rarity": "白银",
+      "win_rate": 50.27,
+      "pick_rate": 0.09,
+      "num_games": "60154",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "86",
+          "win_rate": "0.48418683173888577",
+          "num_games": "8885"
+        },
+        {
+          "champion_id": "55",
+          "win_rate": "0.45140324963072376",
+          "num_games": "6770"
+        },
+        {
+          "champion_id": "120",
+          "win_rate": "0.5401234567901234",
+          "num_games": "4212"
+        },
+        {
+          "champion_id": "141",
+          "win_rate": "0.5590369393139841",
+          "num_games": "3032"
+        },
+        {
+          "champion_id": "122",
+          "win_rate": "0.4856336582863007",
+          "num_games": "3898"
+        }
+      ],
+      "description_raw": "你的旋转类技能获得@SpinHaste@技能急速并且多造成@SpinDamageAmp*100@%伤害。"
+    },
+    {
+      "id": "1149",
+      "name": "不动如山",
+      "rarity": "黄金",
+      "win_rate": 50.21,
+      "pick_rate": 0.42,
+      "num_games": "288410",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "33",
+          "win_rate": "0.5022601059021051",
+          "num_games": "7743"
+        },
+        {
+          "champion_id": "113",
+          "win_rate": "0.4688774838794578",
+          "num_games": "7599"
+        },
+        {
+          "champion_id": "201",
+          "win_rate": "0.4655036578503095",
+          "num_games": "8885"
+        },
+        {
+          "champion_id": "526",
+          "win_rate": "0.5265368015863758",
+          "num_games": "8573"
+        },
+        {
+          "champion_id": "89",
+          "win_rate": "0.4960931630353118",
+          "num_games": "13310"
+        }
+      ],
+      "description_raw": "获<spellName>余震</spellName>和<spellName>冰川增幅</spellName>基石符文。"
+    },
+    {
+      "id": "1085",
+      "name": "折磨者",
+      "rarity": "白银",
+      "win_rate": 50.16,
+      "pick_rate": 0.25,
+      "num_games": "167224",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "89",
+          "win_rate": "0.519080459770115",
+          "num_games": "8700"
+        },
+        {
+          "champion_id": "32",
+          "win_rate": "0.4911997653270754",
+          "num_games": "6818"
+        },
+        {
+          "champion_id": "526",
+          "win_rate": "0.5284690004217629",
+          "num_games": "4742"
+        },
+        {
+          "champion_id": "57",
+          "win_rate": "0.5240683229813664",
+          "num_games": "7728"
+        },
+        {
+          "champion_id": "111",
+          "win_rate": "0.49640621377231625",
+          "num_games": "8626"
+        }
+      ],
+      "description_raw": "<status>定身</status>或<status>缚地</status>敌方英雄时提供一层<keywordMajor>灼烧</keywordMajor>，这个效果会持续造成伤害并可无限叠加。"
+    },
+    {
+      "id": "1057",
+      "name": "山脉龙魂",
+      "rarity": "白银",
+      "win_rate": 50.15,
+      "pick_rate": 0.25,
+      "num_games": "170984",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "36",
+          "win_rate": "0.5143415327235592",
+          "num_games": "11261"
+        },
+        {
+          "champion_id": "516",
+          "win_rate": "0.4831707652150021",
+          "num_games": "7279"
+        },
+        {
+          "champion_id": "201",
+          "win_rate": "0.4716230366492147",
+          "num_games": "4775"
+        },
+        {
+          "champion_id": "72",
+          "win_rate": "0.46462513199577615",
+          "num_games": "1894"
+        },
+        {
+          "champion_id": "113",
+          "win_rate": "0.49080761654629024",
+          "num_games": "3046"
+        }
+      ],
+      "description_raw": "你获得山脉龙魂，在脱离战斗之后获得一个持续一小段时间的<shield>护盾</shield>。"
+    },
+    {
+      "id": "1331",
+      "name": "至高天诺言",
+      "rarity": "棱彩",
+      "win_rate": 50.09,
+      "pick_rate": 0.09,
+      "num_games": "60260",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "16",
+          "win_rate": "0.4989757802144837",
+          "num_games": "8299"
+        },
+        {
+          "champion_id": "117",
+          "win_rate": "0.48412415269354264",
+          "num_games": "5606"
+        },
+        {
+          "champion_id": "427",
+          "win_rate": "0.4883419689119171",
+          "num_games": "2316"
+        },
+        {
+          "champion_id": "267",
+          "win_rate": "0.5026781366661256",
+          "num_games": "6161"
+        },
+        {
+          "champion_id": "37",
+          "win_rate": "0.5238621997471555",
+          "num_games": "6328"
+        }
+      ],
+      "description_raw": "获得%i:scaleHealShield%@HSAmp*100@%治疗和护盾强度。获得<spellName>至高天诺言</spellName>作为一个召唤师技能。<br><br><rules><active>警惕</active><br>传送至你的友军并在着陆时提供持续@ShieldDuration@秒的<shield>@ShieldAmount@护盾值</shield>。</rules>"
+    },
+    {
+      "id": "1418",
+      "name": "砸开那颗蛋",
+      "rarity": "白银",
+      "win_rate": 50.02,
+      "pick_rate": 0.03,
+      "num_games": "20338",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "427",
+          "win_rate": "0.508421052631579",
+          "num_games": "950"
+        },
+        {
+          "champion_id": "117",
+          "win_rate": "0.47018469656992085",
+          "num_games": "1895"
+        },
+        {
+          "champion_id": "350",
+          "win_rate": "0.49814126394052044",
+          "num_games": "1883"
+        },
+        {
+          "champion_id": "40",
+          "win_rate": "0.5418106427090532",
+          "num_games": "1447"
+        },
+        {
+          "champion_id": "902",
+          "win_rate": "0.4961349262122277",
+          "num_games": "1423"
+        }
+      ],
+      "description_raw": "你的护盾值将在到期时爆炸。"
+    },
+    {
+      "id": "1220",
+      "name": "连拨击锤",
+      "rarity": "棱彩",
+      "win_rate": 50.0,
+      "pick_rate": 0.64,
+      "num_games": "434508",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "166",
+          "win_rate": "0.4837253829321663",
+          "num_games": "14624"
+        },
+        {
+          "champion_id": "222",
+          "win_rate": "0.4818879978252005",
+          "num_games": "29428"
+        },
+        {
+          "champion_id": "18",
+          "win_rate": "0.4735976612461173",
+          "num_games": "21892"
+        },
+        {
+          "champion_id": "15",
+          "win_rate": "0.4426891143911439",
+          "num_games": "17344"
+        },
+        {
+          "champion_id": "51",
+          "win_rate": "0.46199970019487335",
+          "num_games": "26684"
+        }
+      ],
+      "description_raw": "攻击会发射@AdditionalBolts@个额外<keywordMajor>爆竹</keywordMajor>，造成随距离提升的额外伤害。每个方向的冷却时间独立计算。"
+    },
+    {
+      "id": "2026",
+      "name": "杀意翻涌",
+      "rarity": "白银",
+      "win_rate": 49.94,
+      "pick_rate": 0.25,
+      "num_games": "167820",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "555",
+          "win_rate": "0.47092598392316526",
+          "num_games": "9579"
+        },
+        {
+          "champion_id": "28",
+          "win_rate": "0.47061778001004523",
+          "num_games": "1991"
+        },
+        {
+          "champion_id": "35",
+          "win_rate": "0.4308809293320426",
+          "num_games": "10330"
+        },
+        {
+          "champion_id": "121",
+          "win_rate": "0.44502380412604853",
+          "num_games": "4411"
+        },
+        {
+          "champion_id": "91",
+          "win_rate": "0.5082498526812022",
+          "num_games": "3394"
+        }
+      ],
+      "description_raw": "在朝着低生命值的敌人时，获得额外<speed>移动速度</speed>。"
+    },
+    {
+      "id": "2004",
+      "name": "信念者的强化",
+      "rarity": "棱彩",
+      "win_rate": 49.82,
+      "pick_rate": 0.13,
+      "num_games": "89114",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "37",
+          "win_rate": "0.5162597607986558",
+          "num_games": "10117"
+        },
+        {
+          "champion_id": "16",
+          "win_rate": "0.4814377154111275",
+          "num_games": "10155"
+        },
+        {
+          "champion_id": "350",
+          "win_rate": "0.49722320690062627",
+          "num_games": "8463"
+        },
+        {
+          "champion_id": "902",
+          "win_rate": "0.5115953307392996",
+          "num_games": "6425"
+        },
+        {
+          "champion_id": "427",
+          "win_rate": "0.49493243243243246",
+          "num_games": "2960"
+        }
+      ],
+      "description_raw": "为友军提供<healing>治疗</healing>或<shield>护盾</shield>会赐福他们若干秒，使其伤害填充你的<keyword>虔诚</keyword>。当你拥有足够的<keyword>虔诚</keyword>时，释放一道冲击波来造成<magicDamage>魔法伤害</magicDamage>并处决低生命值的敌人们。"
+    },
+    {
+      "id": "1397",
+      "name": "地狱三头犬",
+      "rarity": "棱彩",
+      "win_rate": 49.79,
+      "pick_rate": 0.27,
+      "num_games": "186607",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "56",
+          "win_rate": "0.4906231094978826",
+          "num_games": "3306"
+        },
+        {
+          "champion_id": "133",
+          "win_rate": "0.47028800583302954",
+          "num_games": "2743"
+        },
+        {
+          "champion_id": "119",
+          "win_rate": "0.44644506001846723",
+          "num_games": "4332"
+        },
+        {
+          "champion_id": "166",
+          "win_rate": "0.49548715575098357",
+          "num_games": "4321"
+        },
+        {
+          "champion_id": "29",
+          "win_rate": "0.5083226632522407",
+          "num_games": "7810"
+        }
+      ],
+      "description_raw": "获得<spellName>丛刃</spellName>和<spellName>强攻</spellName>基石符文。"
+    },
+    {
+      "id": "1327",
+      "name": "坚若磐石",
+      "rarity": "白银",
+      "win_rate": 49.67,
+      "pick_rate": 0.33,
+      "num_games": "225736",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "89",
+          "win_rate": "0.5008453085376162",
+          "num_games": "11830"
+        },
+        {
+          "champion_id": "526",
+          "win_rate": "0.515526950925181",
+          "num_games": "6215"
+        },
+        {
+          "champion_id": "33",
+          "win_rate": "0.48600559776089564",
+          "num_games": "5002"
+        },
+        {
+          "champion_id": "111",
+          "win_rate": "0.4949640287769784",
+          "num_games": "11815"
+        },
+        {
+          "champion_id": "113",
+          "win_rate": "0.4713919726729291",
+          "num_games": "4684"
+        }
+      ],
+      "description_raw": "每当你<status>定身</status>或<status>缚地</status>一个敌人时，获得护甲和魔抗。"
+    },
+    {
+      "id": "2003",
+      "name": "魄罗之王的弹跳",
+      "rarity": "棱彩",
+      "win_rate": 49.61,
+      "pick_rate": 0.14,
+      "num_games": "93888",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "59",
+          "win_rate": "0.5239294710327456",
+          "num_games": "1191"
+        },
+        {
+          "champion_id": "164",
+          "win_rate": "0.4970588235294118",
+          "num_games": "340"
+        },
+        {
+          "champion_id": "154",
+          "win_rate": "0.48565965583174",
+          "num_games": "1046"
+        },
+        {
+          "champion_id": "421",
+          "win_rate": "0.5579937304075235",
+          "num_games": "319"
+        },
+        {
+          "champion_id": "72",
+          "win_rate": "0.4742489270386266",
+          "num_games": "466"
+        }
+      ],
+      "description_raw": "将一个召唤师技能替换为<spellName>魄罗之王的弹跳</spellName>！<br><br><rules><spellName>魄罗之王的弹跳</spellName>：变形为【魄罗之王】，变得无法被阻挡和幽灵状态。获得伤害减免和<speed>移动速度</speed>，但被沉默且无法攻击。此外，反复弹跳，造成<physicalDamage>物理伤害</physicalDamage>并<status>击退</status>附近的敌人们。</rules>"
+    },
+    {
+      "id": "1029",
+      "name": "虚幻武器",
+      "rarity": "黄金",
+      "win_rate": 49.6,
+      "pick_rate": 0.32,
+      "num_games": "220590",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "120",
+          "win_rate": "0.5222993062438057",
+          "num_games": "4036"
+        },
+        {
+          "champion_id": "145",
+          "win_rate": "0.5201548318206086",
+          "num_games": "7492"
+        },
+        {
+          "champion_id": "55",
+          "win_rate": "0.497990068574131",
+          "num_games": "4229"
+        },
+        {
+          "champion_id": "245",
+          "win_rate": "0.5697639677322975",
+          "num_games": "3347"
+        },
+        {
+          "champion_id": "887",
+          "win_rate": "0.6020151133501259",
+          "num_games": "1985"
+        }
+      ],
+      "description_raw": "你的技能可施加{{ Item_Keyword_OnHit }}。每个目标有1秒冷却时间。"
+    },
+    {
+      "id": "1198",
+      "name": "圣火",
+      "rarity": "黄金",
+      "win_rate": 49.58,
+      "pick_rate": 0.3,
+      "num_games": "204514",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "37",
+          "win_rate": "0.4953476675468377",
+          "num_games": "15906"
+        },
+        {
+          "champion_id": "350",
+          "win_rate": "0.4846237731733915",
+          "num_games": "13755"
+        },
+        {
+          "champion_id": "16",
+          "win_rate": "0.48114507642194937",
+          "num_games": "15964"
+        },
+        {
+          "champion_id": "267",
+          "win_rate": "0.48991769547325104",
+          "num_games": "14580"
+        },
+        {
+          "champion_id": "44",
+          "win_rate": "0.4959601400484783",
+          "num_games": "7426"
+        }
+      ],
+      "description_raw": "你的<healing>治疗</healing>或<shield>护盾</shield>会对一个附近的敌人施加一层无限叠加的<keywordMajor>灼烧</keywordMajor>，在若干秒内持续造成<magicDamage>百分比最大生命值的魔法伤害</magicDamage>。"
+    },
+    {
+      "id": "1019",
+      "name": "全凭身法",
+      "rarity": "棱彩",
+      "win_rate": 49.46,
+      "pick_rate": 0.34,
+      "num_games": "232959",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "92",
+          "win_rate": "0.5229404309252218",
+          "num_games": "7890"
+        },
+        {
+          "champion_id": "105",
+          "win_rate": "0.5478140180430257",
+          "num_games": "14410"
+        },
+        {
+          "champion_id": "141",
+          "win_rate": "0.5305230841893966",
+          "num_games": "8469"
+        },
+        {
+          "champion_id": "246",
+          "win_rate": "0.4590427240603919",
+          "num_games": "6226"
+        },
+        {
+          "champion_id": "555",
+          "win_rate": "0.47031405211278365",
+          "num_games": "13087"
+        }
+      ],
+      "description_raw": "你的冲刺、跳跃、闪烁或传送类技能获得@Haste@技能急速。"
+    },
+    {
+      "id": "1316",
+      "name": "刃下生风",
+      "rarity": "白银",
+      "win_rate": 49.44,
+      "pick_rate": 0.2,
+      "num_games": "135026",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "555",
+          "win_rate": "0.5046604527296937",
+          "num_games": "10514"
+        },
+        {
+          "champion_id": "91",
+          "win_rate": "0.5356803044719315",
+          "num_games": "6306"
+        },
+        {
+          "champion_id": "121",
+          "win_rate": "0.4797249647390691",
+          "num_games": "5672"
+        },
+        {
+          "champion_id": "126",
+          "win_rate": "0.45946224374162975",
+          "num_games": "9707"
+        },
+        {
+          "champion_id": "238",
+          "win_rate": "0.5283325012481278",
+          "num_games": "8012"
+        }
+      ],
+      "description_raw": "你的<physicalDamage>护甲穿透</physicalDamage>和<magicDamage>法术穿透</magicDamage>越高，你就移动得越快。"
+    },
+    {
+      "id": "1150",
+      "name": "面包和果酱",
+      "rarity": "黄金",
+      "win_rate": 49.39,
+      "pick_rate": 0.4,
+      "num_games": "274828",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "517",
+          "win_rate": "0.4601475136807043",
+          "num_games": "8406"
+        },
+        {
+          "champion_id": "26",
+          "win_rate": "0.47840470501746",
+          "num_games": "5441"
+        },
+        {
+          "champion_id": "7",
+          "win_rate": "0.40940136601044597",
+          "num_games": "4978"
+        },
+        {
+          "champion_id": "875",
+          "win_rate": "0.5058995256051575",
+          "num_games": "8221"
+        },
+        {
+          "champion_id": "267",
+          "win_rate": "0.5041597337770383",
+          "num_games": "5409"
+        }
+      ],
+      "description_raw": "你的W获得@WAbilityHaste@技能急速。"
+    },
+    {
+      "id": "1035",
+      "name": "感受燃烧",
+      "rarity": "棱彩",
+      "win_rate": 49.28,
+      "pick_rate": 0.14,
+      "num_games": "96541",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "350",
+          "win_rate": "0.5131868131868131",
+          "num_games": "3640"
+        },
+        {
+          "champion_id": "888",
+          "win_rate": "0.523921568627451",
+          "num_games": "2550"
+        },
+        {
+          "champion_id": "117",
+          "win_rate": "0.4594687823387375",
+          "num_games": "2899"
+        },
+        {
+          "champion_id": "26",
+          "win_rate": "0.46690447879508523",
+          "num_games": "2523"
+        },
+        {
+          "champion_id": "427",
+          "win_rate": "0.47697031729785055",
+          "num_games": "977"
+        }
+      ],
+      "description_raw": "获得召唤师技能<spellName>感受灼烧</spellName>。<br><br><rules><spellName>感受灼烧</spellName>会对所有附近的敌人们施放<spellName>引燃</spellName>和<spellName>虚弱</spellName>。</rules>"
+    },
+    {
+      "id": "1358",
+      "name": "弹球",
+      "rarity": "黄金",
+      "win_rate": 49.27,
+      "pick_rate": 0.37,
+      "num_games": "254129",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "20",
+          "win_rate": "0.44355555555555554",
+          "num_games": "3375"
+        },
+        {
+          "champion_id": "518",
+          "win_rate": "0.4496124031007752",
+          "num_games": "4515"
+        },
+        {
+          "champion_id": "85",
+          "win_rate": "0.43526170798898073",
+          "num_games": "2178"
+        },
+        {
+          "champion_id": "77",
+          "win_rate": "0.45699831365935917",
+          "num_games": "2372"
+        },
+        {
+          "champion_id": "142",
+          "win_rate": "0.4838197969543147",
+          "num_games": "3152"
+        }
+      ],
+      "description_raw": "你的<spellName>雪球</spellName>获得<speed>@AbilityHaste@技能急速</speed>并且造成额外的@TrueDamage@ <trueDamage>真实伤害</trueDamage>。当雪球从墙体上反弹时，它的体型和伤害获得提升，并缩短它的冷却时间。"
+    },
+    {
+      "id": "2016",
+      "name": "注魔",
+      "rarity": "白银",
+      "win_rate": 49.25,
+      "pick_rate": 0.16,
+      "num_games": "110889",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "13",
+          "win_rate": "0.5299270072992701",
+          "num_games": "4795"
+        },
+        {
+          "champion_id": "38",
+          "win_rate": "0.5401146131805158",
+          "num_games": "2094"
+        },
+        {
+          "champion_id": "81",
+          "win_rate": "0.4667384284176534",
+          "num_games": "4645"
+        },
+        {
+          "champion_id": "26",
+          "win_rate": "0.5301507537688442",
+          "num_games": "1592"
+        },
+        {
+          "champion_id": "69",
+          "win_rate": "0.45714285714285713",
+          "num_games": "1050"
+        }
+      ],
+      "description_raw": "<OnHit>%i:OnHit%攻击特效</OnHit>消耗<scaleMana>@Calc_Mana_Cost@法力值</scaleMana>以造成<magicDamage>@Calc_Damage@魔法伤害</magicDamage>，这个伤害可以暴击。"
+    },
+    {
+      "id": "1332",
+      "name": "不祥契约",
+      "rarity": "棱彩",
+      "win_rate": 49.18,
+      "pick_rate": 0.23,
+      "num_games": "155576",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "8",
+          "win_rate": "0.5207690912388899",
+          "num_games": "5513"
+        },
+        {
+          "champion_id": "27",
+          "win_rate": "0.5777529761904762",
+          "num_games": "5376"
+        },
+        {
+          "champion_id": "13",
+          "win_rate": "0.5041017227235439",
+          "num_games": "4876"
+        },
+        {
+          "champion_id": "517",
+          "win_rate": "0.4573721163490471",
+          "num_games": "4985"
+        },
+        {
+          "champion_id": "887",
+          "win_rate": "0.5581605049594229",
+          "num_games": "2218"
+        }
+      ],
+      "description_raw": "基于<scaleHealth>已损失生命值</scaleHealth>，获得<magicDamage>法术强度</magicDamage>，<speed>移动速度</speed>和<omnivamp>全能吸血</omnivamp>，每次你施放技能时会对自身造成伤害。<br>"
+    },
+    {
+      "id": "1326",
+      "name": "夜狩",
+      "rarity": "黄金",
+      "win_rate": 49.07,
+      "pick_rate": 0.51,
+      "num_games": "348235",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "555",
+          "win_rate": "0.46791381456129433",
+          "num_games": "25712"
+        },
+        {
+          "champion_id": "121",
+          "win_rate": "0.4512233277016457",
+          "num_games": "15981"
+        },
+        {
+          "champion_id": "91",
+          "win_rate": "0.48675649030561946",
+          "num_games": "15215"
+        },
+        {
+          "champion_id": "238",
+          "win_rate": "0.4837901830434387",
+          "num_games": "21962"
+        },
+        {
+          "champion_id": "246",
+          "win_rate": "0.43768777791130875",
+          "num_games": "8321"
+        }
+      ],
+      "description_raw": "在对敌人造成伤害的@TakedownWindow@秒内参与击杀该敌人会使你进入隐身状态。"
+    },
+    {
+      "id": "1339",
+      "name": "激光治疗",
+      "rarity": "棱彩",
+      "win_rate": 49.0,
+      "pick_rate": 0.1,
+      "num_games": "65358",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "350",
+          "win_rate": "0.48878178494266245",
+          "num_games": "6017"
+        },
+        {
+          "champion_id": "16",
+          "win_rate": "0.48813012895662367",
+          "num_games": "6824"
+        },
+        {
+          "champion_id": "117",
+          "win_rate": "0.46911421911421913",
+          "num_games": "5148"
+        },
+        {
+          "champion_id": "427",
+          "win_rate": "0.48484848484848486",
+          "num_games": "2079"
+        },
+        {
+          "champion_id": "888",
+          "win_rate": "0.5083487940630798",
+          "num_games": "4312"
+        }
+      ],
+      "description_raw": "施放一个持续2.5秒的治疗激光，<scaleHealth>治疗友军</scaleHealth>，使敌人<status>减速</status>并对其造成<scaleAP>魔法伤害</scaleAP>。"
+    },
+    {
+      "id": "1054",
+      "name": "物法皆修",
+      "rarity": "棱彩",
+      "win_rate": 48.9,
+      "pick_rate": 0.4,
+      "num_games": "269020",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "81",
+          "win_rate": "0.43032019586193654",
+          "num_games": "20831"
+        },
+        {
+          "champion_id": "10",
+          "win_rate": "0.5846321695760599",
+          "num_games": "12832"
+        },
+        {
+          "champion_id": "24",
+          "win_rate": "0.486366090712743",
+          "num_games": "7408"
+        },
+        {
+          "champion_id": "145",
+          "win_rate": "0.47714700037596003",
+          "num_games": "18619"
+        },
+        {
+          "champion_id": "432",
+          "win_rate": "0.37560893667058626",
+          "num_games": "5953"
+        }
+      ],
+      "description_raw": "你的每次攻击为你提供可叠加的<scaleAP>法术强度</scaleAP>，并且你的每次技能为你提供可叠加的<scaleAD>攻击力</scaleAD>。"
+    },
+    {
+      "id": "1324",
+      "name": "蛋白粉奶昔",
+      "rarity": "棱彩",
+      "win_rate": 48.73,
+      "pick_rate": 0.21,
+      "num_games": "144843",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "44",
+          "win_rate": "0.5457539402493531",
+          "num_games": "4251"
+        },
+        {
+          "champion_id": "897",
+          "win_rate": "0.43160440741736095",
+          "num_games": "3721"
+        },
+        {
+          "champion_id": "16",
+          "win_rate": "0.524519549370444",
+          "num_games": "6036"
+        },
+        {
+          "champion_id": "36",
+          "win_rate": "0.43916121276879927",
+          "num_games": "7487"
+        },
+        {
+          "champion_id": "427",
+          "win_rate": "0.491389913899139",
+          "num_games": "1626"
+        }
+      ],
+      "description_raw": "获得%i:scaleHealShield%@BonusHSPower@%<heal>治疗和护盾强度</heal>，基于额外<scaleArmor>护甲</scaleArmor>和<scaleMR>魔法抗性</scaleMR>。"
+    },
+    {
+      "id": "1002",
+      "name": "尖端发明家",
+      "rarity": "黄金",
+      "win_rate": 48.71,
+      "pick_rate": 0.46,
+      "num_games": "313291",
+      "tier": "3",
+      "top_champions": [
+        {
+          "champion_id": "36",
+          "win_rate": "0.49166208539490563",
+          "num_games": "10914"
+        },
+        {
+          "champion_id": "516",
+          "win_rate": "0.48775923904568846",
+          "num_games": "6413"
+        },
+        {
+          "champion_id": "14",
+          "win_rate": "0.5305993690851735",
+          "num_games": "6340"
+        },
+        {
+          "champion_id": "526",
+          "win_rate": "0.5079760717846461",
+          "num_games": "4012"
+        },
+        {
+          "champion_id": "72",
+          "win_rate": "0.47862407862407863",
+          "num_games": "2035"
+        }
+      ],
+      "description_raw": "获得<scaleBonus>@ItemHaste@装备急速</scaleBonus>(相当于@TooltipCDR@%装备冷却缩减)。<br><br><rules>装备急速可缩减所有装备技能的冷却时间%i:cooldown%。</rules>"
+    },
+    {
+      "id": "1349",
+      "name": "终极唤醒",
+      "rarity": "棱彩",
+      "win_rate": 48.68,
+      "pick_rate": 0.29,
+      "num_games": "194276",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "238",
+          "win_rate": "0.4929214929214929",
+          "num_games": "3885"
+        },
+        {
+          "champion_id": "54",
+          "win_rate": "0.44501753662059007",
+          "num_games": "4847"
+        },
+        {
+          "champion_id": "91",
+          "win_rate": "0.4875555555555556",
+          "num_games": "2250"
+        },
+        {
+          "champion_id": "43",
+          "win_rate": "0.4801240484916831",
+          "num_games": "3547"
+        },
+        {
+          "champion_id": "888",
+          "win_rate": "0.4959514170040486",
+          "num_games": "1976"
+        }
+      ],
+      "description_raw": "获得@AH@终极技能急速。<br>在施放你的<keyword>终极技能</keyword>后，刷新你的所有基础技能并获得持续@BuffDuration@秒的@AdditionalHaste@基础技能急速。(@Cooldown@秒冷却时间)"
+    },
+    {
+      "id": "1112",
+      "name": "终极不可阻挡",
+      "rarity": "白银",
+      "win_rate": 48.63,
+      "pick_rate": 0.28,
+      "num_games": "190935",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "55",
+          "win_rate": "0.4618996027446732",
+          "num_games": "8307"
+        },
+        {
+          "champion_id": "360",
+          "win_rate": "0.46480582524271846",
+          "num_games": "8240"
+        },
+        {
+          "champion_id": "85",
+          "win_rate": "0.44232388436710635",
+          "num_games": "3563"
+        },
+        {
+          "champion_id": "9",
+          "win_rate": "0.4657077971233914",
+          "num_games": "6605"
+        },
+        {
+          "champion_id": "38",
+          "win_rate": "0.5310037684138403",
+          "num_games": "2919"
+        }
+      ],
+      "description_raw": "在你使用你的终极技能后，你获得持续@UnstoppableDuration@秒的控制免疫。 (@Cooldown@秒冷却时间)。"
+    },
+    {
+      "id": "1088",
+      "name": "终极刷新",
+      "rarity": "棱彩",
+      "win_rate": 48.61,
+      "pick_rate": 0.31,
+      "num_games": "207811",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "30",
+          "win_rate": "0.535609857978279",
+          "num_games": "9576"
+        },
+        {
+          "champion_id": "54",
+          "win_rate": "0.48622554067971163",
+          "num_games": "7768"
+        },
+        {
+          "champion_id": "888",
+          "win_rate": "0.509926854754441",
+          "num_games": "2871"
+        },
+        {
+          "champion_id": "85",
+          "win_rate": "0.44879786286731965",
+          "num_games": "2246"
+        },
+        {
+          "champion_id": "68",
+          "win_rate": "0.47041259500542887",
+          "num_games": "3684"
+        }
+      ],
+      "description_raw": "在施放终极技能后刷新你的终极技能(@Cooldown@秒冷却时间或阵亡时重置)。"
+    },
+    {
+      "id": "1116",
+      "name": "闪现向前",
+      "rarity": "黄金",
+      "win_rate": 48.54,
+      "pick_rate": 0.19,
+      "num_games": "126291",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "85",
+          "win_rate": "0.4367816091954023",
+          "num_games": "1479"
+        },
+        {
+          "champion_id": "64",
+          "win_rate": "0.43175921120913335",
+          "num_games": "1927"
+        },
+        {
+          "champion_id": "518",
+          "win_rate": "0.45938375350140054",
+          "num_games": "2142"
+        },
+        {
+          "champion_id": "122",
+          "win_rate": "0.4875207986688852",
+          "num_games": "1803"
+        },
+        {
+          "champion_id": "1",
+          "win_rate": "0.5142405063291139",
+          "num_games": "1264"
+        }
+      ],
+      "description_raw": "你的闪现有@FlashAmmoTooltip@层充能。在@AmmoRechargeTime@秒后，再次获得所有充能。"
+    },
+    {
+      "id": "1414",
+      "name": "卡皮巴拉空投",
+      "rarity": "棱彩",
+      "win_rate": 48.54,
+      "pick_rate": 0.11,
+      "num_games": "72644",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "888",
+          "win_rate": "0.5415384615384615",
+          "num_games": "650"
+        },
+        {
+          "champion_id": "53",
+          "win_rate": "0.4821312540610786",
+          "num_games": "1539"
+        },
+        {
+          "champion_id": "518",
+          "win_rate": "0.4924406047516199",
+          "num_games": "926"
+        },
+        {
+          "champion_id": "59",
+          "win_rate": "0.4699300699300699",
+          "num_games": "715"
+        },
+        {
+          "champion_id": "83",
+          "win_rate": "0.5274261603375527",
+          "num_games": "237"
+        }
+      ],
+      "description_raw": "获得<spellName>卡皮巴拉空投</spellName>作为一个召唤师技能。<br><br><rules>在一阵延迟后，召唤一个卡皮巴拉落下，造成<trueDamage>@DamagetoChampions*100@%最大生命值的真实伤害</trueDamage>。 </rules>"
+    },
+    {
+      "id": "1027",
+      "name": "大地苏醒",
+      "rarity": "棱彩",
+      "win_rate": 48.52,
+      "pick_rate": 0.16,
+      "num_games": "111850",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "799",
+          "win_rate": "0.564173457508731",
+          "num_games": "6872"
+        },
+        {
+          "champion_id": "92",
+          "win_rate": "0.5462376488472257",
+          "num_games": "3947"
+        },
+        {
+          "champion_id": "555",
+          "win_rate": "0.4990339811342198",
+          "num_games": "8799"
+        },
+        {
+          "champion_id": "64",
+          "win_rate": "0.4358368760825067",
+          "num_games": "6351"
+        },
+        {
+          "champion_id": "39",
+          "win_rate": "0.4471511147811726",
+          "num_games": "2422"
+        }
+      ],
+      "description_raw": "你的冲刺、闪烁或传送类技能会留下一条在@ExplosionDelayTime@秒后爆炸的轨迹。"
+    },
+    {
+      "id": "1314",
+      "name": "强力护盾",
+      "rarity": "白银",
+      "win_rate": 48.41,
+      "pick_rate": 0.16,
+      "num_games": "107116",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "131",
+          "win_rate": "0.48025666337611056",
+          "num_games": "6078"
+        },
+        {
+          "champion_id": "92",
+          "win_rate": "0.4940374787052811",
+          "num_games": "4109"
+        },
+        {
+          "champion_id": "799",
+          "win_rate": "0.5093768905021173",
+          "num_games": "4959"
+        },
+        {
+          "champion_id": "82",
+          "win_rate": "0.4777053788169158",
+          "num_games": "7827"
+        },
+        {
+          "champion_id": "64",
+          "win_rate": "0.44888817789153734",
+          "num_games": "6251"
+        }
+      ],
+      "description_raw": "当你获得护盾时，获得%i:miniAdaptiveForce%<font color = '#8347ff'>@AdaptiveAmp@适应之力</font>，持续@ShieldDuration@秒。(@Cooldown@秒冷却时间)"
+    },
+    {
+      "id": "1072",
+      "name": "炽烈黎明",
+      "rarity": "黄金",
+      "win_rate": 48.39,
+      "pick_rate": 0.18,
+      "num_games": "125342",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "888",
+          "win_rate": "0.5119394292370414",
+          "num_games": "1717"
+        },
+        {
+          "champion_id": "267",
+          "win_rate": "0.4870380584666299",
+          "num_games": "1813"
+        },
+        {
+          "champion_id": "25",
+          "win_rate": "0.5093484419263457",
+          "num_games": "3530"
+        },
+        {
+          "champion_id": "350",
+          "win_rate": "0.4698391420911528",
+          "num_games": "1492"
+        },
+        {
+          "champion_id": "40",
+          "win_rate": "0.5004382120946538",
+          "num_games": "1141"
+        }
+      ],
+      "description_raw": "你的技能会标记敌人，使其在被你的友军的下一个攻击或技能命中时会受到额外<magicDamage>魔法伤害</magicDamage>。"
+    },
+    {
+      "id": "1074",
+      "name": "缩小射线",
+      "rarity": "黄金",
+      "win_rate": 48.33,
+      "pick_rate": 0.43,
+      "num_games": "291520",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "221",
+          "win_rate": "0.4305314009661836",
+          "num_games": "5175"
+        },
+        {
+          "champion_id": "6",
+          "win_rate": "0.457286432160804",
+          "num_games": "5174"
+        },
+        {
+          "champion_id": "164",
+          "win_rate": "0.41943900848010435",
+          "num_games": "1533"
+        },
+        {
+          "champion_id": "421",
+          "win_rate": "0.4607218683651805",
+          "num_games": "1413"
+        },
+        {
+          "champion_id": "150",
+          "win_rate": "0.43327126008690253",
+          "num_games": "3222"
+        }
+      ],
+      "description_raw": "你的攻击会对敌人造成持续3秒的@DamageReduction*100@%伤害削减效果。"
+    },
+    {
+      "id": "1086",
+      "name": "精准奇才",
+      "rarity": "棱彩",
+      "win_rate": 48.27,
+      "pick_rate": 0.29,
+      "num_games": "197499",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "101",
+          "win_rate": "0.5041953232462173",
+          "num_games": "14540"
+        },
+        {
+          "champion_id": "76",
+          "win_rate": "0.46248462484624847",
+          "num_games": "9756"
+        },
+        {
+          "champion_id": "126",
+          "win_rate": "0.4188632980120851",
+          "num_games": "11419"
+        },
+        {
+          "champion_id": "81",
+          "win_rate": "0.42607334830237464",
+          "num_games": "14697"
+        },
+        {
+          "champion_id": "115",
+          "win_rate": "0.4943138741470811",
+          "num_games": "9233"
+        }
+      ],
+      "description_raw": "在你从远处对一名敌人造成伤害时，对其发射一道<abilityName>精准弹幕</abilityName>。"
+    },
+    {
+      "id": "1413",
+      "name": "和我一起困在这里",
+      "rarity": "棱彩",
+      "win_rate": 48.2,
+      "pick_rate": 0.07,
+      "num_games": "49549",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "20",
+          "win_rate": "0.42667551426675515",
+          "num_games": "1507"
+        },
+        {
+          "champion_id": "55",
+          "win_rate": "0.45148842337375966",
+          "num_games": "1814"
+        },
+        {
+          "champion_id": "420",
+          "win_rate": "0.5090562440419447",
+          "num_games": "1049"
+        },
+        {
+          "champion_id": "360",
+          "win_rate": "0.41899804814573843",
+          "num_games": "1537"
+        },
+        {
+          "champion_id": "77",
+          "win_rate": "0.4968394437420986",
+          "num_games": "791"
+        }
+      ],
+      "description_raw": "使用你的终极技能时会<status>嘲讽</status>附近的敌人们并提供给你持续若干秒的伤害减免。"
+    },
+    {
+      "id": "12317",
+      "name": "潘朵拉的盒子",
+      "rarity": "棱彩",
+      "win_rate": 48.14,
+      "pick_rate": 0.01,
+      "num_games": "4493",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "136",
+          "win_rate": "0.46551724137931033",
+          "num_games": "58"
+        },
+        {
+          "champion_id": "101",
+          "win_rate": "0.43859649122807015",
+          "num_games": "57"
+        },
+        {
+          "champion_id": "45",
+          "win_rate": "0.5178571428571429",
+          "num_games": "56"
+        },
+        {
+          "champion_id": "25",
+          "win_rate": "0.5172413793103449",
+          "num_games": "58"
+        },
+        {
+          "champion_id": "81",
+          "win_rate": "0.38596491228070173",
+          "num_games": "57"
+        }
+      ],
+      "description_raw": "将你的所有强化符文变为随机的棱彩阶强化符文。"
+    },
+    {
+      "id": "1347",
+      "name": "吵闹鬼",
+      "rarity": "白银",
+      "win_rate": 47.81,
+      "pick_rate": 0.08,
+      "num_games": "52412",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "2",
+          "win_rate": "0.512987012987013",
+          "num_games": "308"
+        },
+        {
+          "champion_id": "122",
+          "win_rate": "0.43061516452074394",
+          "num_games": "699"
+        },
+        {
+          "champion_id": "120",
+          "win_rate": "0.5098039215686274",
+          "num_games": "663"
+        },
+        {
+          "champion_id": "27",
+          "win_rate": "0.5110410094637224",
+          "num_games": "951"
+        },
+        {
+          "champion_id": "8",
+          "win_rate": "0.4847328244274809",
+          "num_games": "524"
+        }
+      ],
+      "description_raw": "获得【吵闹鬼】作为一个召唤师技能。<br><br>吵闹鬼会同时施放召唤师技能【屏障】和【幽灵疾步】。"
+    },
+    {
+      "id": "2024",
+      "name": "由暴生急",
+      "rarity": "白银",
+      "win_rate": 47.79,
+      "pick_rate": 0.19,
+      "num_games": "131545",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "901",
+          "win_rate": "0.4690313944998783",
+          "num_games": "16436"
+        },
+        {
+          "champion_id": "42",
+          "win_rate": "0.4661422181089002",
+          "num_games": "6483"
+        },
+        {
+          "champion_id": "235",
+          "win_rate": "0.47673132978188765",
+          "num_games": "9949"
+        },
+        {
+          "champion_id": "41",
+          "win_rate": "0.5054945054945055",
+          "num_games": "4459"
+        },
+        {
+          "champion_id": "804",
+          "win_rate": "0.4883030077979948",
+          "num_games": "5386"
+        }
+      ],
+      "description_raw": "获得相当于你@CritToHasteConversion*100@% %i:scaleCrit%暴击几率的技能急速。<br>"
+    },
+    {
+      "id": "1330",
+      "name": "活力再生",
+      "rarity": "白银",
+      "win_rate": 47.77,
+      "pick_rate": 0.12,
+      "num_games": "79391",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "202",
+          "win_rate": "0.4781763180639585",
+          "num_games": "9256"
+        },
+        {
+          "champion_id": "51",
+          "win_rate": "0.5070875521143537",
+          "num_games": "8395"
+        },
+        {
+          "champion_id": "133",
+          "win_rate": "0.4327292696320703",
+          "num_games": "1821"
+        },
+        {
+          "champion_id": "235",
+          "win_rate": "0.49280220863734964",
+          "num_games": "5071"
+        },
+        {
+          "champion_id": "166",
+          "win_rate": "0.47441275167785235",
+          "num_games": "2384"
+        }
+      ],
+      "description_raw": "你的<keyword>盈能攻击</keyword>充能数会得到全额返还，如果目标与你前一次攻击的目标不是同一个。<keyword>盈能攻击</keyword>造成额外<magicDamage>伤害</magicDamage>。"
+    },
+    {
+      "id": "1006",
+      "name": "利刃华尔兹",
+      "rarity": "棱彩",
+      "win_rate": 47.59,
+      "pick_rate": 0.24,
+      "num_games": "161130",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "86",
+          "win_rate": "0.48298906439854195",
+          "num_games": "8230"
+        },
+        {
+          "champion_id": "114",
+          "win_rate": "0.5005912495072921",
+          "num_games": "2537"
+        },
+        {
+          "champion_id": "360",
+          "win_rate": "0.433532759375456",
+          "num_games": "6853"
+        },
+        {
+          "champion_id": "56",
+          "win_rate": "0.4814205853337718",
+          "num_games": "3041"
+        },
+        {
+          "champion_id": "91",
+          "win_rate": "0.46886987311891415",
+          "num_games": "3389"
+        }
+      ],
+      "description_raw": "获得<spellName>利刃华尔兹</spellName>作为一个召唤师技能。"
+    },
+    {
+      "id": "2005",
+      "name": "扳机炼狱",
+      "rarity": "棱彩",
+      "win_rate": 47.55,
+      "pick_rate": 0.21,
+      "num_games": "144811",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "799",
+          "win_rate": "0.49792258910999343",
+          "num_games": "4573"
+        },
+        {
+          "champion_id": "55",
+          "win_rate": "0.45116854976009907",
+          "num_games": "6461"
+        },
+        {
+          "champion_id": "120",
+          "win_rate": "0.5521424883840991",
+          "num_games": "3874"
+        },
+        {
+          "champion_id": "904",
+          "win_rate": "0.5283458451980326",
+          "num_games": "3863"
+        },
+        {
+          "champion_id": "80",
+          "win_rate": "0.4905614121108115",
+          "num_games": "4079"
+        }
+      ],
+      "description_raw": "获得<spellName>悍勇本色</spellName>。在你达到S<keywordMajor>评价等级</keywordMajor>时，自动使用<spellName>炼狱扳机</spellName>。"
+    },
+    {
+      "id": "1194",
+      "name": "精怪魔法",
+      "rarity": "棱彩",
+      "win_rate": 47.49,
+      "pick_rate": 0.2,
+      "num_games": "136472",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "34",
+          "win_rate": "0.4879040890601584",
+          "num_games": "4671"
+        },
+        {
+          "champion_id": "9",
+          "win_rate": "0.4737521514629948",
+          "num_games": "4648"
+        },
+        {
+          "champion_id": "85",
+          "win_rate": "0.4533747779751332",
+          "num_games": "2252"
+        },
+        {
+          "champion_id": "55",
+          "win_rate": "0.46975404387325503",
+          "num_games": "4513"
+        },
+        {
+          "champion_id": "360",
+          "win_rate": "0.4385039558858787",
+          "num_games": "4171"
+        }
+      ],
+      "description_raw": "你的终极技能的伤害会对敌人造成持续若干秒的<status>变形</status>效果。"
+    },
+    {
+      "id": "1250",
+      "name": "一板一眼",
+      "rarity": "黄金",
+      "win_rate": 47.41,
+      "pick_rate": 0.36,
+      "num_games": "242028",
+      "tier": "4",
+      "top_champions": [
+        {
+          "champion_id": "104",
+          "win_rate": "0.5554820499250243",
+          "num_games": "22674"
+        },
+        {
+          "champion_id": "86",
+          "win_rate": "0.5393864742800164",
+          "num_games": "17049"
+        },
+        {
+          "champion_id": "6",
+          "win_rate": "0.48417756904841774",
+          "num_games": "8943"
+        },
+        {
+          "champion_id": "81",
+          "win_rate": "0.45010643381554366",
+          "num_games": "23019"
+        },
+        {
+          "champion_id": "107",
+          "win_rate": "0.43645804864717136",
+          "num_games": "7318"
+        }
+      ],
+      "description_raw": "你的<speed>攻击速度</speed>变为@StaticRatio@。所有额外<speed>攻击速度</speed>会被转化为<scaleAD>攻击力</scaleAD>。(<scaleAD>@BaseAD@外加@ADPerAS@攻击力</scaleAD>每<speed>1%攻击速度</speed>)。<br>"
+    },
+    {
+      "id": "1392",
+      "name": "神圣雪球",
+      "rarity": "棱彩",
+      "win_rate": 47.36,
+      "pick_rate": 0.18,
+      "num_games": "119519",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "518",
+          "win_rate": "0.43993820007724993",
+          "num_games": "2589"
+        },
+        {
+          "champion_id": "85",
+          "win_rate": "0.44991364421416236",
+          "num_games": "1158"
+        },
+        {
+          "champion_id": "20",
+          "win_rate": "0.4379172229639519",
+          "num_games": "1498"
+        },
+        {
+          "champion_id": "77",
+          "win_rate": "0.4815422477440525",
+          "num_games": "1219"
+        },
+        {
+          "champion_id": "86",
+          "win_rate": "0.46387643248629795",
+          "num_games": "2007"
+        }
+      ],
+      "description_raw": "<spellName>雪球</spellName>获得@Haste@技能急速。<br><br>你在用【雪球】冲刺后短暂<keywordMajor>免疫伤害</keywordMajor>。<br><br><rules>如果你没有雪球，获得一个<spellName>雪球</spellName>。</rules><br><br>"
+    },
+    {
+      "id": "1424",
+      "name": "？？？",
+      "rarity": "棱彩",
+      "win_rate": 47.35,
+      "pick_rate": 0.09,
+      "num_games": "62964",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "350",
+          "win_rate": "0.5268006700167505",
+          "num_games": "1194"
+        },
+        {
+          "champion_id": "427",
+          "win_rate": "0.463855421686747",
+          "num_games": "332"
+        },
+        {
+          "champion_id": "888",
+          "win_rate": "0.536697247706422",
+          "num_games": "654"
+        },
+        {
+          "champion_id": "117",
+          "win_rate": "0.4731774415405777",
+          "num_games": "727"
+        },
+        {
+          "champion_id": "40",
+          "win_rate": "0.5109983079526227",
+          "num_games": "591"
+        }
+      ],
+      "description_raw": "你的<passive>敌人消失信号</passive>将发射一个飞弹至被信号标记的位置，这个飞弹会<magicdamage>伤害</magicdamage>敌人并<heal>治疗</heal>友军。 "
+    },
+    {
+      "id": "1011",
+      "name": "你摸不到",
+      "rarity": "棱彩",
+      "win_rate": 47.12,
+      "pick_rate": 0.19,
+      "num_games": "130667",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "360",
+          "win_rate": "0.4461870221525191",
+          "num_games": "5101"
+        },
+        {
+          "champion_id": "38",
+          "win_rate": "0.5622195022439821",
+          "num_games": "2451"
+        },
+        {
+          "champion_id": "55",
+          "win_rate": "0.4601536245799328",
+          "num_games": "4166"
+        },
+        {
+          "champion_id": "85",
+          "win_rate": "0.44511581067472306",
+          "num_games": "1986"
+        },
+        {
+          "champion_id": "9",
+          "win_rate": "0.43389296956977963",
+          "num_games": "3812"
+        }
+      ],
+      "description_raw": "施放你的终极技能会使你进入短时间的<keywordMajor>免疫伤害</keywordMajor>状态。"
+    },
+    {
+      "id": "1187",
+      "name": "闪光弹",
+      "rarity": "白银",
+      "win_rate": 46.88,
+      "pick_rate": 0.0,
+      "num_games": "2084",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "64",
+          "win_rate": "0.5142857142857142",
+          "num_games": "105"
+        },
+        {
+          "champion_id": "555",
+          "win_rate": "0.4583333333333333",
+          "num_games": "96"
+        },
+        {
+          "champion_id": "80",
+          "win_rate": "0.6037735849056604",
+          "num_games": "53"
+        },
+        {
+          "champion_id": "157",
+          "win_rate": "0.4745762711864407",
+          "num_games": "59"
+        },
+        {
+          "champion_id": "238",
+          "win_rate": "0.46774193548387094",
+          "num_games": "62"
+        }
+      ],
+      "description_raw": "你的【闪现】会引发一次爆炸，造成伤害和<status>减速</status>（阵亡时重置）。"
+    },
+    {
+      "id": "1325",
+      "name": "玻璃大炮",
+      "rarity": "棱彩",
+      "win_rate": 46.77,
+      "pick_rate": 0.29,
+      "num_games": "193986",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "41",
+          "win_rate": "0.47207281754240793",
+          "num_games": "7251"
+        },
+        {
+          "champion_id": "126",
+          "win_rate": "0.42664748953974896",
+          "num_games": "7648"
+        },
+        {
+          "champion_id": "30",
+          "win_rate": "0.5005237168936106",
+          "num_games": "6683"
+        },
+        {
+          "champion_id": "101",
+          "win_rate": "0.48430928502102877",
+          "num_games": "6182"
+        },
+        {
+          "champion_id": "76",
+          "win_rate": "0.43168996811380916",
+          "num_games": "4077"
+        }
+      ],
+      "description_raw": "减少<scaleHealth>@HPReductionPerc*100@%最大生命值</scaleHealth>。造成额外的@TrueDamagePerc*100@%<trueDamage>真实伤害</trueDamage>。 "
+    },
+    {
+      "id": "2018",
+      "name": "纯粹主义者 - 术师",
+      "rarity": "白银",
+      "win_rate": 46.73,
+      "pick_rate": 0.12,
+      "num_games": "84594",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "126",
+          "win_rate": "0.5031393888656341",
+          "num_games": "2389"
+        },
+        {
+          "champion_id": "8",
+          "win_rate": "0.47910592808551994",
+          "num_games": "1029"
+        },
+        {
+          "champion_id": "30",
+          "win_rate": "0.5062602068590093",
+          "num_games": "1837"
+        },
+        {
+          "champion_id": "17",
+          "win_rate": "0.4668153931957613",
+          "num_games": "1793"
+        },
+        {
+          "champion_id": "26",
+          "win_rate": "0.48468271334792123",
+          "num_games": "914"
+        }
+      ],
+      "description_raw": "获得百分比冷却缩减并将你的所有<attackSpeed>攻击速度</attackSpeed>转化为技能急速。"
+    },
+    {
+      "id": "1379",
+      "name": "升级：花晓之剑",
+      "rarity": "棱彩",
+      "win_rate": 46.01,
+      "pick_rate": 0.03,
+      "num_games": "17418",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "432",
+          "win_rate": "0.42773109243697477",
+          "num_games": "1190"
+        },
+        {
+          "champion_id": "117",
+          "win_rate": "0.4338292873923258",
+          "num_games": "1277"
+        },
+        {
+          "champion_id": "427",
+          "win_rate": "0.4781704781704782",
+          "num_games": "481"
+        },
+        {
+          "champion_id": "235",
+          "win_rate": "0.48488718603661135",
+          "num_games": "2349"
+        },
+        {
+          "champion_id": "10",
+          "win_rate": "0.5283140283140283",
+          "num_games": "1554"
+        }
+      ],
+      "description_raw": "获得<speed>@AttackSpeed*100@%攻击速度</speed>。<br><br>你对英雄的攻击造成@AttackDamageNerf*100@%伤害但使来自【花晓之剑】的治疗效果提升<scaleHealth>@PercentInc*100@%</scaleHealth>。"
+    },
+    {
+      "id": "1069",
+      "name": "退敌力场",
+      "rarity": "白银",
+      "win_rate": 45.81,
+      "pick_rate": 0.11,
+      "num_games": "75326",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "117",
+          "win_rate": "0.41509433962264153",
+          "num_games": "689"
+        },
+        {
+          "champion_id": "888",
+          "win_rate": "0.4982078853046595",
+          "num_games": "558"
+        },
+        {
+          "champion_id": "16",
+          "win_rate": "0.462033462033462",
+          "num_games": "777"
+        },
+        {
+          "champion_id": "40",
+          "win_rate": "0.48867924528301887",
+          "num_games": "530"
+        },
+        {
+          "champion_id": "201",
+          "win_rate": "0.45849802371541504",
+          "num_games": "506"
+        }
+      ],
+      "description_raw": "在你跌下@HealthThreshold*100@%生命值时，对附近的敌人们造成<status>击退</status>和@SlowAmount*100@%<status>减速</status>。"
+    },
+    {
+      "id": "1348",
+      "name": "闪闪现现",
+      "rarity": "白银",
+      "win_rate": 44.8,
+      "pick_rate": 0.0,
+      "num_games": "1279",
+      "tier": "5",
+      "top_champions": [],
+      "description_raw": "获得第二个【闪现】召唤师技能和@SummonerHaste@召唤师技能急速。"
+    },
+    {
+      "id": "2007",
+      "name": "你肩上的恶魔",
+      "rarity": "棱彩",
+      "win_rate": 43.93,
+      "pick_rate": 0.08,
+      "num_games": "51988",
+      "tier": "5",
+      "top_champions": [
+        {
+          "champion_id": "27",
+          "win_rate": "0.4725877192982456",
+          "num_games": "912"
+        },
+        {
+          "champion_id": "77",
+          "win_rate": "0.44835680751173707",
+          "num_games": "426"
+        },
+        {
+          "champion_id": "17",
+          "win_rate": "0.4332627118644068",
+          "num_games": "944"
+        },
+        {
+          "champion_id": "233",
+          "win_rate": "0.5116822429906542",
+          "num_games": "428"
+        },
+        {
+          "champion_id": "28",
+          "win_rate": "0.46875",
+          "num_games": "160"
+        }
+      ],
+      "description_raw": "与【大魔王】本尊签订一个契约。他持续汲取你的生命力，但回报给你力量，让你对英雄附带额外真实伤害并且创造治疗残片供你获取。"
+    },
+    {
+      "id": "1204",
+      "name": "叠角龙",
+      "rarity": "白银",
+      "win_rate": 0,
+      "pick_rate": 0,
+      "num_games": 0,
+      "tier": "",
+      "top_champions": [],
+      "description_raw": "在你获得一个技能的永久<keywordMajor>层数</keywordMajor>时，多获得@StackModifier*100@%！"
+    },
+    {
+      "id": "1317",
+      "name": "升级：弯刀",
+      "rarity": "白银",
+      "win_rate": 0,
+      "pick_rate": 0,
+      "num_games": 0,
+      "tier": "",
+      "top_champions": [],
+      "description_raw": "<attention>【幽魂弯刀】</attention>和<attention>【救生索】</attention>的冷却时间降低至@UpgradeCD@秒。主动效果激活时，获得@DamageAmp*100@%伤害增幅。<br><br>获得250<gold>金币</gold>。"
+    },
+    {
+      "id": "1343",
+      "name": "王中王，靴中靴",
+      "rarity": "棱彩",
+      "win_rate": 0,
+      "pick_rate": 0,
+      "num_games": 0,
+      "tier": "",
+      "top_champions": [],
+      "description_raw": "即刻：随机获得一双升级后的靴子。<br><br>需求：完成其任务，以更换为另一双。<br><br>奖励：嘉文一世之靴"
+    },
+    {
+      "id": "1386",
+      "name": "转得我眩晕了",
+      "rarity": "白银",
+      "win_rate": 0,
+      "pick_rate": 0,
+      "num_games": 0,
+      "tier": "",
+      "top_champions": [],
+      "description_raw": "将一个召唤师技能替换为<spellName>骄行荡寇</spellName>。<br><br><rules><spellName>骄行荡寇</spellName>发射一根钩爪，吸附在地形上，在此之后，你可以<recast>再次施放</recast>来绕着它摆荡。在摆荡状态下，自动攻击相距最近的那个敌人。在与一个敌方英雄碰撞或<recast>再次施放</recast>时结束摆荡。</rules>"
+    }
+  ]
+}

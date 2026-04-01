@@ -1,0 +1,3792 @@
+[
+  {
+    "champion_name": "恶魔小丑",
+    "augment_name": "裁决使",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "击杀刷新全部基础技能，可无痛收割后排，但需要注意对于在Q持续时间内，对于普攻可秒杀的敌人需要先释放其他技能，否则Q冷却时间不刷新",
+    "combo_ref": "curated:shaco-executioner",
+    "is_curated": true,
+    "upvotes": 13,
+    "downvotes": 2,
+    "score": 11
+  },
+  {
+    "champion_name": "恶魔小丑",
+    "augment_name": "小丑学院",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "小丑最强海克斯，增加机动性的同时，附带的背刺伤害可以与本身的背刺伤害叠加，造成超高爆发，双Q基本可以一刀秒杀后排，死亡时还能造成巨量真实伤害，不管是前期拿人头还是后期打前排都非常实用",
+    "combo_ref": "curated:shaco-clown-college",
+    "is_curated": true,
+    "upvotes": 6,
+    "downvotes": 0,
+    "score": 6
+  },
+  {
+    "champion_name": "恶魔小丑",
+    "augment_name": "回归基本功",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "提升可观的伤害和冷却缩减，但丢失一定保命措施，可通过夜狩，裁决使，罪恶快感，逃跑计划等海克斯来弥补",
+    "combo_ref": "curated:shaco-back-to-basics",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "恶魔小丑",
+    "augment_name": "量子计算",
+    "tier": "A",
+    "tags": [
+      "强力",
+      "娱乐"
+    ],
+    "description": "通过Q技能可最大化量子计算伤害，在前期可以帮助队伍打出相当大的优势，也可以弥补后期打不动肉的问题",
+    "combo_ref": "curated:shaco-quantum-computing",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "恶魔小丑",
+    "augment_name": "唯快不破",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "在E技能未使用的情况下，普攻可以对敌方造成减速，Q➕背刺的第一刀同样可以触发，提升相当可观的伤害，还可以发配暗影疾奔，刃下生风等海克斯形成组合",
+    "combo_ref": "curated:shaco-dont-blink",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "恶魔小丑",
+    "augment_name": "吸血习性",
+    "tier": "A",
+    "tags": [
+      "黑科技",
+      "陷阱"
+    ],
+    "description": "本身可以提供一定续航属于万金油高胜率海克斯，但存在bug，在开启大招短暂消期间失受到伤害死亡，生成的分身生命值为0，无法受到伤害但依然可以攻击敌人，但对面若有无限叠加海克斯或心之钢则会成为人肉沙包，同时分身若吃到治疗圣物的治疗效果，将会获得生命值变得可以击杀，双刃剑效果，慎用",
+    "combo_ref": "curated:shaco-vampirism",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "恶魔小丑",
+    "augment_name": "仆从大师",
+    "tier": "B",
+    "tags": [],
+    "description": "开R后分身巨大，一眼分辨",
+    "combo_ref": "curated:shaco-minionmancer",
+    "is_curated": true,
+    "upvotes": 4,
+    "downvotes": 0,
+    "score": 4
+  },
+  {
+    "champion_name": "恶魔小丑",
+    "augment_name": "一板一眼",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "小丑本身没有攻速加成技能以及适配的攻速装备，增加的攻击力有限，同时使普攻前摇时间变长，使手感变得非常难受",
+    "combo_ref": "curated:shaco-slow-and-steady",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "恶魔小丑",
+    "augment_name": "魄罗爆破手",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "潜行英雄不适合魄罗爆破手：魄罗会暴露你的位置。",
+    "combo_ref": "curated:shaco-poro-blaster",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "符文法师",
+    "augment_name": "物理转魔法",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "登神长阶",
+    "combo_ref": "curated:ryze-adapt",
+    "is_curated": true,
+    "upvotes": 30,
+    "downvotes": 1,
+    "score": 29
+  },
+  {
+    "champion_name": "符文法师",
+    "augment_name": "由心及物",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "登神长阶",
+    "combo_ref": "curated:ryze-mind-to-matter",
+    "is_curated": true,
+    "upvotes": 9,
+    "downvotes": 2,
+    "score": 7
+  },
+  {
+    "champion_name": "符文法师",
+    "augment_name": "歌利亚巨人",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "登神长阶",
+    "combo_ref": "curated:ryze-goliath",
+    "is_curated": true,
+    "upvotes": 4,
+    "downvotes": 0,
+    "score": 4
+  },
+  {
+    "champion_name": "符文法师",
+    "augment_name": "科学狂人",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "登神长阶（变大）",
+    "combo_ref": "curated:ryze-mad-scientist",
+    "is_curated": true,
+    "upvotes": 4,
+    "downvotes": 0,
+    "score": 4
+  },
+  {
+    "champion_name": "符文法师",
+    "augment_name": "任务：沃格勒特的巫师帽",
+    "tier": "S",
+    "tags": [],
+    "description": "登神的另一种方案",
+    "combo_ref": "curated:ryze-quest-wooglets-witchcap",
+    "is_curated": true,
+    "upvotes": 5,
+    "downvotes": 0,
+    "score": 5
+  },
+  {
+    "champion_name": "符文法师",
+    "augment_name": "溢流",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "瑞兹溢流伤害懂的都懂",
+    "combo_ref": "curated:ryze-overflow",
+    "is_curated": true,
+    "upvotes": 10,
+    "downvotes": 0,
+    "score": 10
+  },
+  {
+    "champion_name": "符文法师",
+    "augment_name": "坦克引擎",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "登神长阶（平替）",
+    "combo_ref": "curated:ryze-tank-engine",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "符文法师",
+    "augment_name": "终极刷新",
+    "tier": "C",
+    "tags": [
+      "娱乐"
+    ],
+    "description": "连放两个R能够瞬间传送",
+    "combo_ref": "curated:ryze-ultimate-revolution",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "德玛西亚之力",
+    "augment_name": "一板一眼",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "锁攻速，但E圈数不受影响",
+    "combo_ref": "curated:garen-slow-and-steady",
+    "is_curated": true,
+    "upvotes": 8,
+    "downvotes": 0,
+    "score": 8
+  },
+  {
+    "champion_name": "德玛西亚之力",
+    "augment_name": "利刃华尔兹",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "开E时可使用利刃华尔兹",
+    "combo_ref": "curated:garen-blade-waltz",
+    "is_curated": true,
+    "upvotes": 3,
+    "downvotes": 0,
+    "score": 3
+  },
+  {
+    "champion_name": "德玛西亚之力",
+    "augment_name": "吸血习性",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "被动不再回血，慎选！",
+    "combo_ref": "curated:garen-vampirism",
+    "is_curated": true,
+    "upvotes": 6,
+    "downvotes": 0,
+    "score": 6
+  },
+  {
+    "champion_name": "德玛西亚之力",
+    "augment_name": "灵巧",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "E圈数不受该符文影响",
+    "combo_ref": "curated:garen-deft",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "德玛西亚之力",
+    "augment_name": "闪电打击",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "E圈数不受该符文影响",
+    "combo_ref": "curated:garen-lightning-strikes",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "德玛西亚之力",
+    "augment_name": "珠光护手",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "e技能不会触发暴击",
+    "combo_ref": "curated:garen-jeweled-gauntlet",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "不祥之刃",
+    "augment_name": "一板一眼",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "锁攻速不影响R的攻速加成",
+    "combo_ref": "curated:katarina-slow-and-steady",
+    "is_curated": true,
+    "upvotes": 9,
+    "downvotes": 0,
+    "score": 9
+  },
+  {
+    "champion_name": "不祥之刃",
+    "augment_name": "易损",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "R可吃易损",
+    "combo_ref": "curated:katarina-vulnerability",
+    "is_curated": true,
+    "upvotes": 4,
+    "downvotes": 0,
+    "score": 4
+  },
+  {
+    "champion_name": "不祥之刃",
+    "augment_name": "虚幻武器",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "R正常只吃25/30/35%的特效伤害，拿到之后变50/60/70%",
+    "combo_ref": "curated:katarina-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 4,
+    "downvotes": 0,
+    "score": 4
+  },
+  {
+    "champion_name": "不祥之刃",
+    "augment_name": "物法皆修",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "R每下都可叠加物法皆修，有法转物就是神",
+    "combo_ref": "curated:katarina-master-of-duality",
+    "is_curated": true,
+    "upvotes": 3,
+    "downvotes": 0,
+    "score": 3
+  },
+  {
+    "champion_name": "不祥之刃",
+    "augment_name": "灵巧",
+    "tier": "A",
+    "tags": [],
+    "description": "灵巧提供的攻速正常影响R",
+    "combo_ref": "curated:katarina-deft",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "不祥之刃",
+    "augment_name": "闪电打击",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "闪电打击提供的攻速不影响R",
+    "combo_ref": "curated:katarina-lightning-strikes",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "正义天使",
+    "augment_name": "虚幻武器",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "平A焰浪可触发虚幻武器",
+    "combo_ref": "curated:kayle-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "正义天使",
+    "augment_name": "魔法飞弹",
+    "tier": "S",
+    "tags": [
+      "黑科技"
+    ],
+    "description": "被动焰浪也会触发魔法飞弹，十六级后化身大肉克星。",
+    "combo_ref": "curated:kayle-magic-missile",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "正义天使",
+    "augment_name": "神射法师",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "神射法师对 AP 普攻型凯尔收益稳定，持续输出明显提升。",
+    "combo_ref": "curated:kayle-marksmage",
+    "is_curated": true,
+    "upvotes": 4,
+    "downvotes": 0,
+    "score": 4
+  },
+  {
+    "champion_name": "正义天使",
+    "augment_name": "炼狱导管",
+    "tier": "B",
+    "tags": [
+      "黑科技"
+    ],
+    "description": "平A焰浪可触发炼狱导管",
+    "combo_ref": "curated:kayle-infernal-conduit",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "正义天使",
+    "augment_name": "亮出你的剑",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "选完亮剑E也会变成近战距离",
+    "combo_ref": "curated:kayle-draw-your-sword",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "沙漠玫瑰",
+    "augment_name": "利刃华尔兹",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "大招期间可施放利刃华尔兹",
+    "combo_ref": "curated:samira-blade-waltz",
+    "is_curated": true,
+    "upvotes": 3,
+    "downvotes": 0,
+    "score": 3
+  },
+  {
+    "champion_name": "沙漠玫瑰",
+    "augment_name": "小丑学院",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "开大隐身可打满伤害",
+    "combo_ref": "curated:samira-clown-college",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "沙漠玫瑰",
+    "augment_name": "亮出你的剑",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "强度爆炸 不缺伤害早出饮血和死亡之舞增加容错",
+    "combo_ref": "curated:samira-draw-your-sword",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "沙漠玫瑰",
+    "augment_name": "虚幻武器",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "qea直接满被动",
+    "combo_ref": "curated:samira-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "沙漠玫瑰",
+    "augment_name": "易损",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "R不触发易损",
+    "combo_ref": "curated:samira-vulnerability",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "炽炎雏龙",
+    "augment_name": "珠光护手",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "Q本身不暴击，但是暴击会百分比加成伤害，叠加珠光护手伤害爆炸",
+    "combo_ref": "curated:smolder-jeweled-gauntlet",
+    "is_curated": true,
+    "upvotes": 7,
+    "downvotes": 2,
+    "score": 5
+  },
+  {
+    "champion_name": "炽炎雏龙",
+    "augment_name": "最万用的瞄准镜",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "可增加Q距离",
+    "combo_ref": "curated:smolder-scopiest-weapons",
+    "is_curated": true,
+    "upvotes": 4,
+    "downvotes": 0,
+    "score": 4
+  },
+  {
+    "champion_name": "炽炎雏龙",
+    "augment_name": "更万用的瞄准镜",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "可增加Q距离",
+    "combo_ref": "curated:smolder-scopier-weapons",
+    "is_curated": true,
+    "upvotes": 4,
+    "downvotes": 1,
+    "score": 3
+  },
+  {
+    "champion_name": "炽炎雏龙",
+    "augment_name": "万用瞄准镜",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "可增加Q距离",
+    "combo_ref": "curated:smolder-scoped-weapons",
+    "is_curated": true,
+    "upvotes": 3,
+    "downvotes": 0,
+    "score": 3
+  },
+  {
+    "champion_name": "炽炎雏龙",
+    "augment_name": "亮出你的剑",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "Q也变近战距离，慎选！",
+    "combo_ref": "curated:smolder-draw-your-sword",
+    "is_curated": true,
+    "upvotes": 6,
+    "downvotes": 1,
+    "score": 5
+  },
+  {
+    "champion_name": "铁血狼母",
+    "augment_name": "回归基本功",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "R被动增加的物穿仍然生效",
+    "combo_ref": "curated:ambessa-back-to-basics",
+    "is_curated": true,
+    "upvotes": 5,
+    "downvotes": 0,
+    "score": 5
+  },
+  {
+    "champion_name": "铁血狼母",
+    "augment_name": "古式佳酿",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "Q触发三次回血，其他技能触发两次回血",
+    "combo_ref": "curated:ambessa-rabble-rousing",
+    "is_curated": true,
+    "upvotes": 6,
+    "downvotes": 0,
+    "score": 6
+  },
+  {
+    "champion_name": "铁血狼母",
+    "augment_name": "虚幻武器",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "技能附带的被动不再回复能量，千万别拿",
+    "combo_ref": "curated:ambessa-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 4,
+    "downvotes": 0,
+    "score": 4
+  },
+  {
+    "champion_name": "铁血狼母",
+    "augment_name": "全凭身法",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "只有R能吃到加成，勿拿",
+    "combo_ref": "curated:ambessa-dashing",
+    "is_curated": true,
+    "upvotes": 5,
+    "downvotes": 0,
+    "score": 5
+  },
+  {
+    "champion_name": "双界灵兔",
+    "augment_name": "虚幻武器",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "QE打中直接叠加六层，即触发两次被动",
+    "combo_ref": "curated:aurora-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 11,
+    "downvotes": 0,
+    "score": 11
+  },
+  {
+    "champion_name": "双界灵兔",
+    "augment_name": "全凭身法",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "WER均可吃到全凭身法加成",
+    "combo_ref": "curated:aurora-dashing",
+    "is_curated": true,
+    "upvotes": 6,
+    "downvotes": 0,
+    "score": 6
+  },
+  {
+    "champion_name": "双界灵兔",
+    "augment_name": "轨道镭射",
+    "tier": "B",
+    "tags": [
+      "黑科技",
+      "娱乐"
+    ],
+    "description": "轨道镭射后续伤害每次都可叠加被动",
+    "combo_ref": "curated:aurora-orbitallaser",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "双界灵兔",
+    "augment_name": "升级：雪球",
+    "tier": "B",
+    "tags": [],
+    "description": "升级雪球在26.2版本已修复多次叠加被动的问题，不过符文强度不错",
+    "combo_ref": "curated:aurora-snowball-upgrade",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "沙漠皇帝",
+    "augment_name": "魔法飞弹",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "W每次戳刺，被动塔攻击均可触发",
+    "combo_ref": "curated:azir-magic-missile",
+    "is_curated": true,
+    "upvotes": 3,
+    "downvotes": 0,
+    "score": 3
+  },
+  {
+    "champion_name": "沙漠皇帝",
+    "augment_name": "神射法师",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "沙兵可附带50%额外伤害，物理+魔法伤害爆炸",
+    "combo_ref": "curated:azir-marksmage",
+    "is_curated": true,
+    "upvotes": 3,
+    "downvotes": 0,
+    "score": 3
+  },
+  {
+    "champion_name": "沙漠皇帝",
+    "augment_name": "仆从大师",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "只增加W体型，不增加伤害",
+    "combo_ref": "curated:azir-minionmancer",
+    "is_curated": true,
+    "upvotes": 4,
+    "downvotes": 0,
+    "score": 4
+  },
+  {
+    "champion_name": "沙漠皇帝",
+    "augment_name": "最万用的瞄准镜",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "不增加沙兵的攻击距离、操控距离",
+    "combo_ref": "curated:azir-scopiest-weapons",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "远古恐惧",
+    "augment_name": "利刃华尔兹",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "大招进去烫",
+    "combo_ref": "curated:fiddlesticks-blade-waltz",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "远古恐惧",
+    "augment_name": "小丑学院",
+    "tier": "A",
+    "tags": [
+      "强力",
+      "黑科技"
+    ],
+    "description": "R落地后隐身烫",
+    "combo_ref": "curated:fiddlesticks-clown-college",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "远古恐惧",
+    "augment_name": "升级：中娅",
+    "tier": "A",
+    "tags": [
+      "强力",
+      "黑科技"
+    ],
+    "description": "大招期间可中亚移动",
+    "combo_ref": "curated:fiddlesticks-upgrade-zhonyas",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "远古恐惧",
+    "augment_name": "点亮他们！",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "由于自然回血也会触发该符文，会持续处于战斗状态，无法触发恐惧",
+    "combo_ref": "curated:fiddlesticks-light-em-up!",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "死亡颂唱者",
+    "augment_name": "小丑学院",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "可以开e再开小丑学院过去烧对方，阵亡后的恐惧盒子还可以把人多困在e里",
+    "combo_ref": "curated:karthus-clown-college",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "死亡颂唱者",
+    "augment_name": "终极刷新",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "卡尔萨斯拿到终极刷新后团战压制力极强，几乎每波都能稳定双大。",
+    "combo_ref": "curated:karthus-ultimate-revolution",
+    "is_curated": true,
+    "upvotes": 5,
+    "downvotes": 0,
+    "score": 5
+  },
+  {
+    "champion_name": "死亡颂唱者",
+    "augment_name": "无限循环往复",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "无限循环往复让卡尔萨斯大招循环更离谱，持续压低全队血线。",
+    "combo_ref": "curated:karthus-infinite-recursion",
+    "is_curated": true,
+    "upvotes": 4,
+    "downvotes": 0,
+    "score": 4
+  },
+  {
+    "champion_name": "死亡颂唱者",
+    "augment_name": "尤里卡",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "尤里卡同样能大幅提升卡尔萨斯大招频率，滚雪球能力很强。",
+    "combo_ref": "curated:karthus-eureka",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "万花通灵",
+    "augment_name": "踢踏舞",
+    "tier": "B",
+    "tags": [
+      "娱乐"
+    ],
+    "description": "在屠夫之桥中变为小兵攻击能量之花，花不掉血，可以一直叠加层数",
+    "combo_ref": "curated:neeko-tap-dancer",
+    "is_curated": true,
+    "upvotes": 3,
+    "downvotes": 0,
+    "score": 3
+  },
+  {
+    "champion_name": "万花通灵",
+    "augment_name": "物法皆修",
+    "tier": "B",
+    "tags": [
+      "娱乐"
+    ],
+    "description": "在屠夫之桥中变为小兵攻击能量之花，花不掉血，可以一直叠加层数",
+    "combo_ref": "curated:neeko-master-of-duality",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "万花通灵",
+    "augment_name": "有始有终",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "变小兵或别的东西身上会带先攻的球，一眼真假",
+    "combo_ref": "curated:neeko-from-beginning-to-end",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "万花通灵",
+    "augment_name": "魄罗爆破手",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "变身英雄同样会被魄罗暴露，妮蔻不推荐点魄罗爆破手。",
+    "combo_ref": "curated:neeko-poro-blaster",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "涤魂圣枪",
+    "augment_name": "双刀流",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "A一下即可叠一层被动",
+    "combo_ref": "curated:senna-dual-wield",
+    "is_curated": true,
+    "upvotes": 10,
+    "downvotes": 0,
+    "score": 10
+  },
+  {
+    "champion_name": "涤魂圣枪",
+    "augment_name": "叠角龙",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "有则必选，被动飞速提升。",
+    "combo_ref": "curated:senna-stackosaurusrex",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "涤魂圣枪",
+    "augment_name": "虚幻武器",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "Q，W命中敌人即可提取灵魂",
+    "combo_ref": "curated:senna-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "涤魂圣枪",
+    "augment_name": "亮出你的剑",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "随着被动的提升，攻击距离逐渐增长。",
+    "combo_ref": "curated:senna-draw-your-sword",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "腕豪",
+    "augment_name": "小丑学院",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "隐身进场一拳一个脆皮",
+    "combo_ref": "curated:sett-clown-college",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "腕豪",
+    "augment_name": "珠光护手",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "穿甲大招流腕豪必备，对面肉坦就是你最强的武器。",
+    "combo_ref": "curated:sett-jeweled-gauntlet",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "腕豪",
+    "augment_name": "回归基本功",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "钢局必拿，增幅恐怖",
+    "combo_ref": "curated:sett-back-to-basics",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "腕豪",
+    "augment_name": "量子计算",
+    "tier": "A",
+    "tags": [
+      "黑科技",
+      "黑科技"
+    ],
+    "description": "大招期间触发量子计算可使该目标吃到4倍内圈伤害",
+    "combo_ref": "curated:sett-quantum-computing",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "解脱者",
+    "augment_name": "全凭身法",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "WE可吃加成，若能偷到一个位移类大招再选符文，R后续也可吃到加成",
+    "combo_ref": "curated:sylas-dashing",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "解脱者",
+    "augment_name": "神射法师",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "在被动范围内的单位越多，主目标受到的额外伤害越高",
+    "combo_ref": "curated:sylas-marksmage",
+    "is_curated": true,
+    "upvotes": 3,
+    "downvotes": 0,
+    "score": 3
+  },
+  {
+    "champion_name": "解脱者",
+    "augment_name": "终极唤醒",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "R偷可触发，再施放偷来的R可再次触发",
+    "combo_ref": "curated:sylas-ultimate-awakening",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "解脱者",
+    "augment_name": "最终形态",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "同理",
+    "combo_ref": "curated:sylas-final-form",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "瘟疫之源",
+    "augment_name": "精怪魔法",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "开大a人也会变羊，还手都不行",
+    "combo_ref": "curated:twitch-fey-magic",
+    "is_curated": true,
+    "upvotes": 5,
+    "downvotes": 0,
+    "score": 5
+  },
+  {
+    "champion_name": "瘟疫之源",
+    "augment_name": "神射法师",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "AP 老鼠拿神射法师很稳，持续输出与收割能力同步提升。",
+    "combo_ref": "curated:twitch-marksmage",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "瘟疫之源",
+    "augment_name": "炼狱导管",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "仅有E可叠，被动不施加层数",
+    "combo_ref": "curated:twitch-infernal-conduit",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "瘟疫之源",
+    "augment_name": "虚幻武器",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "被动不触发虚幻武器，E不会叠加被动，勿选",
+    "combo_ref": "curated:twitch-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "暗夜猎手",
+    "augment_name": "双刀流",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "快速三环",
+    "combo_ref": "curated:vayne-dual-wield",
+    "is_curated": true,
+    "upvotes": 17,
+    "downvotes": 2,
+    "score": 15
+  },
+  {
+    "champion_name": "暗夜猎手",
+    "augment_name": "连拨击锤",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "每一发弩箭都可以触发W和攻击特效",
+    "combo_ref": "curated:vayne-fan-the-hammer",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "暗夜猎手",
+    "augment_name": "接二连三",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "触发可叠加W",
+    "combo_ref": "curated:vayne-twice-thrice",
+    "is_curated": true,
+    "upvotes": 4,
+    "downvotes": 0,
+    "score": 4
+  },
+  {
+    "champion_name": "暗夜猎手",
+    "augment_name": "虚幻武器",
+    "tier": "B",
+    "tags": [
+      "黑科技"
+    ],
+    "description": "QE可叠加W，出黄昏与黎明后单Q即可打出三环",
+    "combo_ref": "curated:vayne-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "不落魔锋",
+    "augment_name": "利刃华尔兹",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "快速叠被动",
+    "combo_ref": "curated:zaahen-blade-waltz",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "不落魔锋",
+    "augment_name": "连拨击锤",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "能快速叠满被动层数",
+    "combo_ref": "curated:zaahen-fan-the-hammer",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "不落魔锋",
+    "augment_name": "轨道镭射",
+    "tier": "A",
+    "tags": [
+      "强力",
+      "黑科技"
+    ],
+    "description": "后续伤害（）地面灼烧\n可叠被动，速度特快 1-2s叠满",
+    "combo_ref": "curated:zaahen-orbitallaser",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "不落魔锋",
+    "augment_name": "升级：雪球",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "升级雪球在26.2版本后不再叠加被动层数",
+    "combo_ref": "curated:zaahen-snowball-upgrade",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "弗雷尔卓德之心",
+    "augment_name": "连拨击锤",
+    "tier": "A",
+    "tags": [
+      "黑科技"
+    ],
+    "description": "A一下直接满被动眩晕",
+    "combo_ref": "curated:braum-fan-the-hammer",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "弗雷尔卓德之心",
+    "augment_name": "利刃华尔兹",
+    "tier": "A",
+    "tags": [
+      "黑科技",
+      "强力"
+    ],
+    "description": "每一下都能叠一次被动，搭配台风或者飓风可以同时打出多个被动，相当于团控",
+    "combo_ref": "curated:braum-blade-waltz",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "弗雷尔卓德之心",
+    "augment_name": "台风",
+    "tier": "B",
+    "tags": [
+      "黑科技"
+    ],
+    "description": "A兵给英雄叠被动",
+    "combo_ref": "curated:braum-typhoon",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "诺克萨斯之手",
+    "augment_name": "台风",
+    "tier": "B",
+    "tags": [
+      "黑科技"
+    ],
+    "description": "台风可以给敌方英雄叠加出血",
+    "combo_ref": "curated:darius-typhoon",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "诺克萨斯之手",
+    "augment_name": "连拨击锤",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "无法叠加出血效果",
+    "combo_ref": "curated:darius-fan-the-hammer",
+    "is_curated": true,
+    "upvotes": 4,
+    "downvotes": 0,
+    "score": 4
+  },
+  {
+    "champion_name": "诺克萨斯之手",
+    "augment_name": "利刃华尔兹",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "无法叠加出血效果",
+    "combo_ref": "curated:darius-blade-waltz",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "祖安狂人",
+    "augment_name": "重量级打击手",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "一巴掌一个小朋友，但大招的回复无法暴击",
+    "combo_ref": "curated:drmundo-heavy-hitter",
+    "is_curated": true,
+    "upvotes": 9,
+    "downvotes": 0,
+    "score": 9
+  },
+  {
+    "champion_name": "祖安狂人",
+    "augment_name": "吸血习性",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "选了之后大招不回血",
+    "combo_ref": "curated:drmundo-vampirism",
+    "is_curated": true,
+    "upvotes": 4,
+    "downvotes": 0,
+    "score": 4
+  },
+  {
+    "champion_name": "祖安狂人",
+    "augment_name": "蛋白粉奶昔",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "大招吃不到蛋白粉",
+    "combo_ref": "curated:drmundo-protein-shake",
+    "is_curated": true,
+    "upvotes": 5,
+    "downvotes": 1,
+    "score": 4
+  },
+  {
+    "champion_name": "潮汐海灵",
+    "augment_name": "炼狱导管",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "W被动灼烧可叠加多层炼狱导管",
+    "combo_ref": "curated:fizz-infernal-conduit",
+    "is_curated": true,
+    "upvotes": 6,
+    "downvotes": 3,
+    "score": 3
+  },
+  {
+    "champion_name": "潮汐海灵",
+    "augment_name": "全凭身法",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "Q和E都可以减CD",
+    "combo_ref": "curated:fizz-dashing",
+    "is_curated": true,
+    "upvotes": 8,
+    "downvotes": 0,
+    "score": 8
+  },
+  {
+    "champion_name": "潮汐海灵",
+    "augment_name": "连拨击锤",
+    "tier": "S",
+    "tags": [
+      "强力",
+      "黑科技"
+    ],
+    "description": "连拨击锤目前会全额触发W主动的额外伤害，且小鱼人非常容易变换方向进行平A",
+    "combo_ref": "curated:fizz-fan-the-hammer",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "海洋之灾",
+    "augment_name": "回归基本功",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "每一个连桶增加35%伤害，指数增长怕不怕",
+    "combo_ref": "curated:gangplank-back-to-basics",
+    "is_curated": true,
+    "upvotes": 14,
+    "downvotes": 0,
+    "score": 14
+  },
+  {
+    "champion_name": "海洋之灾",
+    "augment_name": "唯快不破",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "桶的移速为0，直接增幅33%+伤害",
+    "combo_ref": "curated:gangplank-dont-blink",
+    "is_curated": true,
+    "upvotes": 8,
+    "downvotes": 0,
+    "score": 8
+  },
+  {
+    "champion_name": "海洋之灾",
+    "augment_name": "虚幻武器",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "全自动火刀，熟练度不够的可以玩玩",
+    "combo_ref": "curated:gangplank-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "法外狂徒",
+    "augment_name": "回归基本功",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "男枪普通攻击可吃到回归基本功加成",
+    "combo_ref": "curated:graves-back-to-basics",
+    "is_curated": true,
+    "upvotes": 17,
+    "downvotes": 0,
+    "score": 17
+  },
+  {
+    "champion_name": "法外狂徒",
+    "augment_name": "一板一眼",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "A得又快伤害又高",
+    "combo_ref": "curated:graves-slow-and-steady",
+    "is_curated": true,
+    "upvotes": 17,
+    "downvotes": 1,
+    "score": 16
+  },
+  {
+    "champion_name": "法外狂徒",
+    "augment_name": "亮出你的剑",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "拿到就是爽局，一枪一个小朋友",
+    "combo_ref": "curated:graves-draw-your-sword",
+    "is_curated": true,
+    "upvotes": 21,
+    "downvotes": 1,
+    "score": 20
+  },
+  {
+    "champion_name": "战争之影",
+    "augment_name": "终极唤醒",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "开大=无敌",
+    "combo_ref": "curated:hecarim-ultimate-awakening",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "战争之影",
+    "augment_name": "虚幻武器",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "搭配秘书冲拳无限Q",
+    "combo_ref": "curated:hecarim-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 6,
+    "downvotes": 0,
+    "score": 6
+  },
+  {
+    "champion_name": "战争之影",
+    "augment_name": "古式佳酿",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "技能cd起来无限回血无敌",
+    "combo_ref": "curated:hecarim-rabble-rousing",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "海兽祭司",
+    "augment_name": "利刃华尔兹",
+    "tier": "S",
+    "tags": [
+      "强力",
+      "黑科技"
+    ],
+    "description": "开启W后再开始利刃华尔兹，可触发8次w触手攻击特效",
+    "combo_ref": "curated:illaoi-blade-waltz",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "海兽祭司",
+    "augment_name": "虚幻武器",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "开启W用QR砸到人或拉出魂，W持续期间触手会无限打人",
+    "combo_ref": "curated:illaoi-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 4,
+    "downvotes": 0,
+    "score": 4
+  },
+  {
+    "champion_name": "海兽祭司",
+    "augment_name": "玻璃大炮",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "拉出灵魂后，攻击灵魂会使本体受到两次增伤效果",
+    "combo_ref": "curated:illaoi-glass-cannon",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "复仇之矛",
+    "augment_name": "全凭身法",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "全凭身法会给滑板鞋增加大量攻速",
+    "combo_ref": "curated:kalista-dashing",
+    "is_curated": true,
+    "upvotes": 8,
+    "downvotes": 0,
+    "score": 8
+  },
+  {
+    "champion_name": "复仇之矛",
+    "augment_name": "连拨击锤",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "一下平a叠五层矛，快速斩杀",
+    "combo_ref": "curated:kalista-fan-the-hammer",
+    "is_curated": true,
+    "upvotes": 4,
+    "downvotes": 0,
+    "score": 4
+  },
+  {
+    "champion_name": "复仇之矛",
+    "augment_name": "暗影疾奔",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "移速堪比踢踏舞",
+    "combo_ref": "curated:kalista-shadow-runner",
+    "is_curated": true,
+    "upvotes": 3,
+    "downvotes": 0,
+    "score": 3
+  },
+  {
+    "champion_name": "堕落天使",
+    "augment_name": "裁决使",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "出必拿，死一个控一个！用了才知道。",
+    "combo_ref": "curated:morgana-executioner",
+    "is_curated": true,
+    "upvotes": 12,
+    "downvotes": 1,
+    "score": 11
+  },
+  {
+    "champion_name": "堕落天使",
+    "augment_name": "老练狙神",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "敌方在范围外踩中W即可减少CD",
+    "combo_ref": "curated:morgana-skilled-sniper",
+    "is_curated": true,
+    "upvotes": 8,
+    "downvotes": 0,
+    "score": 8
+  },
+  {
+    "champion_name": "堕落天使",
+    "augment_name": "炼狱导管",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "控到一群或者放w技能极速很快",
+    "combo_ref": "curated:morgana-infernal-conduit",
+    "is_curated": true,
+    "upvotes": 5,
+    "downvotes": 1,
+    "score": 4
+  },
+  {
+    "champion_name": "虚空遁地兽",
+    "augment_name": "最万用的瞄准镜",
+    "tier": "B",
+    "tags": [
+      "娱乐"
+    ],
+    "description": "右键点人可超远击飞",
+    "combo_ref": "curated:reksai-scopiest-weapons",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "虚空遁地兽",
+    "augment_name": "更万用的瞄准镜",
+    "tier": "B",
+    "tags": [
+      "娱乐"
+    ],
+    "description": "右键点人可超远击飞",
+    "combo_ref": "curated:reksai-scopier-weapons",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "虚空遁地兽",
+    "augment_name": "万用瞄准镜",
+    "tier": "B",
+    "tags": [
+      "娱乐"
+    ],
+    "description": "右键点人可超远击飞",
+    "combo_ref": "curated:reksai-scoped-weapons",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "傲之追猎者",
+    "augment_name": "最万用的瞄准镜",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "可增加被动跳跃距离",
+    "combo_ref": "curated:rengar-scopiest-weapons",
+    "is_curated": true,
+    "upvotes": 5,
+    "downvotes": 0,
+    "score": 5
+  },
+  {
+    "champion_name": "傲之追猎者",
+    "augment_name": "更万用的瞄准镜",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "可增加被动跳跃距离",
+    "combo_ref": "curated:rengar-scopier-weapons",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "傲之追猎者",
+    "augment_name": "万用瞄准镜",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "可增加被动跳跃距离",
+    "combo_ref": "curated:rengar-scoped-weapons",
+    "is_curated": true,
+    "upvotes": 3,
+    "downvotes": 0,
+    "score": 3
+  },
+  {
+    "champion_name": "战争女神",
+    "augment_name": "老练狙神",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "W弹射可以触发老练狙神",
+    "combo_ref": "curated:sivir-skilled-sniper",
+    "is_curated": true,
+    "upvotes": 11,
+    "downvotes": 0,
+    "score": 11
+  },
+  {
+    "champion_name": "战争女神",
+    "augment_name": "易损",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "W不触发易损",
+    "combo_ref": "curated:sivir-vulnerability",
+    "is_curated": true,
+    "upvotes": 3,
+    "downvotes": 0,
+    "score": 3
+  },
+  {
+    "champion_name": "战争女神",
+    "augment_name": "虚幻武器",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "只有q能触发，w弹射不触发特效",
+    "combo_ref": "curated:sivir-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "兽灵行者",
+    "augment_name": "珠光护手",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "q r可触发",
+    "combo_ref": "curated:udyr-jeweled-gauntlet",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "兽灵行者",
+    "augment_name": "虚幻武器",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "自动触发R下两次普通附带的额外伤害",
+    "combo_ref": "curated:udyr-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "兽灵行者",
+    "augment_name": "最万用的瞄准镜",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "主Q ad  挠挠挠",
+    "combo_ref": "curated:udyr-scopiest-weapons",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "猩红收割者",
+    "augment_name": "炼狱导管",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "化身鞋底战神的必备条件",
+    "combo_ref": "curated:vladimir-infernal-conduit",
+    "is_curated": true,
+    "upvotes": 5,
+    "downvotes": 2,
+    "score": 3
+  },
+  {
+    "champion_name": "猩红收割者",
+    "augment_name": "面包和果酱",
+    "tier": "A",
+    "tags": [
+      "娱乐"
+    ],
+    "description": "配合炼狱导管使w达到160cd就可无限w",
+    "combo_ref": "curated:vladimir-bread-and-jam",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "猩红收割者",
+    "augment_name": "循环往复",
+    "tier": "A",
+    "tags": [
+      "娱乐"
+    ],
+    "description": "配合炼狱导管使w达到160cd可无限w",
+    "combo_ref": "curated:vladimir-recursion",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "祖安花火",
+    "augment_name": "精怪魔法",
+    "tier": "A",
+    "tags": [
+      "强力",
+      "黑科技"
+    ],
+    "description": "开R后的Q连锁闪电也可触发变羊",
+    "combo_ref": "curated:zeri-fey-magic",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "祖安花火",
+    "augment_name": "升级：无尽之刃",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "暴击q每段攻击都能触发额外伤害，物超所值",
+    "combo_ref": "curated:zeri-upgrade-infinity-edge",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "祖安花火",
+    "augment_name": "一板一眼",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "26.1版本后会锁攻速了，慎选！",
+    "combo_ref": "curated:zeri-slow-and-steady",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "铸星龙王",
+    "augment_name": "冰寒",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "E是拖拽效果，可与减速叠加，搭配冰杖基本走不动",
+    "combo_ref": "curated:aurelionsol-ice-cold",
+    "is_curated": true,
+    "upvotes": 11,
+    "downvotes": 0,
+    "score": 11
+  },
+  {
+    "champion_name": "铸星龙王",
+    "augment_name": "叠角龙",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "光速叠层",
+    "combo_ref": "curated:aurelionsol-stackosaurusrex",
+    "is_curated": true,
+    "upvotes": 5,
+    "downvotes": 0,
+    "score": 5
+  },
+  {
+    "champion_name": "星界游神",
+    "augment_name": "轨道镭射",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "大招后接轨道，救赎，谁用谁知道",
+    "combo_ref": "curated:bard-orbitallaser",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "星界游神",
+    "augment_name": "虚幻武器",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "Q不附带被动",
+    "combo_ref": "curated:bard-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "复仇焰魂",
+    "augment_name": "炼狱导管",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "火男唯一真神符文，单技能即可叠加四层",
+    "combo_ref": "curated:brand-infernal-conduit",
+    "is_curated": true,
+    "upvotes": 33,
+    "downvotes": 0,
+    "score": 33
+  },
+  {
+    "champion_name": "复仇焰魂",
+    "augment_name": "魔法飞弹",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "被动可触发，即首次技能命中触发两次魔法飞弹",
+    "combo_ref": "curated:brand-magic-missile",
+    "is_curated": true,
+    "upvotes": 15,
+    "downvotes": 0,
+    "score": 15
+  },
+  {
+    "champion_name": "狂厄蔷薇",
+    "augment_name": "全凭身法",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "QWR均可吃到全凭身法加成",
+    "combo_ref": "curated:briar-dashing",
+    "is_curated": true,
+    "upvotes": 3,
+    "downvotes": 0,
+    "score": 3
+  },
+  {
+    "champion_name": "狂厄蔷薇",
+    "augment_name": "裁决使",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "W状态中击杀可刷新W",
+    "combo_ref": "curated:briar-executioner",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "英勇投弹手",
+    "augment_name": "珠光护手",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "全技能可暴击，伤害爆炸!",
+    "combo_ref": "curated:corki-jeweled-gauntlet",
+    "is_curated": true,
+    "upvotes": 3,
+    "downvotes": 0,
+    "score": 3
+  },
+  {
+    "champion_name": "英勇投弹手",
+    "augment_name": "易损",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "W和E可吃到易损加成",
+    "combo_ref": "curated:corki-vulnerability",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "皎月女神",
+    "augment_name": "会心治疗",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "肉装皎月开W你就玩吧",
+    "combo_ref": "curated:diana-critical-healing",
+    "is_curated": true,
+    "upvotes": 4,
+    "downvotes": 0,
+    "score": 4
+  },
+  {
+    "champion_name": "皎月女神",
+    "augment_name": "虚幻武器",
+    "tier": "A",
+    "tags": [
+      "娱乐"
+    ],
+    "description": "技能自动打被动，但被动不会造成AOE伤害",
+    "combo_ref": "curated:diana-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "时间刺客",
+    "augment_name": "连拨击锤",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "谁玩谁知道，全额触发W被动，露头就秒",
+    "combo_ref": "curated:ekko-fan-the-hammer",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "时间刺客",
+    "augment_name": "虚幻武器",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "虚幻武器搭配黄昏与黎明，单技能触发三环及W被动",
+    "combo_ref": "curated:ekko-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "德玛西亚皇子",
+    "augment_name": "俯冲轰炸",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "自爆就完了",
+    "combo_ref": "curated:jarvaniv-dive-bomber",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "德玛西亚皇子",
+    "augment_name": "小丑学院",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "中东皇子——小丑学院加俯冲爆炸加自我毁灭加轨道镭射",
+    "combo_ref": "curated:jarvaniv-clown-college",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "未来守护者",
+    "augment_name": "一板一眼",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "杰斯开炮形态W可增加360攻击力",
+    "combo_ref": "curated:jayce-slow-and-steady",
+    "is_curated": true,
+    "upvotes": 16,
+    "downvotes": 3,
+    "score": 13
+  },
+  {
+    "champion_name": "未来守护者",
+    "augment_name": "纯粹主义者 - 术师",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "开 w 获得 300 技能极速",
+    "combo_ref": "curated:jayce-purist---caster",
+    "is_curated": true,
+    "upvotes": 6,
+    "downvotes": 2,
+    "score": 4
+  },
+  {
+    "champion_name": "影流之镰",
+    "augment_name": "全凭身法",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "QER均可吃到加成",
+    "combo_ref": "curated:kayn-dashing",
+    "is_curated": true,
+    "upvotes": 5,
+    "downvotes": 0,
+    "score": 5
+  },
+  {
+    "champion_name": "影流之镰",
+    "augment_name": "量子计算",
+    "tier": "A",
+    "tags": [
+      "黑科技"
+    ],
+    "description": "大招期间触发量子计算可使该目标吃到4倍内圈伤害",
+    "combo_ref": "curated:kayn-quantum-computing",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "永猎双子",
+    "augment_name": "回归基本功",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "普通攻击可吃到回归基本功加成",
+    "combo_ref": "curated:kindred-back-to-basics",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "永猎双子",
+    "augment_name": "叠角龙",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "被动1层变2层",
+    "combo_ref": "curated:kindred-stackosaurusrex",
+    "is_curated": true,
+    "upvotes": 4,
+    "downvotes": 0,
+    "score": 4
+  },
+  {
+    "champion_name": "诡术妖姬",
+    "augment_name": "全凭身法",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "选符文时R若为W的复制，则也可获得加成",
+    "combo_ref": "curated:leblanc-dashing",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "诡术妖姬",
+    "augment_name": "量子计算",
+    "tier": "A",
+    "tags": [
+      "娱乐",
+      "黑科技"
+    ],
+    "description": "量子计算触发时，W过去释放。",
+    "combo_ref": "curated:leblanc-quantum-computing",
+    "is_curated": true,
+    "upvotes": 3,
+    "downvotes": 0,
+    "score": 3
+  },
+  {
+    "champion_name": "含羞蓓蕾",
+    "augment_name": "炼狱导管",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "被动可叠加多层炼狱导管",
+    "combo_ref": "curated:lillia-infernal-conduit",
+    "is_curated": true,
+    "upvotes": 10,
+    "downvotes": 1,
+    "score": 9
+  },
+  {
+    "champion_name": "含羞蓓蕾",
+    "augment_name": "旋转至胜",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "QWE均为旋转技能",
+    "combo_ref": "curated:lillia-spin-to-win",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "圣枪游侠",
+    "augment_name": "易损",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "大招可吃到易损加成，伤害爆炸",
+    "combo_ref": "curated:lucian-vulnerability",
+    "is_curated": true,
+    "upvotes": 8,
+    "downvotes": 0,
+    "score": 8
+  },
+  {
+    "champion_name": "圣枪游侠",
+    "augment_name": "珠光护手",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "和易损可以叠加伤害，大招碰到对面就是死。",
+    "combo_ref": "curated:lucian-jeweled-gauntlet",
+    "is_curated": true,
+    "upvotes": 3,
+    "downvotes": 0,
+    "score": 3
+  },
+  {
+    "champion_name": "虚空先知",
+    "augment_name": "炼狱导管",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "E可叠加多层炼狱导管",
+    "combo_ref": "curated:malzahar-infernal-conduit",
+    "is_curated": true,
+    "upvotes": 9,
+    "downvotes": 0,
+    "score": 9
+  },
+  {
+    "champion_name": "虚空先知",
+    "augment_name": "虚幻武器",
+    "tier": "A",
+    "tags": [
+      "黑科技"
+    ],
+    "description": "配合物转法，出攻击特效装备，强力输出",
+    "combo_ref": "curated:malzahar-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 4,
+    "downvotes": 1,
+    "score": 3
+  },
+  {
+    "champion_name": "无极剑圣",
+    "augment_name": "秘术冲拳",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "拿到就是爽局，Q技能附带特效，几段伤害都可以触发秘术冲拳。",
+    "combo_ref": "curated:masteryi-mystic-punch",
+    "is_curated": true,
+    "upvotes": 4,
+    "downvotes": 1,
+    "score": 3
+  },
+  {
+    "champion_name": "无极剑圣",
+    "augment_name": "死亡之环",
+    "tier": "B",
+    "tags": [
+      "娱乐"
+    ],
+    "description": "念经流，搭配治疗效果海克斯",
+    "combo_ref": "curated:masteryi-circle-of-death",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "流光镜影",
+    "augment_name": "老练狙神",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "QW命中好了无限放，尤其是W，无限控",
+    "combo_ref": "curated:mel-skilled-sniper",
+    "is_curated": true,
+    "upvotes": 3,
+    "downvotes": 0,
+    "score": 3
+  },
+  {
+    "champion_name": "流光镜影",
+    "augment_name": "炼狱导管",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "QE命中仅一层炼狱导管",
+    "combo_ref": "curated:mel-infernal-conduit",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "赏金猎人",
+    "augment_name": "老练狙神",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "海斗赏金AP强度高于AD",
+    "combo_ref": "curated:missfortune-skilled-sniper",
+    "is_curated": true,
+    "upvotes": 12,
+    "downvotes": 1,
+    "score": 11
+  },
+  {
+    "champion_name": "赏金猎人",
+    "augment_name": "任务：沃格勒特的巫师帽",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "AP 女枪搭配任务巫师帽很猛。高法强下 E 的减速和基础伤害都非常夸张。",
+    "combo_ref": "curated:missfortune-quest-wooglets-witchcap",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "百裂冥犬",
+    "augment_name": "炼狱导管",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "Q流血和小狗每次攻击都会叠加炼狱导管，Q中后基本无CD",
+    "combo_ref": "curated:naafiri-infernal-conduit",
+    "is_curated": true,
+    "upvotes": 4,
+    "downvotes": 1,
+    "score": 3
+  },
+  {
+    "champion_name": "百裂冥犬",
+    "augment_name": "虚幻武器",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "Q流血和小狗每次攻击都可触发一次虚幻武器，建议配合破败使用",
+    "combo_ref": "curated:naafiri-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "雪原双子",
+    "augment_name": "死亡之环",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "Q可造成巨额伤害，但不要出时光",
+    "combo_ref": "curated:nunu-circle-of-death",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "雪原双子",
+    "augment_name": "溢流",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "E会多次耗蓝，慎选",
+    "combo_ref": "curated:nunu-overflow",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "不屈之枪",
+    "augment_name": "回归基本功",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "R被动增加的物穿仍然生效",
+    "combo_ref": "curated:pantheon-back-to-basics",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "不屈之枪",
+    "augment_name": "任务：钢化你心",
+    "tier": "A",
+    "tags": [
+      "黑科技",
+      "娱乐"
+    ],
+    "description": "配合坦克引擎叠加血量，最后补出大帽和峡谷制造者，一个W100%最大生命值，瞬秒大肉",
+    "combo_ref": "curated:pantheon-quest-steel-your-heart",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "德玛西亚之翼",
+    "augment_name": "量子计算",
+    "tier": "S",
+    "tags": [
+      "黑科技"
+    ],
+    "description": "穿甲奎因配量子计算可进场打AOE后借位移脱离，爆发与容错都很高。",
+    "combo_ref": "curated:quinn-quantum-computing",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "德玛西亚之翼",
+    "augment_name": "狂徒豪气",
+    "tier": "A",
+    "tags": [
+      "黑科技"
+    ],
+    "description": "奎因 E 目前可瞬间叠满狂徒豪气（+60 双抗），疑似机制异常。",
+    "combo_ref": "curated:quinn-outlaws-grit",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "镕铁少女",
+    "augment_name": "残忍",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "瑞尔AOE控制极多，且能聚集，一个控制可以让一个英雄吃到多个残忍伤害",
+    "combo_ref": "curated:rell-cruelty",
+    "is_curated": true,
+    "upvotes": 6,
+    "downvotes": 0,
+    "score": 6
+  },
+  {
+    "champion_name": "镕铁少女",
+    "augment_name": "巨像的勇气",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "巨像护盾可叠加，团战轻松几千护盾",
+    "combo_ref": "curated:rell-courage-of-the-colossus",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "炼金男爵",
+    "augment_name": "扇巴掌",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "Q一个人至少叠2层，摔到队友身上，最多一个Q叠6层，如果配合残忍则无敌",
+    "combo_ref": "curated:renata-slap-around",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "炼金男爵",
+    "augment_name": "残忍",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "Q能触发多段残忍，大招也能触发残忍",
+    "combo_ref": "curated:renata-cruelty",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "机械公敌",
+    "augment_name": "虚幻武器",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "红温时QE可附带被动伤害",
+    "combo_ref": "curated:rumble-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "机械公敌",
+    "augment_name": "易损",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "易损珠光影炎乘算八倍伤害",
+    "combo_ref": "curated:rumble-vulnerability",
+    "is_curated": true,
+    "upvotes": 4,
+    "downvotes": 0,
+    "score": 4
+  },
+  {
+    "champion_name": "星籁歌姬",
+    "augment_name": "扇巴掌",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "E速叠扇巴掌",
+    "combo_ref": "curated:seraphine-slap-around",
+    "is_curated": true,
+    "upvotes": 7,
+    "downvotes": 0,
+    "score": 7
+  },
+  {
+    "champion_name": "星籁歌姬",
+    "augment_name": "山脉龙魂",
+    "tier": "B",
+    "tags": [
+      "娱乐"
+    ],
+    "description": "有盾时W可直接触发回血",
+    "combo_ref": "curated:seraphine-mountainsoul",
+    "is_curated": true,
+    "upvotes": 5,
+    "downvotes": 0,
+    "score": 5
+  },
+  {
+    "champion_name": "诺克萨斯统领",
+    "augment_name": "扇巴掌",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "E禁锢叠一层，拉拽再叠一层",
+    "combo_ref": "curated:swain-slap-around",
+    "is_curated": true,
+    "upvotes": 8,
+    "downvotes": 0,
+    "score": 8
+  },
+  {
+    "champion_name": "诺克萨斯统领",
+    "augment_name": "残忍",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "同理，触发两次残忍",
+    "combo_ref": "curated:swain-cruelty",
+    "is_curated": true,
+    "upvotes": 5,
+    "downvotes": 0,
+    "score": 5
+  },
+  {
+    "champion_name": "暗黑元首",
+    "augment_name": "裁决使",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "裁决使现在可刷新升级后的Q技能",
+    "combo_ref": "curated:syndra-executioner",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "暗黑元首",
+    "augment_name": "残忍",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "配合E技能大范围控制触发残忍，且能触发两次，非常恶心",
+    "combo_ref": "curated:syndra-cruelty",
+    "is_curated": true,
+    "upvotes": 3,
+    "downvotes": 0,
+    "score": 3
+  },
+  {
+    "champion_name": "麦林炮手",
+    "augment_name": "亮出你的剑",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "被动增加的攻击距离仍然有效",
+    "combo_ref": "curated:tristana-draw-your-sword",
+    "is_curated": true,
+    "upvotes": 8,
+    "downvotes": 1,
+    "score": 7
+  },
+  {
+    "champion_name": "麦林炮手",
+    "augment_name": "连拨击锤",
+    "tier": "S",
+    "tags": [
+      "强力",
+      "黑科技"
+    ],
+    "description": "E技能平A一次触发。",
+    "combo_ref": "curated:tristana-fan-the-hammer",
+    "is_curated": true,
+    "upvotes": 5,
+    "downvotes": 0,
+    "score": 5
+  },
+  {
+    "champion_name": "无畏战车",
+    "augment_name": "一板一眼",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "锁攻速不影响W",
+    "combo_ref": "curated:urgot-slow-and-steady",
+    "is_curated": true,
+    "upvotes": 8,
+    "downvotes": 0,
+    "score": 8
+  },
+  {
+    "champion_name": "无畏战车",
+    "augment_name": "利刃华尔兹",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "一键四被动，伤害爆炸",
+    "combo_ref": "curated:urgot-blade-waltz",
+    "is_curated": true,
+    "upvotes": 3,
+    "downvotes": 0,
+    "score": 3
+  },
+  {
+    "champion_name": "邪恶小法师",
+    "augment_name": "尤里卡",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "配合被动，高法强高CD",
+    "combo_ref": "curated:veigar-eureka",
+    "is_curated": true,
+    "upvotes": 12,
+    "downvotes": 0,
+    "score": 12
+  },
+  {
+    "champion_name": "邪恶小法师",
+    "augment_name": "轨道镭射",
+    "tier": "A",
+    "tags": [],
+    "description": "配合E技能很容易命中",
+    "combo_ref": "curated:veigar-orbitallaser",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "疾风剑豪",
+    "augment_name": "快中求稳",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "配合暴击书，一玩一个不吱声",
+    "combo_ref": "curated:yasuo-swift-and-safe",
+    "is_curated": true,
+    "upvotes": 3,
+    "downvotes": 0,
+    "score": 3
+  },
+  {
+    "champion_name": "疾风剑豪",
+    "augment_name": "暗影疾奔",
+    "tier": "B",
+    "tags": [
+      "娱乐"
+    ],
+    "description": "移速越快E得越快",
+    "combo_ref": "curated:yasuo-shadow-runner",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "不破之誓",
+    "augment_name": "物法皆修",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "开启Q后平A可叠加多层物法皆修",
+    "combo_ref": "curated:yunara-master-of-duality",
+    "is_curated": true,
+    "upvotes": 7,
+    "downvotes": 0,
+    "score": 7
+  },
+  {
+    "champion_name": "不破之誓",
+    "augment_name": "踢踏舞",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "开启Q后平A可叠加多层踢踏舞",
+    "combo_ref": "curated:yunara-tap-dancer",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "影流之主",
+    "augment_name": "虚幻武器",
+    "tier": "A",
+    "tags": [
+      "黑科技"
+    ],
+    "description": "技能可触发被动，搭配九头蛇梦回神话版本",
+    "combo_ref": "curated:zed-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 4,
+    "downvotes": 0,
+    "score": 4
+  },
+  {
+    "champion_name": "影流之主",
+    "augment_name": "裁决使",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "触发裁决使仅刷新技能CD不恢复能量，常有触发裁决使后，没有足够能量释放技能。",
+    "combo_ref": "curated:zed-executioner",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "暮光星灵",
+    "augment_name": "史上最大雪球",
+    "tier": "A",
+    "tags": [
+      "黑科技",
+      "娱乐"
+    ],
+    "description": "佐伊专武，捡到的雪球也是超大雪球",
+    "combo_ref": "curated:zoe-biggest-snowball-ever",
+    "is_curated": true,
+    "upvotes": 3,
+    "downvotes": 0,
+    "score": 3
+  },
+  {
+    "champion_name": "暮光星灵",
+    "augment_name": "升级：雪球",
+    "tier": "A",
+    "tags": [
+      "黑科技",
+      "娱乐"
+    ],
+    "description": "同理，捡到的雪球也可以下雪",
+    "combo_ref": "curated:zoe-snowball-upgrade",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "暗裔剑魔",
+    "augment_name": "扇巴掌",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "Q外圈可叠",
+    "combo_ref": "curated:aatrox-slap-around",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "离群之刺",
+    "augment_name": "最万用的瞄准镜",
+    "tier": "B",
+    "tags": [
+      "娱乐"
+    ],
+    "description": "被动会将该加成也变为双倍",
+    "combo_ref": "curated:akali-scopiest-weapons",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "影哨",
+    "augment_name": "双刀流",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "A一下就是A四下",
+    "combo_ref": "curated:akshan-dual-wield",
+    "is_curated": true,
+    "upvotes": 6,
+    "downvotes": 1,
+    "score": 5
+  },
+  {
+    "champion_name": "牛头酋长",
+    "augment_name": "裁决使",
+    "tier": "S",
+    "tags": [
+      "强力",
+      "黑科技"
+    ],
+    "description": "一波团战一直控，超强！",
+    "combo_ref": "curated:alistar-executioner",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "殇之木乃伊",
+    "augment_name": "虚幻武器",
+    "tier": "S",
+    "tags": [
+      "黑科技"
+    ],
+    "description": "虚幻武器开W叠刚，配合装备极速更厉害。",
+    "combo_ref": "curated:amumu-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "黑暗之女",
+    "augment_name": "杀戮时间到了",
+    "tier": "A",
+    "tags": [
+      "黑科技"
+    ],
+    "description": "用R给熊下达移动指令也会触发杀戮时间",
+    "combo_ref": "curated:annie-its-killing-time",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "残月之肃",
+    "augment_name": "回归基本功",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "普通攻击可吃到回归基本功加成",
+    "combo_ref": "curated:aphelios-back-to-basics",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "虚空女皇",
+    "augment_name": "秘术冲拳",
+    "tier": "S",
+    "tags": [],
+    "description": "Q命中时可以直接刷新WE",
+    "combo_ref": "curated:belveth-mystic-punch",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "蒸汽机器人",
+    "augment_name": "虚幻武器",
+    "tier": "B",
+    "tags": [
+      "娱乐"
+    ],
+    "description": "开E再Q会让人原地起飞，R被动可连续电三次",
+    "combo_ref": "curated:blitzcrank-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "皮城女警",
+    "augment_name": "接二连三",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "女警极少有攻击特效，慎选",
+    "combo_ref": "curated:caitlyn-twice-thrice",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "荣耀行刑官",
+    "augment_name": "旋转至胜",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "QER均可吃到旋转至胜加成",
+    "combo_ref": "curated:draven-spin-to-win",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "蜘蛛女皇",
+    "augment_name": "全凭身法",
+    "tier": "S",
+    "tags": [
+      "神级",
+      "黑科技"
+    ],
+    "description": "蜘蛛形态死亡后QE会再获得175急速，死亡三次即可叠满500急速，人形态技能也有收益。使用潘多拉变为其他符文后该技能急速仍然存在！",
+    "combo_ref": "curated:elise-dashing",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "痛苦之拥",
+    "augment_name": "面包和黄油",
+    "tier": "S",
+    "tags": [
+      "神级",
+      "娱乐"
+    ],
+    "description": "无限Q全场鞭，纯爽",
+    "combo_ref": "curated:evelynn-bread-and-butter",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "探险家",
+    "augment_name": "虚幻武器",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "Q可触发两次攻击特效",
+    "combo_ref": "curated:ezreal-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 6,
+    "downvotes": 3,
+    "score": 3
+  },
+  {
+    "champion_name": "无双剑姬",
+    "augment_name": "利刃华尔兹",
+    "tier": "B",
+    "tags": [
+      "娱乐"
+    ],
+    "description": "一键四破（前提是没有其他单位）",
+    "combo_ref": "curated:fiora-blade-waltz",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "正义巨像",
+    "augment_name": "裁决使",
+    "tier": "B",
+    "tags": [],
+    "description": "W在蓄力期间或释放时击杀敌人不会刷新W",
+    "combo_ref": "curated:galio-executioner",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "迷失之牙",
+    "augment_name": "连拨击锤",
+    "tier": "A",
+    "tags": [
+      "娱乐"
+    ],
+    "description": "AP纳尔一A秒人",
+    "combo_ref": "curated:gnar-fan-the-hammer",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "酒桶",
+    "augment_name": "虚幻武器",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "W可被技能触发",
+    "combo_ref": "curated:gragas-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "灵罗娃娃",
+    "augment_name": "虚幻武器",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "普攻和Q技能多触发一次伤害，再出黎明与黄昏的话，伤害巨额提升",
+    "combo_ref": "curated:gwen-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "大发明家",
+    "augment_name": "杀戮时间到了",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "开关R均可触发，但由于现在仅能累积自己的伤害，慎选",
+    "combo_ref": "curated:heimerdinger-its-killing-time",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "异画师",
+    "augment_name": "残忍",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "EE拉到多个可使一个英雄吃到多次残忍伤害",
+    "combo_ref": "curated:hwei-cruelty",
+    "is_curated": true,
+    "upvotes": 5,
+    "downvotes": 1,
+    "score": 4
+  },
+  {
+    "champion_name": "风暴之怒",
+    "augment_name": "老练狙神",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "频繁击飞堪比老练女枪",
+    "combo_ref": "curated:janna-skilled-sniper",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "武器大师",
+    "augment_name": "升级：耀光",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "有升级耀光记得出黄昏与黎明，可双倍触发升级耀光伤害及回血，其他英雄同理",
+    "combo_ref": "curated:jax-upgrade-sheen",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "戏命师",
+    "augment_name": "回归基本功",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "普通攻击可吃到回归基本功加成",
+    "combo_ref": "curated:jhin-back-to-basics",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "虚空之女",
+    "augment_name": "虚幻武器",
+    "tier": "S",
+    "tags": [
+      "强力",
+      "黑科技"
+    ],
+    "description": "虚幻武器搭配黄昏与黎明，升级W后一次即可打出电浆",
+    "combo_ref": "curated:kaisa-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "狂暴之心",
+    "augment_name": "小丑学院",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "大招隐身电",
+    "combo_ref": "curated:kennen-clown-college",
+    "is_curated": true,
+    "upvotes": 3,
+    "downvotes": 0,
+    "score": 3
+  },
+  {
+    "champion_name": "纳祖芒荣耀",
+    "augment_name": "精怪魔法",
+    "tier": "A",
+    "tags": [
+      "黑科技"
+    ],
+    "description": "开R后普攻即可变羊",
+    "combo_ref": "curated:ksante-fey-magic",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "曙光女神",
+    "augment_name": "炼狱导管",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "无限控制",
+    "combo_ref": "curated:leona-infernal-conduit",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "冰霜女巫",
+    "augment_name": "唯快不破",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "被动、Q、R均附带减速，稳定吃到增伤",
+    "combo_ref": "curated:lissandra-dont-blink",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "光辉女郎",
+    "augment_name": "虚幻武器",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "技能直接触发被动",
+    "combo_ref": "curated:lux-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 9,
+    "downvotes": 0,
+    "score": 9
+  },
+  {
+    "champion_name": "熔岩巨兽",
+    "augment_name": "终极刷新",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "双核弹",
+    "combo_ref": "curated:malphite-ultimate-revolution",
+    "is_curated": true,
+    "upvotes": 6,
+    "downvotes": 1,
+    "score": 5
+  },
+  {
+    "champion_name": "扭曲树精",
+    "augment_name": "死亡之环",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "大树的真神符文，A一下一管血",
+    "combo_ref": "curated:maokai-circle-of-death",
+    "is_curated": true,
+    "upvotes": 7,
+    "downvotes": 3,
+    "score": 4
+  },
+  {
+    "champion_name": "齐天大圣",
+    "augment_name": "利刃华尔兹",
+    "tier": "S",
+    "tags": [
+      "强力",
+      "黑科技"
+    ],
+    "description": "华尔兹大招流猴子，控一片！",
+    "combo_ref": "curated:monkeyking-blade-waltz",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "铁铠冥魂",
+    "augment_name": "蛋白粉奶昔",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "W回血量基于护盾量，可吃到两次蛋白粉加成，配合死亡之环秒人",
+    "combo_ref": "curated:mordekaiser-protein-shake",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "深海泰坦",
+    "augment_name": "巨像的勇气",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "搭配残忍不敢想",
+    "combo_ref": "curated:nautilus-courage-of-the-colossus",
+    "is_curated": true,
+    "upvotes": 4,
+    "downvotes": 0,
+    "score": 4
+  },
+  {
+    "champion_name": "山隐之焰",
+    "augment_name": "精怪魔法",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "有精怪魔法后大招第一段可触发多次易损，伤害极高",
+    "combo_ref": "curated:ornn-fey-magic",
+    "is_curated": true,
+    "upvotes": 4,
+    "downvotes": 0,
+    "score": 4
+  },
+  {
+    "champion_name": "血港鬼影",
+    "augment_name": "全凭身法",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "R无法吃到加成",
+    "combo_ref": "curated:pyke-dashing",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "披甲龙龟",
+    "augment_name": "虚幻武器",
+    "tier": "A",
+    "tags": [
+      "强力",
+      "黑科技"
+    ],
+    "description": "开W的反弹伤害可触发攻击特效",
+    "combo_ref": "curated:rammus-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "放逐之刃",
+    "augment_name": "虚幻武器",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "技能不触发被动",
+    "combo_ref": "curated:riven-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 5,
+    "downvotes": 0,
+    "score": 5
+  },
+  {
+    "champion_name": "北地之怒",
+    "augment_name": "连拨击锤",
+    "tier": "C",
+    "tags": [
+      "娱乐"
+    ],
+    "description": "瞬叠被动",
+    "combo_ref": "curated:sejuani-fan-the-hammer",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "龙血武姬",
+    "augment_name": "神射法师",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "Q无法触发神射法师，慎选",
+    "combo_ref": "curated:shyvana-marksmage",
+    "is_curated": true,
+    "upvotes": 3,
+    "downvotes": 0,
+    "score": 3
+  },
+  {
+    "champion_name": "炼金术士",
+    "augment_name": "炼狱导管",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "Q可叠加多层炼狱导管",
+    "combo_ref": "curated:singed-infernal-conduit",
+    "is_curated": true,
+    "upvotes": 11,
+    "downvotes": 3,
+    "score": 8
+  },
+  {
+    "champion_name": "亡灵战神",
+    "augment_name": "连拨击锤",
+    "tier": "A",
+    "tags": [
+      "娱乐"
+    ],
+    "description": "塞恩僵尸可以触发伤害还可以",
+    "combo_ref": "curated:sion-fan-the-hammer",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "上古领主",
+    "augment_name": "利刃华尔兹",
+    "tier": "B",
+    "tags": [
+      "娱乐"
+    ],
+    "description": "开R后使用会带着人瞬移",
+    "combo_ref": "curated:skarner-blade-waltz",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "河流之王",
+    "augment_name": "虚幻武器",
+    "tier": "C",
+    "tags": [
+      "黑科技",
+      "娱乐"
+    ],
+    "description": "出黄昏与黎明后单Q即可叠出三层被动",
+    "combo_ref": "curated:tahmkench-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 12,
+    "downvotes": 8,
+    "score": 4
+  },
+  {
+    "champion_name": "刀锋之影",
+    "augment_name": "虚幻武器",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "全自动打被动，但是大招打到人会解除隐身，有利有弊",
+    "combo_ref": "curated:talon-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "迅捷斥候",
+    "augment_name": "神射法师",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "AP 提莫点神射法师性价比高，普攻与持续消耗都更扎实。",
+    "combo_ref": "curated:teemo-marksmage",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "魂锁典狱长",
+    "augment_name": "残忍",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "Q会将人拖拽出残忍范围",
+    "combo_ref": "curated:thresh-cruelty",
+    "is_curated": true,
+    "upvotes": 3,
+    "downvotes": 0,
+    "score": 3
+  },
+  {
+    "champion_name": "巨魔之王",
+    "augment_name": "老练狙神",
+    "tier": "C",
+    "tags": [
+      "娱乐"
+    ],
+    "description": "柱子顶到可减少CD",
+    "combo_ref": "curated:trundle-skilled-sniper",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "蛮族之王",
+    "augment_name": "物法皆修",
+    "tier": "A",
+    "tags": [
+      "黑科技"
+    ],
+    "description": "q技能法强加成回血，羊刀加烁刃然后纯肉 叠起来一q回满非常变态",
+    "combo_ref": "curated:tryndamere-master-of-duality",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "卡牌大师",
+    "augment_name": "虚幻武器",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "W选牌后无法被Q触发",
+    "combo_ref": "curated:twistedfate-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "皮城执法官",
+    "augment_name": "利刃华尔兹",
+    "tier": "S",
+    "tags": [
+      "黑科技"
+    ],
+    "description": "大招+华尔兹每个人都给我起飞🛫",
+    "combo_ref": "curated:vi-blade-waltz",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "破败之王",
+    "augment_name": "珠光护手",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "Q和R本身无法暴击，但暴击率会百分比加成伤害，配合珠光护手伤害爆炸",
+    "combo_ref": "curated:viego-jeweled-gauntlet",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "奥术先驱",
+    "augment_name": "虚幻武器",
+    "tier": "C",
+    "tags": [
+      "陷阱"
+    ],
+    "description": "技能无法触发Q二段",
+    "combo_ref": "curated:viktor-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "德邦总管",
+    "augment_name": "物法皆修",
+    "tier": "A",
+    "tags": [
+      "强力"
+    ],
+    "description": "一个羊刀出纯肉。被动是法强加成回血",
+    "combo_ref": "curated:xinzhao-master-of-duality",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "封魔剑魂",
+    "augment_name": "会心治疗",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "搭配暴击书，自带的暴击率提升和高频的技能释放轻松满暴，每个技能都能提供护盾，再被强化，还能加强回血量",
+    "combo_ref": "curated:yone-critical-healing",
+    "is_curated": true,
+    "upvotes": 6,
+    "downvotes": 0,
+    "score": 6
+  },
+  {
+    "champion_name": "牧魂人",
+    "augment_name": "虚幻武器",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "小鬼每次攻击都可触发虚幻武器",
+    "combo_ref": "curated:yorick-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 0,
+    "downvotes": 0,
+    "score": 0
+  },
+  {
+    "champion_name": "魔法猫咪",
+    "augment_name": "死亡之环",
+    "tier": "A",
+    "tags": [
+      "强力",
+      "黑科技"
+    ],
+    "description": "挂在队友身上，用狂徒打输出",
+    "combo_ref": "curated:yuumi-circle-of-death",
+    "is_curated": true,
+    "upvotes": 4,
+    "downvotes": 0,
+    "score": 4
+  },
+  {
+    "champion_name": "生化魔人",
+    "augment_name": "死亡之环",
+    "tier": "S",
+    "tags": [
+      "神级"
+    ],
+    "description": "扎克回血频率极高",
+    "combo_ref": "curated:zac-circle-of-death",
+    "is_curated": true,
+    "upvotes": 7,
+    "downvotes": 0,
+    "score": 7
+  },
+  {
+    "champion_name": "荆棘之兴",
+    "augment_name": "虚幻武器",
+    "tier": "S",
+    "tags": [
+      "强力"
+    ],
+    "description": "婕拉植物可触发虚幻武器，整体强度非常高。",
+    "combo_ref": "curated:zyra-ethereal-weapon",
+    "is_curated": true,
+    "upvotes": 7,
+    "downvotes": 0,
+    "score": 7
+  }
+]

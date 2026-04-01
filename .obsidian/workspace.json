@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "10_Work/周报/周报_2026-03-30.md",
+                "file": "10_Work/海克斯大乱斗/AI_Coach_符文推荐方案 final.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "周报_2026-03-30"
+              "title": "AI_Coach_符文推荐方案 final"
             }
           }
         ]
@@ -225,6 +225,15 @@
   },
   "active": "608cb7ca128a07a4",
   "lastOpenFiles": [
+    "10_Work/海克斯大乱斗/海克斯大乱斗AI Coach符文推荐评分机制PRD.md",
+    "10_Work/海克斯大乱斗/AI_Coach_符文推荐方案.md",
+    "10_Work/海克斯大乱斗/AI_Coach_符文推荐方案 final.md",
+    "10_Work/海克斯大乱斗/海克斯大乱斗符文推荐PRD.md",
+    "10_Work/海克斯大乱斗/AI_Coach_符文推荐方案 2.md",
+    "10_Work/海克斯大乱斗/海克斯大乱斗_AI教练设计方案.md",
+    "10_Work/海克斯大乱斗/海克斯大乱斗_AI教练_PRD.md",
+    "10_Work/海克斯大乱斗/海克斯大乱斗_符文推荐系统设计方案.md",
+    "10_Work/周报/周报_2026-03-30.md",
     "10_Work/金铲铲/以铲换铲/~$铲 以铲换X活动 - AI需求评估文档.docx",
     "10_Work/海克斯大乱斗_字幕修正日志_v2.txt",
     "10_Work/fix_subtitles_v2.py",
@@ -235,7 +244,6 @@
     "10_Work/海克斯大乱斗_字幕_副本/text/BV1t9AhztEkP.txt",
     "10_Work/海克斯大乱斗_字幕_副本/text/BV1X4m2BTE67.txt",
     "10_Work/海克斯大乱斗_字幕_副本/text/BV1vYPyzVEvw.txt",
-    "10_Work/海克斯大乱斗_字幕_副本/text/BV1ntm3BSEwe.txt",
     "10_Work/海克斯大乱斗_字幕汇总.md",
     "10_Work/B站合集导出_海克斯大乱斗.md",
     "10_Work/agent_architecture_optimized.md",
@@ -257,20 +265,12 @@
     "10_Work/uc 王也 npc/异人之下AI营销创意脑暴.md",
     "10_Work/uc 王也 npc/异人之下AI营销活动方案.md",
     "10_Work/uc 王也 npc/异人之下AI营销活动方案_v2（结合瓦手案例）.md",
-    "10_Work/海克斯大乱斗/海克斯大乱斗_符文推荐系统设计方案.md",
-    "10_Work/海克斯大乱斗/海克斯大乱斗_AI教练设计方案.md",
     "20_Study/投资调研/Tencent_2025Q4_深度调研报告.md",
     "30_Common/方法论/VLM视觉评分验证法.md",
     "20_Study/投资调研/PDD_2025Q4_深度调研报告.md",
     "20_Study/段永平投资智慧.md",
-    "10_Work/海克斯大乱斗/海克斯大乱斗_AI教练_PRD.md",
     "20_Study/Claude_Code_vs_Codex_深度调研.md",
     "20_Study/Claude_Code_与_Codex_CLI_深度调研报告.md",
-    "10_Work/海克斯大乱斗/_README.md",
-    "10_Work/AI 生成游戏/_README.md",
-    "10_Work/AI动作模型/_README.md",
-    "10_Work/金铲铲/以铲换铲/_README.md",
-    "10_Work/金铲铲/_README.md",
     "未命名.canvas"
   ]
 }

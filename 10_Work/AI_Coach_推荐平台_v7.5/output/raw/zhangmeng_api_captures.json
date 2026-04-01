@@ -1,0 +1,56 @@
+[
+  {
+    "url": "https://lol.qq.com/zmlolzonehmtest/page/gamedata/?tab=ldbuff",
+    "status": 200,
+    "body_length": 21500,
+    "body_preview": "<!doctype html>\r\n<html lang=\"zh-cn\">\r\n  <head>\r\n    <meta charset=\"utf-8\" />\r\n    <meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge,chrome=1\" />\r\n    <meta name=\"ignore\" content=\"all\" />\r\n    <meta name=\"referrer\" content=\"no-referrer-when-downgrade\" />\r\n    <meta name=\"Copyright\" content=\"Tencent\" />\r\n    \r\n    <meta\r\n      name=\"Description\"\r\n      content=\"英雄联盟官方网站，海量风格各异的英雄，丰富、便捷的物品合成系统，游戏内置的匹配、排行和竞技系统，独创的“召唤师”系统及技能、符文、天赋等系统组合，必将带你进入一个崭新而又丰富多彩的游戏世界。\"\r\n    />\r\n    <meta\r\n      name=\"Keyword"
+  },
+  {
+    "url": "https://lol.qq.com/zmlolzonehmtest/assets/gamedata-Bn52oRN0.css",
+    "status": 200,
+    "body_length": 56284,
+    "body_preview": "@charset \"UTF-8\";*{margin:0;padding:0;outline:none;box-sizing:border-box;background:center center no-repeat;background-size:cover;user-select:none}body{font-size:0;line-height:1;-webkit-text-size-adjust:none;-webkit-overflow-scrolling:touch;-webkit-tap-highlight-color:rgba(0,0,0,0)}html,body,.g-app{width:100%;height:100%;overflow:hidden}.g-app-hm-adapt .component-dialog-filter-comm.dialogcomm-wrap .dialogcomm-container .filter-comm-container{max-height:355px!important}.g-app-hm-adapt .component-"
+  },
+  {
+    "url": "https://lol.qq.com/zmlolzonehmtest/assets/gamedata-DntfsbFh.js",
+    "status": 200,
+    "body_length": 235940,
+    "body_preview": "function hm(){import.meta.url,import(\"_\").catch(()=>1),async function*(){}().next()}(function(){const t=document.createElement(\"link\").relList;if(t&&t.supports&&t.supports(\"modulepreload\"))return;for(const i of document.querySelectorAll('link[rel=\"modulepreload\"]'))s(i);new MutationObserver(i=>{for(const r of i)if(r.type===\"childList\")for(const o of r.addedNodes)o.tagName===\"LINK\"&&o.rel===\"modulepreload\"&&s(o)}).observe(document,{childList:!0,subtree:!0});function n(i){const r={};return i.integ"
+  },
+  {
+    "url": "https://game.gtimg.cn/images/lol/act/img/js/runeList/rune_list2.js",
+    "status": 200,
+    "body_length": 97837,
+    "body_preview": "{\"rune\":{\"5001\":{\"name\":\"\\u6210\\u957f\\u751f\\u547d\\u503c\",\"icon\":\"https:\\/\\/game.gtimg.cn\\/images\\/lol\\/act\\/img\\/rune\\/StatModsHealthPlusIcon.png\",\"key\":\"\",\"tooltip\":\"<scaleHealth>+\\u751f\\u547d\\u503c<\\/scaleHealth>(\\u57fa\\u4e8e\\u7b49\\u7ea7)\",\"shortdesc\":\"+10-180\\u751f\\u547d\\u503c(\\u57fa\\u4e8e\\u7b49\\u7ea7)\",\"longdesc\":\"+10-180\\u751f\\u547d\\u503c(\\u57fa\\u4e8e\\u7b49\\u7ea7)\",\"slotLabel\":\"\\u9632\\u5fa1\",\"styleName\":\"\",\"sort\":\"0\",\"type\":\"2\",\"childs\":[]},\"5002\":{\"name\":\"\\u62a4\\u7532\",\"icon\":\"https:\\/\\/ga"
+  },
+  {
+    "url": "https://game.gtimg.cn/images/lol/act/img/js/kiwi/kiwi_augments.json",
+    "status": 200,
+    "body_length": 88396,
+    "body_preview": "[\r\n{\"augmentID\":1205,\"name_en\":\"ADAPt\",\"name_cn\":\"物理转魔法\",\"level\":\"kSilver\",\"isPBE\":0,\"isNew\":0,\"desc\":\"将<scaleAD>额外攻击力</scaleAD>转化为<scaleAP>法术强度</scaleAP>，并获得<scaleAP>@APAmpCalcTooltip@法术强度</scaleAP>。<br><br>当前转化：@f1@<br><br><rules>每点<scaleAD>攻击力</scaleAD>转化为<scaleAP>@ConversionRate@法术强度</scaleAP>。</rules>\",\"tooltip\":\"将额外攻击力转化为法术强度，并获得法术强度。\",\"large_Icon\":\"https://game.gtimg.cn/images/lol/act/img/rune/adapt_large.png\",\"small_Icon\":\"https://game.gtimg.cn/images/lol/act/img/rune/adapt_small.png\"},\r"
+  },
+  {
+    "url": "https://game.gtimg.cn/images/lol/act/img/js/fighting_rune/fighting_rune.js",
+    "status": 200,
+    "body_length": 116693,
+    "body_preview": "{\"version\":\"16.6\",\"time\":\"2026-03-18 11:46:23\",\"list\":[{\"id\":\"93\",\"name\":\"热身动作\",\"api_name\":\"WarmupRoutine\",\"data_values\":\"{\\\"DamagePerStack\\\":0.009999999776482582,\\\"MaxStacks\\\":24}\",\"desc\":\"获得召唤师技能<spellName>热身动作<\\/spellName>。<br><br><rules><spellName>热身动作：<\\/spellName>引导你的内在之舞来提升你的伤害，持续至回合结束。<\\/rules>\",\"icon_large\":\"https:\\/\\/game.gtimg.cn\\/images\\/lol\\/act\\/img\\/rune\\/warmuproutine_large.png\",\"icon_small\":\"https:\\/\\/game.gtimg.cn\\/images\\/lol\\/act\\/img\\/rune\\/warmuproutine_small.png\",\"rarity\":"
+  },
+  {
+    "url": "https://game.gtimg.cn/images/lol/act/img/js/kiwi/kiwi_augments.json",
+    "status": 200,
+    "body_length": 88396,
+    "body_preview": "[\r\n{\"augmentID\":1205,\"name_en\":\"ADAPt\",\"name_cn\":\"物理转魔法\",\"level\":\"kSilver\",\"isPBE\":0,\"isNew\":0,\"desc\":\"将<scaleAD>额外攻击力</scaleAD>转化为<scaleAP>法术强度</scaleAP>，并获得<scaleAP>@APAmpCalcTooltip@法术强度</scaleAP>。<br><br>当前转化：@f1@<br><br><rules>每点<scaleAD>攻击力</scaleAD>转化为<scaleAP>@ConversionRate@法术强度</scaleAP>。</rules>\",\"tooltip\":\"将额外攻击力转化为法术强度，并获得法术强度。\",\"large_Icon\":\"https://game.gtimg.cn/images/lol/act/img/rune/adapt_large.png\",\"small_Icon\":\"https://game.gtimg.cn/images/lol/act/img/rune/adapt_small.png\"},\r"
+  },
+  {
+    "url": "https://game.gtimg.cn/images/lol/act/img/js/stawberry_augment/strawberry_augment.js",
+    "status": 200,
+    "body_length": 4997,
+    "body_preview": "[{\"AugmentId\":\"33101\",\"AugmentNameEng\":\"AbilityHaste\",\"AugmentName\":\"\\u6280\\u80fd\\u6025\\u901f\",\"Img\":\"https://game.gtimg.cn/images/lol/act/img/rune/cooldown_small.png\",\"AugmentDesc\":\"\\u6280\\u80fd\\u6025\\u901f0 >10\",\"level2Desc\":\"\\u6280\\u80fd\\u6025\\u901f10 >20\",\"level3Desc\":\"\\u6280\\u80fd\\u6025\\u901f20>30\",\"level4Desc\":\"\\u6280\\u80fd\\u6025\\u901f30 >40\",\"level5Desc\":\"\\u6280\\u80fd\\u6025\\u901f40>50\"},{\"AugmentId\":\"33105\",\"AugmentNameEng\":\"AbilityPower\",\"AugmentName\":\"\\u4f24\\u5bb3\",\"Img\":\"https://game.g"
+  },
+  {
+    "url": "https://mlol.qt.qq.com/go/database/versiondetail?key=lol_20260319_rune_215&baton=undefined",
+    "status": 200,
+    "body_length": 151,
+    "body_preview": "{\"baton\":\"\",\"code\":0,\"data\":{\"change_count\":\"0\",\"list\":null,\"version_key\":\"lol_20260319_rune_215\"},\"errMsg\":\"\",\"err_msg\":\"\",\"msg\":\"success\",\"result\":0}"
+  }
+]

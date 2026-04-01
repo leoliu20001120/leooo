@@ -1,0 +1,35 @@
+﻿npc海克斯大乱斗 局内AI Coach 产品方案
+
+MVP版本 
+关键任务
+安全数据接口（week1）
+所需字段 --- yingkai+haocai
+UI+产品交互图 --- lious，grace （week1）
+选符文界面
+LCU弹窗（状态值 X setting的对应关系）
+符文知识库 --- leo+haocai+欧阳 （week1）
+符文相关信息，包括符文icon、等级、名字、官方描述、数值等，可来自掌盟，提供接口，leo
+符文信息的人话描述
+符文组合黑科技
+符文推荐理由：tag+特殊对子（5-10字描述）
+符文冷知识/趣味知识
+【种子】事件设计（事件时间&召回内容）（week1.5）
+夸夸类 - （文字+语音）
+超额数值：不细拆具体数值来源，只看结果，超过某个阈值，可进行高光夸夸（你的移速超过博尔特啦）
+符文对子：依赖3
+局内表现：（复用5v5）
+符文推荐 - （大拇指+简要推荐理由）
+大拇指（3 分类）：
+涉及参数：英雄 X 符文胜率 + 全量符文pick 率+ugc评分
+python : Traceback (most recent call last):
+所在位置 行:1 字符: 53
++ ... 324131046"; python -c "from docx import Document; doc=Document('产品文档/ ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "<string>", line 1, in <module>
+    from docx import Document; doc=Document('产品文档/npc海克斯大乱斗 局内AI Coach 产品方案.docx'); [print(p.text) for p in doc.paragra
+phs]
+                                                                                                     ~~~~~^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\U0001f44d' in position 14: illegal multibyte sequence

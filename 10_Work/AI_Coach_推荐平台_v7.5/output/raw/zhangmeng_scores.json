@@ -1,0 +1,9222 @@
+{
+  "total": 288,
+  "has_score": 201,
+  "scores": {
+    "1": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "加速巫术"
+    },
+    "10": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "炮灰"
+    },
+    "1002": {
+      "score": 5,
+      "score_count": 31,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 9,
+          "ratio": 0.2903
+        },
+        {
+          "rate": 2,
+          "num": 6,
+          "ratio": 0.1935
+        },
+        {
+          "rate": 3,
+          "num": 10,
+          "ratio": 0.3226
+        },
+        {
+          "rate": 4,
+          "num": 4,
+          "ratio": 0.129
+        },
+        {
+          "rate": 5,
+          "num": 2,
+          "ratio": 0.0645
+        }
+      ],
+      "name": "尖端发明家"
+    },
+    "1004": {
+      "score": 8.2,
+      "score_count": 76,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 9,
+          "ratio": 0.1184
+        },
+        {
+          "rate": 2,
+          "num": 4,
+          "ratio": 0.0526
+        },
+        {
+          "rate": 3,
+          "num": 3,
+          "ratio": 0.0395
+        },
+        {
+          "rate": 4,
+          "num": 15,
+          "ratio": 0.1974
+        },
+        {
+          "rate": 5,
+          "num": 45,
+          "ratio": 0.5921
+        }
+      ],
+      "name": "回归基本功"
+    },
+    "1006": {
+      "score": 4.6,
+      "score_count": 50,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 23,
+          "ratio": 0.46
+        },
+        {
+          "rate": 2,
+          "num": 6,
+          "ratio": 0.12
+        },
+        {
+          "rate": 3,
+          "num": 10,
+          "ratio": 0.2
+        },
+        {
+          "rate": 4,
+          "num": 4,
+          "ratio": 0.08
+        },
+        {
+          "rate": 5,
+          "num": 7,
+          "ratio": 0.14
+        }
+      ],
+      "name": "利刃华尔兹"
+    },
+    "1007": {
+      "score": 7.6,
+      "score_count": 21,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 1,
+          "ratio": 0.0476
+        },
+        {
+          "rate": 2,
+          "num": 1,
+          "ratio": 0.0476
+        },
+        {
+          "rate": 3,
+          "num": 5,
+          "ratio": 0.2381
+        },
+        {
+          "rate": 4,
+          "num": 8,
+          "ratio": 0.381
+        },
+        {
+          "rate": 5,
+          "num": 6,
+          "ratio": 0.2857
+        }
+      ],
+      "name": "大力"
+    },
+    "1009": {
+      "score": 7.7,
+      "score_count": 39,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 4,
+          "ratio": 0.1026
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.0513
+        },
+        {
+          "rate": 3,
+          "num": 5,
+          "ratio": 0.1282
+        },
+        {
+          "rate": 4,
+          "num": 12,
+          "ratio": 0.3077
+        },
+        {
+          "rate": 5,
+          "num": 16,
+          "ratio": 0.4103
+        }
+      ],
+      "name": "霸符兄弟"
+    },
+    "1011": {
+      "score": 5,
+      "score_count": 64,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 22,
+          "ratio": 0.3438
+        },
+        {
+          "rate": 2,
+          "num": 10,
+          "ratio": 0.1563
+        },
+        {
+          "rate": 3,
+          "num": 19,
+          "ratio": 0.2969
+        },
+        {
+          "rate": 4,
+          "num": 5,
+          "ratio": 0.0781
+        },
+        {
+          "rate": 5,
+          "num": 8,
+          "ratio": 0.125
+        }
+      ],
+      "name": "你摸不到"
+    },
+    "1013": {
+      "score": 7.6,
+      "score_count": 32,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 2,
+          "ratio": 0.0625
+        },
+        {
+          "rate": 2,
+          "num": 4,
+          "ratio": 0.125
+        },
+        {
+          "rate": 3,
+          "num": 3,
+          "ratio": 0.0938
+        },
+        {
+          "rate": 4,
+          "num": 12,
+          "ratio": 0.375
+        },
+        {
+          "rate": 5,
+          "num": 11,
+          "ratio": 0.3438
+        }
+      ],
+      "name": "星界躯体"
+    },
+    "1015": {
+      "score": 6.3,
+      "score_count": 35,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 8,
+          "ratio": 0.2286
+        },
+        {
+          "rate": 2,
+          "num": 5,
+          "ratio": 0.1429
+        },
+        {
+          "rate": 3,
+          "num": 6,
+          "ratio": 0.1714
+        },
+        {
+          "rate": 4,
+          "num": 6,
+          "ratio": 0.1714
+        },
+        {
+          "rate": 5,
+          "num": 10,
+          "ratio": 0.2857
+        }
+      ],
+      "name": "死亡之环"
+    },
+    "1018": {
+      "score": 7.4,
+      "score_count": 38,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 7,
+          "ratio": 0.1842
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.0526
+        },
+        {
+          "rate": 3,
+          "num": 5,
+          "ratio": 0.1316
+        },
+        {
+          "rate": 4,
+          "num": 5,
+          "ratio": 0.1316
+        },
+        {
+          "rate": 5,
+          "num": 19,
+          "ratio": 0.5
+        }
+      ],
+      "name": "巨像的勇气"
+    },
+    "1019": {
+      "score": 8.3,
+      "score_count": 50,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 3,
+          "ratio": 0.06
+        },
+        {
+          "rate": 2,
+          "num": 4,
+          "ratio": 0.08
+        },
+        {
+          "rate": 3,
+          "num": 4,
+          "ratio": 0.08
+        },
+        {
+          "rate": 4,
+          "num": 11,
+          "ratio": 0.22
+        },
+        {
+          "rate": 5,
+          "num": 28,
+          "ratio": 0.56
+        }
+      ],
+      "name": "全凭身法"
+    },
+    "102": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "请勿追击"
+    },
+    "1020": {
+      "score": 3.8,
+      "score_count": 32,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 18,
+          "ratio": 0.5625
+        },
+        {
+          "rate": 2,
+          "num": 6,
+          "ratio": 0.1875
+        },
+        {
+          "rate": 3,
+          "num": 4,
+          "ratio": 0.125
+        },
+        {
+          "rate": 4,
+          "num": 2,
+          "ratio": 0.0625
+        },
+        {
+          "rate": 5,
+          "num": 2,
+          "ratio": 0.0625
+        }
+      ],
+      "name": "黎明使者的坚决"
+    },
+    "1022": {
+      "score": 8.7,
+      "score_count": 98,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 8,
+          "ratio": 0.0816
+        },
+        {
+          "rate": 2,
+          "num": 3,
+          "ratio": 0.0306
+        },
+        {
+          "rate": 3,
+          "num": 4,
+          "ratio": 0.0408
+        },
+        {
+          "rate": 4,
+          "num": 15,
+          "ratio": 0.1531
+        },
+        {
+          "rate": 5,
+          "num": 68,
+          "ratio": 0.6939
+        }
+      ],
+      "name": "灵巧"
+    },
+    "1023": {
+      "score": 3.2,
+      "score_count": 31,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 21,
+          "ratio": 0.6774
+        },
+        {
+          "rate": 2,
+          "num": 4,
+          "ratio": 0.129
+        },
+        {
+          "rate": 3,
+          "num": 4,
+          "ratio": 0.129
+        },
+        {
+          "rate": 4,
+          "num": 1,
+          "ratio": 0.0323
+        },
+        {
+          "rate": 5,
+          "num": 1,
+          "ratio": 0.0323
+        }
+      ],
+      "name": "魔鬼之舞"
+    },
+    "1025": {
+      "score": 9.6,
+      "score_count": 272,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 8,
+          "ratio": 0.0294
+        },
+        {
+          "rate": 2,
+          "num": 3,
+          "ratio": 0.011
+        },
+        {
+          "rate": 3,
+          "num": 1,
+          "ratio": 0.0037
+        },
+        {
+          "rate": 4,
+          "num": 7,
+          "ratio": 0.0257
+        },
+        {
+          "rate": 5,
+          "num": 253,
+          "ratio": 0.9301
+        }
+      ],
+      "name": "俯冲轰炸"
+    },
+    "1026": {
+      "score": 5.7,
+      "score_count": 23,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 6,
+          "ratio": 0.2609
+        },
+        {
+          "rate": 2,
+          "num": 4,
+          "ratio": 0.1739
+        },
+        {
+          "rate": 3,
+          "num": 6,
+          "ratio": 0.2609
+        },
+        {
+          "rate": 4,
+          "num": 2,
+          "ratio": 0.087
+        },
+        {
+          "rate": 5,
+          "num": 5,
+          "ratio": 0.2174
+        }
+      ],
+      "name": "唯快不破"
+    },
+    "1027": {
+      "score": 3.9,
+      "score_count": 48,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 27,
+          "ratio": 0.5625
+        },
+        {
+          "rate": 2,
+          "num": 9,
+          "ratio": 0.1875
+        },
+        {
+          "rate": 3,
+          "num": 5,
+          "ratio": 0.1042
+        },
+        {
+          "rate": 4,
+          "num": 2,
+          "ratio": 0.0417
+        },
+        {
+          "rate": 5,
+          "num": 5,
+          "ratio": 0.1042
+        }
+      ],
+      "name": "大地苏醒"
+    },
+    "1028": {
+      "score": 6.9,
+      "score_count": 13,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.1538
+        },
+        {
+          "rate": 3,
+          "num": 5,
+          "ratio": 0.3846
+        },
+        {
+          "rate": 4,
+          "num": 4,
+          "ratio": 0.3077
+        },
+        {
+          "rate": 5,
+          "num": 2,
+          "ratio": 0.1538
+        }
+      ],
+      "name": "侵蚀"
+    },
+    "1029": {
+      "score": 8.6,
+      "score_count": 58,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 7,
+          "ratio": 0.1207
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 3,
+          "ratio": 0.0517
+        },
+        {
+          "rate": 4,
+          "num": 6,
+          "ratio": 0.1034
+        },
+        {
+          "rate": 5,
+          "num": 42,
+          "ratio": 0.7241
+        }
+      ],
+      "name": "虚幻武器"
+    },
+    "1030": {
+      "score": 8.7,
+      "score_count": 154,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 12,
+          "ratio": 0.0779
+        },
+        {
+          "rate": 2,
+          "num": 6,
+          "ratio": 0.039
+        },
+        {
+          "rate": 3,
+          "num": 8,
+          "ratio": 0.0519
+        },
+        {
+          "rate": 4,
+          "num": 18,
+          "ratio": 0.1169
+        },
+        {
+          "rate": 5,
+          "num": 110,
+          "ratio": 0.7143
+        }
+      ],
+      "name": "尤里卡"
+    },
+    "1032": {
+      "score": 8.9,
+      "score_count": 174,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 13,
+          "ratio": 0.0747
+        },
+        {
+          "rate": 2,
+          "num": 3,
+          "ratio": 0.0172
+        },
+        {
+          "rate": 3,
+          "num": 9,
+          "ratio": 0.0517
+        },
+        {
+          "rate": 4,
+          "num": 14,
+          "ratio": 0.0805
+        },
+        {
+          "rate": 5,
+          "num": 135,
+          "ratio": 0.7759
+        }
+      ],
+      "name": "裁决使"
+    },
+    "1034": {
+      "score": 4.9,
+      "score_count": 19,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 6,
+          "ratio": 0.3158
+        },
+        {
+          "rate": 2,
+          "num": 1,
+          "ratio": 0.0526
+        },
+        {
+          "rate": 3,
+          "num": 10,
+          "ratio": 0.5263
+        },
+        {
+          "rate": 4,
+          "num": 1,
+          "ratio": 0.0526
+        },
+        {
+          "rate": 5,
+          "num": 1,
+          "ratio": 0.0526
+        }
+      ],
+      "name": "防护面纱"
+    },
+    "1035": {
+      "score": 7.9,
+      "score_count": 43,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 5,
+          "ratio": 0.1163
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 10,
+          "ratio": 0.2326
+        },
+        {
+          "rate": 4,
+          "num": 6,
+          "ratio": 0.1395
+        },
+        {
+          "rate": 5,
+          "num": 22,
+          "ratio": 0.5116
+        }
+      ],
+      "name": "感受燃烧"
+    },
+    "1036": {
+      "score": 5.2,
+      "score_count": 23,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 9,
+          "ratio": 0.3913
+        },
+        {
+          "rate": 2,
+          "num": 3,
+          "ratio": 0.1304
+        },
+        {
+          "rate": 3,
+          "num": 2,
+          "ratio": 0.087
+        },
+        {
+          "rate": 4,
+          "num": 6,
+          "ratio": 0.2609
+        },
+        {
+          "rate": 5,
+          "num": 3,
+          "ratio": 0.1304
+        }
+      ],
+      "name": "火上浇油"
+    },
+    "1037": {
+      "score": 6.3,
+      "score_count": 16,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 2,
+          "ratio": 0.125
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.125
+        },
+        {
+          "rate": 3,
+          "num": 6,
+          "ratio": 0.375
+        },
+        {
+          "rate": 4,
+          "num": 4,
+          "ratio": 0.25
+        },
+        {
+          "rate": 5,
+          "num": 2,
+          "ratio": 0.125
+        }
+      ],
+      "name": "急救用具"
+    },
+    "1038": {
+      "score": 8.6,
+      "score_count": 98,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 8,
+          "ratio": 0.0816
+        },
+        {
+          "rate": 2,
+          "num": 3,
+          "ratio": 0.0306
+        },
+        {
+          "rate": 3,
+          "num": 6,
+          "ratio": 0.0612
+        },
+        {
+          "rate": 4,
+          "num": 14,
+          "ratio": 0.1429
+        },
+        {
+          "rate": 5,
+          "num": 67,
+          "ratio": 0.6837
+        }
+      ],
+      "name": "有始有终"
+    },
+    "1039": {
+      "score": 4,
+      "score_count": 22,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 10,
+          "ratio": 0.4545
+        },
+        {
+          "rate": 2,
+          "num": 6,
+          "ratio": 0.2727
+        },
+        {
+          "rate": 3,
+          "num": 4,
+          "ratio": 0.1818
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 2,
+          "ratio": 0.0909
+        }
+      ],
+      "name": "冰霜 幽灵"
+    },
+    "1041": {
+      "score": 8.3,
+      "score_count": 88,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 8,
+          "ratio": 0.0909
+        },
+        {
+          "rate": 2,
+          "num": 1,
+          "ratio": 0.0114
+        },
+        {
+          "rate": 3,
+          "num": 11,
+          "ratio": 0.125
+        },
+        {
+          "rate": 4,
+          "num": 18,
+          "ratio": 0.2045
+        },
+        {
+          "rate": 5,
+          "num": 50,
+          "ratio": 0.5682
+        }
+      ],
+      "name": "歌利亚巨人"
+    },
+    "1042": {
+      "score": 5.5,
+      "score_count": 20,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 6,
+          "ratio": 0.3
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.1
+        },
+        {
+          "rate": 3,
+          "num": 7,
+          "ratio": 0.35
+        },
+        {
+          "rate": 4,
+          "num": 1,
+          "ratio": 0.05
+        },
+        {
+          "rate": 5,
+          "num": 4,
+          "ratio": 0.2
+        }
+      ],
+      "name": "恶趣味"
+    },
+    "1044": {
+      "score": 7.5,
+      "score_count": 44,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 8,
+          "ratio": 0.1818
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.0455
+        },
+        {
+          "rate": 3,
+          "num": 7,
+          "ratio": 0.1591
+        },
+        {
+          "rate": 4,
+          "num": 4,
+          "ratio": 0.0909
+        },
+        {
+          "rate": 5,
+          "num": 23,
+          "ratio": 0.5227
+        }
+      ],
+      "name": "冰寒"
+    },
+    "1045": {
+      "score": 6.2,
+      "score_count": 119,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 36,
+          "ratio": 0.3025
+        },
+        {
+          "rate": 2,
+          "num": 11,
+          "ratio": 0.0924
+        },
+        {
+          "rate": 3,
+          "num": 15,
+          "ratio": 0.1261
+        },
+        {
+          "rate": 4,
+          "num": 21,
+          "ratio": 0.1765
+        },
+        {
+          "rate": 5,
+          "num": 36,
+          "ratio": 0.3025
+        }
+      ],
+      "name": "炼狱导管"
+    },
+    "1046": {
+      "score": 7.2,
+      "score_count": 19,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 2,
+          "ratio": 0.1053
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.1053
+        },
+        {
+          "rate": 3,
+          "num": 3,
+          "ratio": 0.1579
+        },
+        {
+          "rate": 4,
+          "num": 7,
+          "ratio": 0.3684
+        },
+        {
+          "rate": 5,
+          "num": 5,
+          "ratio": 0.2632
+        }
+      ],
+      "name": "炼狱龙魂"
+    },
+    "1047": {
+      "score": 5.9,
+      "score_count": 30,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 8,
+          "ratio": 0.2667
+        },
+        {
+          "rate": 2,
+          "num": 3,
+          "ratio": 0.1
+        },
+        {
+          "rate": 3,
+          "num": 8,
+          "ratio": 0.2667
+        },
+        {
+          "rate": 4,
+          "num": 5,
+          "ratio": 0.1667
+        },
+        {
+          "rate": 5,
+          "num": 6,
+          "ratio": 0.2
+        }
+      ],
+      "name": "关键暴击"
+    },
+    "1048": {
+      "score": 8.6,
+      "score_count": 134,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 11,
+          "ratio": 0.0821
+        },
+        {
+          "rate": 2,
+          "num": 7,
+          "ratio": 0.0522
+        },
+        {
+          "rate": 3,
+          "num": 6,
+          "ratio": 0.0448
+        },
+        {
+          "rate": 4,
+          "num": 20,
+          "ratio": 0.1493
+        },
+        {
+          "rate": 5,
+          "num": 90,
+          "ratio": 0.6716
+        }
+      ],
+      "name": "珠光护手"
+    },
+    "1050": {
+      "score": 3,
+      "score_count": 57,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 44,
+          "ratio": 0.7719
+        },
+        {
+          "rate": 2,
+          "num": 5,
+          "ratio": 0.0877
+        },
+        {
+          "rate": 3,
+          "num": 3,
+          "ratio": 0.0526
+        },
+        {
+          "rate": 4,
+          "num": 2,
+          "ratio": 0.0351
+        },
+        {
+          "rate": 5,
+          "num": 3,
+          "ratio": 0.0526
+        }
+      ],
+      "name": "基石法师"
+    },
+    "1051": {
+      "score": 5.7,
+      "score_count": 21,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 3,
+          "ratio": 0.1429
+        },
+        {
+          "rate": 2,
+          "num": 6,
+          "ratio": 0.2857
+        },
+        {
+          "rate": 3,
+          "num": 7,
+          "ratio": 0.3333
+        },
+        {
+          "rate": 4,
+          "num": 1,
+          "ratio": 0.0476
+        },
+        {
+          "rate": 5,
+          "num": 4,
+          "ratio": 0.1905
+        }
+      ],
+      "name": "点亮他们！"
+    },
+    "1052": {
+      "score": 7.1,
+      "score_count": 34,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 3,
+          "ratio": 0.0882
+        },
+        {
+          "rate": 2,
+          "num": 3,
+          "ratio": 0.0882
+        },
+        {
+          "rate": 3,
+          "num": 10,
+          "ratio": 0.2941
+        },
+        {
+          "rate": 4,
+          "num": 9,
+          "ratio": 0.2647
+        },
+        {
+          "rate": 5,
+          "num": 9,
+          "ratio": 0.2647
+        }
+      ],
+      "name": "闪电打击"
+    },
+    "1053": {
+      "score": 7.3,
+      "score_count": 35,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 4,
+          "ratio": 0.1143
+        },
+        {
+          "rate": 2,
+          "num": 1,
+          "ratio": 0.0286
+        },
+        {
+          "rate": 3,
+          "num": 8,
+          "ratio": 0.2286
+        },
+        {
+          "rate": 4,
+          "num": 13,
+          "ratio": 0.3714
+        },
+        {
+          "rate": 5,
+          "num": 9,
+          "ratio": 0.2571
+        }
+      ],
+      "name": "科学狂人"
+    },
+    "1054": {
+      "score": 4.8,
+      "score_count": 48,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 17,
+          "ratio": 0.3542
+        },
+        {
+          "rate": 2,
+          "num": 10,
+          "ratio": 0.2083
+        },
+        {
+          "rate": 3,
+          "num": 12,
+          "ratio": 0.25
+        },
+        {
+          "rate": 4,
+          "num": 4,
+          "ratio": 0.0833
+        },
+        {
+          "rate": 5,
+          "num": 5,
+          "ratio": 0.1042
+        }
+      ],
+      "name": "物法皆修"
+    },
+    "1056": {
+      "score": 7.4,
+      "score_count": 50,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 5,
+          "ratio": 0.1
+        },
+        {
+          "rate": 2,
+          "num": 3,
+          "ratio": 0.06
+        },
+        {
+          "rate": 3,
+          "num": 13,
+          "ratio": 0.26
+        },
+        {
+          "rate": 4,
+          "num": 11,
+          "ratio": 0.22
+        },
+        {
+          "rate": 5,
+          "num": 18,
+          "ratio": 0.36
+        }
+      ],
+      "name": "由心及物"
+    },
+    "1057": {
+      "score": 4.4,
+      "score_count": 19,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 7,
+          "ratio": 0.3684
+        },
+        {
+          "rate": 2,
+          "num": 4,
+          "ratio": 0.2105
+        },
+        {
+          "rate": 3,
+          "num": 6,
+          "ratio": 0.3158
+        },
+        {
+          "rate": 4,
+          "num": 1,
+          "ratio": 0.0526
+        },
+        {
+          "rate": 5,
+          "num": 1,
+          "ratio": 0.0526
+        }
+      ],
+      "name": "山脉龙魂"
+    },
+    "1058": {
+      "score": 7.9,
+      "score_count": 42,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 5,
+          "ratio": 0.119
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.0476
+        },
+        {
+          "rate": 3,
+          "num": 6,
+          "ratio": 0.1429
+        },
+        {
+          "rate": 4,
+          "num": 7,
+          "ratio": 0.1667
+        },
+        {
+          "rate": 5,
+          "num": 22,
+          "ratio": 0.5238
+        }
+      ],
+      "name": "秘术冲拳"
+    },
+    "1060": {
+      "score": 7.7,
+      "score_count": 39,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 4,
+          "ratio": 0.1026
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.0513
+        },
+        {
+          "rate": 3,
+          "num": 8,
+          "ratio": 0.2051
+        },
+        {
+          "rate": 4,
+          "num": 7,
+          "ratio": 0.1795
+        },
+        {
+          "rate": 5,
+          "num": 18,
+          "ratio": 0.4615
+        }
+      ],
+      "name": "海洋龙魂"
+    },
+    "1061": {
+      "score": 4.1,
+      "score_count": 65,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 36,
+          "ratio": 0.5538
+        },
+        {
+          "rate": 2,
+          "num": 10,
+          "ratio": 0.1538
+        },
+        {
+          "rate": 3,
+          "num": 4,
+          "ratio": 0.0615
+        },
+        {
+          "rate": 4,
+          "num": 9,
+          "ratio": 0.1385
+        },
+        {
+          "rate": 5,
+          "num": 6,
+          "ratio": 0.0923
+        }
+      ],
+      "name": "回力OK镖"
+    },
+    "1062": {
+      "score": 6.5,
+      "score_count": 37,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 5,
+          "ratio": 0.1351
+        },
+        {
+          "rate": 2,
+          "num": 5,
+          "ratio": 0.1351
+        },
+        {
+          "rate": 3,
+          "num": 11,
+          "ratio": 0.2973
+        },
+        {
+          "rate": 4,
+          "num": 7,
+          "ratio": 0.1892
+        },
+        {
+          "rate": 5,
+          "num": 9,
+          "ratio": 0.2432
+        }
+      ],
+      "name": "全能龙魂"
+    },
+    "1063": {
+      "score": 6.9,
+      "score_count": 19,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 1,
+          "ratio": 0.0526
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.1053
+        },
+        {
+          "rate": 3,
+          "num": 5,
+          "ratio": 0.2632
+        },
+        {
+          "rate": 4,
+          "num": 9,
+          "ratio": 0.4737
+        },
+        {
+          "rate": 5,
+          "num": 2,
+          "ratio": 0.1053
+        }
+      ],
+      "name": "狂徒豪气"
+    },
+    "1064": {
+      "score": 5.8,
+      "score_count": 26,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 10,
+          "ratio": 0.3846
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 6,
+          "ratio": 0.2308
+        },
+        {
+          "rate": 4,
+          "num": 2,
+          "ratio": 0.0769
+        },
+        {
+          "rate": 5,
+          "num": 8,
+          "ratio": 0.3077
+        }
+      ],
+      "name": "坚韧"
+    },
+    "1066": {
+      "score": 7.5,
+      "score_count": 40,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 7,
+          "ratio": 0.175
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.05
+        },
+        {
+          "rate": 3,
+          "num": 3,
+          "ratio": 0.075
+        },
+        {
+          "rate": 4,
+          "num": 11,
+          "ratio": 0.275
+        },
+        {
+          "rate": 5,
+          "num": 17,
+          "ratio": 0.425
+        }
+      ],
+      "name": "量子计算"
+    },
+    "1067": {
+      "score": 6.4,
+      "score_count": 27,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 4,
+          "ratio": 0.1481
+        },
+        {
+          "rate": 2,
+          "num": 4,
+          "ratio": 0.1481
+        },
+        {
+          "rate": 3,
+          "num": 7,
+          "ratio": 0.2593
+        },
+        {
+          "rate": 4,
+          "num": 7,
+          "ratio": 0.2593
+        },
+        {
+          "rate": 5,
+          "num": 5,
+          "ratio": 0.1852
+        }
+      ],
+      "name": "古式佳酿"
+    },
+    "1068": {
+      "score": 8.5,
+      "score_count": 41,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 4,
+          "ratio": 0.0976
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.0488
+        },
+        {
+          "rate": 3,
+          "num": 2,
+          "ratio": 0.0488
+        },
+        {
+          "rate": 4,
+          "num": 4,
+          "ratio": 0.0976
+        },
+        {
+          "rate": 5,
+          "num": 29,
+          "ratio": 0.7073
+        }
+      ],
+      "name": "循环往复"
+    },
+    "1069": {
+      "score": 3.8,
+      "score_count": 96,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 63,
+          "ratio": 0.6563
+        },
+        {
+          "rate": 2,
+          "num": 6,
+          "ratio": 0.0625
+        },
+        {
+          "rate": 3,
+          "num": 10,
+          "ratio": 0.1042
+        },
+        {
+          "rate": 4,
+          "num": 9,
+          "ratio": 0.0938
+        },
+        {
+          "rate": 5,
+          "num": 8,
+          "ratio": 0.0833
+        }
+      ],
+      "name": "退敌力场"
+    },
+    "1070": {
+      "score": 6.4,
+      "score_count": 19,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 3,
+          "ratio": 0.1579
+        },
+        {
+          "rate": 2,
+          "num": 1,
+          "ratio": 0.0526
+        },
+        {
+          "rate": 3,
+          "num": 8,
+          "ratio": 0.4211
+        },
+        {
+          "rate": 4,
+          "num": 3,
+          "ratio": 0.1579
+        },
+        {
+          "rate": 5,
+          "num": 4,
+          "ratio": 0.2105
+        }
+      ],
+      "name": "无休回复"
+    },
+    "1071": {
+      "score": 7.6,
+      "score_count": 40,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 6,
+          "ratio": 0.15
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 7,
+          "ratio": 0.175
+        },
+        {
+          "rate": 4,
+          "num": 11,
+          "ratio": 0.275
+        },
+        {
+          "rate": 5,
+          "num": 16,
+          "ratio": 0.4
+        }
+      ],
+      "name": "更万用的瞄准镜"
+    },
+    "1072": {
+      "score": 3.8,
+      "score_count": 47,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 28,
+          "ratio": 0.5957
+        },
+        {
+          "rate": 2,
+          "num": 8,
+          "ratio": 0.1702
+        },
+        {
+          "rate": 3,
+          "num": 3,
+          "ratio": 0.0638
+        },
+        {
+          "rate": 4,
+          "num": 4,
+          "ratio": 0.0851
+        },
+        {
+          "rate": 5,
+          "num": 4,
+          "ratio": 0.0851
+        }
+      ],
+      "name": "炽烈黎明"
+    },
+    "1073": {
+      "score": 9.1,
+      "score_count": 56,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 2,
+          "ratio": 0.0357
+        },
+        {
+          "rate": 2,
+          "num": 1,
+          "ratio": 0.0179
+        },
+        {
+          "rate": 3,
+          "num": 3,
+          "ratio": 0.0536
+        },
+        {
+          "rate": 4,
+          "num": 8,
+          "ratio": 0.1429
+        },
+        {
+          "rate": 5,
+          "num": 42,
+          "ratio": 0.75
+        }
+      ],
+      "name": "暗影疾奔"
+    },
+    "1074": {
+      "score": 4.5,
+      "score_count": 42,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 22,
+          "ratio": 0.5238
+        },
+        {
+          "rate": 2,
+          "num": 5,
+          "ratio": 0.119
+        },
+        {
+          "rate": 3,
+          "num": 4,
+          "ratio": 0.0952
+        },
+        {
+          "rate": 4,
+          "num": 5,
+          "ratio": 0.119
+        },
+        {
+          "rate": 5,
+          "num": 6,
+          "ratio": 0.1429
+        }
+      ],
+      "name": "缩小射线"
+    },
+    "1075": {
+      "score": 6.9,
+      "score_count": 54,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 13,
+          "ratio": 0.2407
+        },
+        {
+          "rate": 2,
+          "num": 3,
+          "ratio": 0.0556
+        },
+        {
+          "rate": 3,
+          "num": 8,
+          "ratio": 0.1481
+        },
+        {
+          "rate": 4,
+          "num": 7,
+          "ratio": 0.1296
+        },
+        {
+          "rate": 5,
+          "num": 23,
+          "ratio": 0.4259
+        }
+      ],
+      "name": "慢炖"
+    },
+    "1076": {
+      "score": 3.2,
+      "score_count": 37,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 25,
+          "ratio": 0.6757
+        },
+        {
+          "rate": 2,
+          "num": 7,
+          "ratio": 0.1892
+        },
+        {
+          "rate": 3,
+          "num": 1,
+          "ratio": 0.027
+        },
+        {
+          "rate": 4,
+          "num": 2,
+          "ratio": 0.0541
+        },
+        {
+          "rate": 5,
+          "num": 2,
+          "ratio": 0.0541
+        }
+      ],
+      "name": "天音爆"
+    },
+    "1077": {
+      "score": 7,
+      "score_count": 23,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 2,
+          "ratio": 0.087
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.087
+        },
+        {
+          "rate": 3,
+          "num": 9,
+          "ratio": 0.3913
+        },
+        {
+          "rate": 4,
+          "num": 2,
+          "ratio": 0.087
+        },
+        {
+          "rate": 5,
+          "num": 8,
+          "ratio": 0.3478
+        }
+      ],
+      "name": "灵魂虹吸"
+    },
+    "1079": {
+      "score": 5.9,
+      "score_count": 30,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 7,
+          "ratio": 0.2333
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.0667
+        },
+        {
+          "rate": 3,
+          "num": 12,
+          "ratio": 0.4
+        },
+        {
+          "rate": 4,
+          "num": 4,
+          "ratio": 0.1333
+        },
+        {
+          "rate": 5,
+          "num": 5,
+          "ratio": 0.1667
+        }
+      ],
+      "name": "战争交响乐"
+    },
+    "1080": {
+      "score": 5.6,
+      "score_count": 19,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 4,
+          "ratio": 0.2105
+        },
+        {
+          "rate": 2,
+          "num": 4,
+          "ratio": 0.2105
+        },
+        {
+          "rate": 3,
+          "num": 6,
+          "ratio": 0.3158
+        },
+        {
+          "rate": 4,
+          "num": 2,
+          "ratio": 0.1053
+        },
+        {
+          "rate": 5,
+          "num": 3,
+          "ratio": 0.1579
+        }
+      ],
+      "name": "会心防御"
+    },
+    "1081": {
+      "score": 5.6,
+      "score_count": 59,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 24,
+          "ratio": 0.4068
+        },
+        {
+          "rate": 2,
+          "num": 5,
+          "ratio": 0.0847
+        },
+        {
+          "rate": 3,
+          "num": 7,
+          "ratio": 0.1186
+        },
+        {
+          "rate": 4,
+          "num": 6,
+          "ratio": 0.1017
+        },
+        {
+          "rate": 5,
+          "num": 17,
+          "ratio": 0.2881
+        }
+      ],
+      "name": "踢踏舞"
+    },
+    "1082": {
+      "score": 3.3,
+      "score_count": 46,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 28,
+          "ratio": 0.6087
+        },
+        {
+          "rate": 2,
+          "num": 12,
+          "ratio": 0.2609
+        },
+        {
+          "rate": 3,
+          "num": 2,
+          "ratio": 0.0435
+        },
+        {
+          "rate": 4,
+          "num": 2,
+          "ratio": 0.0435
+        },
+        {
+          "rate": 5,
+          "num": 2,
+          "ratio": 0.0435
+        }
+      ],
+      "name": "残暴之力"
+    },
+    "1084": {
+      "score": 5.1,
+      "score_count": 30,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 11,
+          "ratio": 0.3667
+        },
+        {
+          "rate": 2,
+          "num": 3,
+          "ratio": 0.1
+        },
+        {
+          "rate": 3,
+          "num": 9,
+          "ratio": 0.3
+        },
+        {
+          "rate": 4,
+          "num": 3,
+          "ratio": 0.1
+        },
+        {
+          "rate": 5,
+          "num": 4,
+          "ratio": 0.1333
+        }
+      ],
+      "name": "穿针引线"
+    },
+    "1085": {
+      "score": 3,
+      "score_count": 33,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 26,
+          "ratio": 0.7879
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.0606
+        },
+        {
+          "rate": 3,
+          "num": 2,
+          "ratio": 0.0606
+        },
+        {
+          "rate": 4,
+          "num": 1,
+          "ratio": 0.0303
+        },
+        {
+          "rate": 5,
+          "num": 2,
+          "ratio": 0.0606
+        }
+      ],
+      "name": "折磨者"
+    },
+    "1086": {
+      "score": 2.6,
+      "score_count": 192,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 169,
+          "ratio": 0.8802
+        },
+        {
+          "rate": 2,
+          "num": 8,
+          "ratio": 0.0417
+        },
+        {
+          "rate": 3,
+          "num": 2,
+          "ratio": 0.0104
+        },
+        {
+          "rate": 4,
+          "num": 3,
+          "ratio": 0.0156
+        },
+        {
+          "rate": 5,
+          "num": 10,
+          "ratio": 0.0521
+        }
+      ],
+      "name": "精准奇才"
+    },
+    "1087": {
+      "score": 6.4,
+      "score_count": 24,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 5,
+          "ratio": 0.2083
+        },
+        {
+          "rate": 2,
+          "num": 1,
+          "ratio": 0.0417
+        },
+        {
+          "rate": 3,
+          "num": 7,
+          "ratio": 0.2917
+        },
+        {
+          "rate": 4,
+          "num": 6,
+          "ratio": 0.25
+        },
+        {
+          "rate": 5,
+          "num": 5,
+          "ratio": 0.2083
+        }
+      ],
+      "name": "台风"
+    },
+    "1088": {
+      "score": 6.7,
+      "score_count": 54,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 7,
+          "ratio": 0.1296
+        },
+        {
+          "rate": 2,
+          "num": 9,
+          "ratio": 0.1667
+        },
+        {
+          "rate": 3,
+          "num": 11,
+          "ratio": 0.2037
+        },
+        {
+          "rate": 4,
+          "num": 13,
+          "ratio": 0.2407
+        },
+        {
+          "rate": 5,
+          "num": 14,
+          "ratio": 0.2593
+        }
+      ],
+      "name": "终极刷新"
+    },
+    "109": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "誓约者"
+    },
+    "1092": {
+      "score": 8.5,
+      "score_count": 35,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 2,
+          "ratio": 0.0571
+        },
+        {
+          "rate": 2,
+          "num": 1,
+          "ratio": 0.0286
+        },
+        {
+          "rate": 3,
+          "num": 5,
+          "ratio": 0.1429
+        },
+        {
+          "rate": 4,
+          "num": 6,
+          "ratio": 0.1714
+        },
+        {
+          "rate": 5,
+          "num": 21,
+          "ratio": 0.6
+        }
+      ],
+      "name": "易损"
+    },
+    "1095": {
+      "score": 3.5,
+      "score_count": 45,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 30,
+          "ratio": 0.6667
+        },
+        {
+          "rate": 2,
+          "num": 5,
+          "ratio": 0.1111
+        },
+        {
+          "rate": 3,
+          "num": 5,
+          "ratio": 0.1111
+        },
+        {
+          "rate": 4,
+          "num": 2,
+          "ratio": 0.0444
+        },
+        {
+          "rate": 5,
+          "num": 3,
+          "ratio": 0.0667
+        }
+      ],
+      "name": "风语者的祝福"
+    },
+    "1097": {
+      "score": 6.9,
+      "score_count": 29,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 3,
+          "ratio": 0.1034
+        },
+        {
+          "rate": 2,
+          "num": 4,
+          "ratio": 0.1379
+        },
+        {
+          "rate": 3,
+          "num": 5,
+          "ratio": 0.1724
+        },
+        {
+          "rate": 4,
+          "num": 11,
+          "ratio": 0.3793
+        },
+        {
+          "rate": 5,
+          "num": 6,
+          "ratio": 0.2069
+        }
+      ],
+      "name": "巫师式思考"
+    },
+    "1098": {
+      "score": 3.7,
+      "score_count": 32,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 17,
+          "ratio": 0.5313
+        },
+        {
+          "rate": 2,
+          "num": 8,
+          "ratio": 0.25
+        },
+        {
+          "rate": 3,
+          "num": 3,
+          "ratio": 0.0938
+        },
+        {
+          "rate": 4,
+          "num": 3,
+          "ratio": 0.0938
+        },
+        {
+          "rate": 5,
+          "num": 1,
+          "ratio": 0.0313
+        }
+      ],
+      "name": "急急小子"
+    },
+    "110": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "晾衣绳"
+    },
+    "1103": {
+      "score": 7.7,
+      "score_count": 15,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 1,
+          "ratio": 0.0667
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 3,
+          "ratio": 0.2
+        },
+        {
+          "rate": 4,
+          "num": 7,
+          "ratio": 0.4667
+        },
+        {
+          "rate": 5,
+          "num": 4,
+          "ratio": 0.2667
+        }
+      ],
+      "name": "面包和黄油"
+    },
+    "1104": {
+      "score": 5.9,
+      "score_count": 32,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 11,
+          "ratio": 0.3438
+        },
+        {
+          "rate": 2,
+          "num": 3,
+          "ratio": 0.0938
+        },
+        {
+          "rate": 3,
+          "num": 4,
+          "ratio": 0.125
+        },
+        {
+          "rate": 4,
+          "num": 5,
+          "ratio": 0.1563
+        },
+        {
+          "rate": 5,
+          "num": 9,
+          "ratio": 0.2813
+        }
+      ],
+      "name": "仆从大师"
+    },
+    "1105": {
+      "score": 7.7,
+      "score_count": 31,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 3,
+          "ratio": 0.0968
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.0645
+        },
+        {
+          "rate": 3,
+          "num": 5,
+          "ratio": 0.1613
+        },
+        {
+          "rate": 4,
+          "num": 8,
+          "ratio": 0.2581
+        },
+        {
+          "rate": 5,
+          "num": 13,
+          "ratio": 0.4194
+        }
+      ],
+      "name": "家园卫士"
+    },
+    "1107": {
+      "score": 7.2,
+      "score_count": 18,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 1,
+          "ratio": 0.0556
+        },
+        {
+          "rate": 2,
+          "num": 4,
+          "ratio": 0.2222
+        },
+        {
+          "rate": 3,
+          "num": 3,
+          "ratio": 0.1667
+        },
+        {
+          "rate": 4,
+          "num": 3,
+          "ratio": 0.1667
+        },
+        {
+          "rate": 5,
+          "num": 7,
+          "ratio": 0.3889
+        }
+      ],
+      "name": "接二连三"
+    },
+    "1108": {
+      "score": 3.5,
+      "score_count": 71,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 45,
+          "ratio": 0.6338
+        },
+        {
+          "rate": 2,
+          "num": 12,
+          "ratio": 0.169
+        },
+        {
+          "rate": 3,
+          "num": 6,
+          "ratio": 0.0845
+        },
+        {
+          "rate": 4,
+          "num": 3,
+          "ratio": 0.0423
+        },
+        {
+          "rate": 5,
+          "num": 5,
+          "ratio": 0.0704
+        }
+      ],
+      "name": "自我毁灭"
+    },
+    "1112": {
+      "score": 6.1,
+      "score_count": 31,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 8,
+          "ratio": 0.2581
+        },
+        {
+          "rate": 2,
+          "num": 6,
+          "ratio": 0.1935
+        },
+        {
+          "rate": 3,
+          "num": 4,
+          "ratio": 0.129
+        },
+        {
+          "rate": 4,
+          "num": 3,
+          "ratio": 0.0968
+        },
+        {
+          "rate": 5,
+          "num": 10,
+          "ratio": 0.3226
+        }
+      ],
+      "name": "终极不可阻挡"
+    },
+    "1113": {
+      "score": 5.7,
+      "score_count": 25,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 6,
+          "ratio": 0.24
+        },
+        {
+          "rate": 2,
+          "num": 6,
+          "ratio": 0.24
+        },
+        {
+          "rate": 3,
+          "num": 5,
+          "ratio": 0.2
+        },
+        {
+          "rate": 4,
+          "num": 2,
+          "ratio": 0.08
+        },
+        {
+          "rate": 5,
+          "num": 6,
+          "ratio": 0.24
+        }
+      ],
+      "name": "老练狙神"
+    },
+    "1115": {
+      "score": 5.9,
+      "score_count": 29,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 8,
+          "ratio": 0.2759
+        },
+        {
+          "rate": 2,
+          "num": 3,
+          "ratio": 0.1034
+        },
+        {
+          "rate": 3,
+          "num": 7,
+          "ratio": 0.2414
+        },
+        {
+          "rate": 4,
+          "num": 5,
+          "ratio": 0.1724
+        },
+        {
+          "rate": 5,
+          "num": 6,
+          "ratio": 0.2069
+        }
+      ],
+      "name": "最万用的瞄准镜"
+    },
+    "1116": {
+      "score": 4.1,
+      "score_count": 38,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 19,
+          "ratio": 0.5
+        },
+        {
+          "rate": 2,
+          "num": 9,
+          "ratio": 0.2368
+        },
+        {
+          "rate": 3,
+          "num": 3,
+          "ratio": 0.0789
+        },
+        {
+          "rate": 4,
+          "num": 4,
+          "ratio": 0.1053
+        },
+        {
+          "rate": 5,
+          "num": 3,
+          "ratio": 0.0789
+        }
+      ],
+      "name": "闪现向前"
+    },
+    "1118": {
+      "score": 7.9,
+      "score_count": 28,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 1,
+          "ratio": 0.0357
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.0714
+        },
+        {
+          "rate": 3,
+          "num": 5,
+          "ratio": 0.1786
+        },
+        {
+          "rate": 4,
+          "num": 9,
+          "ratio": 0.3214
+        },
+        {
+          "rate": 5,
+          "num": 11,
+          "ratio": 0.3929
+        }
+      ],
+      "name": "会心治疗"
+    },
+    "1129": {
+      "score": 8.1,
+      "score_count": 28,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 1,
+          "ratio": 0.0357
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 8,
+          "ratio": 0.2857
+        },
+        {
+          "rate": 4,
+          "num": 7,
+          "ratio": 0.25
+        },
+        {
+          "rate": 5,
+          "num": 12,
+          "ratio": 0.4286
+        }
+      ],
+      "name": "神射法师"
+    },
+    "1133": {
+      "score": 7.5,
+      "score_count": 80,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 12,
+          "ratio": 0.15
+        },
+        {
+          "rate": 2,
+          "num": 5,
+          "ratio": 0.0625
+        },
+        {
+          "rate": 3,
+          "num": 10,
+          "ratio": 0.125
+        },
+        {
+          "rate": 4,
+          "num": 19,
+          "ratio": 0.2375
+        },
+        {
+          "rate": 5,
+          "num": 34,
+          "ratio": 0.425
+        }
+      ],
+      "name": "魔法飞弹"
+    },
+    "1134": {
+      "score": 8,
+      "score_count": 353,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 50,
+          "ratio": 0.1416
+        },
+        {
+          "rate": 2,
+          "num": 16,
+          "ratio": 0.0453
+        },
+        {
+          "rate": 3,
+          "num": 32,
+          "ratio": 0.0907
+        },
+        {
+          "rate": 4,
+          "num": 45,
+          "ratio": 0.1275
+        },
+        {
+          "rate": 5,
+          "num": 210,
+          "ratio": 0.5949
+        }
+      ],
+      "name": "亮出你的剑"
+    },
+    "1136": {
+      "score": 7.8,
+      "score_count": 166,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 19,
+          "ratio": 0.1145
+        },
+        {
+          "rate": 2,
+          "num": 13,
+          "ratio": 0.0783
+        },
+        {
+          "rate": 3,
+          "num": 21,
+          "ratio": 0.1265
+        },
+        {
+          "rate": 4,
+          "num": 29,
+          "ratio": 0.1747
+        },
+        {
+          "rate": 5,
+          "num": 84,
+          "ratio": 0.506
+        }
+      ],
+      "name": "扇巴掌"
+    },
+    "1138": {
+      "score": 8.5,
+      "score_count": 107,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 6,
+          "ratio": 0.0561
+        },
+        {
+          "rate": 2,
+          "num": 5,
+          "ratio": 0.0467
+        },
+        {
+          "rate": 3,
+          "num": 10,
+          "ratio": 0.0935
+        },
+        {
+          "rate": 4,
+          "num": 21,
+          "ratio": 0.1963
+        },
+        {
+          "rate": 5,
+          "num": 65,
+          "ratio": 0.6075
+        }
+      ],
+      "name": "渴血"
+    },
+    "1141": {
+      "score": 5.9,
+      "score_count": 19,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 3,
+          "ratio": 0.1579
+        },
+        {
+          "rate": 2,
+          "num": 6,
+          "ratio": 0.3158
+        },
+        {
+          "rate": 3,
+          "num": 3,
+          "ratio": 0.1579
+        },
+        {
+          "rate": 4,
+          "num": 3,
+          "ratio": 0.1579
+        },
+        {
+          "rate": 5,
+          "num": 4,
+          "ratio": 0.2105
+        }
+      ],
+      "name": "全心为你"
+    },
+    "1149": {
+      "score": 3.8,
+      "score_count": 44,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 28,
+          "ratio": 0.6364
+        },
+        {
+          "rate": 2,
+          "num": 4,
+          "ratio": 0.0909
+        },
+        {
+          "rate": 3,
+          "num": 5,
+          "ratio": 0.1136
+        },
+        {
+          "rate": 4,
+          "num": 3,
+          "ratio": 0.0682
+        },
+        {
+          "rate": 5,
+          "num": 4,
+          "ratio": 0.0909
+        }
+      ],
+      "name": "不动如山"
+    },
+    "1150": {
+      "score": 6.1,
+      "score_count": 18,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 3,
+          "ratio": 0.1667
+        },
+        {
+          "rate": 2,
+          "num": 4,
+          "ratio": 0.2222
+        },
+        {
+          "rate": 3,
+          "num": 3,
+          "ratio": 0.1667
+        },
+        {
+          "rate": 4,
+          "num": 5,
+          "ratio": 0.2778
+        },
+        {
+          "rate": 5,
+          "num": 3,
+          "ratio": 0.1667
+        }
+      ],
+      "name": "面包和果酱"
+    },
+    "1151": {
+      "score": 7.7,
+      "score_count": 15,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 1,
+          "ratio": 0.0667
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 4,
+          "ratio": 0.2667
+        },
+        {
+          "rate": 4,
+          "num": 5,
+          "ratio": 0.3333
+        },
+        {
+          "rate": 5,
+          "num": 5,
+          "ratio": 0.3333
+        }
+      ],
+      "name": "面包和奶酪"
+    },
+    "1152": {
+      "score": 8.2,
+      "score_count": 142,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 21,
+          "ratio": 0.1479
+        },
+        {
+          "rate": 2,
+          "num": 5,
+          "ratio": 0.0352
+        },
+        {
+          "rate": 3,
+          "num": 5,
+          "ratio": 0.0352
+        },
+        {
+          "rate": 4,
+          "num": 19,
+          "ratio": 0.1338
+        },
+        {
+          "rate": 5,
+          "num": 92,
+          "ratio": 0.6479
+        }
+      ],
+      "name": "任务：钢化你心"
+    },
+    "1154": {
+      "score": 2.8,
+      "score_count": 82,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 63,
+          "ratio": 0.7683
+        },
+        {
+          "rate": 2,
+          "num": 9,
+          "ratio": 0.1098
+        },
+        {
+          "rate": 3,
+          "num": 7,
+          "ratio": 0.0854
+        },
+        {
+          "rate": 4,
+          "num": 1,
+          "ratio": 0.0122
+        },
+        {
+          "rate": 5,
+          "num": 2,
+          "ratio": 0.0244
+        }
+      ],
+      "name": "任务：海牛阿福的勇士"
+    },
+    "1156": {
+      "score": 7.5,
+      "score_count": 66,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 11,
+          "ratio": 0.1667
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.0303
+        },
+        {
+          "rate": 3,
+          "num": 8,
+          "ratio": 0.1212
+        },
+        {
+          "rate": 4,
+          "num": 15,
+          "ratio": 0.2273
+        },
+        {
+          "rate": 5,
+          "num": 30,
+          "ratio": 0.4545
+        }
+      ],
+      "name": "任务：沃格勒特的巫师帽"
+    },
+    "1170": {
+      "score": 3.5,
+      "score_count": 28,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 17,
+          "ratio": 0.6071
+        },
+        {
+          "rate": 2,
+          "num": 6,
+          "ratio": 0.2143
+        },
+        {
+          "rate": 3,
+          "num": 2,
+          "ratio": 0.0714
+        },
+        {
+          "rate": 4,
+          "num": 1,
+          "ratio": 0.0357
+        },
+        {
+          "rate": 5,
+          "num": 2,
+          "ratio": 0.0714
+        }
+      ],
+      "name": "万用瞄准镜"
+    },
+    "1180": {
+      "score": 4.4,
+      "score_count": 25,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 9,
+          "ratio": 0.36
+        },
+        {
+          "rate": 2,
+          "num": 8,
+          "ratio": 0.32
+        },
+        {
+          "rate": 3,
+          "num": 5,
+          "ratio": 0.2
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 3,
+          "ratio": 0.12
+        }
+      ],
+      "name": "超强大脑"
+    },
+    "1181": {
+      "score": 8.6,
+      "score_count": 53,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 4,
+          "ratio": 0.0755
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.0377
+        },
+        {
+          "rate": 3,
+          "num": 3,
+          "ratio": 0.0566
+        },
+        {
+          "rate": 4,
+          "num": 9,
+          "ratio": 0.1698
+        },
+        {
+          "rate": 5,
+          "num": 35,
+          "ratio": 0.6604
+        }
+      ],
+      "name": "重量级打击手"
+    },
+    "1187": {
+      "score": 6,
+      "score_count": 48,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 18,
+          "ratio": 0.375
+        },
+        {
+          "rate": 2,
+          "num": 5,
+          "ratio": 0.1042
+        },
+        {
+          "rate": 3,
+          "num": 4,
+          "ratio": 0.0833
+        },
+        {
+          "rate": 4,
+          "num": 1,
+          "ratio": 0.0208
+        },
+        {
+          "rate": 5,
+          "num": 20,
+          "ratio": 0.4167
+        }
+      ],
+      "name": "闪光弹"
+    },
+    "1194": {
+      "score": 6.7,
+      "score_count": 41,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 7,
+          "ratio": 0.1707
+        },
+        {
+          "rate": 2,
+          "num": 1,
+          "ratio": 0.0244
+        },
+        {
+          "rate": 3,
+          "num": 15,
+          "ratio": 0.3659
+        },
+        {
+          "rate": 4,
+          "num": 6,
+          "ratio": 0.1463
+        },
+        {
+          "rate": 5,
+          "num": 12,
+          "ratio": 0.2927
+        }
+      ],
+      "name": "精怪魔法"
+    },
+    "1195": {
+      "score": 9,
+      "score_count": 666,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 43,
+          "ratio": 0.0646
+        },
+        {
+          "rate": 2,
+          "num": 24,
+          "ratio": 0.036
+        },
+        {
+          "rate": 3,
+          "num": 27,
+          "ratio": 0.0405
+        },
+        {
+          "rate": 4,
+          "num": 43,
+          "ratio": 0.0646
+        },
+        {
+          "rate": 5,
+          "num": 529,
+          "ratio": 0.7943
+        }
+      ],
+      "name": "巨人杀手"
+    },
+    "1198": {
+      "score": 3.1,
+      "score_count": 76,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 56,
+          "ratio": 0.7368
+        },
+        {
+          "rate": 2,
+          "num": 10,
+          "ratio": 0.1316
+        },
+        {
+          "rate": 3,
+          "num": 4,
+          "ratio": 0.0526
+        },
+        {
+          "rate": 4,
+          "num": 1,
+          "ratio": 0.0132
+        },
+        {
+          "rate": 5,
+          "num": 5,
+          "ratio": 0.0658
+        }
+      ],
+      "name": "圣火"
+    },
+    "12": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "王车易位"
+    },
+    "120": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "超越死亡的效劳"
+    },
+    "1204": {
+      "score": 9.2,
+      "score_count": 5,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 1,
+          "ratio": 0.2
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 4,
+          "ratio": 0.8
+        }
+      ],
+      "name": "叠角龙"
+    },
+    "1205": {
+      "score": 8.2,
+      "score_count": 61,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 4,
+          "ratio": 0.0656
+        },
+        {
+          "rate": 2,
+          "num": 6,
+          "ratio": 0.0984
+        },
+        {
+          "rate": 3,
+          "num": 6,
+          "ratio": 0.0984
+        },
+        {
+          "rate": 4,
+          "num": 10,
+          "ratio": 0.1639
+        },
+        {
+          "rate": 5,
+          "num": 35,
+          "ratio": 0.5738
+        }
+      ],
+      "name": "物理转魔法"
+    },
+    "1206": {
+      "score": 5.1,
+      "score_count": 32,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 12,
+          "ratio": 0.375
+        },
+        {
+          "rate": 2,
+          "num": 5,
+          "ratio": 0.1563
+        },
+        {
+          "rate": 3,
+          "num": 6,
+          "ratio": 0.1875
+        },
+        {
+          "rate": 4,
+          "num": 4,
+          "ratio": 0.125
+        },
+        {
+          "rate": 5,
+          "num": 5,
+          "ratio": 0.1563
+        }
+      ],
+      "name": "魔法转物理"
+    },
+    "1208": {
+      "score": 3.6,
+      "score_count": 10,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 7,
+          "ratio": 0.7
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 2,
+          "ratio": 0.2
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 1,
+          "ratio": 0.1
+        }
+      ],
+      "name": "轨道镭射"
+    },
+    "1211": {
+      "score": 6.2,
+      "score_count": 25,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 4,
+          "ratio": 0.16
+        },
+        {
+          "rate": 2,
+          "num": 6,
+          "ratio": 0.24
+        },
+        {
+          "rate": 3,
+          "num": 4,
+          "ratio": 0.16
+        },
+        {
+          "rate": 4,
+          "num": 5,
+          "ratio": 0.2
+        },
+        {
+          "rate": 5,
+          "num": 6,
+          "ratio": 0.24
+        }
+      ],
+      "name": "杀戮时间到了"
+    },
+    "1214": {
+      "score": 7.8,
+      "score_count": 30,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 1,
+          "ratio": 0.0333
+        },
+        {
+          "rate": 2,
+          "num": 4,
+          "ratio": 0.1333
+        },
+        {
+          "rate": 3,
+          "num": 4,
+          "ratio": 0.1333
+        },
+        {
+          "rate": 4,
+          "num": 9,
+          "ratio": 0.3
+        },
+        {
+          "rate": 5,
+          "num": 12,
+          "ratio": 0.4
+        }
+      ],
+      "name": "旋转至胜"
+    },
+    "1220": {
+      "score": 3.3,
+      "score_count": 100,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 73,
+          "ratio": 0.73
+        },
+        {
+          "rate": 2,
+          "num": 7,
+          "ratio": 0.07
+        },
+        {
+          "rate": 3,
+          "num": 7,
+          "ratio": 0.07
+        },
+        {
+          "rate": 4,
+          "num": 6,
+          "ratio": 0.06
+        },
+        {
+          "rate": 5,
+          "num": 7,
+          "ratio": 0.07
+        }
+      ],
+      "name": "连拨击锤"
+    },
+    "1225": {
+      "score": 9,
+      "score_count": 276,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 22,
+          "ratio": 0.0797
+        },
+        {
+          "rate": 2,
+          "num": 7,
+          "ratio": 0.0254
+        },
+        {
+          "rate": 3,
+          "num": 9,
+          "ratio": 0.0326
+        },
+        {
+          "rate": 4,
+          "num": 17,
+          "ratio": 0.0616
+        },
+        {
+          "rate": 5,
+          "num": 221,
+          "ratio": 0.8007
+        }
+      ],
+      "name": "双刀流"
+    },
+    "123": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "召唤师峡谷的轮盘"
+    },
+    "12317": {
+      "score": 7.5,
+      "score_count": 1470,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 314,
+          "ratio": 0.2136
+        },
+        {
+          "rate": 2,
+          "num": 91,
+          "ratio": 0.0619
+        },
+        {
+          "rate": 3,
+          "num": 103,
+          "ratio": 0.0701
+        },
+        {
+          "rate": 4,
+          "num": 136,
+          "ratio": 0.0925
+        },
+        {
+          "rate": 5,
+          "num": 826,
+          "ratio": 0.5619
+        }
+      ],
+      "name": "潘朵拉的盒子"
+    },
+    "1237": {
+      "score": 8.1,
+      "score_count": 96,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 10,
+          "ratio": 0.1042
+        },
+        {
+          "rate": 2,
+          "num": 8,
+          "ratio": 0.0833
+        },
+        {
+          "rate": 3,
+          "num": 8,
+          "ratio": 0.0833
+        },
+        {
+          "rate": 4,
+          "num": 12,
+          "ratio": 0.125
+        },
+        {
+          "rate": 5,
+          "num": 58,
+          "ratio": 0.6042
+        }
+      ],
+      "name": "质变：黄金阶"
+    },
+    "1238": {
+      "score": 8.4,
+      "score_count": 359,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 44,
+          "ratio": 0.1226
+        },
+        {
+          "rate": 2,
+          "num": 12,
+          "ratio": 0.0334
+        },
+        {
+          "rate": 3,
+          "num": 24,
+          "ratio": 0.0669
+        },
+        {
+          "rate": 4,
+          "num": 28,
+          "ratio": 0.078
+        },
+        {
+          "rate": 5,
+          "num": 251,
+          "ratio": 0.6992
+        }
+      ],
+      "name": "质变：棱彩阶"
+    },
+    "1243": {
+      "score": 6.3,
+      "score_count": 79,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 24,
+          "ratio": 0.3038
+        },
+        {
+          "rate": 2,
+          "num": 9,
+          "ratio": 0.1139
+        },
+        {
+          "rate": 3,
+          "num": 8,
+          "ratio": 0.1013
+        },
+        {
+          "rate": 4,
+          "num": 8,
+          "ratio": 0.1013
+        },
+        {
+          "rate": 5,
+          "num": 30,
+          "ratio": 0.3797
+        }
+      ],
+      "name": "质变：混沌"
+    },
+    "125": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "副本BOSS"
+    },
+    "1250": {
+      "score": 7.6,
+      "score_count": 67,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 14,
+          "ratio": 0.209
+        },
+        {
+          "rate": 2,
+          "num": 3,
+          "ratio": 0.0448
+        },
+        {
+          "rate": 3,
+          "num": 2,
+          "ratio": 0.0299
+        },
+        {
+          "rate": 4,
+          "num": 13,
+          "ratio": 0.194
+        },
+        {
+          "rate": 5,
+          "num": 35,
+          "ratio": 0.5224
+        }
+      ],
+      "name": "一板一眼"
+    },
+    "1301": {
+      "score": 6.5,
+      "score_count": 19,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 4,
+          "ratio": 0.2105
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.1053
+        },
+        {
+          "rate": 3,
+          "num": 5,
+          "ratio": 0.2632
+        },
+        {
+          "rate": 4,
+          "num": 1,
+          "ratio": 0.0526
+        },
+        {
+          "rate": 5,
+          "num": 7,
+          "ratio": 0.3684
+        }
+      ],
+      "name": "神圣干预"
+    },
+    "1305": {
+      "score": 7.9,
+      "score_count": 24,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 1,
+          "ratio": 0.0417
+        },
+        {
+          "rate": 3,
+          "num": 8,
+          "ratio": 0.3333
+        },
+        {
+          "rate": 4,
+          "num": 6,
+          "ratio": 0.25
+        },
+        {
+          "rate": 5,
+          "num": 9,
+          "ratio": 0.375
+        }
+      ],
+      "name": "练腿日"
+    },
+    "1308": {
+      "score": 6.7,
+      "score_count": 94,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 21,
+          "ratio": 0.2234
+        },
+        {
+          "rate": 2,
+          "num": 9,
+          "ratio": 0.0957
+        },
+        {
+          "rate": 3,
+          "num": 14,
+          "ratio": 0.1489
+        },
+        {
+          "rate": 4,
+          "num": 18,
+          "ratio": 0.1915
+        },
+        {
+          "rate": 5,
+          "num": 32,
+          "ratio": 0.3404
+        }
+      ],
+      "name": "火狐"
+    },
+    "1310": {
+      "score": 8.9,
+      "score_count": 190,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 14,
+          "ratio": 0.0737
+        },
+        {
+          "rate": 2,
+          "num": 1,
+          "ratio": 0.0053
+        },
+        {
+          "rate": 3,
+          "num": 15,
+          "ratio": 0.0789
+        },
+        {
+          "rate": 4,
+          "num": 17,
+          "ratio": 0.0895
+        },
+        {
+          "rate": 5,
+          "num": 143,
+          "ratio": 0.7526
+        }
+      ],
+      "name": "小丑学院"
+    },
+    "1311": {
+      "score": 5.1,
+      "score_count": 37,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 11,
+          "ratio": 0.2973
+        },
+        {
+          "rate": 2,
+          "num": 5,
+          "ratio": 0.1351
+        },
+        {
+          "rate": 3,
+          "num": 14,
+          "ratio": 0.3784
+        },
+        {
+          "rate": 4,
+          "num": 4,
+          "ratio": 0.1081
+        },
+        {
+          "rate": 5,
+          "num": 3,
+          "ratio": 0.0811
+        }
+      ],
+      "name": "溢流"
+    },
+    "1313": {
+      "score": 6.4,
+      "score_count": 43,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 13,
+          "ratio": 0.3023
+        },
+        {
+          "rate": 2,
+          "num": 5,
+          "ratio": 0.1163
+        },
+        {
+          "rate": 3,
+          "num": 2,
+          "ratio": 0.0465
+        },
+        {
+          "rate": 4,
+          "num": 6,
+          "ratio": 0.1395
+        },
+        {
+          "rate": 5,
+          "num": 17,
+          "ratio": 0.3953
+        }
+      ],
+      "name": "作弊：我能回城！"
+    },
+    "1314": {
+      "score": 3.6,
+      "score_count": 41,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 24,
+          "ratio": 0.5854
+        },
+        {
+          "rate": 2,
+          "num": 9,
+          "ratio": 0.2195
+        },
+        {
+          "rate": 3,
+          "num": 2,
+          "ratio": 0.0488
+        },
+        {
+          "rate": 4,
+          "num": 5,
+          "ratio": 0.122
+        },
+        {
+          "rate": 5,
+          "num": 1,
+          "ratio": 0.0244
+        }
+      ],
+      "name": "强力护盾"
+    },
+    "1315": {
+      "score": 7.3,
+      "score_count": 28,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 2,
+          "ratio": 0.0714
+        },
+        {
+          "rate": 2,
+          "num": 5,
+          "ratio": 0.1786
+        },
+        {
+          "rate": 3,
+          "num": 6,
+          "ratio": 0.2143
+        },
+        {
+          "rate": 4,
+          "num": 3,
+          "ratio": 0.1071
+        },
+        {
+          "rate": 5,
+          "num": 12,
+          "ratio": 0.4286
+        }
+      ],
+      "name": "快中求稳"
+    },
+    "1316": {
+      "score": 5.4,
+      "score_count": 19,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 6,
+          "ratio": 0.3158
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.1053
+        },
+        {
+          "rate": 3,
+          "num": 6,
+          "ratio": 0.3158
+        },
+        {
+          "rate": 4,
+          "num": 2,
+          "ratio": 0.1053
+        },
+        {
+          "rate": 5,
+          "num": 3,
+          "ratio": 0.1579
+        }
+      ],
+      "name": "刃下生风"
+    },
+    "1317": {
+      "score": 2.3,
+      "score_count": 27,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 26,
+          "ratio": 0.963
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 1,
+          "ratio": 0.037
+        }
+      ],
+      "name": "升级：弯刀"
+    },
+    "1318": {
+      "score": 6.1,
+      "score_count": 14,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 1,
+          "ratio": 0.0714
+        },
+        {
+          "rate": 2,
+          "num": 1,
+          "ratio": 0.0714
+        },
+        {
+          "rate": 3,
+          "num": 8,
+          "ratio": 0.5714
+        },
+        {
+          "rate": 4,
+          "num": 4,
+          "ratio": 0.2857
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "升级：中娅"
+    },
+    "1319": {
+      "score": 7.9,
+      "score_count": 36,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 5,
+          "ratio": 0.1389
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.0556
+        },
+        {
+          "rate": 3,
+          "num": 4,
+          "ratio": 0.1111
+        },
+        {
+          "rate": 4,
+          "num": 3,
+          "ratio": 0.0833
+        },
+        {
+          "rate": 5,
+          "num": 22,
+          "ratio": 0.6111
+        }
+      ],
+      "name": "升级：献祭"
+    },
+    "1320": {
+      "score": 6,
+      "score_count": 138,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 48,
+          "ratio": 0.3478
+        },
+        {
+          "rate": 2,
+          "num": 9,
+          "ratio": 0.0652
+        },
+        {
+          "rate": 3,
+          "num": 22,
+          "ratio": 0.1594
+        },
+        {
+          "rate": 4,
+          "num": 10,
+          "ratio": 0.0725
+        },
+        {
+          "rate": 5,
+          "num": 49,
+          "ratio": 0.3551
+        }
+      ],
+      "name": "升级：收集者"
+    },
+    "1321": {
+      "score": 6.2,
+      "score_count": 26,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 5,
+          "ratio": 0.1923
+        },
+        {
+          "rate": 2,
+          "num": 4,
+          "ratio": 0.1538
+        },
+        {
+          "rate": 3,
+          "num": 7,
+          "ratio": 0.2692
+        },
+        {
+          "rate": 4,
+          "num": 4,
+          "ratio": 0.1538
+        },
+        {
+          "rate": 5,
+          "num": 6,
+          "ratio": 0.2308
+        }
+      ],
+      "name": "砍伤"
+    },
+    "1322": {
+      "score": 6.2,
+      "score_count": 20,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 4,
+          "ratio": 0.2
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.1
+        },
+        {
+          "rate": 3,
+          "num": 6,
+          "ratio": 0.3
+        },
+        {
+          "rate": 4,
+          "num": 4,
+          "ratio": 0.2
+        },
+        {
+          "rate": 5,
+          "num": 4,
+          "ratio": 0.2
+        }
+      ],
+      "name": "罪恶快感"
+    },
+    "1323": {
+      "score": 7.8,
+      "score_count": 30,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 2,
+          "ratio": 0.0667
+        },
+        {
+          "rate": 2,
+          "num": 3,
+          "ratio": 0.1
+        },
+        {
+          "rate": 3,
+          "num": 2,
+          "ratio": 0.0667
+        },
+        {
+          "rate": 4,
+          "num": 12,
+          "ratio": 0.4
+        },
+        {
+          "rate": 5,
+          "num": 11,
+          "ratio": 0.3667
+        }
+      ],
+      "name": "残忍"
+    },
+    "1324": {
+      "score": 7.3,
+      "score_count": 56,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 8,
+          "ratio": 0.1429
+        },
+        {
+          "rate": 2,
+          "num": 6,
+          "ratio": 0.1071
+        },
+        {
+          "rate": 3,
+          "num": 7,
+          "ratio": 0.125
+        },
+        {
+          "rate": 4,
+          "num": 12,
+          "ratio": 0.2143
+        },
+        {
+          "rate": 5,
+          "num": 23,
+          "ratio": 0.4107
+        }
+      ],
+      "name": "蛋白粉奶昔"
+    },
+    "1325": {
+      "score": 2.8,
+      "score_count": 278,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 235,
+          "ratio": 0.8453
+        },
+        {
+          "rate": 2,
+          "num": 10,
+          "ratio": 0.036
+        },
+        {
+          "rate": 3,
+          "num": 11,
+          "ratio": 0.0396
+        },
+        {
+          "rate": 4,
+          "num": 6,
+          "ratio": 0.0216
+        },
+        {
+          "rate": 5,
+          "num": 16,
+          "ratio": 0.0576
+        }
+      ],
+      "name": "玻璃大炮"
+    },
+    "1326": {
+      "score": 4.2,
+      "score_count": 25,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 11,
+          "ratio": 0.44
+        },
+        {
+          "rate": 2,
+          "num": 4,
+          "ratio": 0.16
+        },
+        {
+          "rate": 3,
+          "num": 8,
+          "ratio": 0.32
+        },
+        {
+          "rate": 4,
+          "num": 1,
+          "ratio": 0.04
+        },
+        {
+          "rate": 5,
+          "num": 1,
+          "ratio": 0.04
+        }
+      ],
+      "name": "夜狩"
+    },
+    "1327": {
+      "score": 2.9,
+      "score_count": 43,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 33,
+          "ratio": 0.7674
+        },
+        {
+          "rate": 2,
+          "num": 3,
+          "ratio": 0.0698
+        },
+        {
+          "rate": 3,
+          "num": 5,
+          "ratio": 0.1163
+        },
+        {
+          "rate": 4,
+          "num": 1,
+          "ratio": 0.0233
+        },
+        {
+          "rate": 5,
+          "num": 1,
+          "ratio": 0.0233
+        }
+      ],
+      "name": "坚若磐石"
+    },
+    "1328": {
+      "score": 5.5,
+      "score_count": 31,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 11,
+          "ratio": 0.3548
+        },
+        {
+          "rate": 2,
+          "num": 4,
+          "ratio": 0.129
+        },
+        {
+          "rate": 3,
+          "num": 6,
+          "ratio": 0.1935
+        },
+        {
+          "rate": 4,
+          "num": 1,
+          "ratio": 0.0323
+        },
+        {
+          "rate": 5,
+          "num": 9,
+          "ratio": 0.2903
+        }
+      ],
+      "name": "暴击律动"
+    },
+    "1329": {
+      "score": 8.2,
+      "score_count": 50,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 4,
+          "ratio": 0.08
+        },
+        {
+          "rate": 2,
+          "num": 3,
+          "ratio": 0.06
+        },
+        {
+          "rate": 3,
+          "num": 7,
+          "ratio": 0.14
+        },
+        {
+          "rate": 4,
+          "num": 7,
+          "ratio": 0.14
+        },
+        {
+          "rate": 5,
+          "num": 29,
+          "ratio": 0.58
+        }
+      ],
+      "name": "史上最大雪球"
+    },
+    "1330": {
+      "score": 4.4,
+      "score_count": 62,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 35,
+          "ratio": 0.5645
+        },
+        {
+          "rate": 2,
+          "num": 4,
+          "ratio": 0.0645
+        },
+        {
+          "rate": 3,
+          "num": 9,
+          "ratio": 0.1452
+        },
+        {
+          "rate": 4,
+          "num": 3,
+          "ratio": 0.0484
+        },
+        {
+          "rate": 5,
+          "num": 11,
+          "ratio": 0.1774
+        }
+      ],
+      "name": "活力再生"
+    },
+    "1331": {
+      "score": 3.4,
+      "score_count": 54,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 37,
+          "ratio": 0.6852
+        },
+        {
+          "rate": 2,
+          "num": 7,
+          "ratio": 0.1296
+        },
+        {
+          "rate": 3,
+          "num": 3,
+          "ratio": 0.0556
+        },
+        {
+          "rate": 4,
+          "num": 2,
+          "ratio": 0.037
+        },
+        {
+          "rate": 5,
+          "num": 5,
+          "ratio": 0.0926
+        }
+      ],
+      "name": "至高天诺言"
+    },
+    "1332": {
+      "score": 4.1,
+      "score_count": 42,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 21,
+          "ratio": 0.5
+        },
+        {
+          "rate": 2,
+          "num": 8,
+          "ratio": 0.1905
+        },
+        {
+          "rate": 3,
+          "num": 7,
+          "ratio": 0.1667
+        },
+        {
+          "rate": 4,
+          "num": 2,
+          "ratio": 0.0476
+        },
+        {
+          "rate": 5,
+          "num": 4,
+          "ratio": 0.0952
+        }
+      ],
+      "name": "不祥契约"
+    },
+    "1333": {
+      "score": 8.9,
+      "score_count": 118,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 8,
+          "ratio": 0.0678
+        },
+        {
+          "rate": 2,
+          "num": 4,
+          "ratio": 0.0339
+        },
+        {
+          "rate": 3,
+          "num": 4,
+          "ratio": 0.0339
+        },
+        {
+          "rate": 4,
+          "num": 12,
+          "ratio": 0.1017
+        },
+        {
+          "rate": 5,
+          "num": 90,
+          "ratio": 0.7627
+        }
+      ],
+      "name": "逃跑计划"
+    },
+    "1334": {
+      "score": 8.2,
+      "score_count": 30,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 2,
+          "ratio": 0.0667
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.0667
+        },
+        {
+          "rate": 3,
+          "num": 4,
+          "ratio": 0.1333
+        },
+        {
+          "rate": 4,
+          "num": 5,
+          "ratio": 0.1667
+        },
+        {
+          "rate": 5,
+          "num": 17,
+          "ratio": 0.5667
+        }
+      ],
+      "name": "升级：雪球"
+    },
+    "1335": {
+      "score": 4.5,
+      "score_count": 101,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 55,
+          "ratio": 0.5446
+        },
+        {
+          "rate": 2,
+          "num": 8,
+          "ratio": 0.0792
+        },
+        {
+          "rate": 3,
+          "num": 12,
+          "ratio": 0.1188
+        },
+        {
+          "rate": 4,
+          "num": 9,
+          "ratio": 0.0891
+        },
+        {
+          "rate": 5,
+          "num": 17,
+          "ratio": 0.1683
+        }
+      ],
+      "name": "夺金"
+    },
+    "1336": {
+      "score": 8.9,
+      "score_count": 44,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 1,
+          "ratio": 0.0227
+        },
+        {
+          "rate": 2,
+          "num": 1,
+          "ratio": 0.0227
+        },
+        {
+          "rate": 3,
+          "num": 3,
+          "ratio": 0.0682
+        },
+        {
+          "rate": 4,
+          "num": 12,
+          "ratio": 0.2727
+        },
+        {
+          "rate": 5,
+          "num": 27,
+          "ratio": 0.6136
+        }
+      ],
+      "name": "升级：无尽之刃"
+    },
+    "1337": {
+      "score": 3.2,
+      "score_count": 102,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 78,
+          "ratio": 0.7647
+        },
+        {
+          "rate": 2,
+          "num": 5,
+          "ratio": 0.049
+        },
+        {
+          "rate": 3,
+          "num": 9,
+          "ratio": 0.0882
+        },
+        {
+          "rate": 4,
+          "num": 2,
+          "ratio": 0.0196
+        },
+        {
+          "rate": 5,
+          "num": 8,
+          "ratio": 0.0784
+        }
+      ],
+      "name": "尊我为王"
+    },
+    "1338": {
+      "score": 6.8,
+      "score_count": 39,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 4,
+          "ratio": 0.1026
+        },
+        {
+          "rate": 2,
+          "num": 7,
+          "ratio": 0.1795
+        },
+        {
+          "rate": 3,
+          "num": 7,
+          "ratio": 0.1795
+        },
+        {
+          "rate": 4,
+          "num": 12,
+          "ratio": 0.3077
+        },
+        {
+          "rate": 5,
+          "num": 9,
+          "ratio": 0.2308
+        }
+      ],
+      "name": "升级：狂妄"
+    },
+    "1339": {
+      "score": 4,
+      "score_count": 51,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 33,
+          "ratio": 0.6471
+        },
+        {
+          "rate": 2,
+          "num": 4,
+          "ratio": 0.0784
+        },
+        {
+          "rate": 3,
+          "num": 3,
+          "ratio": 0.0588
+        },
+        {
+          "rate": 4,
+          "num": 3,
+          "ratio": 0.0588
+        },
+        {
+          "rate": 5,
+          "num": 8,
+          "ratio": 0.1569
+        }
+      ],
+      "name": "激光治疗"
+    },
+    "1340": {
+      "score": 6.7,
+      "score_count": 75,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 15,
+          "ratio": 0.2
+        },
+        {
+          "rate": 2,
+          "num": 10,
+          "ratio": 0.1333
+        },
+        {
+          "rate": 3,
+          "num": 10,
+          "ratio": 0.1333
+        },
+        {
+          "rate": 4,
+          "num": 13,
+          "ratio": 0.1733
+        },
+        {
+          "rate": 5,
+          "num": 27,
+          "ratio": 0.36
+        }
+      ],
+      "name": "升级：米凯尔的祝福"
+    },
+    "1341": {
+      "score": 5.5,
+      "score_count": 33,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 11,
+          "ratio": 0.3333
+        },
+        {
+          "rate": 2,
+          "num": 5,
+          "ratio": 0.1515
+        },
+        {
+          "rate": 3,
+          "num": 6,
+          "ratio": 0.1818
+        },
+        {
+          "rate": 4,
+          "num": 3,
+          "ratio": 0.0909
+        },
+        {
+          "rate": 5,
+          "num": 8,
+          "ratio": 0.2424
+        }
+      ],
+      "name": "帽上加帽"
+    },
+    "1342": {
+      "score": 3,
+      "score_count": 59,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 47,
+          "ratio": 0.7966
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.0339
+        },
+        {
+          "rate": 3,
+          "num": 6,
+          "ratio": 0.1017
+        },
+        {
+          "rate": 4,
+          "num": 1,
+          "ratio": 0.0169
+        },
+        {
+          "rate": 5,
+          "num": 3,
+          "ratio": 0.0508
+        }
+      ],
+      "name": "雪球扭蛋机"
+    },
+    "1344": {
+      "score": 8.3,
+      "score_count": 31,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 1,
+          "ratio": 0.0323
+        },
+        {
+          "rate": 2,
+          "num": 1,
+          "ratio": 0.0323
+        },
+        {
+          "rate": 3,
+          "num": 4,
+          "ratio": 0.129
+        },
+        {
+          "rate": 4,
+          "num": 11,
+          "ratio": 0.3548
+        },
+        {
+          "rate": 5,
+          "num": 14,
+          "ratio": 0.4516
+        }
+      ],
+      "name": "最终形态"
+    },
+    "1345": {
+      "score": 5.2,
+      "score_count": 25,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 7,
+          "ratio": 0.28
+        },
+        {
+          "rate": 2,
+          "num": 5,
+          "ratio": 0.2
+        },
+        {
+          "rate": 3,
+          "num": 7,
+          "ratio": 0.28
+        },
+        {
+          "rate": 4,
+          "num": 3,
+          "ratio": 0.12
+        },
+        {
+          "rate": 5,
+          "num": 3,
+          "ratio": 0.12
+        }
+      ],
+      "name": "心灵净化"
+    },
+    "1346": {
+      "score": 8.4,
+      "score_count": 3075,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 339,
+          "ratio": 0.1102
+        },
+        {
+          "rate": 2,
+          "num": 148,
+          "ratio": 0.0481
+        },
+        {
+          "rate": 3,
+          "num": 176,
+          "ratio": 0.0572
+        },
+        {
+          "rate": 4,
+          "num": 278,
+          "ratio": 0.0904
+        },
+        {
+          "rate": 5,
+          "num": 2134,
+          "ratio": 0.694
+        }
+      ],
+      "name": "吸血习性"
+    },
+    "1347": {
+      "score": 3.4,
+      "score_count": 56,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 36,
+          "ratio": 0.6429
+        },
+        {
+          "rate": 2,
+          "num": 10,
+          "ratio": 0.1786
+        },
+        {
+          "rate": 3,
+          "num": 4,
+          "ratio": 0.0714
+        },
+        {
+          "rate": 4,
+          "num": 3,
+          "ratio": 0.0536
+        },
+        {
+          "rate": 5,
+          "num": 3,
+          "ratio": 0.0536
+        }
+      ],
+      "name": "吵闹鬼"
+    },
+    "1348": {
+      "score": 3.1,
+      "score_count": 45,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 35,
+          "ratio": 0.7778
+        },
+        {
+          "rate": 2,
+          "num": 4,
+          "ratio": 0.0889
+        },
+        {
+          "rate": 3,
+          "num": 2,
+          "ratio": 0.0444
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 4,
+          "ratio": 0.0889
+        }
+      ],
+      "name": "闪闪现现"
+    },
+    "1349": {
+      "score": 5.8,
+      "score_count": 25,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 8,
+          "ratio": 0.32
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.08
+        },
+        {
+          "rate": 3,
+          "num": 5,
+          "ratio": 0.2
+        },
+        {
+          "rate": 4,
+          "num": 4,
+          "ratio": 0.16
+        },
+        {
+          "rate": 5,
+          "num": 6,
+          "ratio": 0.24
+        }
+      ],
+      "name": "终极唤醒"
+    },
+    "135": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "法术苏醒"
+    },
+    "1353": {
+      "score": 7.1,
+      "score_count": 229,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 49,
+          "ratio": 0.214
+        },
+        {
+          "rate": 2,
+          "num": 18,
+          "ratio": 0.0786
+        },
+        {
+          "rate": 3,
+          "num": 30,
+          "ratio": 0.131
+        },
+        {
+          "rate": 4,
+          "num": 20,
+          "ratio": 0.0873
+        },
+        {
+          "rate": 5,
+          "num": 112,
+          "ratio": 0.4891
+        }
+      ],
+      "name": "坦克引擎"
+    },
+    "1356": {
+      "score": 7,
+      "score_count": 31,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 9,
+          "ratio": 0.2903
+        },
+        {
+          "rate": 2,
+          "num": 1,
+          "ratio": 0.0323
+        },
+        {
+          "rate": 3,
+          "num": 1,
+          "ratio": 0.0323
+        },
+        {
+          "rate": 4,
+          "num": 6,
+          "ratio": 0.1935
+        },
+        {
+          "rate": 5,
+          "num": 14,
+          "ratio": 0.4516
+        }
+      ],
+      "name": "暴击飞弹"
+    },
+    "1358": {
+      "score": 4.9,
+      "score_count": 31,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 11,
+          "ratio": 0.3548
+        },
+        {
+          "rate": 2,
+          "num": 7,
+          "ratio": 0.2258
+        },
+        {
+          "rate": 3,
+          "num": 5,
+          "ratio": 0.1613
+        },
+        {
+          "rate": 4,
+          "num": 4,
+          "ratio": 0.129
+        },
+        {
+          "rate": 5,
+          "num": 4,
+          "ratio": 0.129
+        }
+      ],
+      "name": "弹球"
+    },
+    "1361": {
+      "score": 6.5,
+      "score_count": 96,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 27,
+          "ratio": 0.2813
+        },
+        {
+          "rate": 2,
+          "num": 8,
+          "ratio": 0.0833
+        },
+        {
+          "rate": 3,
+          "num": 13,
+          "ratio": 0.1354
+        },
+        {
+          "rate": 4,
+          "num": 12,
+          "ratio": 0.125
+        },
+        {
+          "rate": 5,
+          "num": 36,
+          "ratio": 0.375
+        }
+      ],
+      "name": "任务：艾卡西亚的陷落"
+    },
+    "1372": {
+      "score": 4.1,
+      "score_count": 70,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 47,
+          "ratio": 0.6714
+        },
+        {
+          "rate": 2,
+          "num": 3,
+          "ratio": 0.0429
+        },
+        {
+          "rate": 3,
+          "num": 3,
+          "ratio": 0.0429
+        },
+        {
+          "rate": 4,
+          "num": 5,
+          "ratio": 0.0714
+        },
+        {
+          "rate": 5,
+          "num": 12,
+          "ratio": 0.1714
+        }
+      ],
+      "name": "小猫咪找妈妈"
+    },
+    "1373": {
+      "score": 6.3,
+      "score_count": 206,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 72,
+          "ratio": 0.3495
+        },
+        {
+          "rate": 2,
+          "num": 8,
+          "ratio": 0.0388
+        },
+        {
+          "rate": 3,
+          "num": 23,
+          "ratio": 0.1117
+        },
+        {
+          "rate": 4,
+          "num": 21,
+          "ratio": 0.1019
+        },
+        {
+          "rate": 5,
+          "num": 82,
+          "ratio": 0.3981
+        }
+      ],
+      "name": "缩小引擎"
+    },
+    "1375": {
+      "score": 6.8,
+      "score_count": 43,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 8,
+          "ratio": 0.186
+        },
+        {
+          "rate": 2,
+          "num": 3,
+          "ratio": 0.0698
+        },
+        {
+          "rate": 3,
+          "num": 9,
+          "ratio": 0.2093
+        },
+        {
+          "rate": 4,
+          "num": 10,
+          "ratio": 0.2326
+        },
+        {
+          "rate": 5,
+          "num": 13,
+          "ratio": 0.3023
+        }
+      ],
+      "name": "吞噬灵魂"
+    },
+    "1384": {
+      "score": 7.6,
+      "score_count": 287,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 58,
+          "ratio": 0.2021
+        },
+        {
+          "rate": 2,
+          "num": 17,
+          "ratio": 0.0592
+        },
+        {
+          "rate": 3,
+          "num": 18,
+          "ratio": 0.0627
+        },
+        {
+          "rate": 4,
+          "num": 30,
+          "ratio": 0.1045
+        },
+        {
+          "rate": 5,
+          "num": 164,
+          "ratio": 0.5714
+        }
+      ],
+      "name": "捐赠"
+    },
+    "1386": {
+      "score": 4.3,
+      "score_count": 13,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 8,
+          "ratio": 0.6154
+        },
+        {
+          "rate": 2,
+          "num": 1,
+          "ratio": 0.0769
+        },
+        {
+          "rate": 3,
+          "num": 1,
+          "ratio": 0.0769
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 3,
+          "ratio": 0.2308
+        }
+      ],
+      "name": "转得我眩晕了"
+    },
+    "1388": {
+      "score": 7.9,
+      "score_count": 108,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 15,
+          "ratio": 0.1389
+        },
+        {
+          "rate": 2,
+          "num": 4,
+          "ratio": 0.037
+        },
+        {
+          "rate": 3,
+          "num": 12,
+          "ratio": 0.1111
+        },
+        {
+          "rate": 4,
+          "num": 18,
+          "ratio": 0.1667
+        },
+        {
+          "rate": 5,
+          "num": 59,
+          "ratio": 0.5463
+        }
+      ],
+      "name": "无限循环往复"
+    },
+    "1389": {
+      "score": 6,
+      "score_count": 55,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 16,
+          "ratio": 0.2909
+        },
+        {
+          "rate": 2,
+          "num": 3,
+          "ratio": 0.0545
+        },
+        {
+          "rate": 3,
+          "num": 15,
+          "ratio": 0.2727
+        },
+        {
+          "rate": 4,
+          "num": 6,
+          "ratio": 0.1091
+        },
+        {
+          "rate": 5,
+          "num": 15,
+          "ratio": 0.2727
+        }
+      ],
+      "name": "男爵之手"
+    },
+    "1390": {
+      "score": 8.1,
+      "score_count": 497,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 49,
+          "ratio": 0.0986
+        },
+        {
+          "rate": 2,
+          "num": 38,
+          "ratio": 0.0765
+        },
+        {
+          "rate": 3,
+          "num": 46,
+          "ratio": 0.0926
+        },
+        {
+          "rate": 4,
+          "num": 64,
+          "ratio": 0.1288
+        },
+        {
+          "rate": 5,
+          "num": 300,
+          "ratio": 0.6036
+        }
+      ],
+      "name": "超凡邪恶"
+    },
+    "1391": {
+      "score": 8.9,
+      "score_count": 509,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 30,
+          "ratio": 0.0589
+        },
+        {
+          "rate": 2,
+          "num": 19,
+          "ratio": 0.0373
+        },
+        {
+          "rate": 3,
+          "num": 34,
+          "ratio": 0.0668
+        },
+        {
+          "rate": 4,
+          "num": 41,
+          "ratio": 0.0806
+        },
+        {
+          "rate": 5,
+          "num": 385,
+          "ratio": 0.7564
+        }
+      ],
+      "name": "红包"
+    },
+    "1392": {
+      "score": 3,
+      "score_count": 131,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 105,
+          "ratio": 0.8015
+        },
+        {
+          "rate": 2,
+          "num": 5,
+          "ratio": 0.0382
+        },
+        {
+          "rate": 3,
+          "num": 10,
+          "ratio": 0.0763
+        },
+        {
+          "rate": 4,
+          "num": 4,
+          "ratio": 0.0305
+        },
+        {
+          "rate": 5,
+          "num": 7,
+          "ratio": 0.0534
+        }
+      ],
+      "name": "神圣雪球"
+    },
+    "1397": {
+      "score": 4.9,
+      "score_count": 58,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 23,
+          "ratio": 0.3966
+        },
+        {
+          "rate": 2,
+          "num": 12,
+          "ratio": 0.2069
+        },
+        {
+          "rate": 3,
+          "num": 8,
+          "ratio": 0.1379
+        },
+        {
+          "rate": 4,
+          "num": 4,
+          "ratio": 0.069
+        },
+        {
+          "rate": 5,
+          "num": 11,
+          "ratio": 0.1897
+        }
+      ],
+      "name": "地狱三头犬"
+    },
+    "14": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "专属司机"
+    },
+    "1400": {
+      "score": 8.4,
+      "score_count": 59,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 4,
+          "ratio": 0.0678
+        },
+        {
+          "rate": 2,
+          "num": 3,
+          "ratio": 0.0508
+        },
+        {
+          "rate": 3,
+          "num": 4,
+          "ratio": 0.0678
+        },
+        {
+          "rate": 4,
+          "num": 14,
+          "ratio": 0.2373
+        },
+        {
+          "rate": 5,
+          "num": 34,
+          "ratio": 0.5763
+        }
+      ],
+      "name": "最终都市列车"
+    },
+    "1401": {
+      "score": 8.5,
+      "score_count": 27,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 1,
+          "ratio": 0.037
+        },
+        {
+          "rate": 2,
+          "num": 1,
+          "ratio": 0.037
+        },
+        {
+          "rate": 3,
+          "num": 3,
+          "ratio": 0.1111
+        },
+        {
+          "rate": 4,
+          "num": 7,
+          "ratio": 0.2593
+        },
+        {
+          "rate": 5,
+          "num": 15,
+          "ratio": 0.5556
+        }
+      ],
+      "name": "生机迸发"
+    },
+    "1402": {
+      "score": 5.5,
+      "score_count": 51,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 21,
+          "ratio": 0.4118
+        },
+        {
+          "rate": 2,
+          "num": 5,
+          "ratio": 0.098
+        },
+        {
+          "rate": 3,
+          "num": 7,
+          "ratio": 0.1373
+        },
+        {
+          "rate": 4,
+          "num": 3,
+          "ratio": 0.0588
+        },
+        {
+          "rate": 5,
+          "num": 15,
+          "ratio": 0.2941
+        }
+      ],
+      "name": "属性叠属性叠属性！"
+    },
+    "1403": {
+      "score": 8.2,
+      "score_count": 93,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 8,
+          "ratio": 0.086
+        },
+        {
+          "rate": 2,
+          "num": 7,
+          "ratio": 0.0753
+        },
+        {
+          "rate": 3,
+          "num": 10,
+          "ratio": 0.1075
+        },
+        {
+          "rate": 4,
+          "num": 11,
+          "ratio": 0.1183
+        },
+        {
+          "rate": 5,
+          "num": 57,
+          "ratio": 0.6129
+        }
+      ],
+      "name": "属性叠属性！"
+    },
+    "1404": {
+      "score": 7.7,
+      "score_count": 73,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 9,
+          "ratio": 0.1233
+        },
+        {
+          "rate": 2,
+          "num": 9,
+          "ratio": 0.1233
+        },
+        {
+          "rate": 3,
+          "num": 6,
+          "ratio": 0.0822
+        },
+        {
+          "rate": 4,
+          "num": 8,
+          "ratio": 0.1096
+        },
+        {
+          "rate": 5,
+          "num": 41,
+          "ratio": 0.5616
+        }
+      ],
+      "name": "属性！"
+    },
+    "1405": {
+      "score": 7.2,
+      "score_count": 75,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 14,
+          "ratio": 0.1867
+        },
+        {
+          "rate": 2,
+          "num": 8,
+          "ratio": 0.1067
+        },
+        {
+          "rate": 3,
+          "num": 6,
+          "ratio": 0.08
+        },
+        {
+          "rate": 4,
+          "num": 13,
+          "ratio": 0.1733
+        },
+        {
+          "rate": 5,
+          "num": 34,
+          "ratio": 0.4533
+        }
+      ],
+      "name": "速度恶魔"
+    },
+    "1406": {
+      "score": 8.2,
+      "score_count": 222,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 22,
+          "ratio": 0.0991
+        },
+        {
+          "rate": 2,
+          "num": 17,
+          "ratio": 0.0766
+        },
+        {
+          "rate": 3,
+          "num": 16,
+          "ratio": 0.0721
+        },
+        {
+          "rate": 4,
+          "num": 28,
+          "ratio": 0.1261
+        },
+        {
+          "rate": 5,
+          "num": 139,
+          "ratio": 0.6261
+        }
+      ],
+      "name": "祖母的辣椒油"
+    },
+    "1409": {
+      "score": 6.5,
+      "score_count": 77,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 23,
+          "ratio": 0.2987
+        },
+        {
+          "rate": 2,
+          "num": 5,
+          "ratio": 0.0649
+        },
+        {
+          "rate": 3,
+          "num": 7,
+          "ratio": 0.0909
+        },
+        {
+          "rate": 4,
+          "num": 12,
+          "ratio": 0.1558
+        },
+        {
+          "rate": 5,
+          "num": 30,
+          "ratio": 0.3896
+        }
+      ],
+      "name": "魄罗爆破手"
+    },
+    "1411": {
+      "score": 4.6,
+      "score_count": 107,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 62,
+          "ratio": 0.5794
+        },
+        {
+          "rate": 2,
+          "num": 7,
+          "ratio": 0.0654
+        },
+        {
+          "rate": 3,
+          "num": 6,
+          "ratio": 0.0561
+        },
+        {
+          "rate": 4,
+          "num": 7,
+          "ratio": 0.0654
+        },
+        {
+          "rate": 5,
+          "num": 25,
+          "ratio": 0.2336
+        }
+      ],
+      "name": "升级：荆棘之甲"
+    },
+    "1413": {
+      "score": 3.6,
+      "score_count": 116,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 84,
+          "ratio": 0.7241
+        },
+        {
+          "rate": 2,
+          "num": 4,
+          "ratio": 0.0345
+        },
+        {
+          "rate": 3,
+          "num": 8,
+          "ratio": 0.069
+        },
+        {
+          "rate": 4,
+          "num": 5,
+          "ratio": 0.0431
+        },
+        {
+          "rate": 5,
+          "num": 15,
+          "ratio": 0.1293
+        }
+      ],
+      "name": "和我一起困在这里"
+    },
+    "1414": {
+      "score": 3,
+      "score_count": 291,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 232,
+          "ratio": 0.7973
+        },
+        {
+          "rate": 2,
+          "num": 16,
+          "ratio": 0.055
+        },
+        {
+          "rate": 3,
+          "num": 15,
+          "ratio": 0.0515
+        },
+        {
+          "rate": 4,
+          "num": 7,
+          "ratio": 0.0241
+        },
+        {
+          "rate": 5,
+          "num": 21,
+          "ratio": 0.0722
+        }
+      ],
+      "name": "卡皮巴拉空投"
+    },
+    "1415": {
+      "score": 6.7,
+      "score_count": 19,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 3,
+          "ratio": 0.1579
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 6,
+          "ratio": 0.3158
+        },
+        {
+          "rate": 4,
+          "num": 7,
+          "ratio": 0.3684
+        },
+        {
+          "rate": 5,
+          "num": 3,
+          "ratio": 0.1579
+        }
+      ],
+      "name": "双生火焰"
+    },
+    "1416": {
+      "score": 5.6,
+      "score_count": 20,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 5,
+          "ratio": 0.25
+        },
+        {
+          "rate": 2,
+          "num": 5,
+          "ratio": 0.25
+        },
+        {
+          "rate": 3,
+          "num": 3,
+          "ratio": 0.15
+        },
+        {
+          "rate": 4,
+          "num": 3,
+          "ratio": 0.15
+        },
+        {
+          "rate": 5,
+          "num": 4,
+          "ratio": 0.2
+        }
+      ],
+      "name": "海克斯科技龙魂"
+    },
+    "1418": {
+      "score": 3.2,
+      "score_count": 45,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 36,
+          "ratio": 0.8
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.0444
+        },
+        {
+          "rate": 3,
+          "num": 1,
+          "ratio": 0.0222
+        },
+        {
+          "rate": 4,
+          "num": 1,
+          "ratio": 0.0222
+        },
+        {
+          "rate": 5,
+          "num": 5,
+          "ratio": 0.1111
+        }
+      ],
+      "name": "砸开那颗蛋"
+    },
+    "1420": {
+      "score": 8.4,
+      "score_count": 128,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 12,
+          "ratio": 0.0938
+        },
+        {
+          "rate": 2,
+          "num": 6,
+          "ratio": 0.0469
+        },
+        {
+          "rate": 3,
+          "num": 9,
+          "ratio": 0.0703
+        },
+        {
+          "rate": 4,
+          "num": 21,
+          "ratio": 0.1641
+        },
+        {
+          "rate": 5,
+          "num": 80,
+          "ratio": 0.625
+        }
+      ],
+      "name": "咏叹奏鸣"
+    },
+    "1421": {
+      "score": 3.8,
+      "score_count": 141,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 97,
+          "ratio": 0.6879
+        },
+        {
+          "rate": 2,
+          "num": 7,
+          "ratio": 0.0496
+        },
+        {
+          "rate": 3,
+          "num": 9,
+          "ratio": 0.0638
+        },
+        {
+          "rate": 4,
+          "num": 7,
+          "ratio": 0.0496
+        },
+        {
+          "rate": 5,
+          "num": 21,
+          "ratio": 0.1489
+        }
+      ],
+      "name": "舞会女王"
+    },
+    "1424": {
+      "score": 3.9,
+      "score_count": 242,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 155,
+          "ratio": 0.6405
+        },
+        {
+          "rate": 2,
+          "num": 22,
+          "ratio": 0.0909
+        },
+        {
+          "rate": 3,
+          "num": 14,
+          "ratio": 0.0579
+        },
+        {
+          "rate": 4,
+          "num": 19,
+          "ratio": 0.0785
+        },
+        {
+          "rate": 5,
+          "num": 32,
+          "ratio": 0.1322
+        }
+      ],
+      "name": "???"
+    },
+    "15": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "生机绽放"
+    },
+    "16": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "连招大师"
+    },
+    "165": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "重启"
+    },
+    "166": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "连锁闪电"
+    },
+    "17": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "职业杀手"
+    },
+    "171": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "去质"
+    },
+    "172": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "镜花水月"
+    },
+    "174": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "镭射眼"
+    },
+    "175": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "寄生关系"
+    },
+    "176": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "雪球大战！"
+    },
+    "177": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "套娃"
+    },
+    "192": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "任务：惩戒天使"
+    },
+    "193": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "星原之准"
+    },
+    "1996": {
+      "score": 7.8,
+      "score_count": 25,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 1,
+          "ratio": 0.04
+        },
+        {
+          "rate": 2,
+          "num": 3,
+          "ratio": 0.12
+        },
+        {
+          "rate": 3,
+          "num": 4,
+          "ratio": 0.16
+        },
+        {
+          "rate": 4,
+          "num": 7,
+          "ratio": 0.28
+        },
+        {
+          "rate": 5,
+          "num": 10,
+          "ratio": 0.4
+        }
+      ],
+      "name": "升级：耀光"
+    },
+    "200": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "血亲兄弟"
+    },
+    "2001": {
+      "score": 8.3,
+      "score_count": 176,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 27,
+          "ratio": 0.1534
+        },
+        {
+          "rate": 2,
+          "num": 5,
+          "ratio": 0.0284
+        },
+        {
+          "rate": 3,
+          "num": 8,
+          "ratio": 0.0455
+        },
+        {
+          "rate": 4,
+          "num": 13,
+          "ratio": 0.0739
+        },
+        {
+          "rate": 5,
+          "num": 123,
+          "ratio": 0.6989
+        }
+      ],
+      "name": "当心小蛋糕！"
+    },
+    "2002": {
+      "score": 7.5,
+      "score_count": 103,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 19,
+          "ratio": 0.1845
+        },
+        {
+          "rate": 2,
+          "num": 6,
+          "ratio": 0.0583
+        },
+        {
+          "rate": 3,
+          "num": 15,
+          "ratio": 0.1456
+        },
+        {
+          "rate": 4,
+          "num": 7,
+          "ratio": 0.068
+        },
+        {
+          "rate": 5,
+          "num": 56,
+          "ratio": 0.5437
+        }
+      ],
+      "name": "虚空裂隙"
+    },
+    "2003": {
+      "score": 4.4,
+      "score_count": 159,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 101,
+          "ratio": 0.6352
+        },
+        {
+          "rate": 2,
+          "num": 6,
+          "ratio": 0.0377
+        },
+        {
+          "rate": 3,
+          "num": 7,
+          "ratio": 0.044
+        },
+        {
+          "rate": 4,
+          "num": 9,
+          "ratio": 0.0566
+        },
+        {
+          "rate": 5,
+          "num": 36,
+          "ratio": 0.2264
+        }
+      ],
+      "name": "魄罗之王的弹跳"
+    },
+    "2004": {
+      "score": 6.3,
+      "score_count": 39,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 13,
+          "ratio": 0.3333
+        },
+        {
+          "rate": 2,
+          "num": 1,
+          "ratio": 0.0256
+        },
+        {
+          "rate": 3,
+          "num": 8,
+          "ratio": 0.2051
+        },
+        {
+          "rate": 4,
+          "num": 2,
+          "ratio": 0.0513
+        },
+        {
+          "rate": 5,
+          "num": 15,
+          "ratio": 0.3846
+        }
+      ],
+      "name": "信念者的强化"
+    },
+    "2005": {
+      "score": 4.1,
+      "score_count": 157,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 97,
+          "ratio": 0.6178
+        },
+        {
+          "rate": 2,
+          "num": 16,
+          "ratio": 0.1019
+        },
+        {
+          "rate": 3,
+          "num": 11,
+          "ratio": 0.0701
+        },
+        {
+          "rate": 4,
+          "num": 9,
+          "ratio": 0.0573
+        },
+        {
+          "rate": 5,
+          "num": 24,
+          "ratio": 0.1529
+        }
+      ],
+      "name": "扳机炼狱"
+    },
+    "2006": {
+      "score": 8.4,
+      "score_count": 134,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 10,
+          "ratio": 0.0746
+        },
+        {
+          "rate": 2,
+          "num": 4,
+          "ratio": 0.0299
+        },
+        {
+          "rate": 3,
+          "num": 16,
+          "ratio": 0.1194
+        },
+        {
+          "rate": 4,
+          "num": 21,
+          "ratio": 0.1567
+        },
+        {
+          "rate": 5,
+          "num": 83,
+          "ratio": 0.6194
+        }
+      ],
+      "name": "飞身踢"
+    },
+    "2007": {
+      "score": 3.4,
+      "score_count": 309,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 228,
+          "ratio": 0.7379
+        },
+        {
+          "rate": 2,
+          "num": 19,
+          "ratio": 0.0615
+        },
+        {
+          "rate": 3,
+          "num": 21,
+          "ratio": 0.068
+        },
+        {
+          "rate": 4,
+          "num": 16,
+          "ratio": 0.0518
+        },
+        {
+          "rate": 5,
+          "num": 25,
+          "ratio": 0.0809
+        }
+      ],
+      "name": "你肩上的恶魔"
+    },
+    "2008": {
+      "score": 8.1,
+      "score_count": 42,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 2,
+          "ratio": 0.0476
+        },
+        {
+          "rate": 2,
+          "num": 1,
+          "ratio": 0.0238
+        },
+        {
+          "rate": 3,
+          "num": 9,
+          "ratio": 0.2143
+        },
+        {
+          "rate": 4,
+          "num": 11,
+          "ratio": 0.2619
+        },
+        {
+          "rate": 5,
+          "num": 19,
+          "ratio": 0.4524
+        }
+      ],
+      "name": "负重爆气"
+    },
+    "2009": {
+      "score": 8.7,
+      "score_count": 58,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 3,
+          "ratio": 0.0517
+        },
+        {
+          "rate": 2,
+          "num": 2,
+          "ratio": 0.0345
+        },
+        {
+          "rate": 3,
+          "num": 4,
+          "ratio": 0.069
+        },
+        {
+          "rate": 4,
+          "num": 12,
+          "ratio": 0.2069
+        },
+        {
+          "rate": 5,
+          "num": 37,
+          "ratio": 0.6379
+        }
+      ],
+      "name": "狂热者"
+    },
+    "2010": {
+      "score": 8.4,
+      "score_count": 37,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 2,
+          "ratio": 0.0541
+        },
+        {
+          "rate": 2,
+          "num": 3,
+          "ratio": 0.0811
+        },
+        {
+          "rate": 3,
+          "num": 3,
+          "ratio": 0.0811
+        },
+        {
+          "rate": 4,
+          "num": 6,
+          "ratio": 0.1622
+        },
+        {
+          "rate": 5,
+          "num": 23,
+          "ratio": 0.6216
+        }
+      ],
+      "name": "双发快射"
+    },
+    "2016": {
+      "score": 3.7,
+      "score_count": 37,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 24,
+          "ratio": 0.6486
+        },
+        {
+          "rate": 2,
+          "num": 4,
+          "ratio": 0.1081
+        },
+        {
+          "rate": 3,
+          "num": 3,
+          "ratio": 0.0811
+        },
+        {
+          "rate": 4,
+          "num": 2,
+          "ratio": 0.0541
+        },
+        {
+          "rate": 5,
+          "num": 4,
+          "ratio": 0.1081
+        }
+      ],
+      "name": "注魔"
+    },
+    "2018": {
+      "score": 6,
+      "score_count": 43,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 12,
+          "ratio": 0.2791
+        },
+        {
+          "rate": 2,
+          "num": 6,
+          "ratio": 0.1395
+        },
+        {
+          "rate": 3,
+          "num": 8,
+          "ratio": 0.186
+        },
+        {
+          "rate": 4,
+          "num": 5,
+          "ratio": 0.1163
+        },
+        {
+          "rate": 5,
+          "num": 12,
+          "ratio": 0.2791
+        }
+      ],
+      "name": "纯粹主义者 - 术师"
+    },
+    "2024": {
+      "score": 5.2,
+      "score_count": 38,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 10,
+          "ratio": 0.2632
+        },
+        {
+          "rate": 2,
+          "num": 9,
+          "ratio": 0.2368
+        },
+        {
+          "rate": 3,
+          "num": 10,
+          "ratio": 0.2632
+        },
+        {
+          "rate": 4,
+          "num": 5,
+          "ratio": 0.1316
+        },
+        {
+          "rate": 5,
+          "num": 4,
+          "ratio": 0.1053
+        }
+      ],
+      "name": "由暴生急"
+    },
+    "2026": {
+      "score": 6,
+      "score_count": 18,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 4,
+          "ratio": 0.2222
+        },
+        {
+          "rate": 2,
+          "num": 3,
+          "ratio": 0.1667
+        },
+        {
+          "rate": 3,
+          "num": 4,
+          "ratio": 0.2222
+        },
+        {
+          "rate": 4,
+          "num": 3,
+          "ratio": 0.1667
+        },
+        {
+          "rate": 5,
+          "num": 4,
+          "ratio": 0.2222
+        }
+      ],
+      "name": "杀意翻涌"
+    },
+    "207": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "纹丝不动"
+    },
+    "21": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "防御计略"
+    },
+    "215": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "黑暗赐福"
+    },
+    "216": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "恐惧使者"
+    },
+    "217": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "死亡触摸"
+    },
+    "218": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "亵渎者"
+    },
+    "219": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "末日预言者"
+    },
+    "221": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "引路者"
+    },
+    "222": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "你的劳动果实"
+    },
+    "223": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "召唤师革新"
+    },
+    "224": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "棱彩蛋"
+    },
+    "229": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "火爆甩卖"
+    },
+    "231": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "光明守望者"
+    },
+    "232": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "史莱姆时间"
+    },
+    "233": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "终极转盘"
+    },
+    "234": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "财运锻造器"
+    },
+    "236": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "诡术恶魔"
+    },
+    "239": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "共生突变"
+    },
+    "24": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "择日赴死"
+    },
+    "240": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "寄生突变"
+    },
+    "241": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "帽子戏法"
+    },
+    "242": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "榨汁机"
+    },
+    "251": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "疼痛钝感"
+    },
+    "3": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "虚无强化符文"
+    },
+    "302": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "献祭：换取白银阶"
+    },
+    "303": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "献祭：换取黄金阶"
+    },
+    "304": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "献祭：换取棱彩阶"
+    },
+    "309": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "还有我的斧头！"
+    },
+    "312": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "我们马上就回来"
+    },
+    "314": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "解脱者"
+    },
+    "318": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "任务：疯狂帽子人"
+    },
+    "319": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "任务：三圣宝"
+    },
+    "320": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "精算风险"
+    },
+    "321": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "保镖"
+    },
+    "322": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "强化之能量"
+    },
+    "324": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "勇中最勇"
+    },
+    "326": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "灵之灌注"
+    },
+    "327": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "不灭守护"
+    },
+    "33": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "弹簧飞爪"
+    },
+    "331": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "多功能工具"
+    },
+    "333": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "任务：熔铸之神的仪式"
+    },
+    "335": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "避难所"
+    },
+    "336": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "瞄准脑袋"
+    },
+    "338": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "蜂巢思维"
+    },
+    "34": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "堕落圣盾"
+    },
+    "343": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "正义之怒"
+    },
+    "344": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "能量充沛"
+    },
+    "357": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "双管齐下"
+    },
+    "40": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "冰封地基"
+    },
+    "404": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "404 强化符文未找到"
+    },
+    "405": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "强化符文405"
+    },
+    "43": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "位移魔术"
+    },
+    "49": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "果汁盒"
+    },
+    "5": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "号令之旗"
+    },
+    "78": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "灵魂连接"
+    },
+    "80": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "会心防守"
+    },
+    "85": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "折磨之叉"
+    },
+    "89": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "遁入暗影"
+    },
+    "90": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "复仇"
+    },
+    "93": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "热身动作"
+    },
+    "94": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "自愿牺牲"
+    },
+    "96": {
+      "score": 0,
+      "score_count": 0,
+      "score_distribute": [
+        {
+          "rate": 1,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 2,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 3,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 4,
+          "num": 0,
+          "ratio": 0
+        },
+        {
+          "rate": 5,
+          "num": 0,
+          "ratio": 0
+        }
+      ],
+      "name": "时光之智慧"
+    }
+  }
+}
