@@ -420,6 +420,7 @@ body { font-family: var(--font-cn); background: var(--bg-deep); color: var(--tex
 <script>
 // ==================== API 配置 ====================
 const API_BASE = window.location.origin;
+const COMMON_HEADERS = { 'ngrok-skip-browser-warning': 'true' };
 
 // ==================== App State ====================
 let state = {
@@ -485,7 +486,7 @@ async function startFortune() {
   try {
     const res = await fetch(`${API_BASE}/api/fortune`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...COMMON_HEADERS },
       body: JSON.stringify({ user_id: input }),
     });
     if (!res.ok) throw new Error(`API ${res.status}`);
@@ -560,7 +561,7 @@ async function startChat() {
 
   // 获取对话轮次配置
   try {
-    const res = await fetch(`${API_BASE}/api/chat/rounds`);
+    const res = await fetch(`${API_BASE}/api/chat/rounds`, { headers: COMMON_HEADERS });
     const data = await res.json();
     state.chatRounds = data.rounds;
     document.getElementById('chatRoundTotal').textContent = data.total_rounds;
@@ -679,7 +680,7 @@ async function streamReply(roundIdx, choice) {
   try {
     const res = await fetch(`${API_BASE}/api/chat/stream`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...COMMON_HEADERS },
       body: JSON.stringify({ session_id: state.sessionId, round_index: roundIdx, choice: choice }),
     });
 
@@ -730,7 +731,7 @@ async function streamReply(roundIdx, choice) {
     try {
       const res = await fetch(`${API_BASE}/api/chat`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...COMMON_HEADERS },
         body: JSON.stringify({ session_id: state.sessionId, round_index: roundIdx, choice: choice }),
       });
       const data = await res.json();
@@ -755,7 +756,7 @@ async function startReport() {
   try {
     const res = await fetch(`${API_BASE}/api/report`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...COMMON_HEADERS },
       body: JSON.stringify({ session_id: state.sessionId }),
     });
     if (!res.ok) throw new Error(`API ${res.status}`);
