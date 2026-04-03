@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AI Coach 评分验证报告 v2</title>
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { 
+    background: #0d1117; color: #c9d1d9; 
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    padding: 20px; line-height: 1.6;
+}
+.container { max-width: 1400px; margin: 0 auto; }
+h1 { color: #58a6ff; font-size: 28px; margin-bottom: 8px; }
+h2 { color: #58a6ff; font-size: 22px; margin: 30px 0 15px; border-bottom: 1px solid #30363d; padding-bottom: 8px; }
+h3 { color: #79c0ff; font-size: 18px; margin: 20px 0 10px; }
+.subtitle { color: #8b949e; margin-bottom: 20px; }
+
+.summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin: 20px 0; }
+.summary-card {
+    background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+    padding: 20px; text-align: center;
+}
+.summary-card .number { font-size: 36px; font-weight: bold; }
+.summary-card .label { color: #8b949e; font-size: 14px; margin-top: 5px; }
+.pass { color: #3fb950; }
+.fail { color: #f85149; }
+.warn { color: #d29922; }
+.info { color: #58a6ff; }
+
+.chart-container { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 15px; margin: 15px 0; }
+.chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+table { 
+    width: 100%; border-collapse: collapse; margin: 10px 0;
+    background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+    font-size: 13px;
+}
+th { background: #21262d; color: #58a6ff; padding: 10px 8px; text-align: left; position: sticky; top: 0; }
+td { padding: 8px; border-top: 1px solid #30363d; }
+tr:hover { background: #1c2128; }
+.table-scroll { max-height: 600px; overflow-y: auto; border-radius: 8px; }
+
+.badge { 
+    display: inline-block; padding: 2px 8px; border-radius: 12px; 
+    font-size: 12px; font-weight: 500;
+}
+.badge-rec { background: #1a4f2a; color: #3fb950; }
+.badge-con { background: #3d2e00; color: #d29922; }
+.badge-ref { background: #4a1d1d; color: #f85149; }
+
+.insight-box {
+    background: #161b22; border-left: 3px solid #58a6ff; 
+    padding: 15px; margin: 15px 0; border-radius: 0 8px 8px 0;
+}
+.insight-box.warning { border-left-color: #d29922; }
+.insight-box.success { border-left-color: #3fb950; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>🎮 AI Coach 评分机制验证报告</h1>
+<p class="subtitle">全局胜率口径 · 三等级推荐合并验证 · 172 个英雄</p>
+
+<!-- 总览卡片 -->
+<div class="summary-grid">
+    <div class="summary-card">
+        <div class="number info">172</div>
+        <div class="label">验证英雄数</div>
+    </div>
+    <div class="summary-card">
+        <div class="number fail">531</div>
+        <div class="label">规则1违规 (Top10→推荐)</div>
+    </div>
+    <div class="summary-card">
+        <div class="number pass">0</div>
+        <div class="label">规则2违规 (Bot20→非推荐)</div>
+    </div>
+    <div class="summary-card">
+        <div class="number warn">14</div>
+        <div class="label">规则3违规 (Bot10→刷新)</div>
+    </div>
+</div>
+
+<div class="insight-box">
+<strong>验证口径说明：</strong><br>
+• <strong>胜率排名</strong>：每个英雄所有等级（白银+黄金+棱彩）合并后的全局胜率排名<br>
+• <strong>推荐范围</strong>：三个等级的"推荐选取"合并（平均每个英雄 15.1 个）<br>
+• <strong>刷新范围</strong>：三个等级的"建议刷新"合并
+</div>
+
+<!-- 规则1详情 -->
+<h2>📌 规则1：全局胜率前10 → 必须在推荐范围内</h2>
+
+<div class="insight-box warning">
+<strong>违规概况：</strong>531 条违规，涉及 169/172 个英雄<br>
+<strong>核心原因：</strong>同一等级内仅推荐 5-6 个，全局Top10中有些符文在其所在等级并非分数前5（受选率、UGC、黑科技影响），因此未被推荐。<br>
+<strong>高频漏选符文：</strong>属性叠属性！(96次), 属性叠属性叠属性！(47次), 红包(43次), 回力OK镖(42次), 男爵之手(37次), 升级：荆棘之甲(33次), 捐赠(29次), 属性！(24次), 咏叹奏鸣(18次), 科学狂人(13次)
+</div>
+
+<div class="chart-row">
+<div class="chart-container">
+<div id="chart_r1_hero"></div>
+</div>
+<div class="chart-container">
+<div id="chart_r1_rank"></div>
+</div>
+</div>
+
+<div class="chart-row">
+<div class="chart-container">
+<div id="chart_r1_level"></div>
+</div>
+<div class="chart-container">
+<div id="chart_r1_aug"></div>
+</div>
+</div>
+
+<h3>完整违规列表（按英雄分组）</h3>
+<div class="table-scroll">
+<table>
+<thead><tr><th>英雄</th><th>违规数</th><th>违规符文详情</th></tr></thead>
+<tbody>
+<tr><td><strong>亚恒</strong></td><td>9</td><td><span class="badge badge-con">属性叠属性！</span> Top1 WR=62.3% [黄金] 分数=117.0<br><span class="badge badge-con">属性！</span> Top2 WR=62.0% [白银] 分数=114.9<br><span class="badge badge-con">红包</span> Top3 WR=61.7% [黄金] 分数=127.3<br><span class="badge badge-con">回力OK镖</span> Top5 WR=61.1% [黄金] 分数=111.4<br><span class="badge badge-con">属性叠属性叠属性！</span> Top6 WR=60.1% [棱彩] 分数=109.5<br><span class="badge badge-con">升级：花晓之剑</span> Top7 WR=60.0% [棱彩] 分数=109.9<br><span class="badge badge-con">捐赠</span> Top8 WR=59.8% [黄金] 分数=123.0<br><span class="badge badge-con">快中求稳</span> Top9 WR=59.6% [白银] 分数=114.1<br><span class="badge badge-con">科学狂人</span> Top10 WR=59.5% [棱彩] 分数=115.0</td></tr>
+<tr><td><strong>格温</strong></td><td>8</td><td><span class="badge badge-con">咏叹奏鸣</span> Top2 WR=63.6% [黄金] 分数=127.9<br><span class="badge badge-con">红包</span> Top3 WR=63.4% [黄金] 分数=126.5<br><span class="badge badge-con">属性！</span> Top4 WR=63.2% [白银] 分数=114.7<br><span class="badge badge-con">属性叠属性！</span> Top5 WR=63.2% [黄金] 分数=116.7<br><span class="badge badge-con">连拨击锤</span> Top6 WR=62.6% [棱彩] 分数=108.1<br><span class="badge badge-con">升级：耀光</span> Top7 WR=62.5% [黄金] 分数=113.3<br><span class="badge badge-con">属性叠属性叠属性！</span> Top8 WR=62.2% [棱彩] 分数=109.3<br><span class="badge badge-con">捐赠</span> Top10 WR=62.1% [黄金] 分数=122.5</td></tr>
+<tr><td><strong>莉莉娅</strong></td><td>7</td><td><span class="badge badge-con">咏叹奏鸣</span> Top1 WR=64.0% [黄金] 分数=130.5<br><span class="badge badge-con">属性叠属性！</span> Top2 WR=63.7% [黄金] 分数=117.4<br><span class="badge badge-con">属性！</span> Top3 WR=63.7% [白银] 分数=115.0<br><span class="badge badge-con">红包</span> Top6 WR=63.0% [黄金] 分数=129.5<br><span class="badge badge-con">回归基本功</span> Top7 WR=62.7% [棱彩] 分数=118.1<br><span class="badge badge-con">缩小引擎</span> Top9 WR=62.4% [黄金] 分数=146.4<br><span class="badge badge-con">属性叠属性叠属性！</span> Top10 WR=62.0% [棱彩] 分数=109.5</td></tr>
+<tr><td><strong>凯隐</strong></td><td>6</td><td><span class="badge badge-con">升级：花晓之剑</span> Top1 WR=1.0% [棱彩] 分数=109.9<br><span class="badge badge-con">属性叠属性！</span> Top2 WR=61.4% [黄金] 分数=117.2<br><span class="badge badge-con">属性！</span> Top4 WR=61.0% [白银] 分数=115.0<br><span class="badge badge-con">科学狂人</span> Top5 WR=60.8% [棱彩] 分数=114.4<br><span class="badge badge-con">男爵之手</span> Top8 WR=60.4% [棱彩] 分数=110.1<br><span class="badge badge-con">属性叠属性叠属性！</span> Top10 WR=59.8% [棱彩] 分数=109.5</td></tr>
+<tr><td><strong>塞拉斯</strong></td><td>6</td><td><span class="badge badge-con">属性叠属性！</span> Top4 WR=53.7% [黄金] 分数=95.7<br><span class="badge badge-con">属性！</span> Top5 WR=53.4% [白银] 分数=91.7<br><span class="badge badge-con">任务：艾卡西亚的陷落</span> Top6 WR=53.3% [棱彩] 分数=88.1<br><span class="badge badge-con">火狐</span> Top7 WR=52.6% [白银] 分数=93.0<br><span class="badge badge-con">红包</span> Top8 WR=52.5% [黄金] 分数=102.1<br><span class="badge badge-con">回力OK镖</span> Top10 WR=52.2% [黄金] 分数=82.3</td></tr>
+<tr><td><strong>斯维因</strong></td><td>6</td><td><span class="badge badge-con">属性叠属性！</span> Top2 WR=50.3% [黄金] 分数=78.4<br><span class="badge badge-con">红包</span> Top4 WR=49.8% [黄金] 分数=86.1<br><span class="badge badge-con">虚空裂隙</span> Top7 WR=49.1% [棱彩] 分数=72.0<br><span class="badge badge-con">升级：无尽之刃</span> Top8 WR=48.6% [黄金] 分数=68.5<br><span class="badge badge-con">咏叹奏鸣</span> Top9 WR=48.5% [黄金] 分数=81.6<br><span class="badge badge-con">升级：荆棘之甲</span> Top10 WR=48.2% [白银] 分数=56.8</td></tr>
+<tr><td><strong>特朗德尔</strong></td><td>6</td><td><span class="badge badge-con">属性叠属性！</span> Top4 WR=52.7% [黄金] 分数=89.7<br><span class="badge badge-con">缩小引擎</span> Top6 WR=52.7% [黄金] 分数=91.0<br><span class="badge badge-con">男爵之手</span> Top7 WR=52.5% [棱彩] 分数=82.2<br><span class="badge badge-con">任务：艾卡西亚的陷落</span> Top8 WR=52.3% [棱彩] 分数=83.4<br><span class="badge badge-con">属性！</span> Top9 WR=52.3% [白银] 分数=85.5<br><span class="badge badge-con">更万用的瞄准镜</span> Top10 WR=52.3% [黄金] 分数=93.3</td></tr>
+<tr><td><strong>科加斯</strong></td><td>6</td><td><span class="badge badge-con">升级：荆棘之甲</span> Top2 WR=52.5% [白银] 分数=81.6<br><span class="badge badge-con">急救用具</span> Top4 WR=51.6% [白银] 分数=83.2<br><span class="badge badge-con">红包</span> Top5 WR=51.6% [黄金] 分数=96.7<br><span class="badge badge-con">咏叹奏鸣</span> Top6 WR=51.5% [黄金] 分数=96.7<br><span class="badge badge-con">全能龙魂</span> Top7 WR=51.0% [棱彩] 分数=78.3<br><span class="badge badge-con">升级：无尽之刃</span> Top9 WR=50.7% [黄金] 分数=79.3</td></tr>
+<tr><td><strong>莫德凯撒</strong></td><td>6</td><td><span class="badge badge-con">属性叠属性！</span> Top1 WR=54.4% [黄金] 分数=98.8<br><span class="badge badge-con">属性叠属性叠属性！</span> Top4 WR=52.5% [棱彩] 分数=81.7<br><span class="badge badge-con">升级：耀光</span> Top5 WR=52.4% [黄金] 分数=84.6<br><span class="badge badge-con">咏叹奏鸣</span> Top6 WR=52.0% [黄金] 分数=99.5<br><span class="badge badge-con">升级：荆棘之甲</span> Top8 WR=51.6% [白银] 分数=75.9<br><span class="badge badge-con">任务：艾卡西亚的陷落</span> Top9 WR=51.6% [棱彩] 分数=81.9</td></tr>
+<tr><td><strong>萨勒芬妮</strong></td><td>6</td><td><span class="badge badge-con">回力OK镖</span> Top2 WR=60.6% [黄金] 分数=111.9<br><span class="badge badge-con">咏叹奏鸣</span> Top5 WR=59.8% [黄金] 分数=137.1<br><span class="badge badge-con">祖母的辣椒油</span> Top6 WR=58.5% [黄金] 分数=125.3<br><span class="badge badge-con">升级：狂妄</span> Top7 WR=58.2% [黄金] 分数=116.6<br><span class="badge badge-con">属性叠属性！</span> Top8 WR=57.9% [黄金] 分数=115.7<br><span class="badge badge-con">红包</span> Top9 WR=57.8% [黄金] 分数=126.2</td></tr>
+<tr><td><strong>诺提勒斯</strong></td><td>6</td><td><span class="badge badge-con">死亡之环</span> Top3 WR=54.6% [棱彩] 分数=93.2<br><span class="badge badge-con">升级：荆棘之甲</span> Top4 WR=54.3% [白银] 分数=90.5<br><span class="badge badge-con">红包</span> Top5 WR=53.4% [黄金] 分数=104.2<br><span class="badge badge-con">咏叹奏鸣</span> Top6 WR=53.2% [黄金] 分数=105.6<br><span class="badge badge-con">属性叠属性！</span> Top9 WR=52.7% [黄金] 分数=89.9<br><span class="badge badge-con">最终都市列车</span> Top10 WR=52.5% [黄金] 分数=96.3</td></tr>
+<tr><td><strong>辛吉德</strong></td><td>6</td><td><span class="badge badge-con">面包和黄油</span> Top2 WR=59.3% [黄金] 分数=112.2<br><span class="badge badge-con">红包</span> Top4 WR=58.2% [黄金] 分数=128.4<br><span class="badge badge-con">属性叠属性！</span> Top5 WR=58.1% [黄金] 分数=117.1<br><span class="badge badge-con">属性！</span> Top6 WR=58.1% [白银] 分数=114.9<br><span class="badge badge-con">魄罗之王的弹跳</span> Top7 WR=58.1% [棱彩] 分数=105.7<br><span class="badge badge-con">死亡之环</span> Top9 WR=57.7% [棱彩] 分数=108.7</td></tr>
+<tr><td><strong>黑默丁格</strong></td><td>6</td><td><span class="badge badge-con">红包</span> Top2 WR=57.0% [黄金] 分数=120.6<br><span class="badge badge-con">属性叠属性！</span> Top5 WR=55.5% [黄金] 分数=103.4<br><span class="badge badge-con">仆从大师</span> Top7 WR=55.3% [黄金] 分数=103.3<br><span class="badge badge-con">家园卫士</span> Top8 WR=55.2% [白银] 分数=100.3<br><span class="badge badge-con">捐赠</span> Top9 WR=55.0% [黄金] 分数=106.7<br><span class="badge badge-con">男爵之手</span> Top10 WR=55.0% [棱彩] 分数=94.5</td></tr>
+<tr><td><strong>俄洛伊</strong></td><td>5</td><td><span class="badge badge-con">科学狂人</span> Top5 WR=50.8% [棱彩] 分数=77.8<br><span class="badge badge-con">属性叠属性叠属性！</span> Top6 WR=50.7% [棱彩] 分数=72.4<br><span class="badge badge-con">男爵之手</span> Top7 WR=50.6% [棱彩] 分数=72.7<br><span class="badge badge-con">任务：艾卡西亚的陷落</span> Top8 WR=50.5% [棱彩] 分数=75.3<br><span class="badge badge-con">升级：荆棘之甲</span> Top9 WR=50.2% [白银] 分数=68.3</td></tr>
+<tr><td><strong>兰博</strong></td><td>5</td><td><span class="badge badge-con">咏叹奏鸣</span> Top1 WR=60.3% [黄金] 分数=128.4<br><span class="badge badge-con">属性叠属性！</span> Top2 WR=59.8% [黄金] 分数=117.2<br><span class="badge badge-con">红包</span> Top3 WR=59.6% [黄金] 分数=128.4<br><span class="badge badge-con">属性叠属性叠属性！</span> Top5 WR=58.3% [棱彩] 分数=109.5<br><span class="badge badge-con">捐赠</span> Top7 WR=57.4% [黄金] 分数=121.1</td></tr>
+<tr><td><strong>劫</strong></td><td>5</td><td><span class="badge badge-con">属性叠属性！</span> Top1 WR=60.2% [黄金] 分数=118.0<br><span class="badge badge-con">属性叠属性叠属性！</span> Top5 WR=58.8% [棱彩] 分数=109.9<br><span class="badge badge-con">男爵之手</span> Top8 WR=56.8% [棱彩] 分数=103.8<br><span class="badge badge-con">无休回复</span> Top9 WR=56.8% [黄金] 分数=105.6<br><span class="badge badge-con">科学狂人</span> Top10 WR=56.7% [棱彩] 分数=107.9</td></tr>
+<tr><td><strong>卡莉丝塔</strong></td><td>5</td><td><span class="badge badge-con">升级：荆棘之甲</span> Top1 WR=1.0% [白银] 分数=106.1<br><span class="badge badge-con">无休回复</span> Top6 WR=58.7% [黄金] 分数=113.3<br><span class="badge badge-con">属性叠属性！</span> Top7 WR=58.5% [黄金] 分数=116.4<br><span class="badge badge-con">属性！</span> Top9 WR=57.9% [白银] 分数=113.8<br><span class="badge badge-con">双发快射</span> Top10 WR=57.8% [黄金] 分数=115.2</td></tr>
+<tr><td><strong>厄加特</strong></td><td>5</td><td><span class="badge badge-con">属性叠属性！</span> Top6 WR=50.2% [黄金] 分数=77.2<br><span class="badge badge-con">属性！</span> Top7 WR=49.8% [白银] 分数=73.2<br><span class="badge badge-con">科学狂人</span> Top8 WR=49.7% [棱彩] 分数=72.6<br><span class="badge badge-con">红包</span> Top9 WR=49.7% [黄金] 分数=84.6<br><span class="badge badge-con">侵蚀</span> Top10 WR=49.6% [白银] 分数=74.3</td></tr>
+<tr><td><strong>厄运小姐</strong></td><td>5</td><td><span class="badge badge-con">祖母的辣椒油</span> Top1 WR=56.3% [黄金] 分数=120.0<br><span class="badge badge-con">咏叹奏鸣</span> Top3 WR=56.0% [黄金] 分数=118.5<br><span class="badge badge-con">属性叠属性！</span> Top4 WR=55.0% [黄金] 分数=102.7<br><span class="badge badge-con">捐赠</span> Top7 WR=53.8% [黄金] 分数=107.0<br><span class="badge badge-con">科学狂人</span> Top10 WR=53.5% [棱彩] 分数=92.8</td></tr>
+<tr><td><strong>嘉文四世</strong></td><td>5</td><td><span class="badge badge-con">属性叠属性！</span> Top3 WR=54.3% [黄金] 分数=98.8<br><span class="badge badge-con">红包</span> Top4 WR=53.9% [黄金] 分数=109.4<br><span class="badge badge-con">任务：艾卡西亚的陷落</span> Top5 WR=53.9% [棱彩] 分数=93.9<br><span class="badge badge-con">属性叠属性叠属性！</span> Top8 WR=53.1% [棱彩] 分数=84.8<br><span class="badge badge-con">升级：荆棘之甲</span> Top10 WR=52.7% [白银] 分数=81.2</td></tr>
+<tr><td><strong>奈德丽</strong></td><td>5</td><td><span class="badge badge-con">回力OK镖</span> Top2 WR=50.5% [黄金] 分数=77.1<br><span class="badge badge-con">祖母的辣椒油</span> Top6 WR=49.5% [黄金] 分数=78.2<br><span class="badge badge-con">男爵之手</span> Top7 WR=49.2% [棱彩] 分数=65.9<br><span class="badge badge-con">捐赠</span> Top8 WR=49.0% [黄金] 分数=78.1<br><span class="badge badge-con">魄罗爆破手</span> Top10 WR=48.4% [黄金] 分数=68.6</td></tr>
+<tr><td><strong>奎桑提</strong></td><td>5</td><td><span class="badge badge-con">升级：荆棘之甲</span> Top2 WR=48.1% [白银] 分数=57.2<br><span class="badge badge-con">砸开那颗蛋</span> Top3 WR=47.1% [白银] 分数=49.8<br><span class="badge badge-con">属性叠属性！</span> Top4 WR=47.0% [黄金] 分数=60.6<br><span class="badge badge-con">属性！</span> Top6 WR=46.3% [白银] 分数=55.7<br><span class="badge badge-con">最终都市列车</span> Top8 WR=46.1% [黄金] 分数=61.8</td></tr>
+<tr><td><strong>婕拉</strong></td><td>5</td><td><span class="badge badge-con">咏叹奏鸣</span> Top1 WR=60.7% [黄金] 分数=128.9<br><span class="badge badge-con">红包</span> Top3 WR=57.5% [黄金] 分数=125.0<br><span class="badge badge-con">属性叠属性！</span> Top6 WR=56.7% [黄金] 分数=110.0<br><span class="badge badge-con">属性！</span> Top8 WR=56.4% [白银] 分数=106.6<br><span class="badge badge-con">侵蚀</span> Top10 WR=55.9% [白银] 分数=102.8</td></tr>
+<tr><td><strong>安妮</strong></td><td>5</td><td><span class="badge badge-con">红包</span> Top3 WR=55.2% [黄金] 分数=111.1<br><span class="badge badge-con">属性叠属性！</span> Top5 WR=54.9% [黄金] 分数=100.1<br><span class="badge badge-con">升级：荆棘之甲</span> Top6 WR=54.5% [白银] 分数=88.4<br><span class="badge badge-con">男爵之手</span> Top7 WR=54.4% [棱彩] 分数=91.5<br><span class="badge badge-con">捐赠</span> Top10 WR=53.9% [黄金] 分数=100.4</td></tr>
+<tr><td><strong>尼菈</strong></td><td>5</td><td><span class="badge badge-con">属性叠属性！</span> Top1 WR=61.9% [黄金] 分数=116.1<br><span class="badge badge-con">属性叠属性叠属性！</span> Top4 WR=60.9% [棱彩] 分数=109.1<br><span class="badge badge-con">升级：中娅</span> Top7 WR=60.0% [白银] 分数=110.3<br><span class="badge badge-con">男爵之手</span> Top9 WR=59.3% [棱彩] 分数=110.0<br><span class="badge badge-con">捐赠</span> Top10 WR=59.3% [黄金] 分数=121.0</td></tr>
+<tr><td><strong>彗</strong></td><td>5</td><td><span class="badge badge-con">咏叹奏鸣</span> Top1 WR=62.6% [黄金] 分数=129.5<br><span class="badge badge-con">红包</span> Top6 WR=57.8% [黄金] 分数=126.7<br><span class="badge badge-con">回力OK镖</span> Top8 WR=57.5% [黄金] 分数=110.0<br><span class="badge badge-con">属性！</span> Top9 WR=56.8% [白银] 分数=108.2<br><span class="badge badge-con">侵蚀</span> Top10 WR=56.7% [白银] 分数=106.4</td></tr>
+<tr><td><strong>茂凯</strong></td><td>5</td><td><span class="badge badge-con">升级：无尽之刃</span> Top4 WR=55.6% [黄金] 分数=103.4<br><span class="badge badge-con">升级：荆棘之甲</span> Top5 WR=55.2% [白银] 分数=94.1<br><span class="badge badge-con">天音爆</span> Top6 WR=55.1% [白银] 分数=89.9<br><span class="badge badge-con">红包</span> Top7 WR=54.4% [黄金] 分数=108.9<br><span class="badge badge-con">属性！</span> Top9 WR=53.8% [白银] 分数=93.3</td></tr>
+<tr><td><strong>薇恩</strong></td><td>5</td><td><span class="badge badge-con">双发快射</span> Top4 WR=61.3% [黄金] 分数=123.1<br><span class="badge badge-con">红包</span> Top5 WR=60.5% [黄金] 分数=130.2<br><span class="badge badge-con">属性叠属性！</span> Top6 WR=60.4% [黄金] 分数=118.1<br><span class="badge badge-con">属性！</span> Top7 WR=60.3% [白银] 分数=115.4<br><span class="badge badge-con">无休回复</span> Top8 WR=60.2% [黄金] 分数=113.6</td></tr>
+<tr><td><strong>锐雯</strong></td><td>5</td><td><span class="badge badge-con">溢流</span> Top2 WR=66.7% [黄金] 分数=113.3<br><span class="badge badge-con">天音爆</span> Top3 WR=62.5% [白银] 分数=104.6<br><span class="badge badge-con">死亡之环</span> Top7 WR=57.1% [棱彩] 分数=105.7<br><span class="badge badge-con">属性叠属性叠属性！</span> Top8 WR=57.0% [棱彩] 分数=103.8<br><span class="badge badge-con">科学狂人</span> Top10 WR=56.8% [棱彩] 分数=107.1</td></tr>
+<tr><td><strong>阿狸</strong></td><td>5</td><td><span class="badge badge-con">升级：荆棘之甲</span> Top1 WR=75.0% [白银] 分数=106.1<br><span class="badge badge-con">红包</span> Top3 WR=58.7% [黄金] 分数=128.7<br><span class="badge badge-con">回力OK镖</span> Top7 WR=57.6% [黄金] 分数=109.7<br><span class="badge badge-con">属性叠属性！</span> Top9 WR=57.6% [黄金] 分数=114.6<br><span class="badge badge-con">捐赠</span> Top10 WR=57.1% [黄金] 分数=119.4</td></tr>
+<tr><td><strong>乌迪尔</strong></td><td>4</td><td><span class="badge badge-con">杀戮时间到了</span> Top3 WR=54.2% [黄金] 分数=91.1<br><span class="badge badge-con">精怪魔法</span> Top4 WR=53.5% [棱彩] 分数=88.3<br><span class="badge badge-con">虚空裂隙</span> Top7 WR=52.6% [棱彩] 分数=89.2<br><span class="badge badge-con">属性叠属性！</span> Top8 WR=52.4% [黄金] 分数=89.0</td></tr>
+<tr><td><strong>亚托克斯</strong></td><td>4</td><td><span class="badge badge-con">属性叠属性！</span> Top3 WR=52.3% [黄金] 分数=88.6<br><span class="badge badge-con">回力OK镖</span> Top5 WR=52.2% [黄金] 分数=81.8<br><span class="badge badge-con">男爵之手</span> Top6 WR=51.8% [棱彩] 分数=78.9<br><span class="badge badge-con">捐赠</span> Top9 WR=50.8% [黄金] 分数=87.4</td></tr>
+<tr><td><strong>亚索</strong></td><td>4</td><td><span class="badge badge-con">属性叠属性！</span> Top2 WR=58.7% [黄金] 分数=117.9<br><span class="badge badge-con">巫师式思考</span> Top4 WR=57.9% [白银] 分数=110.8<br><span class="badge badge-con">急救用具</span> Top5 WR=57.5% [白银] 分数=112.8<br><span class="badge badge-con">魔法转物理</span> Top9 WR=56.8% [白银] 分数=111.1</td></tr>
+<tr><td><strong>佐伊</strong></td><td>4</td><td><span class="badge badge-con">回力OK镖</span> Top3 WR=53.0% [黄金] 分数=85.5<br><span class="badge badge-con">无休回复</span> Top5 WR=52.3% [黄金] 分数=82.6<br><span class="badge badge-con">雪球扭蛋机</span> Top9 WR=51.1% [黄金] 分数=75.8<br><span class="badge badge-con">属性叠属性！</span> Top10 WR=50.7% [黄金] 分数=79.6</td></tr>
+<tr><td><strong>凯尔</strong></td><td>4</td><td><span class="badge badge-con">属性！</span> Top4 WR=58.7% [白银] 分数=114.9<br><span class="badge badge-con">属性叠属性！</span> Top6 WR=58.2% [黄金] 分数=117.2<br><span class="badge badge-con">属性叠属性叠属性！</span> Top7 WR=57.8% [棱彩] 分数=108.2<br><span class="badge badge-con">双发快射</span> Top10 WR=56.9% [黄金] 分数=111.7</td></tr>
+<tr><td><strong>加里奥</strong></td><td>4</td><td><span class="badge badge-con">升级：荆棘之甲</span> Top4 WR=56.5% [白银] 分数=100.9<br><span class="badge badge-con">咏叹奏鸣</span> Top5 WR=56.1% [黄金] 分数=119.9<br><span class="badge badge-con">属性叠属性！</span> Top6 WR=56.1% [黄金] 分数=107.5<br><span class="badge badge-con">红包</span> Top8 WR=56.0% [黄金] 分数=117.8</td></tr>
+<tr><td><strong>努努和威朗普</strong></td><td>4</td><td><span class="badge badge-con">红包</span> Top4 WR=50.9% [黄金] 分数=90.0<br><span class="badge badge-con">慢炖</span> Top6 WR=50.4% [棱彩] 分数=76.5<br><span class="badge badge-con">属性叠属性！</span> Top9 WR=49.9% [黄金] 分数=75.4<br><span class="badge badge-con">回力OK镖</span> Top10 WR=49.8% [黄金] 分数=70.0</td></tr>
+<tr><td><strong>奥瑞利安·索尔</strong></td><td>4</td><td><span class="badge badge-con">咏叹奏鸣</span> Top1 WR=57.5% [黄金] 分数=126.8<br><span class="badge badge-con">家园卫士</span> Top7 WR=55.6% [白银] 分数=102.8<br><span class="badge badge-con">红包</span> Top8 WR=55.4% [黄金] 分数=118.4<br><span class="badge badge-con">无休回复</span> Top10 WR=55.2% [黄金] 分数=99.5</td></tr>
+<tr><td><strong>奥莉安娜</strong></td><td>4</td><td><span class="badge badge-con">回力OK镖</span> Top4 WR=55.2% [黄金] 分数=96.7<br><span class="badge badge-con">红包</span> Top5 WR=55.1% [黄金] 分数=111.7<br><span class="badge badge-con">属性叠属性！</span> Top7 WR=54.5% [黄金] 分数=98.5<br><span class="badge badge-con">属性！</span> Top8 WR=54.2% [白银] 分数=95.0</td></tr>
+<tr><td><strong>安蓓萨</strong></td><td>4</td><td><span class="badge badge-con">属性叠属性！</span> Top2 WR=60.0% [黄金] 分数=116.6<br><span class="badge badge-con">男爵之手</span> Top3 WR=59.7% [棱彩] 分数=110.1<br><span class="badge badge-con">属性叠属性叠属性！</span> Top6 WR=59.0% [棱彩] 分数=109.3<br><span class="badge badge-con">巫师式思考</span> Top10 WR=57.4% [白银] 分数=108.2</td></tr>
+<tr><td><strong>布兰德</strong></td><td>4</td><td><span class="badge badge-con">咏叹奏鸣</span> Top2 WR=61.4% [黄金] 分数=129.4<br><span class="badge badge-con">侵蚀</span> Top5 WR=59.7% [白银] 分数=117.5<br><span class="badge badge-con">红包</span> Top6 WR=59.7% [黄金] 分数=132.1<br><span class="badge badge-con">属性叠属性！</span> Top9 WR=58.7% [黄金] 分数=118.3</td></tr>
+<tr><td><strong>布里茨</strong></td><td>4</td><td><span class="badge badge-con">升级：荆棘之甲</span> Top2 WR=50.9% [白银] 分数=72.6<br><span class="badge badge-con">最终都市列车</span> Top5 WR=50.7% [黄金] 分数=87.9<br><span class="badge badge-con">回力OK镖</span> Top7 WR=50.5% [黄金] 分数=75.3<br><span class="badge badge-con">红包</span> Top10 WR=50.1% [黄金] 分数=89.1</td></tr>
+<tr><td><strong>扎克</strong></td><td>4</td><td><span class="badge badge-con">属性叠属性！</span> Top4 WR=48.9% [黄金] 分数=70.3<br><span class="badge badge-con">属性！</span> Top6 WR=48.6% [白银] 分数=67.3<br><span class="badge badge-con">升级：荆棘之甲</span> Top7 WR=48.5% [白银] 分数=59.7<br><span class="badge badge-con">感受燃烧</span> Top9 WR=48.0% [棱彩] 分数=64.5</td></tr>
+<tr><td><strong>拉克丝</strong></td><td>4</td><td><span class="badge badge-con">红包</span> Top4 WR=53.9% [黄金] 分数=108.7<br><span class="badge badge-con">升级：耀光</span> Top5 WR=53.9% [黄金] 分数=91.8<br><span class="badge badge-con">回力OK镖</span> Top7 WR=53.3% [黄金] 分数=90.9<br><span class="badge badge-con">男爵之手</span> Top10 WR=53.0% [棱彩] 分数=84.6</td></tr>
+<tr><td><strong>普朗克</strong></td><td>4</td><td><span class="badge badge-con">属性叠属性！</span> Top4 WR=56.3% [黄金] 分数=108.6<br><span class="badge badge-con">属性叠属性叠属性！</span> Top7 WR=54.9% [棱彩] 分数=94.0<br><span class="badge badge-con">男爵之手</span> Top8 WR=54.7% [棱彩] 分数=93.5<br><span class="badge badge-con">易损</span> Top10 WR=54.1% [黄金] 分数=105.4</td></tr>
+<tr><td><strong>梅尔</strong></td><td>4</td><td><span class="badge badge-con">红包</span> Top2 WR=55.4% [黄金] 分数=117.8<br><span class="badge badge-con">属性叠属性！</span> Top5 WR=54.1% [黄金] 分数=97.6<br><span class="badge badge-con">祖母的辣椒油</span> Top7 WR=54.0% [黄金] 分数=118.8<br><span class="badge badge-con">回力OK镖</span> Top9 WR=53.6% [黄金] 分数=92.0</td></tr>
+<tr><td><strong>泽拉斯</strong></td><td>4</td><td><span class="badge badge-con">祖母的辣椒油</span> Top2 WR=54.9% [黄金] 分数=118.0<br><span class="badge badge-con">红包</span> Top3 WR=54.9% [黄金] 分数=113.1<br><span class="badge badge-con">捐赠</span> Top6 WR=53.8% [黄金] 分数=103.4<br><span class="badge badge-con">属性叠属性！</span> Top10 WR=53.1% [黄金] 分数=92.5</td></tr>
+<tr><td><strong>玛尔扎哈</strong></td><td>4</td><td><span class="badge badge-con">咏叹奏鸣</span> Top1 WR=62.8% [黄金] 分数=129.6<br><span class="badge badge-con">回力OK镖</span> Top5 WR=59.2% [黄金] 分数=111.6<br><span class="badge badge-con">红包</span> Top8 WR=58.5% [黄金] 分数=129.2<br><span class="badge badge-con">属性叠属性！</span> Top10 WR=57.6% [黄金] 分数=114.9</td></tr>
+<tr><td><strong>瑟提</strong></td><td>4</td><td><span class="badge badge-con">属性叠属性！</span> Top1 WR=56.3% [黄金] 分数=109.4<br><span class="badge badge-con">最终都市列车</span> Top5 WR=55.0% [黄金] 分数=111.1<br><span class="badge badge-con">属性叠属性叠属性！</span> Top8 WR=54.7% [棱彩] 分数=92.9<br><span class="badge badge-con">男爵之手</span> Top9 WR=54.0% [棱彩] 分数=89.8</td></tr>
+<tr><td><strong>维迦</strong></td><td>4</td><td><span class="badge badge-con">回力OK镖</span> Top2 WR=57.1% [黄金] 分数=106.8<br><span class="badge badge-con">超强大脑</span> Top6 WR=55.9% [黄金] 分数=118.6<br><span class="badge badge-con">急急小子</span> Top9 WR=55.6% [黄金] 分数=98.0<br><span class="badge badge-con">升级：花晓之剑</span> Top10 WR=55.6% [棱彩] 分数=97.3</td></tr>
+<tr><td><strong>艾克</strong></td><td>4</td><td><span class="badge badge-con">属性叠属性！</span> Top3 WR=58.3% [黄金] 分数=117.2<br><span class="badge badge-con">属性叠属性叠属性！</span> Top8 WR=57.1% [棱彩] 分数=104.5<br><span class="badge badge-con">回力OK镖</span> Top9 WR=57.1% [黄金] 分数=106.5<br><span class="badge badge-con">捐赠</span> Top10 WR=56.4% [黄金] 分数=116.5</td></tr>
+<tr><td><strong>莫甘娜</strong></td><td>4</td><td><span class="badge badge-con">咏叹奏鸣</span> Top2 WR=59.4% [黄金] 分数=135.6<br><span class="badge badge-con">红包</span> Top6 WR=57.5% [黄金] 分数=128.2<br><span class="badge badge-con">回力OK镖</span> Top9 WR=56.3% [黄金] 分数=106.9<br><span class="badge badge-con">属性叠属性！</span> Top10 WR=56.2% [黄金] 分数=108.6</td></tr>
+<tr><td><strong>菲兹</strong></td><td>4</td><td><span class="badge badge-con">属性叠属性！</span> Top3 WR=57.6% [黄金] 分数=115.2<br><span class="badge badge-con">属性！</span> Top6 WR=57.0% [白银] 分数=110.1<br><span class="badge badge-con">任务：艾卡西亚的陷落</span> Top7 WR=56.9% [棱彩] 分数=106.1<br><span class="badge badge-con">属性叠属性叠属性！</span> Top10 WR=56.6% [棱彩] 分数=102.1</td></tr>
+<tr><td><strong>萨科</strong></td><td>4</td><td><span class="badge badge-con">男爵之手</span> Top3 WR=51.7% [棱彩] 分数=78.2<br><span class="badge badge-con">面包和果酱</span> Top6 WR=50.9% [黄金] 分数=81.6<br><span class="badge badge-con">属性叠属性！</span> Top8 WR=50.4% [黄金] 分数=79.2<br><span class="badge badge-con">残忍</span> Top9 WR=50.4% [棱彩] 分数=77.7</td></tr>
+<tr><td><strong>蕾欧娜</strong></td><td>4</td><td><span class="badge badge-con">升级：花晓之剑</span> Top2 WR=54.5% [棱彩] 分数=92.3<br><span class="badge badge-con">任务：艾卡西亚的陷落</span> Top4 WR=54.2% [棱彩] 分数=96.8<br><span class="badge badge-con">升级：荆棘之甲</span> Top8 WR=52.9% [白银] 分数=83.4<br><span class="badge badge-con">尊我为王</span> Top10 WR=52.6% [棱彩] 分数=75.5</td></tr>
+<tr><td><strong>薇古丝</strong></td><td>4</td><td><span class="badge badge-con">属性叠属性！</span> Top6 WR=55.4% [黄金] 分数=102.8<br><span class="badge badge-con">回力OK镖</span> Top7 WR=55.3% [黄金] 分数=97.0<br><span class="badge badge-con">捐赠</span> Top8 WR=55.3% [黄金] 分数=108.0<br><span class="badge badge-con">祖母的辣椒油</span> Top10 WR=55.2% [黄金] 分数=116.0</td></tr>
+<tr><td><strong>贝蕾亚</strong></td><td>4</td><td><span class="badge badge-con">属性叠属性！</span> Top1 WR=60.9% [黄金] 分数=116.3<br><span class="badge badge-con">捐赠</span> Top6 WR=59.3% [黄金] 分数=121.6<br><span class="badge badge-con">属性叠属性叠属性！</span> Top7 WR=59.2% [棱彩] 分数=109.1<br><span class="badge badge-con">男爵之手</span> Top8 WR=59.0% [棱彩] 分数=110.0</td></tr>
+<tr><td><strong>赫卡里姆</strong></td><td>4</td><td><span class="badge badge-con">炼狱导管</span> Top1 WR=65.4% [棱彩] 分数=114.8<br><span class="badge badge-con">属性叠属性！</span> Top2 WR=60.9% [黄金] 分数=117.4<br><span class="badge badge-con">科学狂人</span> Top7 WR=59.3% [棱彩] 分数=115.8<br><span class="badge badge-con">属性叠属性叠属性！</span> Top8 WR=58.7% [棱彩] 分数=109.7</td></tr>
+<tr><td><strong>辛德拉</strong></td><td>4</td><td><span class="badge badge-con">升级：花晓之剑</span> Top1 WR=66.7% [棱彩] 分数=109.9<br><span class="badge badge-con">红包</span> Top7 WR=56.4% [黄金] 分数=120.4<br><span class="badge badge-con">属性叠属性！</span> Top8 WR=56.2% [黄金] 分数=107.8<br><span class="badge badge-con">回力OK镖</span> Top10 WR=55.9% [黄金] 分数=100.5</td></tr>
+<tr><td><strong>阿利斯塔</strong></td><td>4</td><td><span class="badge badge-con">升级：荆棘之甲</span> Top4 WR=53.6% [白银] 分数=86.0<br><span class="badge badge-con">红包</span> Top8 WR=51.9% [黄金] 分数=95.9<br><span class="badge badge-con">回力OK镖</span> Top9 WR=51.9% [黄金] 分数=81.1<br><span class="badge badge-con">舞会女王</span> Top10 WR=51.7% [棱彩] 分数=78.5</td></tr>
+<tr><td><strong>阿木木</strong></td><td>4</td><td><span class="badge badge-con">最终都市列车</span> Top5 WR=53.0% [黄金] 分数=97.7<br><span class="badge badge-con">升级：荆棘之甲</span> Top6 WR=52.5% [白银] 分数=80.0<br><span class="badge badge-con">飞身踢</span> Top8 WR=52.4% [棱彩] 分数=91.2<br><span class="badge badge-con">炼狱导管</span> Top9 WR=52.2% [棱彩] 分数=86.3</td></tr>
+<tr><td><strong>阿萝拉</strong></td><td>4</td><td><span class="badge badge-con">升级：荆棘之甲</span> Top1 WR=1.0% [白银] 分数=106.1<br><span class="badge badge-con">咏叹奏鸣</span> Top2 WR=62.0% [黄金] 分数=128.7<br><span class="badge badge-con">回力OK镖</span> Top3 WR=59.3% [黄金] 分数=111.8<br><span class="badge badge-con">属性叠属性！</span> Top5 WR=57.7% [黄金] 分数=115.5</td></tr>
+<tr><td><strong>丽桑卓</strong></td><td>3</td><td><span class="badge badge-con">属性叠属性！</span> Top5 WR=53.0% [黄金] 分数=91.1<br><span class="badge badge-con">属性！</span> Top7 WR=52.9% [白银] 分数=88.5<br><span class="badge badge-con">最终都市列车</span> Top8 WR=52.7% [黄金] 分数=95.9</td></tr>
+<tr><td><strong>乐芙兰</strong></td><td>3</td><td><span class="badge badge-con">回力OK镖</span> Top3 WR=49.6% [黄金] 分数=68.7<br><span class="badge badge-con">捐赠</span> Top8 WR=47.6% [黄金] 分数=70.5<br><span class="badge badge-con">属性叠属性！</span> Top9 WR=47.5% [黄金] 分数=63.8</td></tr>
+<tr><td><strong>伊莉丝</strong></td><td>3</td><td><span class="badge badge-con">属性叠属性！</span> Top6 WR=52.9% [黄金] 分数=90.3<br><span class="badge badge-con">回力OK镖</span> Top8 WR=52.5% [黄金] 分数=82.6<br><span class="badge badge-con">捐赠</span> Top10 WR=52.2% [黄金] 分数=91.7</td></tr>
+<tr><td><strong>凯南</strong></td><td>3</td><td><span class="badge badge-con">最终都市列车</span> Top6 WR=52.5% [黄金] 分数=94.4<br><span class="badge badge-con">属性叠属性！</span> Top8 WR=52.3% [黄金] 分数=87.4<br><span class="badge badge-con">捐赠</span> Top10 WR=51.9% [黄金] 分数=91.5</td></tr>
+<tr><td><strong>凯特琳</strong></td><td>3</td><td><span class="badge badge-con">属性叠属性！</span> Top3 WR=57.4% [黄金] 分数=114.6<br><span class="badge badge-con">男爵之手</span> Top5 WR=57.0% [棱彩] 分数=105.0<br><span class="badge badge-con">属性叠属性叠属性！</span> Top7 WR=56.4% [棱彩] 分数=101.7</td></tr>
+<tr><td><strong>千珏</strong></td><td>3</td><td><span class="badge badge-con">属性叠属性叠属性！</span> Top6 WR=57.0% [棱彩] 分数=103.8<br><span class="badge badge-con">捐赠</span> Top7 WR=56.8% [黄金] 分数=116.5<br><span class="badge badge-con">亮出你的剑</span> Top10 WR=55.3% [棱彩] 分数=106.8</td></tr>
+<tr><td><strong>卡尔萨斯</strong></td><td>3</td><td><span class="badge badge-con">魄罗之王的弹跳</span> Top7 WR=56.0% [棱彩] 分数=95.0<br><span class="badge badge-con">最终都市列车</span> Top9 WR=55.5% [黄金] 分数=117.2<br><span class="badge badge-con">夺金</span> Top10 WR=55.5% [棱彩] 分数=99.5</td></tr>
+<tr><td><strong>卢锡安</strong></td><td>3</td><td><span class="badge badge-con">属性叠属性！</span> Top4 WR=57.7% [黄金] 分数=116.3<br><span class="badge badge-con">升级：荆棘之甲</span> Top6 WR=57.1% [白银] 分数=101.4<br><span class="badge badge-con">属性叠属性叠属性！</span> Top7 WR=56.2% [棱彩] 分数=100.9</td></tr>
+<tr><td><strong>吉格斯</strong></td><td>3</td><td><span class="badge badge-con">红包</span> Top3 WR=54.5% [黄金] 分数=110.5<br><span class="badge badge-con">属性叠属性！</span> Top6 WR=53.6% [黄金] 分数=94.3<br><span class="badge badge-con">捐赠</span> Top10 WR=52.6% [黄金] 分数=96.2</td></tr>
+<tr><td><strong>图奇</strong></td><td>3</td><td><span class="badge badge-con">属性叠属性！</span> Top3 WR=56.0% [黄金] 分数=107.2<br><span class="badge badge-con">属性叠属性叠属性！</span> Top6 WR=55.2% [棱彩] 分数=95.6<br><span class="badge badge-con">任务：海牛阿福的勇士</span> Top7 WR=54.5% [棱彩] 分数=85.2</td></tr>
+<tr><td><strong>基兰</strong></td><td>3</td><td><span class="badge badge-con">回力OK镖</span> Top3 WR=55.1% [黄金] 分数=97.0<br><span class="badge badge-con">注魔</span> Top7 WR=53.8% [白银] 分数=90.3<br><span class="badge badge-con">火狐</span> Top8 WR=53.7% [白银] 分数=97.0</td></tr>
+<tr><td><strong>塔莉垭</strong></td><td>3</td><td><span class="badge badge-con">红包</span> Top5 WR=54.1% [黄金] 分数=106.5<br><span class="badge badge-con">属性叠属性！</span> Top9 WR=53.3% [黄金] 分数=92.4<br><span class="badge badge-con">回力OK镖</span> Top10 WR=53.3% [黄金] 分数=87.1</td></tr>
+<tr><td><strong>塔里克</strong></td><td>3</td><td><span class="badge badge-con">升级：荆棘之甲</span> Top6 WR=54.5% [白银] 分数=88.8<br><span class="badge badge-con">慢炖</span> Top9 WR=54.0% [棱彩] 分数=94.0<br><span class="badge badge-con">回力OK镖</span> Top10 WR=53.9% [黄金] 分数=89.8</td></tr>
+<tr><td><strong>奇亚娜</strong></td><td>3</td><td><span class="badge badge-con">回力OK镖</span> Top5 WR=53.9% [黄金] 分数=89.8<br><span class="badge badge-con">无休回复</span> Top7 WR=53.6% [黄金] 分数=88.9<br><span class="badge badge-con">男爵之手</span> Top9 WR=53.4% [棱彩] 分数=86.8</td></tr>
+<tr><td><strong>奥恩</strong></td><td>3</td><td><span class="badge badge-con">升级：荆棘之甲</span> Top3 WR=53.4% [白银] 分数=87.1<br><span class="badge badge-con">霸符兄弟</span> Top5 WR=52.0% [白银] 分数=89.6<br><span class="badge badge-con">尊我为王</span> Top7 WR=51.8% [棱彩] 分数=72.2</td></tr>
+<tr><td><strong>孙悟空</strong></td><td>3</td><td><span class="badge badge-con">属性叠属性！</span> Top6 WR=54.0% [黄金] 分数=96.4<br><span class="badge badge-con">属性！</span> Top7 WR=53.7% [白银] 分数=93.1<br><span class="badge badge-con">科学狂人</span> Top9 WR=53.1% [棱彩] 分数=89.8</td></tr>
+<tr><td><strong>崔丝塔娜</strong></td><td>3</td><td><span class="badge badge-con">属性叠属性！</span> Top5 WR=57.8% [黄金] 分数=115.7<br><span class="badge badge-con">属性叠属性叠属性！</span> Top8 WR=56.6% [棱彩] 分数=102.0<br><span class="badge badge-con">男爵之手</span> Top9 WR=56.4% [棱彩] 分数=101.7</td></tr>
+<tr><td><strong>希瓦娜</strong></td><td>3</td><td><span class="badge badge-con">属性叠属性！</span> Top8 WR=53.5% [黄金] 分数=94.0<br><span class="badge badge-con">咏叹奏鸣</span> Top9 WR=53.2% [黄金] 分数=103.6<br><span class="badge badge-con">终极唤醒</span> Top10 WR=53.0% [棱彩] 分数=86.4</td></tr>
+<tr><td><strong>希维尔</strong></td><td>3</td><td><span class="badge badge-con">捐赠</span> Top6 WR=56.0% [黄金] 分数=114.1<br><span class="badge badge-con">男爵之手</span> Top8 WR=55.3% [棱彩] 分数=96.0<br><span class="badge badge-con">任务：海牛阿福的勇士</span> Top9 WR=54.7% [棱彩] 分数=85.8</td></tr>
+<tr><td><strong>提莫</strong></td><td>3</td><td><span class="badge badge-con">红包</span> Top4 WR=55.0% [黄金] 分数=115.0<br><span class="badge badge-con">属性叠属性！</span> Top5 WR=53.5% [黄金] 分数=94.3<br><span class="badge badge-con">男爵之手</span> Top10 WR=52.8% [棱彩] 分数=83.7</td></tr>
+<tr><td><strong>斯卡纳</strong></td><td>3</td><td><span class="badge badge-con">属性叠属性！</span> Top7 WR=49.1% [黄金] 分数=70.9<br><span class="badge badge-con">捐赠</span> Top8 WR=48.6% [黄金] 分数=73.3<br><span class="badge badge-con">火狐</span> Top10 WR=48.6% [白银] 分数=69.5</td></tr>
+<tr><td><strong>斯莫德</strong></td><td>3</td><td><span class="badge badge-con">科学狂人</span> Top4 WR=54.7% [棱彩] 分数=99.6<br><span class="badge badge-con">属性叠属性！</span> Top7 WR=54.0% [黄金] 分数=97.6<br><span class="badge badge-con">属性！</span> Top8 WR=53.9% [白银] 分数=94.5</td></tr>
+<tr><td><strong>易</strong></td><td>3</td><td><span class="badge badge-con">双发快射</span> Top1 WR=61.5% [黄金] 分数=119.2<br><span class="badge badge-con">属性叠属性！</span> Top4 WR=59.4% [黄金] 分数=117.5<br><span class="badge badge-con">属性叠属性叠属性！</span> Top6 WR=59.0% [棱彩] 分数=109.6</td></tr>
+<tr><td><strong>杰斯</strong></td><td>3</td><td><span class="badge badge-con">属性叠属性！</span> Top5 WR=53.3% [黄金] 分数=93.9<br><span class="badge badge-con">终极刷新</span> Top7 WR=53.1% [棱彩] 分数=86.5<br><span class="badge badge-con">男爵之手</span> Top8 WR=52.8% [棱彩] 分数=84.1</td></tr>
+<tr><td><strong>格雷福斯</strong></td><td>3</td><td><span class="badge badge-con">属性叠属性！</span> Top2 WR=59.7% [黄金] 分数=118.3<br><span class="badge badge-con">属性叠属性叠属性！</span> Top8 WR=57.8% [棱彩] 分数=108.8<br><span class="badge badge-con">快中求稳</span> Top10 WR=57.0% [白银] 分数=114.7</td></tr>
+<tr><td><strong>泰达米尔</strong></td><td>3</td><td><span class="badge badge-con">男爵之手</span> Top8 WR=54.6% [棱彩] 分数=92.8<br><span class="badge badge-con">捐赠</span> Top9 WR=54.2% [黄金] 分数=104.1<br><span class="badge badge-con">最终都市列车</span> Top10 WR=54.0% [黄金] 分数=103.2</td></tr>
+<tr><td><strong>洛</strong></td><td>3</td><td><span class="badge badge-con">回力OK镖</span> Top3 WR=53.9% [黄金] 分数=90.0<br><span class="badge badge-con">升级：耀光</span> Top4 WR=53.9% [黄金] 分数=91.8<br><span class="badge badge-con">最终都市列车</span> Top10 WR=51.2% [黄金] 分数=86.9</td></tr>
+<tr><td><strong>潘森</strong></td><td>3</td><td><span class="badge badge-con">属性叠属性！</span> Top4 WR=56.2% [黄金] 分数=107.9<br><span class="badge badge-con">男爵之手</span> Top9 WR=55.2% [棱彩] 分数=96.0<br><span class="badge badge-con">回力OK镖</span> Top10 WR=55.2% [黄金] 分数=97.7</td></tr>
+<tr><td><strong>烬</strong></td><td>3</td><td><span class="badge badge-con">属性叠属性！</span> Top3 WR=53.6% [黄金] 分数=95.9<br><span class="badge badge-con">属性叠属性叠属性！</span> Top7 WR=52.3% [棱彩] 分数=81.3<br><span class="badge badge-con">男爵之手</span> Top9 WR=52.0% [棱彩] 分数=80.2</td></tr>
+<tr><td><strong>索拉卡</strong></td><td>3</td><td><span class="badge badge-con">冰霜 幽灵</span> Top7 WR=52.4% [白银] 分数=84.3<br><span class="badge badge-con">缩小引擎</span> Top8 WR=52.3% [黄金] 分数=89.4<br><span class="badge badge-con">无休回复</span> Top10 WR=50.9% [黄金] 分数=78.4</td></tr>
+<tr><td><strong>约里克</strong></td><td>3</td><td><span class="badge badge-con">任务：艾卡西亚的陷落</span> Top4 WR=51.7% [棱彩] 分数=79.8<br><span class="badge badge-con">升级：荆棘之甲</span> Top8 WR=51.2% [白银] 分数=72.3<br><span class="badge badge-con">属性叠属性！</span> Top9 WR=51.2% [黄金] 分数=81.5</td></tr>
+<tr><td><strong>维克托</strong></td><td>3</td><td><span class="badge badge-con">红包</span> Top3 WR=58.1% [黄金] 分数=127.7<br><span class="badge badge-con">属性叠属性！</span> Top7 WR=56.5% [黄金] 分数=109.0<br><span class="badge badge-con">回力OK镖</span> Top9 WR=56.0% [黄金] 分数=100.9</td></tr>
+<tr><td><strong>艾尼维亚</strong></td><td>3</td><td><span class="badge badge-con">回力OK镖</span> Top4 WR=52.4% [黄金] 分数=82.7<br><span class="badge badge-con">家园卫士</span> Top5 WR=52.2% [白银] 分数=85.1<br><span class="badge badge-con">红包</span> Top6 WR=51.8% [黄金] 分数=94.7</td></tr>
+<tr><td><strong>艾希</strong></td><td>3</td><td><span class="badge badge-con">升级：弯刀</span> Top2 WR=66.7% [白银] 分数=104.0<br><span class="badge badge-con">属性叠属性！</span> Top4 WR=58.3% [黄金] 分数=117.7<br><span class="badge badge-con">属性叠属性叠属性！</span> Top9 WR=56.6% [棱彩] 分数=102.4</td></tr>
+<tr><td><strong>芮尔</strong></td><td>3</td><td><span class="badge badge-con">升级：花晓之剑</span> Top1 WR=71.4% [棱彩] 分数=109.9<br><span class="badge badge-con">升级：荆棘之甲</span> Top9 WR=55.9% [白银] 分数=98.1<br><span class="badge badge-con">尊我为王</span> Top10 WR=55.7% [棱彩] 分数=91.2</td></tr>
+<tr><td><strong>芸阿娜</strong></td><td>3</td><td><span class="badge badge-con">属性叠属性！</span> Top4 WR=57.9% [黄金] 分数=115.7<br><span class="badge badge-con">属性叠属性叠属性！</span> Top9 WR=56.2% [棱彩] 分数=99.9<br><span class="badge badge-con">捐赠</span> Top10 WR=56.0% [黄金] 分数=112.4</td></tr>
+<tr><td><strong>费德提克</strong></td><td>3</td><td><span class="badge badge-con">最终都市列车</span> Top4 WR=53.7% [黄金] 分数=101.7<br><span class="badge badge-con">红包</span> Top6 WR=52.9% [黄金] 分数=101.3<br><span class="badge badge-con">属性叠属性！</span> Top9 WR=52.2% [黄金] 分数=87.4</td></tr>
+<tr><td><strong>赛娜</strong></td><td>3</td><td><span class="badge badge-con">男爵之手</span> Top8 WR=52.4% [棱彩] 分数=81.6<br><span class="badge badge-con">属性叠属性！</span> Top9 WR=52.3% [黄金] 分数=88.4<br><span class="badge badge-con">家园卫士</span> Top10 WR=52.0% [白银] 分数=87.4</td></tr>
+<tr><td><strong>赛恩</strong></td><td>3</td><td><span class="badge badge-con">升级：荆棘之甲</span> Top5 WR=55.6% [白银] 分数=96.5<br><span class="badge badge-con">霸符兄弟</span> Top9 WR=52.7% [白银] 分数=92.6<br><span class="badge badge-con">科学狂人</span> Top10 WR=52.4% [棱彩] 分数=87.0</td></tr>
+<tr><td><strong>金克丝</strong></td><td>3</td><td><span class="badge badge-con">面包和黄油</span> Top2 WR=60.0% [黄金] 分数=112.2<br><span class="badge badge-con">属性叠属性！</span> Top3 WR=59.2% [黄金] 分数=117.3<br><span class="badge badge-con">捐赠</span> Top6 WR=58.1% [黄金] 分数=125.3</td></tr>
+<tr><td><strong>锤石</strong></td><td>3</td><td><span class="badge badge-con">升级：荆棘之甲</span> Top6 WR=49.1% [白银] 分数=64.3<br><span class="badge badge-con">回力OK镖</span> Top8 WR=48.8% [黄金] 分数=66.4<br><span class="badge badge-con">男爵之手</span> Top10 WR=48.7% [棱彩] 分数=63.1</td></tr>
+<tr><td><strong>阿兹尔</strong></td><td>3</td><td><span class="badge badge-con">属性叠属性！</span> Top4 WR=54.2% [黄金] 分数=96.8<br><span class="badge badge-con">升级：耀光</span> Top6 WR=52.7% [黄金] 分数=86.1<br><span class="badge badge-con">捐赠</span> Top7 WR=52.1% [黄金] 分数=92.0</td></tr>
+<tr><td><strong>雷克塞</strong></td><td>3</td><td><span class="badge badge-con">升级：荆棘之甲</span> Top5 WR=53.6% [白银] 分数=83.9<br><span class="badge badge-con">慢炖</span> Top6 WR=53.5% [棱彩] 分数=89.9<br><span class="badge badge-con">男爵之手</span> Top10 WR=52.6% [棱彩] 分数=82.7</td></tr>
+<tr><td><strong>霞</strong></td><td>3</td><td><span class="badge badge-con">属性叠属性！</span> Top2 WR=61.9% [黄金] 分数=116.9<br><span class="badge badge-con">属性叠属性叠属性！</span> Top4 WR=60.6% [棱彩] 分数=109.5<br><span class="badge badge-con">捐赠</span> Top7 WR=59.5% [黄金] 分数=124.1</td></tr>
+<tr><td><strong>伊泽瑞尔</strong></td><td>2</td><td><span class="badge badge-con">属性叠属性！</span> Top6 WR=50.7% [黄金] 分数=80.7<br><span class="badge badge-con">属性！</span> Top7 WR=50.6% [白银] 分数=78.1</td></tr>
+<tr><td><strong>伊芙琳</strong></td><td>2</td><td><span class="badge badge-con">捐赠</span> Top9 WR=52.0% [黄金] 分数=90.2<br><span class="badge badge-con">属性叠属性叠属性！</span> Top10 WR=52.0% [棱彩] 分数=78.5</td></tr>
+<tr><td><strong>佛耶戈</strong></td><td>2</td><td><span class="badge badge-con">男爵之手</span> Top7 WR=55.7% [棱彩] 分数=98.1<br><span class="badge badge-con">虚幻武器</span> Top9 WR=54.9% [黄金] 分数=104.3</td></tr>
+<tr><td><strong>克格莫</strong></td><td>2</td><td><span class="badge badge-con">祖母的辣椒油</span> Top4 WR=54.4% [黄金] 分数=101.3<br><span class="badge badge-con">双发快射</span> Top8 WR=53.7% [黄金] 分数=95.1</td></tr>
+<tr><td><strong>克烈</strong></td><td>2</td><td><span class="badge badge-con">属性叠属性！</span> Top5 WR=52.8% [黄金] 分数=89.7<br><span class="badge badge-con">天音爆</span> Top10 WR=52.4% [白银] 分数=76.1</td></tr>
+<tr><td><strong>内瑟斯</strong></td><td>2</td><td><span class="badge badge-con">属性叠属性！</span> Top8 WR=52.3% [黄金] 分数=87.9<br><span class="badge badge-con">红包</span> Top9 WR=51.8% [黄金] 分数=94.5</td></tr>
+<tr><td><strong>卡兹克</strong></td><td>2</td><td><span class="badge badge-con">属性叠属性叠属性！</span> Top9 WR=54.8% [棱彩] 分数=93.1<br><span class="badge badge-con">无休回复</span> Top10 WR=54.4% [黄金] 分数=93.3</td></tr>
+<tr><td><strong>卡尔玛</strong></td><td>2</td><td><span class="badge badge-con">回力OK镖</span> Top2 WR=56.5% [黄金] 分数=104.0<br><span class="badge badge-con">红包</span> Top7 WR=53.0% [黄金] 分数=101.6</td></tr>
+<tr><td><strong>卡莎</strong></td><td>2</td><td><span class="badge badge-con">属性叠属性！</span> Top3 WR=53.9% [黄金] 分数=97.0<br><span class="badge badge-con">属性叠属性叠属性！</span> Top9 WR=52.7% [棱彩] 分数=83.0</td></tr>
+<tr><td><strong>卡萨丁</strong></td><td>2</td><td><span class="badge badge-con">升级：花晓之剑</span> Top1 WR=1.0% [棱彩] 分数=109.9<br><span class="badge badge-con">属性叠属性叠属性！</span> Top6 WR=58.7% [棱彩] 分数=109.3</td></tr>
+<tr><td><strong>卡蜜尔</strong></td><td>2</td><td><span class="badge badge-con">属性叠属性！</span> Top4 WR=50.8% [黄金] 分数=79.8<br><span class="badge badge-con">舞会女王</span> Top8 WR=50.1% [棱彩] 分数=68.8</td></tr>
+<tr><td><strong>厄斐琉斯</strong></td><td>2</td><td><span class="badge badge-con">属性叠属性！</span> Top6 WR=58.4% [黄金] 分数=116.7<br><span class="badge badge-con">属性叠属性叠属性！</span> Top10 WR=57.1% [棱彩] 分数=104.5</td></tr>
+<tr><td><strong>古拉加斯</strong></td><td>2</td><td><span class="badge badge-con">属性叠属性！</span> Top7 WR=52.1% [黄金] 分数=86.9<br><span class="badge badge-con">回力OK镖</span> Top8 WR=52.0% [黄金] 分数=81.2</td></tr>
+<tr><td><strong>墨菲特</strong></td><td>2</td><td><span class="badge badge-con">圣火</span> Top2 WR=56.2% [黄金] 分数=93.1<br><span class="badge badge-con">红包</span> Top10 WR=51.7% [黄金] 分数=99.7</td></tr>
+<tr><td><strong>崔斯特</strong></td><td>2</td><td><span class="badge badge-con">祖母的辣椒油</span> Top5 WR=57.6% [黄金] 分数=120.6<br><span class="badge badge-con">科学狂人</span> Top8 WR=57.1% [棱彩] 分数=109.3</td></tr>
+<tr><td><strong>巴德</strong></td><td>2</td><td><span class="badge badge-con">回力OK镖</span> Top3 WR=46.0% [黄金] 分数=50.2<br><span class="badge badge-con">属性叠属性！</span> Top8 WR=44.3% [黄金] 分数=47.2</td></tr>
+<tr><td><strong>库奇</strong></td><td>2</td><td><span class="badge badge-con">属性叠属性！</span> Top4 WR=56.9% [黄金] 分数=110.9<br><span class="badge badge-con">属性叠属性叠属性！</span> Top10 WR=55.1% [棱彩] 分数=94.6</td></tr>
+<tr><td><strong>弗拉基米尔</strong></td><td>2</td><td><span class="badge badge-con">属性叠属性叠属性！</span> Top8 WR=50.6% [棱彩] 分数=72.1<br><span class="badge badge-con">回力OK镖</span> Top9 WR=50.5% [黄金] 分数=73.4</td></tr>
+<tr><td><strong>德莱厄斯</strong></td><td>2</td><td><span class="badge badge-con">属性叠属性！</span> Top7 WR=53.3% [黄金] 分数=93.5<br><span class="badge badge-con">任务：艾卡西亚的陷落</span> Top9 WR=52.3% [棱彩] 分数=84.8</td></tr>
+<tr><td><strong>拉莫斯</strong></td><td>2</td><td><span class="badge badge-con">属性叠属性！</span> Top7 WR=50.4% [黄金] 分数=77.8<br><span class="badge badge-con">属性！</span> Top9 WR=50.2% [白银] 分数=75.4</td></tr>
+<tr><td><strong>李青</strong></td><td>2</td><td><span class="badge badge-con">回力OK镖</span> Top3 WR=50.2% [黄金] 分数=72.5<br><span class="badge badge-con">属性叠属性叠属性！</span> Top9 WR=49.1% [棱彩] 分数=64.7</td></tr>
+<tr><td><strong>永恩</strong></td><td>2</td><td><span class="badge badge-con">巫师式思考</span> Top6 WR=56.2% [白银] 分数=102.2<br><span class="badge badge-con">捐赠</span> Top10 WR=55.3% [黄金] 分数=110.6</td></tr>
+<tr><td><strong>沃里克</strong></td><td>2</td><td><span class="badge badge-con">任务：艾卡西亚的陷落</span> Top5 WR=51.1% [棱彩] 分数=76.7<br><span class="badge badge-con">属性！</span> Top8 WR=50.8% [白银] 分数=78.2</td></tr>
+<tr><td><strong>泽丽</strong></td><td>2</td><td><span class="badge badge-con">属性叠属性叠属性！</span> Top7 WR=52.4% [棱彩] 分数=80.7<br><span class="badge badge-con">捐赠</span> Top10 WR=51.9% [黄金] 分数=90.8</td></tr>
+<tr><td><strong>派克</strong></td><td>2</td><td><span class="badge badge-con">无休回复</span> Top6 WR=55.7% [黄金] 分数=105.5<br><span class="badge badge-con">冰霜 幽灵</span> Top9 WR=53.8% [白银] 分数=92.0</td></tr>
+<tr><td><strong>烈娜塔 · 戈拉斯克</strong></td><td>2</td><td><span class="badge badge-con">回力OK镖</span> Top2 WR=60.2% [黄金] 分数=111.1<br><span class="badge badge-con">升级：耀光</span> Top7 WR=56.8% [黄金] 分数=106.6</td></tr>
+<tr><td><strong>瑟庄妮</strong></td><td>2</td><td><span class="badge badge-con">升级：荆棘之甲</span> Top3 WR=54.0% [白银] 分数=88.2<br><span class="badge badge-con">急救用具</span> Top10 WR=52.6% [白银] 分数=88.3</td></tr>
+<tr><td><strong>璐璐</strong></td><td>2</td><td><span class="badge badge-con">男爵之手</span> Top7 WR=52.2% [棱彩] 分数=80.7<br><span class="badge badge-con">神圣干预</span> Top10 WR=51.2% [黄金] 分数=83.1</td></tr>
+<tr><td><strong>盖伦</strong></td><td>2</td><td><span class="badge badge-con">属性叠属性！</span> Top6 WR=54.4% [黄金] 分数=99.8<br><span class="badge badge-con">回归基本功</span> Top7 WR=54.3% [棱彩] 分数=103.2</td></tr>
+<tr><td><strong>纳亚菲利</strong></td><td>2</td><td><span class="badge badge-con">回力OK镖</span> Top5 WR=55.4% [黄金] 分数=97.8<br><span class="badge badge-con">男爵之手</span> Top9 WR=54.6% [棱彩] 分数=92.5</td></tr>
+<tr><td><strong>纳尔</strong></td><td>2</td><td><span class="badge badge-con">无休回复</span> Top7 WR=49.7% [黄金] 分数=70.2<br><span class="badge badge-con">全能龙魂</span> Top8 WR=49.6% [棱彩] 分数=69.5</td></tr>
+<tr><td><strong>维克兹</strong></td><td>2</td><td><span class="badge badge-con">红包</span> Top6 WR=55.5% [黄金] 分数=114.2<br><span class="badge badge-con">属性叠属性！</span> Top9 WR=54.3% [黄金] 分数=97.8</td></tr>
+<tr><td><strong>艾瑞莉娅</strong></td><td>2</td><td><span class="badge badge-con">天音爆</span> Top3 WR=51.2% [白银] 分数=70.3<br><span class="badge badge-con">属性叠属性叠属性！</span> Top9 WR=49.9% [棱彩] 分数=68.0</td></tr>
+<tr><td><strong>艾翁</strong></td><td>2</td><td><span class="badge badge-con">回力OK镖</span> Top6 WR=55.5% [黄金] 分数=97.9<br><span class="badge badge-con">冰霜 幽灵</span> Top10 WR=51.6% [白银] 分数=79.9</td></tr>
+<tr><td><strong>菲奥娜</strong></td><td>2</td><td><span class="badge badge-con">属性叠属性叠属性！</span> Top4 WR=57.7% [棱彩] 分数=107.3<br><span class="badge badge-con">科学狂人</span> Top7 WR=56.8% [棱彩] 分数=107.6</td></tr>
+<tr><td><strong>贾克斯</strong></td><td>2</td><td><span class="badge badge-con">终极唤醒</span> Top8 WR=56.2% [棱彩] 分数=103.2<br><span class="badge badge-con">属性叠属性叠属性！</span> Top9 WR=56.2% [棱彩] 分数=99.9</td></tr>
+<tr><td><strong>阿克尚</strong></td><td>2</td><td><span class="badge badge-con">属性叠属性！</span> Top5 WR=54.2% [黄金] 分数=97.0<br><span class="badge badge-con">双发快射</span> Top10 WR=52.2% [黄金] 分数=88.1</td></tr>
+<tr><td><strong>阿卡丽</strong></td><td>2</td><td><span class="badge badge-con">升级：荆棘之甲</span> Top4 WR=50.6% [白银] 分数=68.6<br><span class="badge badge-con">回力OK镖</span> Top9 WR=49.4% [黄金] 分数=67.5</td></tr>
+<tr><td><strong>雷克顿</strong></td><td>2</td><td><span class="badge badge-con">男爵之手</span> Top9 WR=51.6% [棱彩] 分数=77.5<br><span class="badge badge-con">属性叠属性叠属性！</span> Top10 WR=51.1% [棱彩] 分数=74.5</td></tr>
+<tr><td><strong>卑尔维斯</strong></td><td>1</td><td><span class="badge badge-con">男爵之手</span> Top8 WR=51.6% [棱彩] 分数=77.9</td></tr>
+<tr><td><strong>卡特琳娜</strong></td><td>1</td><td><span class="badge badge-con">属性叠属性！</span> Top7 WR=52.2% [黄金] 分数=88.0</td></tr>
+<tr><td><strong>卡西奥佩娅</strong></td><td>1</td><td><span class="badge badge-con">红包</span> Top4 WR=52.7% [黄金] 分数=98.9</td></tr>
+<tr><td><strong>塔姆</strong></td><td>1</td><td><span class="badge badge-con">升级：荆棘之甲</span> Top8 WR=52.9% [白银] 分数=84.6</td></tr>
+<tr><td><strong>奎因</strong></td><td>1</td><td><span class="badge badge-con">属性叠属性叠属性！</span> Top8 WR=53.2% [棱彩] 分数=84.6</td></tr>
+<tr><td><strong>奥拉夫</strong></td><td>1</td><td><span class="badge badge-con">属性叠属性叠属性！</span> Top7 WR=52.2% [棱彩] 分数=79.9</td></tr>
+<tr><td><strong>布隆</strong></td><td>1</td><td><span class="badge badge-con">升级：荆棘之甲</span> Top3 WR=52.7% [白银] 分数=80.8</td></tr>
+<tr><td><strong>德莱文</strong></td><td>1</td><td><span class="badge badge-con">属性叠属性叠属性！</span> Top7 WR=54.6% [棱彩] 分数=91.9</td></tr>
+<tr><td><strong>悠米</strong></td><td>1</td><td><span class="badge badge-con">感受燃烧</span> Top9 WR=50.9% [棱彩] 分数=81.9</td></tr>
+<tr><td><strong>慎</strong></td><td>1</td><td><span class="badge badge-con">升级：荆棘之甲</span> Top8 WR=54.6% [白银] 分数=91.2</td></tr>
+<tr><td><strong>沃利贝尔</strong></td><td>1</td><td><span class="badge badge-con">属性叠属性！</span> Top8 WR=52.9% [黄金] 分数=90.2</td></tr>
+<tr><td><strong>波比</strong></td><td>1</td><td><span class="badge badge-con">升级：荆棘之甲</span> Top5 WR=53.6% [白银] 分数=86.3</td></tr>
+<tr><td><strong>泰隆</strong></td><td>1</td><td><span class="badge badge-con">圣火</span> Top2 WR=62.5% [黄金] 分数=102.6</td></tr>
+<tr><td><strong>瑞兹</strong></td><td>1</td><td><span class="badge badge-con">男爵之手</span> Top10 WR=56.5% [棱彩] 分数=102.5</td></tr>
+<tr><td><strong>米利欧</strong></td><td>1</td><td><span class="badge badge-con">男爵之手</span> Top8 WR=53.9% [棱彩] 分数=89.1</td></tr>
+<tr><td><strong>莎弥拉</strong></td><td>1</td><td><span class="badge badge-con">男爵之手</span> Top9 WR=52.6% [棱彩] 分数=82.6</td></tr>
+<tr><td><strong>蒙多医生</strong></td><td>1</td><td><span class="badge badge-con">升级：荆棘之甲</span> Top9 WR=54.7% [白银] 分数=98.1</td></tr>
+<tr><td><strong>蔚</strong></td><td>1</td><td><span class="badge badge-con">男爵之手</span> Top9 WR=54.0% [棱彩] 分数=89.7</td></tr>
+<tr><td><strong>赵信</strong></td><td>1</td><td><span class="badge badge-con">男爵之手</span> Top10 WR=52.7% [棱彩] 分数=83.0</td></tr>
+<tr><td><strong>迦娜</strong></td><td>1</td><td><span class="badge badge-con">回力OK镖</span> Top3 WR=58.8% [黄金] 分数=111.2</td></tr>
+<tr><td><strong>雷恩加尔</strong></td><td>1</td><td><span class="badge badge-con">属性叠属性叠属性！</span> Top7 WR=54.5% [棱彩] 分数=91.6</td></tr>
+<tr><td><strong>韦鲁斯</strong></td><td>1</td><td><span class="badge badge-con">属性叠属性！</span> Top8 WR=51.6% [黄金] 分数=85.2</td></tr>
+<tr><td><strong>魔腾</strong></td><td>1</td><td><span class="badge badge-con">舞会女王</span> Top10 WR=56.6% [棱彩] 分数=101.3</td></tr>
+<tr><td><strong>黛安娜</strong></td><td>1</td><td><span class="badge badge-con">属性叠属性！</span> Top4 WR=53.9% [黄金] 分数=95.9</td></tr>
+</tbody></table></div>
+
+<h2>✅ 规则2：全局胜率倒数20 → 不应在推荐范围内</h2>
+<div class="insight-box success">
+<strong>✅ 完美通过！</strong>0 条违规。公式在排除弱势符文方面非常有效。
+</div>
+
+<h2>📌 规则3：全局胜率倒数10 → 必须在建议刷新范围内</h2>
+
+<div class="insight-box warning">
+<strong>违规概况：</strong>14 条违规，涉及 11/172 个英雄<br>
+<strong>原因：</strong>这些符文虽然胜率垫底，但在其所在等级中因选率/UGC分数不低，未落入底部20%刷新区。
+</div>
+
+<h3>违规详情</h3>
+<table>
+<thead><tr><th>英雄</th><th>符文</th><th>等级</th><th>胜率排名</th><th>胜率</th><th>分数</th><th>实际分类</th></tr></thead>
+<tbody>
+<tr><td>亚索</td><td>无限循环往复</td><td>棱彩</td><td>164/171</td><td>44.2%</td><td>52.4</td><td><span class="badge badge-con">值得考虑</span></td></tr>
+<tr><td>卡兹克</td><td>全凭身法</td><td>棱彩</td><td>161/168</td><td>41.6%</td><td>37.7</td><td><span class="badge badge-con">值得考虑</span></td></tr>
+<tr><td>厄加特</td><td>双刀流</td><td>棱彩</td><td>162/171</td><td>40.5%</td><td>34.5</td><td><span class="badge badge-con">值得考虑</span></td></tr>
+<tr><td>塔姆</td><td>任务：沃格勒特的巫师帽</td><td>棱彩</td><td>175/184</td><td>42.2%</td><td>36.4</td><td><span class="badge badge-con">值得考虑</span></td></tr>
+<tr><td>塔姆</td><td>全凭身法</td><td>棱彩</td><td>176/184</td><td>42.2%</td><td>36.3</td><td><span class="badge badge-con">值得考虑</span></td></tr>
+<tr><td>奎桑提</td><td>升级：无尽之刃</td><td>黄金</td><td>177/182</td><td>33.7%</td><td>14.8</td><td><span class="badge badge-con">值得考虑</span></td></tr>
+<tr><td>奎桑提</td><td>任务：沃格勒特的巫师帽</td><td>棱彩</td><td>182/182</td><td>20.7%</td><td>12.3</td><td><span class="badge badge-con">值得考虑</span></td></tr>
+<tr><td>巴德</td><td>纯粹主义者 - 术师</td><td>白银</td><td>187/193</td><td>34.9%</td><td>8.8</td><td><span class="badge badge-con">值得考虑</span></td></tr>
+<tr><td>巴德</td><td>全凭身法</td><td>棱彩</td><td>190/193</td><td>34.0%</td><td>13.8</td><td><span class="badge badge-con">值得考虑</span></td></tr>
+<tr><td>悠米</td><td>任务：钢化你心</td><td>黄金</td><td>170/173</td><td>31.2%</td><td>20.4</td><td><span class="badge badge-con">值得考虑</span></td></tr>
+<tr><td>斯维因</td><td>双刀流</td><td>棱彩</td><td>171/175</td><td>39.5%</td><td>25.8</td><td><span class="badge badge-con">值得考虑</span></td></tr>
+<tr><td>泽拉斯</td><td>双刀流</td><td>棱彩</td><td>163/172</td><td>41.9%</td><td>37.8</td><td><span class="badge badge-con">值得考虑</span></td></tr>
+<tr><td>约里克</td><td>双生火焰</td><td>白银</td><td>156/165</td><td>42.2%</td><td>36.6</td><td><span class="badge badge-con">值得考虑</span></td></tr>
+<tr><td>萨勒芬妮</td><td>双刀流</td><td>棱彩</td><td>174/180</td><td>46.5%</td><td>60.6</td><td><span class="badge badge-con">值得考虑</span></td></tr>
+</tbody></table>
+
+<script>
+const dark = {
+    paper_bgcolor: '#161b22', plot_bgcolor: '#161b22',
+    font: { color: '#c9d1d9' },
+    xaxis: { gridcolor: '#30363d' },
+    yaxis: { gridcolor: '#30363d' },
+};
+
+Plotly.newPlot('chart_r1_hero', [{
+    x: ["亚恒", "格温", "莉莉娅", "凯隐", "塞拉斯", "斯维因", "特朗德尔", "科加斯", "莫德凯撒", "萨勒芬妮", "诺提勒斯", "辛吉德", "黑默丁格", "俄洛伊", "兰博", "劫", "卡莉丝塔", "厄加特", "厄运小姐", "嘉文四世", "奈德丽", "奎桑提", "婕拉", "安妮", "尼菈", "彗", "茂凯", "薇恩", "锐雯", "阿狸"],
+    y: [9, 8, 7, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
+    type: 'bar',
+    marker: { color: '#f85149' },
+    text: [9, 8, 7, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
+    textposition: 'outside',
+}], {
+    ...dark,
+    title: { text: '规则1：英雄违规数 Top30', font: { color: '#58a6ff' } },
+    xaxis: { ...dark.xaxis, tickangle: -45 },
+    yaxis: { ...dark.yaxis, title: '违规数' },
+    margin: { b: 100 },
+    height: 400,
+});
+
+Plotly.newPlot('chart_r1_rank', [{
+    x: ["Top1", "Top2", "Top3", "Top4", "Top5", "Top6", "Top7", "Top8", "Top9", "Top10"],
+    y: [22, 32, 38, 46, 47, 59, 70, 69, 72, 76],
+    type: 'bar',
+    marker: { color: ["#d29922", "#d29922", "#d29922", "#d29922", "#d29922", "#d29922", "#d29922", "#d29922", "#d29922", "#d29922"] },
+    text: [22, 32, 38, 46, 47, 59, 70, 69, 72, 76],
+    textposition: 'outside',
+}], {
+    ...dark,
+    title: { text: '违规按胜率排名分布', font: { color: '#58a6ff' } },
+    yaxis: { ...dark.yaxis, title: '违规次数' },
+    height: 400,
+});
+
+Plotly.newPlot('chart_r1_level', [{
+    labels: ["黄金", "白银", "棱彩"],
+    values: [292, 90, 149],
+    type: 'pie',
+    marker: { colors: ['#c0c0c0', '#ffd700', '#9b59b6'] },
+    textinfo: 'label+value+percent',
+}], {
+    ...dark,
+    title: { text: '违规按符文等级分布', font: { color: '#58a6ff' } },
+    height: 400,
+});
+
+Plotly.newPlot('chart_r1_aug', [{
+    y: ["升级：花晓之剑", "祖母的辣椒油", "任务：艾卡西亚的陷落", "无休回复", "最终都市列车", "科学狂人", "咏叹奏鸣", "属性！", "捐赠", "升级：荆棘之甲", "男爵之手", "回力OK镖", "红包", "属性叠属性叠属性！", "属性叠属性！"],
+    x: [7, 8, 10, 10, 11, 13, 18, 24, 29, 33, 37, 42, 43, 47, 96],
+    type: 'bar',
+    orientation: 'h',
+    marker: { color: '#d29922' },
+    text: [7, 8, 10, 10, 11, 13, 18, 24, 29, 33, 37, 42, 43, 47, 96],
+    textposition: 'outside',
+}], {
+    ...dark,
+    title: { text: '最常漏选的符文 Top15', font: { color: '#58a6ff' } },
+    xaxis: { ...dark.xaxis, title: '被漏选次数（跨英雄）' },
+    margin: { l: 150 },
+    height: 400,
+});
+
+</script>
+</div>
+</body>
+</html>

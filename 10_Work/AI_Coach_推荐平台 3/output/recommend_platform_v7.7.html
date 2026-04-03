@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>海克斯大乱斗 AI Coach 推荐平台 v7.7</title>
+<style>
+  :root {
+    --bg: #0f172a; --card: #1e293b; --card2: #334155;
+    --text: #e2e8f0; --text2: #94a3b8; --accent: #38bdf8;
+    --green: #22c55e; --yellow: #eab308; --red: #ef4444;
+    --purple: #a855f7; --pink: #ec4899; --orange: #f97316;
+    --border: #475569;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: var(--card); } ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  .header { background: linear-gradient(135deg, #1e293b 0%, #0f172a 50%, #1e293b 100%); padding: 14px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .header h1 { font-size: 18px; } .header h1 span { color: var(--accent); }
+  .header-right { display: flex; align-items: center; gap: 10px; }
+  .badge { background: var(--accent); color: #000; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; }
+  .badge-green { background: var(--green); }
+
+  .container { display: flex; min-height: calc(100vh - 52px); }
+
+  /* ===== 左侧参数面板 ===== */
+  .sidebar { width: 300px; background: var(--card); border-right: 1px solid var(--border); overflow-y: auto; flex-shrink: 0; display: flex; flex-direction: column; }
+  .sidebar-header { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .sidebar-header h3 { color: var(--accent); font-size: 13px; }
+  .sidebar-scroll { flex: 1; overflow-y: auto; padding: 12px 16px; }
+
+  .param-group { margin-bottom: 14px; }
+  .param-group-title { font-size: 11px; color: var(--accent); font-weight: 600; margin-bottom: 8px; padding-bottom: 4px; border-bottom: 1px solid rgba(56,189,248,0.2); display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none; }
+  .param-group-title::after { content: "▾"; font-size: 10px; margin-left: auto; transition: transform 0.2s; }
+  .param-group.collapsed .param-group-title::after { transform: rotate(-90deg); }
+  .param-group.collapsed .param-items { display: none; }
+
+  .param-row { display: flex; align-items: center; margin-bottom: 6px; gap: 8px; }
+  .param-label { font-size: 11px; color: var(--text2); flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .param-input { width: 64px; background: var(--card2); border: 1px solid var(--border); color: var(--text); padding: 4px 6px; border-radius: 4px; font-size: 12px; text-align: center; }
+  .param-input:focus { outline: none; border-color: var(--accent); }
+  .param-slider { flex: 1; min-width: 60px; accent-color: var(--accent); }
+
+  .btn { padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; }
+  .btn-primary { background: var(--accent); color: #000; }
+  .btn-primary:hover { background: #7dd3fc; }
+  .btn-secondary { background: var(--card2); color: var(--text2); border: 1px solid var(--border); }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-danger { background: rgba(239,68,68,0.15); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
+  .btn-danger:hover { background: rgba(239,68,68,0.25); }
+  .btn-sm { padding: 4px 10px; font-size: 11px; }
+
+  .sidebar-actions { padding: 12px 16px; border-top: 1px solid var(--border); display: flex; gap: 8px; }
+
+  /* ===== 右侧主区域 ===== */
+  .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+  .tabs { display: flex; border-bottom: 2px solid var(--border); background: var(--card); }
+  .tab { padding: 10px 18px; font-size: 13px; color: var(--text2); cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); background: rgba(56,189,248,0.05); }
+  .tab:hover { color: var(--text); background: rgba(56,189,248,0.03); }
+
+  .main-scroll { flex: 1; overflow-y: auto; padding: 16px 20px; }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ===== 通用组件 ===== */
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin-bottom: 16px; }
+  .stat-card { background: var(--card); border-radius: 8px; padding: 12px; border: 1px solid var(--border); }
+  .stat-card .label { font-size: 10px; color: var(--text2); margin-bottom: 2px; }
+  .stat-card .value { font-size: 20px; font-weight: 700; }
+  .stat-card .sub { font-size: 10px; color: var(--text2); margin-top: 2px; }
+
+  .hero-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+  .hero-card { background: var(--card); border-radius: 8px; padding: 10px; border: 1px solid var(--border); cursor: pointer; transition: all 0.15s; }
+  .hero-card:hover { border-color: var(--accent); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+  .hero-card.active { border-color: var(--accent); box-shadow: 0 0 12px rgba(56,189,248,0.15); }
+  .hero-card .hname { font-size: 13px; font-weight: 600; }
+
+  .aug-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .aug-table th { background: var(--card2); padding: 6px 8px; text-align: left; font-size: 11px; font-weight: 600; color: var(--text2); position: sticky; top: 0; z-index: 1; }
+  .aug-table td { padding: 5px 8px; border-bottom: 1px solid rgba(71,85,105,0.4); }
+  .aug-table tr:hover td { background: rgba(56,189,248,0.04); }
+  .aug-table .score { font-weight: 700; font-size: 13px; }
+
+  .tag { display: inline-block; padding: 1px 7px; border-radius: 10px; font-size: 10px; font-weight: 700; }
+  .tag-best { background: rgba(34,197,94,0.15); color: var(--green); }
+  .tag-combo { background: rgba(56,189,248,0.15); color: var(--accent); }
+  .tag-strong { background: rgba(249,115,22,0.15); color: var(--orange); }
+  .tag-ent { background: rgba(236,72,153,0.15); color: var(--pink); }
+
+  .logo-rec { color: var(--green); font-weight: 600; }
+  .logo-con { color: var(--yellow); }
+  .logo-ref { color: var(--text2); font-size: 11px; }
+
+  select, input[type="text"] { background: var(--card2); border: 1px solid var(--border); color: var(--text); padding: 6px 10px; border-radius: 6px; font-size: 12px; }
+  select:focus, input[type="text"]:focus { outline: none; border-color: var(--accent); }
+
+  .search-box { position: relative; margin-bottom: 10px; }
+  .search-box input { width: 100%; padding-left: 32px; }
+  .search-box::before { content: "🔍"; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 12px; }
+
+  /* 英雄控制栏 */
+  .hero-controls { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; flex-wrap: wrap; }
+  .hero-controls label { font-size: 11px; color: var(--text2); }
+  .hero-controls select { min-width: 100px; }
+
+  .sim-controls { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr auto; gap: 10px; margin-bottom: 14px; align-items: end; }
+  .sim-controls label { font-size: 11px; color: var(--text2); margin-bottom: 4px; display: block; }
+  .sim-card { background: var(--card); border-radius: 10px; padding: 14px; border: 1px solid var(--border); margin-bottom: 8px; }
+  .sim-card.rec { border-left: 3px solid var(--green); }
+  .sim-card.con { border-left: 3px solid var(--yellow); }
+  .sim-card.ref { border-left: 3px solid var(--text2); }
+
+  .bt-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 8px; }
+  .bt-card { background: var(--card); border-radius: 8px; padding: 12px; border: 1px solid var(--border); }
+  .bt-card .bt-label { font-size: 10px; color: var(--accent); font-weight: 600; }
+  .bt-card .bt-augs { font-size: 14px; font-weight: 700; margin: 2px 0; }
+  .bt-card .bt-pitch { font-size: 12px; color: var(--green); }
+  .bt-card .bt-meta { font-size: 10px; color: var(--text2); margin-top: 4px; }
+
+  .loading-inline { text-align: center; padding: 40px; color: var(--text2); font-size: 13px; }
+  .loading-inline .spin { display: inline-block; width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 8px; vertical-align: middle; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .toast { position: fixed; top: 60px; right: 20px; background: var(--green); color: #000; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; z-index: 200; opacity: 0; transform: translateY(-10px); transition: all 0.3s; pointer-events: none; }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 11px; margin: 6px 0; }
+  .detail-item { background: var(--card2); border-radius: 4px; padding: 4px 8px; }
+  .detail-item .dl { color: var(--text2); }
+  .detail-item .dv { color: var(--text); font-weight: 600; }
+
+  .formula-card { background: var(--card); border-radius: 10px; padding: 16px; border: 1px solid var(--border); margin-bottom: 16px; }
+  .formula-card h4 { color: var(--accent); font-size: 13px; margin-bottom: 8px; }
+  .formula-card code { background: var(--card2); padding: 2px 6px; border-radius: 4px; font-size: 12px; color: var(--green); }
+  .formula-card .desc { font-size: 11px; color: var(--text2); line-height: 1.7; margin-top: 6px; }
+
+  /* 英雄信息头部 */
+  .hero-info-header { background: var(--card); border-radius: 10px; padding: 16px; border: 1px solid var(--border); margin-bottom: 14px; }
+  .hero-info-header .hero-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .hero-info-header .hero-title .wr { font-size: 14px; color: var(--accent); font-weight: 600; }
+  .hero-info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; margin-bottom: 10px; }
+  .hero-info-grid .info-item { background: var(--card2); border-radius: 6px; padding: 8px 10px; }
+  .hero-info-grid .info-item .info-label { font-size: 10px; color: var(--text2); }
+  .hero-info-grid .info-item .info-value { font-size: 16px; font-weight: 700; }
+  .hero-info-grid .info-item .info-sub { font-size: 10px; color: var(--text2); margin-top: 2px; }
+  .hero-best-aug { margin-top: 10px; padding: 8px 12px; background: rgba(34,197,94,0.08); border-radius: 6px; border: 1px solid rgba(34,197,94,0.2); }
+  .hero-best-aug .best-label { font-size: 10px; color: var(--green); font-weight: 600; }
+  .hero-best-aug .best-name { font-size: 14px; font-weight: 700; }
+  .hero-combos { margin-top: 8px; }
+  .hero-combos .combo-label { font-size: 10px; color: var(--accent); font-weight: 600; margin-bottom: 4px; }
+  .combo-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .combo-pill { background: rgba(56,189,248,0.1); border: 1px solid rgba(56,189,248,0.2); border-radius: 14px; padding: 3px 10px; font-size: 11px; }
+  .combo-pill .cname { color: var(--accent); font-weight: 600; }
+  .combo-pill .cwr { color: var(--text2); margin-left: 4px; }
+
+  /* 评分明细折叠行 */
+  .detail-toggle { cursor: pointer; color: var(--accent); font-size: 11px; user-select: none; white-space: nowrap; }
+  .detail-toggle:hover { text-decoration: underline; }
+  .score-detail-row td { padding: 6px 10px !important; background: rgba(56,189,248,0.04); border-top: none !important; }
+  .score-detail-content { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; font-size: 11px; }
+  .score-detail-content .sd-item { display: flex; align-items: center; gap: 4px; }
+  .score-detail-content .sd-label { color: var(--text2); }
+  .score-detail-content .sd-norm { color: var(--accent); font-weight: 500; }
+  .score-detail-content .sd-weight { color: var(--text2); font-size: 10px; }
+  .score-detail-content .sd-result { font-weight: 700; }
+  .score-detail-content .sd-eq { color: var(--border); margin: 0 2px; }
+  .score-detail-content .sd-plus { color: var(--border); margin: 0 4px; }
+  .score-detail-content .sd-sum { color: var(--green); font-weight: 700; font-size: 12px; padding: 2px 8px; background: rgba(34,197,94,0.1); border-radius: 4px; }
+  .score-detail-content .sd-bonus { color: var(--purple); font-weight: 600; }
+
+  /* 分数影响度 */
+  .score-impact-bar { display: flex; gap: 10px; align-items: center; margin-bottom: 12px; padding: 8px 14px; background: rgba(56,189,248,0.06); border: 1px solid rgba(56,189,248,0.15); border-radius: 8px; flex-wrap: wrap; }
+  .impact-label { font-size: 11px; color: var(--accent); font-weight: 600; white-space: nowrap; }
+  .impact-item { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; color: var(--text2); }
+  .impact-item .metric { color: var(--text); font-weight: 500; }
+  .impact-item .delta { color: var(--green); font-weight: 700; font-size: 12px; }
+  .impact-item .delta.negative { color: var(--red); }
+  .impact-sep { color: var(--border); font-size: 14px; margin: 0 2px; }
+  .impact-mode { font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 600; margin-left: auto; }
+  .impact-mode.standard { background: rgba(56,189,248,0.15); color: var(--accent); }
+  .impact-mode.winning { background: rgba(249,115,22,0.15); color: var(--orange); }
+  .impact-mode.losing { background: rgba(168,85,247,0.15); color: var(--purple); }
+
+  /* 分类标签页 */
+  .level-tabs { display: flex; gap: 0; margin-bottom: 10px; }
+  .level-tab { padding: 6px 16px; font-size: 12px; font-weight: 600; cursor: pointer; background: var(--card); border: 1px solid var(--border); color: var(--text2); transition: all 0.15s; }
+  .level-tab:first-child { border-radius: 6px 0 0 6px; }
+  .level-tab:last-child { border-radius: 0 6px 6px 0; }
+  .level-tab.active { background: var(--accent); color: #000; border-color: var(--accent); }
+  .level-tab .count { margin-left: 4px; opacity: 0.7; }
+
+  /* 分类折叠 */
+  .category-section { margin-bottom: 12px; }
+  .category-header { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--card2); border-radius: 6px; cursor: pointer; user-select: none; margin-bottom: 4px; }
+  .category-header .cat-icon { font-size: 14px; }
+  .category-header .cat-title { font-size: 12px; font-weight: 600; }
+  .category-header .cat-count { font-size: 11px; color: var(--text2); margin-left: auto; }
+  .category-header .cat-arrow { font-size: 10px; color: var(--text2); transition: transform 0.2s; }
+  .category-section.collapsed .cat-arrow { transform: rotate(-90deg); }
+  .category-section.collapsed .category-body { display: none; }
+
+  /* 总览面板 */
+  .overview-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 16px; }
+  .overview-card { background: var(--card); border-radius: 10px; padding: 16px; border: 1px solid var(--border); }
+  .overview-card h5 { font-size: 12px; color: var(--accent); margin-bottom: 8px; }
+  .overview-card .ov-value { font-size: 22px; font-weight: 700; }
+  .overview-card .ov-range { font-size: 11px; color: var(--text2); margin-top: 4px; }
+  .overview-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .overview-table th { background: var(--card2); padding: 6px 8px; text-align: center; font-size: 11px; font-weight: 600; color: var(--text2); position: sticky; top: 0; z-index: 1; }
+  .overview-table td { padding: 5px 8px; border-bottom: 1px solid rgba(71,85,105,0.4); text-align: center; }
+  .overview-table tr:hover td { background: rgba(56,189,248,0.04); }
+  .overview-table td:first-child { text-align: left; font-weight: 600; }
+  .ov-bar { height: 6px; border-radius: 3px; background: var(--card2); display: inline-block; vertical-align: middle; }
+
+  @media (max-width: 900px) {
+    .container { flex-direction: column; }
+    .sidebar { width: 100%; max-height: 250px; border-right: none; border-bottom: 1px solid var(--border); }
+    .sim-controls { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🎮 海克斯大乱斗 <span>AI Coach</span> 推荐平台</h1>
+  <div class="header-right">
+    <span class="badge badge-green">v7.7</span>
+    <span class="badge">全量符文</span>
+    <span style="font-size:11px;color:var(--text2);" id="meta-info">加载中...</span>
+  </div>
+</div>
+
+<div class="container">
+  <!-- 左侧: 动态参数面板 -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h3>⚙️ 参数调整</h3>
+      <span style="font-size:10px;color:var(--text2);">修改后点"应用"重新计算</span>
+    </div>
+    <div class="sidebar-scroll" id="param-panel"></div>
+    <div class="sidebar-actions">
+      <button class="btn btn-primary" onclick="applyParams()" style="flex:1;">✨ 应用参数</button>
+      <button class="btn btn-danger btn-sm" onclick="resetParams()">重置</button>
+    </div>
+  </div>
+
+  <!-- 右侧: 功能面板 -->
+  <div class="main">
+    <div class="tabs">
+      <div class="tab active" data-panel="heroes" onclick="switchTab(this)">🦸 英雄推荐</div>
+      <div class="tab" data-panel="simulate" onclick="switchTab(this)">🎯 模拟推荐</div>
+      <div class="tab" data-panel="blacktech" onclick="switchTab(this)">⚡ 黑科技组合</div>
+      <div class="tab" data-panel="overview" onclick="switchTab(this)">📊 总览面板</div>
+      <div class="tab" data-panel="formula" onclick="switchTab(this)">📐 公式详解</div>
+    </div>
+
+    <div class="main-scroll">
+      <div class="stats-row" id="stats-row"></div>
+
+      <!-- 英雄推荐面板 -->
+      <div class="panel active" id="panel-heroes">
+        <div class="hero-controls">
+          <div class="search-box" style="flex:1;margin-bottom:0;">
+            <input type="text" id="hero-search" placeholder="搜索英雄名称..." oninput="filterHeroes()">
+          </div>
+          <div>
+            <label>连胜/连败状态</label>
+            <select id="hero-streak" onchange="if(selectedHero)loadHeroDetail(selectedHero)">
+              <option value="0">标准模式</option>
+              <option value="3">3连胜 🔥</option>
+              <option value="5">5连胜 🔥🔥</option>
+              <option value="-3">3连败 ❄️</option>
+              <option value="-5">5连败 ❄️❄️</option>
+            </select>
+          </div>
+        </div>
+        <div class="hero-grid" id="hero-grid">
+          <div class="loading-inline"><span class="spin"></span>加载英雄列表...</div>
+        </div>
+        <div id="hero-detail" style="display:none;margin-top:14px;"></div>
+      </div>
+
+      <!-- 模拟推荐面板 -->
+      <div class="panel" id="panel-simulate">
+        <div class="sim-controls">
+          <div>
+            <label>连胜/连败</label>
+            <select id="sim-streak" style="width:100%;">
+              <option value="0">标准模式</option>
+              <option value="3">3连胜 🔥</option>
+              <option value="5">5连胜 🔥🔥</option>
+              <option value="-3">3连败 ❄️</option>
+              <option value="-5">5连败 ❄️❄️</option>
+            </select>
+          </div>
+          <div>
+            <label>选择英雄</label>
+            <select id="sim-hero" style="width:100%;"></select>
+          </div>
+          <div>
+            <label>当前阶段</label>
+            <select id="sim-stage" style="width:100%;" onchange="onSimStageChange()">
+              <option value="1">S1（开局）</option>
+              <option value="2">S2（7级）</option>
+              <option value="3">S3（11级）</option>
+              <option value="4">S4（15级）</option>
+            </select>
+          </div>
+          <div>
+            <label>符文等级</label>
+            <select id="sim-level" style="width:100%;">
+              <option value="白银">白银</option>
+              <option value="黄金">黄金</option>
+              <option value="棱彩">棱彩</option>
+            </select>
+          </div>
+          <div>
+            <label>&nbsp;</label>
+            <button class="btn btn-primary" onclick="runSimulation()">🎲 随机3张</button>
+            <button class="btn btn-secondary btn-sm" onclick="simulateRefresh()" style="margin-left:6px;" title="模拟第二次刷新：建议刷新的符文显示❌打叉">🔄 模拟二次刷新</button>
+          </div>
+        </div>
+        <div id="sim-prev-cards" style="display:none;margin-bottom:12px;">
+          <div style="font-size:11px;color:var(--accent);font-weight:600;margin-bottom:6px;">📋 前置已选卡牌（模拟前面阶段已选的符文，影响黑科技组合加分）</div>
+          <div id="sim-prev-list" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px;"></div>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <select id="sim-prev-select" style="min-width:180px;font-size:11px;"></select>
+            <button class="btn btn-secondary btn-sm" onclick="addPrevCard()">+ 添加</button>
+            <button class="btn btn-danger btn-sm" onclick="clearPrevCards()">清空</button>
+            <button class="btn btn-secondary btn-sm" onclick="randomPrevCards()">🎲 随机模拟</button>
+          </div>
+        </div>
+        <div id="sim-results" style="color:var(--text2);font-size:13px;">选择连胜/连败、英雄、阶段后，点击"随机3张"开始模拟推荐</div>
+      </div>
+
+      <!-- 黑科技组合面板 -->
+      <div class="panel" id="panel-blacktech">
+        <div class="search-box">
+          <input type="text" id="bt-search" placeholder="搜索黑科技组合..." oninput="filterBlacktech()">
+        </div>
+        <h4 style="color:var(--accent);margin-bottom:10px;">通用黑科技组合 · <span id="bt-count">0</span>个</h4>
+        <div class="bt-grid" id="bt-grid"></div>
+        <h4 style="color:var(--accent);margin:16px 0 10px;">英雄专属黑科技 · <span id="hbt-count">0</span>条</h4>
+        <div style="max-height:400px;overflow-y:auto;">
+          <table class="aug-table" id="hbt-table">
+            <thead><tr><th>英雄</th><th>符文</th><th>评级</th><th>标签</th><th>原因</th></tr></thead>
+            <tbody id="hbt-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 总览面板 -->
+      <div class="panel" id="panel-overview">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+          <h3 style="color:var(--accent);">📊 全英雄推荐数量分布总览</h3>
+          <button class="btn btn-primary btn-sm" onclick="loadOverviewFull()">🔄 刷新（全量计算）</button>
+          <span style="font-size:11px;color:var(--text2);" id="ov-status">点击刷新按钮开始全量统计（需要约30秒）</span>
+        </div>
+        <div id="ov-summary" class="overview-summary"></div>
+        <div id="ov-detail" style="max-height:600px;overflow-y:auto;"></div>
+      </div>
+
+      <!-- 公式详解面板 -->
+      <div class="panel" id="panel-formula">
+        <div class="formula-card">
+          <h4>📊 评分公式</h4>
+          <code>最终得分 = w⊤ · s + 黑科技加成 + 套装加成</code>
+          <div class="desc">
+            <b>基础分 = w⊤ · s</b>，其中 w = (<span id="f-wr" style="color:var(--green);font-weight:700">0.60</span>,
+            <span id="f-pr" style="color:var(--green);font-weight:700">0.15</span>,
+            <span id="f-ugc" style="color:var(--green);font-weight:700">0.25</span>)，
+            s = (胜率分, 选率分, UGC*分)<br>
+            <b>黑科技加成:</b> 上限<span id="f-btcap2" style="color:var(--green);font-weight:700">20</span>分（专属+通用组合）<br>
+            <b>套装加成:</b> 上限<span id="f-syncap" style="color:var(--purple);font-weight:700">10</span>分（层级效果加分：第1件+5，触发新层级+10，未触发+5）<br>
+            <b>二者合计上限:</b> <span style="color:var(--yellow);font-weight:700">30</span>分<br>
+            <i style="color:var(--accent);">* UGC后续将替换为符文×英雄粒度的玩家体验标签</i>
+          </div>
+        </div>
+        <div class="formula-card">
+          <h4>📏 归一化规则</h4>
+          <div class="desc">
+            <b>胜率归一化:</b> score = (胜率 - <span id="f-floor">45</span>%) / (<span id="f-ceil">70</span>% - 45%) × 100，截断到 [0, 100]<br>
+            <i style="color:var(--text2);">下界45%≈随机水平→0分，上界70%留余量→100分。低于45%的截断为0分（不会产生负数）。全局胜率范围约43.93%~67.39%</i><br>
+            <b>选取率归一化:</b> score = min(选率 / <span id="f-prsat">3.0</span>%, 1.0) × 100，截断到 [0, 100]<br>
+            <i style="color:var(--text2);">饱和点3%：全局选率范围约0%~2.08%，超过3%不再加分，防止热门符文过度膨胀</i><br>
+            <b>UGC*归一化:</b> score = 调整后评分 / <span id="f-ugcmax">10</span> × 100，无评分默认50分<br>
+            <i style="color:var(--accent);">* UGC目前为符文整体玩家评分(10分制)，后续将替换为"符文×英雄"粒度的玩家体验标签评分</i>
+          </div>
+        </div>
+        <div class="formula-card">
+          <h4>🔧 英雄纠偏 → Top-N推荐池</h4>
+          <div class="desc">
+            <b>设计说明：</b>由于英雄纠偏是对该英雄所有符文加/减相同分数，不影响该英雄内部符文的排序结果，因此<b style="color:var(--yellow);">简化逻辑后不再计算纠偏分</b>。<br><br>
+            <b>替代方案 — Top-N推荐池：</b><br>
+            每个英雄自己的分数分布中取Top部分放入推荐池，天然保证每个英雄都有被推荐的符文。<br>
+            <i style="color:var(--accent);">不设统一阈值 — 每英雄每等级的Top N%由目标推荐数决定</i><br>
+            <i style="color:var(--text2);">例：30个符文目标推荐4个 → Top ≈ 13%，确保每英雄每等级都有推荐</i>
+          </div>
+        </div>
+        <div class="formula-card">
+          <h4>🎯 自适应阈值 & 分类</h4>
+          <div class="desc">
+            每英雄×每等级独立计算阈值<br>
+            目标每等级推荐 <span id="f-target">4</span> 个（范围 <span id="f-min">2</span>~<span id="f-max">6</span>）<br>
+            <b>推荐选取:</b> 自适应阈值以上<br>
+            <b>建议刷新:</b> 排名最后 <span id="f-refresh" style="color:var(--red);font-weight:700">20</span>% 的符文<br>
+            <b>值得考虑:</b> 推荐和建议刷新之间的所有符文<br>
+            <i style="color:var(--accent);">可在参数面板"推荐数量 & 分类"中调整"建议刷新(底部%)"来控制三类的比例</i><br><br>
+            <b style="color:var(--yellow);">⚠ 四条特殊规则：</b><br>
+            &nbsp;&nbsp;① 三张都是👍推荐选取 → 将分数最低的降级为🤔值得考虑<br>
+            &nbsp;&nbsp;② 三张都是🔄建议刷新 → 将分数最高的升级为🤔值得考虑<br>
+            &nbsp;&nbsp;③ 第二次刷新（刷新机会已用完）→ 对🔄建议刷新的符文显示❌打叉标记<br>
+            &nbsp;&nbsp;④ <b style="color:var(--green);">S2-S4黑科技升级规则</b>：已选符文凑成黑科技组合，即使评分仅在「值得考虑」区间，直接升级为「推荐选取」👍，鼓励玩家坚持已成型组合路线
+          </div>
+        </div>
+        <div class="formula-card">
+          <h4>⚡ 黑科技加成 & 套装加成 & 标签优先级 (v3.4)</h4>
+          <div class="desc">
+            <b>黑科技加成上限:</b> <span id="f-btcap">20</span>分（专属黑科技+通用组合）<br>
+            <b>套装加成上限:</b> <span id="f-syncap2" style="color:var(--purple);font-weight:700">10</span>分（独立于黑科技）<br>
+            <b>二者合计上限:</b> <span style="color:var(--yellow);font-weight:700">30</span>分<br><br>
+            <b style="color:var(--purple);">📦 套装加分细化规则:</b><br>
+            &nbsp;&nbsp;• 套装中的<b>第1件</b>（还未触发层级效果）→ <b>+5</b><br>
+            &nbsp;&nbsp;• 第N件<b>触发了新的层级效果</b> → <b style="color:var(--green);">+10</b><br>
+            &nbsp;&nbsp;• 第N件<b>未触发新层级效果</b> → <b>+5</b><br>
+            &nbsp;&nbsp;<i style="color:var(--text2);">示例: 叠角龙(2/3/4件效果) → 5+10+10+10=35(cap10) | 神龙烈焰(2/4件效果) → 5+10+5+10=30(cap10)</i><br><br>
+            <b>标签优先级:</b> 1.最佳拍档(英雄专属黑科技) &gt; 2.潜力组合(通用黑科技组合) &gt; 3.强力单卡(补充) &gt; 4.娱乐(仅连胜时可见)<br>
+            <b>标签可见性规则:</b><br>
+            &nbsp;&nbsp;• 所有标签仅在"推荐选取"状态下显示，"值得考虑"/"建议刷新"不显示标签<br>
+            &nbsp;&nbsp;• 娱乐标签仅在≥3连胜时可见<br>
+            &nbsp;&nbsp;• 强力单卡：当推荐选取中最佳拍档+潜力组合不足3张时，从TOP<span id="f-strong">15</span>%中补充1~2张<br>
+            <b style="color:var(--green);">S2-S4黑科技升级规则：</b><br>
+            &nbsp;&nbsp;• 从S2起，一旦已选符文凑成黑科技组合，即使评分仅在「值得考虑」区间，<b>直接升级为「推荐选取」</b><br>
+            &nbsp;&nbsp;• 设计理念：鼓励玩家坚持已成型组合路线，不因分数略低而错过组合收益<br>
+            <i style="color:var(--pink);">注意：娱乐标签只给黑科技v5"娱乐符文"sheet中的30个符文。无标签的普通符文不显示标签。</i>
+          </div>
+        </div>
+        <div class="formula-card">
+          <h4>🔥 连胜/连败权重矩阵</h4>
+          <div class="desc">
+            <table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0;">
+              <thead><tr style="background:var(--card2);"><th style="padding:6px 10px;text-align:left;">场景</th><th style="padding:6px 10px;">W<sub>winrate</sub></th><th style="padding:6px 10px;">W<sub>pickrate</sub></th><th style="padding:6px 10px;">W<sub>ugc</sub>*</th><th style="padding:6px 10px;text-align:left;">设计理念</th></tr></thead>
+              <tbody>
+                <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border);"><b>标准</b></td><td style="padding:5px 10px;text-align:center;border-bottom:1px solid var(--border);"><span id="f-wr-std">60</span>%</td><td style="padding:5px 10px;text-align:center;border-bottom:1px solid var(--border);"><span id="f-pr-std">15</span>%</td><td style="padding:5px 10px;text-align:center;border-bottom:1px solid var(--border);"><span id="f-ugc-std">25</span>%</td><td style="padding:5px 10px;border-bottom:1px solid var(--border);">均衡推荐</td></tr>
+                <tr><td style="padding:5px 10px;border-bottom:1px solid var(--border);"><b style="color:var(--green);">≥3连胜</b></td><td style="padding:5px 10px;text-align:center;border-bottom:1px solid var(--border);"><span id="f-wr-win">40</span>%</td><td style="padding:5px 10px;text-align:center;border-bottom:1px solid var(--border);"><span id="f-pr-win">15</span>%</td><td style="padding:5px 10px;text-align:center;border-bottom:1px solid var(--border);"><span id="f-ugc-win">45</span>%</td><td style="padding:5px 10px;border-bottom:1px solid var(--border);">偏向娱乐/冒险</td></tr>
+                <tr><td style="padding:5px 10px;"><b style="color:var(--red);">≥3连败</b></td><td style="padding:5px 10px;text-align:center;"><span id="f-wr-lose">75</span>%</td><td style="padding:5px 10px;text-align:center;"><span id="f-pr-lose">15</span>%</td><td style="padding:5px 10px;text-align:center;"><span id="f-ugc-lose">10</span>%</td><td style="padding:5px 10px;">偏向实力/稳住</td></tr>
+              </tbody>
+            </table>
+            <i style="color:var(--accent);">* UGC后续将替换为符文×英雄粒度的玩家体验标签。所有权重均可在左侧面板调整。</i>
+          </div>
+        </div>
+        <div class="formula-card">
+          <h4>🎉 连胜娱乐逻辑（分数调整法）</h4>
+          <div class="desc">
+            <b>触发条件:</b> ≥3连胜时生效<br>
+            <b>降级逻辑:</b> "最佳拍档"和"强力单卡"标签卡片<b>合并</b>后按分数排序，后 <span id="f-demote" style="color:var(--yellow);font-weight:700">50</span>% 施加负分数惩罚，使其跌落到"值得考虑"区域<br>
+            <b style="color:var(--orange);">🛡️ 强力单卡保护:</b> 降级时，如果纯强力单卡（不在娱乐符文池中的）只剩1张或更少，则保留分数最高的那张不被降级，确保连胜时至少有1张纯强力单卡<br>
+            <b>升级逻辑:</b> "娱乐"标签符文（30个来自黑科技v5娱乐符文池）加 <span id="f-entboost" style="color:var(--pink);font-weight:700">15</span> 分，使其提升到"推荐选取"区域<br>
+            <b>实现方式:</b> 分数调整法 — 调整后重新排序并重新判定logo，保证分数与分类的一致性<br>
+            <i style="color:var(--accent);">降级比例和娱乐加分均可在参数面板中调整</i>
+          </div>
+        </div>
+        <div class="formula-card">
+          <h4>📊 UGC评分处理</h4>
+          <div class="desc">
+            <b>分位数截断:</b> 低于P<span id="f-ugcpctl">5</span>的UGC评分统一截断到该分位值<br>
+            <b>贝叶斯收缩:</b> 收缩后评分 = (样本数×原始评分 + <span id="f-ugcprior">30</span>×全局均值) / (样本数+<span id="f-ugcprior2">30</span>)<br>
+            <i>样本越少，评分越接近全局均值，防止小样本偏差</i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API = "";  // 同源
+let heroes = [];
+let selectedHero = null;
+let heroCache = {};
+let btData = null;
+let params = {};
+let metaGlobal = null;
+
+// ==================== 初始化 ====================
+async function init() {
+  try {
+    const [metaRes, heroRes, paramRes] = await Promise.all([
+      fetch(`${API}/api/meta`), fetch(`${API}/api/heroes`), fetch(`${API}/api/params`)
+    ]);
+    if (!metaRes.ok || !heroRes.ok || !paramRes.ok) throw new Error("API返回错误");
+    const meta = await metaRes.json();
+    metaGlobal = meta;
+    heroes = await heroRes.json();
+    params = await paramRes.json();
+
+    document.getElementById("meta-info").textContent = 
+      `${meta.total_heroes}英雄 · ${meta.total_augments}符文 · ${meta.total_blacktech_combos}黑科技 · ${meta.version}`;
+    
+    renderStats(meta);
+    renderHeroGrid();
+    populateSelects();
+    renderParamPanel();
+    updateFormulaDisplay(meta);
+  } catch (e) {
+    console.error(e);
+    document.getElementById("meta-info").textContent = "加载失败: " + e.message;
+    document.getElementById("stats-row").innerHTML = `<div class="stat-card" style="grid-column:1/-1;text-align:center;">
+      <div class="value" style="color:var(--red);">⚠️ 加载失败</div>
+      <div class="sub">${e.message}<br>请确保Flask后端已启动: python app.py</div>
+    </div>`;
+  }
+}
+
+// ==================== 参数面板 ====================
+const PARAM_GROUPS = [
+  { title: "🎚️ 标准模式权重", items: [
+    { key: "W_winrate", label: "胜率权重", min: 0, max: 5, step: 0.05 },
+    { key: "W_pickrate", label: "选率权重", min: 0, max: 30, step: 0.25 },
+    { key: "W_ugc", label: "UGC权重", min: 0, max: 5, step: 0.05 },
+  ]},
+  { title: "🔥 连胜模式权重 (≥3连胜)", items: [
+    { key: "W_winrate_winning", label: "胜率权重", min: 0, max: 5, step: 0.05 },
+    { key: "W_pickrate_winning", label: "选率权重", min: 0, max: 30, step: 0.25 },
+    { key: "W_ugc_winning", label: "UGC权重", min: 0, max: 5, step: 0.05 },
+  ]},
+  { title: "💀 连败模式权重 (≥3连败)", items: [
+    { key: "W_winrate_losing", label: "胜率权重", min: 0, max: 5, step: 0.05 },
+    { key: "W_pickrate_losing", label: "选率权重", min: 0, max: 30, step: 0.25 },
+    { key: "W_ugc_losing", label: "UGC权重", min: 0, max: 5, step: 0.05 },
+  ]},
+  { title: "📏 归一化", items: [
+    { key: "WR_FLOOR", label: "胜率下限%(P2)", min: 30, max: 55, step: 1 },
+    { key: "WR_CEILING", label: "胜率上限%(P98)", min: 50, max: 85, step: 1 },
+    { key: "PR_FLOOR", label: "选率下限%(P2)", min: 0, max: 2, step: 0.05 },
+    { key: "PR_CEILING", label: "选率上限%(P98)", min: 1, max: 15, step: 0.5 },
+    { key: "UGC_FLOOR", label: "UGC下限(P2)", min: 0, max: 6, step: 0.5 },
+    { key: "UGC_CEILING", label: "UGC上限(P98)", min: 5, max: 10, step: 0.5 },
+  ]},
+
+  { title: "🎯 推荐数量 & 分类", items: [
+    { key: "TARGET_RECOMMEND_PER_LEVEL", label: "每级目标推荐", min: 1, max: 10, step: 1 },
+    { key: "MIN_RECOMMEND_PER_LEVEL", label: "最少推荐", min: 1, max: 5, step: 1 },
+    { key: "MAX_RECOMMEND_PER_LEVEL", label: "最多推荐", min: 3, max: 15, step: 1 },
+    { key: "REFRESH_BOTTOM_PERCENT", label: "建议刷新(底部%)", min: 5, max: 60, step: 5 },
+  ]},
+  { title: "⚡ 黑科技 & 标签", items: [
+    { key: "BLACKTECH_BONUS_CAP", label: "黑科技加成上限", min: 5, max: 40, step: 1 },
+    { key: "SYNERGY_BONUS_CAP", label: "套装加成上限", min: 0, max: 20, step: 1 },
+    { key: "STRONG_CARD_TOP_PERCENT", label: "强力单卡TOP%", min: 5, max: 30, step: 1 },
+  ]},
+  { title: "🎉 连胜娱乐逻辑", items: [
+    { key: "WINNING_DEMOTE_PERCENT", label: "连胜降级比例%", min: 10, max: 80, step: 5 },
+    { key: "ENTERTAINMENT_BOOST", label: "娱乐符文加分", min: 5, max: 30, step: 1 },
+  ]},
+  { title: "📊 UGC处理", collapsed: true, items: [
+    { key: "UGC_CLIP_PERCENTILE", label: "UGC截断分位数%", min: 1, max: 15, step: 1 },
+    { key: "UGC_BAYESIAN_PRIOR_WEIGHT", label: "贝叶斯先验权重", min: 5, max: 100, step: 5 },
+  ]},
+];
+
+function renderParamPanel() {
+  let html = "";
+  PARAM_GROUPS.forEach((g, gi) => {
+    const collapsed = g.collapsed ? " collapsed" : "";
+    html += `<div class="param-group${collapsed}" id="pg-${gi}">
+      <div class="param-group-title" onclick="this.parentElement.classList.toggle('collapsed')">${g.title}</div>
+      <div class="param-items">`;
+    g.items.forEach(item => {
+      const v = params[item.key] ?? 0;
+      html += `<div class="param-row">
+        <span class="param-label" title="${item.key}">${item.label}</span>
+        <input type="range" class="param-slider" min="${item.min}" max="${item.max}" step="${item.step}" value="${v}"
+          oninput="document.getElementById('pv-${item.key}').value=this.value; params['${item.key}']=parseFloat(this.value);"
+          id="ps-${item.key}">
+        <input type="number" class="param-input" value="${v}" min="${item.min}" max="${item.max}" step="${item.step}"
+          oninput="document.getElementById('ps-${item.key}').value=this.value; params['${item.key}']=parseFloat(this.value);"
+          id="pv-${item.key}">
+      </div>`;
+    });
+    html += `</div></div>`;
+  });
+  document.getElementById("param-panel").innerHTML = html;
+}
+
+async function applyParams() {
+  try {
+    const resp = await fetch(`${API}/api/params`, {
+      method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(params)
+    });
+    const data = await resp.json();
+    if (data.ok) {
+      params = data.params;
+      heroCache = {};
+      showToast("✅ 参数已应用，评分已重新计算");
+      updateFormulaDisplay();
+      if (selectedHero) loadHeroDetail(selectedHero);
+    }
+  } catch (e) {
+    showToast("❌ 应用失败: " + e.message);
+  }
+}
+
+async function resetParams() {
+  try {
+    const resp = await fetch(`${API}/api/params/reset`, { method: "POST" });
+    const data = await resp.json();
+    if (data.ok) {
+      params = data.params;
+      heroCache = {};
+      renderParamPanel();
+      updateFormulaDisplay();
+      showToast("🔄 参数已重置为默认值");
+      if (selectedHero) loadHeroDetail(selectedHero);
+    }
+  } catch (e) { showToast("❌ 重置失败: " + e.message); }
+}
+
+function updateFormulaDisplay(meta) {
+  const set = (id, v) => { const el = document.getElementById(id); if(el) el.textContent = v; };
+  set("f-wr", params.W_winrate); set("f-pr", params.W_pickrate); set("f-ugc", params.W_ugc);
+  set("f-floor", params.WR_FLOOR); set("f-ceil", params.WR_CEILING);
+  set("f-prfloor", params.PR_FLOOR); set("f-prceil", params.PR_CEILING);
+  set("f-ugcfloor", params.UGC_FLOOR); set("f-ugcceil", params.UGC_CEILING);
+  set("f-target", params.TARGET_RECOMMEND_PER_LEVEL);
+  set("f-min", params.MIN_RECOMMEND_PER_LEVEL); set("f-max", params.MAX_RECOMMEND_PER_LEVEL);
+  set("f-refresh", params.REFRESH_BOTTOM_PERCENT);
+  set("f-btcap", params.BLACKTECH_BONUS_CAP);
+  set("f-btcap2", params.BLACKTECH_BONUS_CAP);
+  set("f-syncap", params.SYNERGY_BONUS_CAP || 10);
+  set("f-syncap2", params.SYNERGY_BONUS_CAP || 10);
+  set("f-strong", params.STRONG_CARD_TOP_PERCENT);
+  set("f-ugcpctl", params.UGC_CLIP_PERCENTILE);
+  set("f-ugcprior", params.UGC_BAYESIAN_PRIOR_WEIGHT);
+  set("f-ugcprior2", params.UGC_BAYESIAN_PRIOR_WEIGHT);
+  set("f-demote", params.WINNING_DEMOTE_PERCENT);
+  set("f-entboost", params.ENTERTAINMENT_BOOST);
+  // 连胜/连败权重显示
+  set("f-wr-std", Math.round(params.W_winrate * 100));
+  set("f-pr-std", Math.round(params.W_pickrate * 100));
+  set("f-ugc-std", Math.round(params.W_ugc * 100));
+  set("f-wr-win", Math.round((params.W_winrate_winning || 0.40) * 100));
+  set("f-pr-win", Math.round((params.W_pickrate_winning || 0.15) * 100));
+  set("f-ugc-win", Math.round((params.W_ugc_winning || 0.45) * 100));
+  set("f-wr-lose", Math.round((params.W_winrate_losing || 0.75) * 100));
+  set("f-pr-lose", Math.round((params.W_pickrate_losing || 0.15) * 100));
+  set("f-ugc-lose", Math.round((params.W_ugc_losing || 0.10) * 100));
+  if (meta && meta.hero_avg_winrate) {
+    set("f-heroavg", meta.hero_avg_winrate.toFixed(2));
+  } else if (metaGlobal && metaGlobal.hero_avg_winrate) {
+    set("f-heroavg", metaGlobal.hero_avg_winrate.toFixed(2));
+  }
+}
+
+// ==================== 统计 ====================
+function renderStats(meta) {
+  document.getElementById("stats-row").innerHTML = `
+    <div class="stat-card"><div class="label">英雄</div><div class="value">${meta.total_heroes}</div></div>
+    <div class="stat-card"><div class="label">符文(本赛季)</div><div class="value">${meta.total_augments}</div>
+      <div class="sub">银${meta.augments_by_level['白银']||0} / 金${meta.augments_by_level['黄金']||0} / 棱${meta.augments_by_level['棱彩']||0}</div></div>
+    <div class="stat-card"><div class="label">黑科技组合</div><div class="value" style="color:var(--accent);">${meta.total_blacktech_combos}</div></div>
+    <div class="stat-card"><div class="label">英雄专属</div><div class="value">${meta.total_hero_blacktech}</div></div>
+    <div class="stat-card"><div class="label">娱乐符文</div><div class="value" style="color:var(--pink);">${meta.total_entertainment}</div></div>
+    <div class="stat-card"><div class="label">全英雄平均胜率</div><div class="value" style="color:var(--green);">${meta.hero_avg_winrate ? meta.hero_avg_winrate.toFixed(2) + '%' : 'N/A'}</div></div>
+  `;
+}
+
+// ==================== 英雄列表 ====================
+function renderHeroGrid() {
+  const grid = document.getElementById("hero-grid");
+  let html = "";
+  heroes.forEach(h => {
+    html += `<div class="hero-card" id="hc-${h.name}" onclick="loadHeroDetail('${h.name}')">
+      <div class="hname">${h.name}</div>
+    </div>`;
+  });
+  grid.innerHTML = html || '<div class="loading-inline">无英雄数据</div>';
+}
+
+function filterHeroes() {
+  const q = document.getElementById("hero-search").value.toLowerCase();
+  document.querySelectorAll(".hero-card").forEach(card => {
+    const name = card.querySelector(".hname").textContent.toLowerCase();
+    card.style.display = name.includes(q) ? "" : "none";
+  });
+}
+
+async function loadHeroDetail(name) {
+  selectedHero = name;
+  document.querySelectorAll(".hero-card").forEach(c => c.classList.remove("active"));
+  const el = document.getElementById("hc-" + name);
+  if (el) el.classList.add("active");
+
+  const detail = document.getElementById("hero-detail");
+  detail.style.display = "block";
+  detail.innerHTML = `<div class="loading-inline"><span class="spin"></span>正在计算 ${name} 的评分...</div>`;
+
+  try {
+    const streak = parseInt(document.getElementById("hero-streak").value);
+    const cacheKey = `${name}_${streak}`;
+    if (heroCache[cacheKey]) {
+      renderHeroDetail(heroCache[cacheKey]);
+      return;
+    }
+    const resp = await fetch(`${API}/api/hero/${encodeURIComponent(name)}?streak=${streak}`);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data = await resp.json();
+    heroCache[cacheKey] = data;
+    renderHeroDetail(data);
+  } catch (e) {
+    detail.innerHTML = `<div class="loading-inline" style="color:var(--red);">⚠️ 加载失败: ${e.message}<br><small>请确保Flask后端正在运行</small></div>`;
+  }
+}
+
+function renderHeroDetail(data) {
+  const detail = document.getElementById("hero-detail");
+  const streakText = data.streak > 0 ? `${data.streak}连胜 🔥` : data.streak < 0 ? `${Math.abs(data.streak)}连败 ❄️` : '标准模式';
+  const streakColor = data.streak > 0 ? 'var(--orange)' : data.streak < 0 ? 'var(--accent)' : 'var(--text2)';
+
+  let html = `<div class="hero-info-header">
+    <div class="hero-title">
+      <span>📊 ${data.hero}</span>
+      <span class="wr">平均胜率 ${data.hero_wr}%</span>
+      <span style="font-size:12px;color:${streakColor};font-weight:600;">${streakText}</span>
+    </div>
+    <div class="hero-info-grid">
+      <div class="info-item">
+        <div class="info-label">英雄平均胜率</div>
+        <div class="info-value" style="color:var(--green)">${data.hero_wr}%</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">有效数据条数</div>
+        <div class="info-value">${data.hero_data_count}</div>
+        <div class="info-sub">英雄×符文组合</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">👍 推荐符文</div>
+        <div class="info-value" style="color:var(--green)">${data.total_rec}</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">🤔 考虑符文</div>
+        <div class="info-value" style="color:var(--yellow)">${data.total_con}</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">🔄 建议刷新</div>
+        <div class="info-value" style="color:var(--text2)">${data.total_ref}</div>
+      </div>
+    </div>`;
+
+  if (data.best_aug && data.best_aug.name) {
+    html += `<div class="hero-best-aug">
+      <div class="best-label">🏆 最高胜率符文</div>
+      <div class="best-name">${data.best_aug.name}
+        <span style="font-size:12px;color:var(--green);margin-left:8px;">胜率 ${data.best_aug.wr}%</span>
+        <span style="font-size:12px;color:var(--text2);margin-left:8px;">选率 ${(data.best_aug.pr||0).toFixed(2)}%</span>
+      </div>
+    </div>`;
+  }
+
+  if (data.combo_augs && data.combo_augs.length > 0) {
+    html += `<div class="hero-combos">
+      <div class="combo-label">⚡ 匹配的潜力组合符文 (${data.combo_augs.length}个)</div>
+      <div class="combo-list">`;
+    data.combo_augs.forEach(c => {
+      const comboName = c.label ? `${c.label}（${c.aug1}+${c.aug2}）` : `${c.aug1}+${c.aug2}`;
+      html += `<div class="combo-pill">
+        <span class="cname">${comboName}</span>
+        <span class="cwr">${c.combo_wr}%</span>
+        ${c.pitch ? `<span style="color:var(--green);margin-left:4px;font-size:10px;">${c.pitch}</span>` : ''}
+      </div>`;
+    });
+    html += `</div></div>`;
+  }
+  html += `</div>`;
+
+  const levels = ["白银", "黄金", "棱彩"];
+  const lColors = {"白银":"#c0c0c0","黄金":"#ffd700","棱彩":"#a855f7"};
+  html += `<div class="level-tabs" id="level-tabs">`;
+  levels.forEach((lv, i) => {
+    const scored = data.scores[lv] || [];
+    const total = scored.length;
+    const recCount = scored.filter(s => s.logo === "推荐选取").length;
+    html += `<div class="level-tab${i===0?' active':''}" style="color:${i===0?'#000':lColors[lv]};${i===0?'background:'+lColors[lv]+';border-color:'+lColors[lv]+';':''}" 
+      onclick="switchLevel(this,'${lv}')" data-level="${lv}">${lv}<span class="count">(${total}个,${recCount}推荐)</span></div>`;
+  });
+  html += `</div>`;
+
+  // ====== 分数影响度展示 ======
+  if (data.score_impact) {
+    const streak = data.streak || 0;
+    let modeKey = "standard", modeLabel = "标准模式", modeCls = "standard";
+    if (streak >= 3) { modeKey = "winning"; modeLabel = "连胜模式"; modeCls = "winning"; }
+    else if (streak <= -3) { modeKey = "losing"; modeLabel = "连败模式"; modeCls = "losing"; }
+    const imp = data.score_impact[modeKey] || data.score_impact["standard"];
+    // 兼容旧字段名 pr_per_1pct 和新字段名 pr_per_0_01pct
+    const prVal = imp.pr_per_0_01pct !== undefined ? imp.pr_per_0_01pct : (imp.pr_per_1pct !== undefined ? (imp.pr_per_1pct * 0.01).toFixed(2) : "N/A");
+    html += `<div class="score-impact-bar">
+      <span class="impact-label">📐 分数影响度</span>
+      <span class="impact-item"><span class="metric">胜率+1%</span> → <span class="delta">+${imp.wr_per_1pct}分</span></span>
+      <span class="impact-item"><span class="metric">选率+0.01%</span> → <span class="delta">+${prVal}分</span></span>
+      <span class="impact-item"><span class="metric">UGC+1分</span> → <span class="delta">+${imp.ugc_per_1pt}分</span></span>
+      <span class="impact-mode ${modeCls}">${modeLabel}</span>
+    </div>`;
+  }
+
+  levels.forEach((lv, i) => {
+    const scored = data.scores[lv] || [];
+    if (!scored.length) return;
+
+    const recItems = scored.filter(s => s.logo === "推荐选取");
+    const conItems = scored.filter(s => s.logo === "值得考虑");
+    const refItems = scored.filter(s => s.logo === "建议刷新");
+
+    html += `<div class="level-content" id="lc-${lv}" style="display:${i===0?'block':'none'}">`;
+    html += renderCategory("rec", "👍 推荐选取", recItems, lColors[lv], false, lv);
+    html += renderCategory("con", "🤔 值得考虑", conItems, "#eab308", false, lv);
+    html += renderCategory("ref", "🔄 建议刷新", refItems, "#64748b", true, lv);
+    html += `</div>`;
+  });
+
+  detail.innerHTML = html;
+}
+
+function renderCategory(type, title, items, color, collapsed, level) {
+  if (!items.length) return `<div class="category-section">
+    <div class="category-header">
+      <span class="cat-title" style="color:${color}">${title}</span>
+      <span class="cat-count">0个符文</span>
+    </div></div>`;
+  const cls = collapsed ? " collapsed" : "";
+  const streak = parseInt(document.getElementById("hero-streak")?.value || 0);
+  const showAdjCol = streak >= 3 || streak <= -3;
+  const lvPrefix = level || '';  // 等级前缀，确保rowId唯一
+  let html = `<div class="category-section${cls}">
+    <div class="category-header" onclick="this.parentElement.classList.toggle('collapsed')">
+      <span class="cat-title" style="color:${color}">${title}</span>
+      <span class="cat-count">${items.length}个符文</span>
+      <span class="cat-arrow">▾</span>
+    </div>
+    <div class="category-body">
+    <table class="aug-table"><thead><tr>
+      <th>#</th><th>符文</th><th>得分</th><th>标签</th><th>胜率%</th><th>选率%</th><th>UGC</th>
+      <th>黑科技</th><th>套装</th>${showAdjCol ? '<th>连胜调整</th>' : ''}<th style="width:40px;"></th>
+    </tr></thead><tbody>`;
+
+  // 获取当前权重用于计算加权后分值（复用上面已声明的streak变量）
+  let wKey = "standard";
+  if (streak >= 3) wKey = "winning";
+  else if (streak <= -3) wKey = "losing";
+  const wSuffix = wKey === "standard" ? "" : wKey === "winning" ? "_winning" : "_losing";
+  const wWr = params[`W_winrate${wSuffix}`] || 0.60;
+  const wPr = params[`W_pickrate${wSuffix}`] || 0.15;
+  const wUgc = params[`W_ugc${wSuffix}`] || 0.25;
+
+  items.forEach((s, idx) => {
+    const adj = s.winning_adjusted;
+    let adjHtml = '';
+    if (adj === 'demoted') adjHtml = `<span style="color:var(--yellow);font-size:10px;">⬇降级 -${s.winning_penalty||0}</span>`;
+    else if (adj === 'boosted') adjHtml = `<span style="color:var(--pink);font-size:10px;">⬆提升 +${s.winning_boost||0}</span>`;
+    const rowId = `sd-${lvPrefix}-${type}-${idx}`;
+    // 计算加权后分值
+    const wrWeighted = ((s.wr_norm||0) * wWr).toFixed(1);
+    const prWeighted = ((s.pr_norm||0) * wPr).toFixed(1);
+    const ugcWeighted = ((s.ugc_norm||0) * wUgc).toFixed(1);
+    const baseCalc = (parseFloat(wrWeighted) + parseFloat(prWeighted) + parseFloat(ugcWeighted)).toFixed(1);
+    const bonusTotal = (s.bt||0) + (s.syn||0);
+    html += `<tr>
+      <td style="color:var(--text2)">${idx+1}</td>
+      <td>${s.aug}</td>
+      <td class="score" style="color:${type==='rec'?'var(--green)':type==='con'?'var(--yellow)':'var(--text2)'}">${s.score}</td>
+      <td>${tagHtml(s.visible_tag)}</td>
+      <td>${s.wr.toFixed(1)}</td>
+      <td>${s.pr.toFixed(2)}</td>
+      <td>${s.ugc.toFixed(1)}</td>
+      <td style="color:var(--green)">${s.bt>0?'+'+s.bt:''}</td>
+      <td style="color:var(--purple)">${(s.syn||0)>0?'+'+s.syn:''}</td>
+      ${showAdjCol ? `<td>${adjHtml}</td>` : ''}
+      <td><span class="detail-toggle" onclick="toggleScoreDetail('${rowId}')">▶</span></td>
+    </tr>
+    <tr class="score-detail-row" id="${rowId}" style="display:none;">
+      <td colspan="${showAdjCol ? 11 : 10}">
+        <div class="score-detail-content">
+          <span class="sd-item"><span class="sd-label">胜率:</span> <span class="sd-norm">${(s.wr_norm||0).toFixed(1)}</span> <span class="sd-weight">×${wWr}</span> <span class="sd-eq">=</span> <span class="sd-result" style="color:var(--green);">${wrWeighted}</span></span>
+          <span class="sd-plus">+</span>
+          <span class="sd-item"><span class="sd-label">选率:</span> <span class="sd-norm">${(s.pr_norm||0).toFixed(1)}</span> <span class="sd-weight">×${wPr}</span> <span class="sd-eq">=</span> <span class="sd-result" style="color:var(--accent);">${prWeighted}</span></span>
+          <span class="sd-plus">+</span>
+          <span class="sd-item"><span class="sd-label">UGC:</span> <span class="sd-norm">${(s.ugc_norm||0).toFixed(1)}</span> <span class="sd-weight">×${wUgc}</span> <span class="sd-eq">=</span> <span class="sd-result" style="color:var(--yellow);">${ugcWeighted}</span></span>
+          <span class="sd-plus">=</span>
+          <span class="sd-item"><span class="sd-label">基础分</span> <span class="sd-sum">${baseCalc}</span></span>
+          ${bonusTotal > 0 ? `<span class="sd-plus">+</span><span class="sd-item"><span class="sd-bonus">加成 +${bonusTotal}</span></span>` : ''}
+          <span class="sd-plus">→</span>
+          <span class="sd-item"><span class="sd-label">最终</span> <span class="sd-sum" style="background:rgba(56,189,248,0.1);color:var(--accent);">${s.score}</span></span>
+        </div>
+      </td>
+    </tr>`;
+  });
+  html += `</tbody></table></div></div>`;
+  return html;
+}
+
+function toggleScoreDetail(rowId) {
+  const row = document.getElementById(rowId);
+  if (!row) return;
+  const isHidden = row.style.display === 'none';
+  row.style.display = isHidden ? 'table-row' : 'none';
+  // 更新箭头方向
+  const trigger = row.previousElementSibling?.querySelector('.detail-toggle');
+  if (trigger) trigger.textContent = isHidden ? '▼' : '▶';
+}
+
+function switchLevel(el, level) {
+  document.querySelectorAll('.level-tab').forEach(t => {
+    t.classList.remove('active');
+    t.style.background = '';
+    t.style.borderColor = '';
+    t.style.color = '';
+  });
+  const lColors = {"白银":"#c0c0c0","黄金":"#ffd700","棱彩":"#a855f7"};
+  el.classList.add('active');
+  el.style.background = lColors[level];
+  el.style.borderColor = lColors[level];
+  el.style.color = '#000';
+
+  document.querySelectorAll('.level-content').forEach(c => c.style.display = 'none');
+  const content = document.getElementById('lc-' + level);
+  if (content) content.style.display = 'block';
+}
+
+// ==================== 模拟推荐 ====================
+let simPrevCards = [];
+
+function onSimStageChange() {
+  const stage = parseInt(document.getElementById("sim-stage").value);
+  // S1不需要前置卡牌，S2+需要
+  const prevDiv = document.getElementById("sim-prev-cards");
+  if (stage >= 2) {
+    prevDiv.style.display = "block";
+    populatePrevSelect();
+  } else {
+    prevDiv.style.display = "none";
+    simPrevCards = [];
+    renderPrevCards();
+  }
+}
+
+function populatePrevSelect() {
+  const stage = parseInt(document.getElementById("sim-stage").value);
+  const sel = document.getElementById("sim-prev-select");
+  sel.innerHTML = '<option value="">-- 选择前面阶段已选的符文 --</option>';
+
+  const allPrevAugs = new Set();
+  if (btData && btData.combos) {
+    btData.combos.forEach(c => { allPrevAugs.add(c.aug1); allPrevAugs.add(c.aug2); });
+  }
+  if (selectedHero && heroCache) {
+    for (const key in heroCache) {
+      const d = heroCache[key];
+      if (d && d.scores) {
+        for (const lv in d.scores) {
+          (d.scores[lv] || []).forEach(s => allPrevAugs.add(s.aug));
+        }
+      }
+    }
+  }
+  const sorted = [...allPrevAugs].sort();
+  sorted.forEach(aug => {
+    if (!simPrevCards.includes(aug)) {
+      sel.innerHTML += `<option value="${aug}">${aug}</option>`;
+    }
+  });
+}
+
+function addPrevCard() {
+  const sel = document.getElementById("sim-prev-select");
+  if (sel.value && !simPrevCards.includes(sel.value)) {
+    simPrevCards.push(sel.value);
+    renderPrevCards();
+    populatePrevSelect();
+  }
+}
+
+function removePrevCard(aug) {
+  simPrevCards = simPrevCards.filter(a => a !== aug);
+  renderPrevCards();
+  populatePrevSelect();
+}
+
+function clearPrevCards() {
+  simPrevCards = [];
+  renderPrevCards();
+  populatePrevSelect();
+}
+
+function randomPrevCards() {
+  const stage = parseInt(document.getElementById("sim-stage").value);
+  simPrevCards = [];
+  if (btData && btData.combos && btData.combos.length > 0) {
+    const allBtAugs = [];
+    btData.combos.forEach(c => { allBtAugs.push(c.aug1); allBtAugs.push(c.aug2); });
+    const unique = [...new Set(allBtAugs)];
+    const prevCount = Math.min(stage - 1, unique.length);
+    const shuffled = unique.sort(() => Math.random() - 0.5);
+    simPrevCards = shuffled.slice(0, prevCount);
+  }
+  renderPrevCards();
+  populatePrevSelect();
+}
+
+function renderPrevCards() {
+  const list = document.getElementById("sim-prev-list");
+  if (!simPrevCards.length) {
+    list.innerHTML = '<span style="font-size:11px;color:var(--text2);">暂无前置卡牌</span>';
+    return;
+  }
+  list.innerHTML = simPrevCards.map(aug =>
+    `<span style="background:rgba(56,189,248,0.15);border:1px solid rgba(56,189,248,0.3);border-radius:12px;padding:2px 10px;font-size:11px;color:var(--accent);cursor:pointer;" onclick="removePrevCard('${aug}')" title="点击移除">${aug} ✕</span>`
+  ).join('');
+}
+
+async function runSimulation() {
+  const heroName = document.getElementById("sim-hero").value;
+  const stage = parseInt(document.getElementById("sim-stage").value);
+  const streak = parseInt(document.getElementById("sim-streak").value);
+  if (!heroName) { alert("请先选择英雄"); return; }
+
+  if (!btData) {
+    try {
+      const resp = await fetch(`${API}/api/blacktech`);
+      btData = await resp.json();
+    } catch(e) {}
+  }
+
+  const resultsEl = document.getElementById("sim-results");
+  resultsEl.innerHTML = `<div class="loading-inline"><span class="spin"></span>实时计算中...</div>`;
+
+  try {
+    const resp = await fetch(`${API}/api/simulate`, {
+      method: "POST", headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({
+        hero: heroName, stage, streak, num: 3,
+        level: document.getElementById("sim-level").value,
+        selected_augments: stage >= 2 ? simPrevCards : []
+      })
+    });
+    const data = await resp.json();
+
+    let html = `<div style="font-size:12px;color:var(--text2);margin-bottom:10px;">
+      ${data.hero} · 阶段S${data.stage}(${data.level}) · ${data.streak>0?data.streak+'连胜 🔥':data.streak<0?Math.abs(data.streak)+'连败 ❄️':'标准模式'}
+      · 该等级可用${data.total_available||'?'}张符文 · 随机${data.candidates.length}张候选
+      ${data.selected_augments&&data.selected_augments.length?'<br>📋 前置已选: '+data.selected_augments.join(', '):''}</div>`;
+
+    // ===== 四条特殊规则 =====
+    if (data.candidates.length === 3) {
+      const allRec = data.candidates.every(c => c.logo === "推荐选取");
+      const allRef = data.candidates.every(c => c.logo === "建议刷新");
+      if (allRec) {
+        let minIdx = 0;
+        data.candidates.forEach((c, i) => { if (c.score < data.candidates[minIdx].score) minIdx = i; });
+        data.candidates[minIdx].logo = "值得考虑";
+        data.candidates[minIdx]._special_rule = "全推荐→分数最低降级为思考";
+      }
+      if (allRef) {
+        let maxIdx = 0;
+        data.candidates.forEach((c, i) => { if (c.score > data.candidates[maxIdx].score) maxIdx = i; });
+        data.candidates[maxIdx].logo = "值得考虑";
+        data.candidates[maxIdx]._special_rule = "全刷新→分数最高升级为思考";
+      }
+      // S2-S4黑科技升级规则：已选符文凑成黑科技组合，即使仅在"值得考虑"区间，直接升级为"推荐选取"
+      if (data.stage >= 2) {
+        data.candidates.forEach(c => {
+          if (c.logo === "值得考虑" && (c.bt > 0 || (c.total_bonus||0) > 0)) {
+            c.logo = "推荐选取";
+            c._special_rule = (c._special_rule ? c._special_rule + " + " : "") + "S" + data.stage + "黑科技/套装升级→已有加成直接推荐";
+          }
+        });
+      }
+    }
+
+    data.candidates.forEach(c => {
+      const cls = c.logo==="推荐选取"?"rec":c.logo==="值得考虑"?"con":"ref";
+      const emoji = c.logo==="推荐选取"?"👍":c.logo==="值得考虑"?"🤔":"🔄";
+      const sColor = c.logo==="推荐选取"?"var(--green)":c.logo==="值得考虑"?"var(--yellow)":"var(--text2)";
+
+      html += `<div class="sim-card ${cls}">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+          <span style="font-size:28px;">${emoji}</span>
+          <span style="font-size:22px;font-weight:700;color:${sColor}">${c.score}</span>
+          <span style="font-size:15px;font-weight:600;">${c.aug}</span>
+          ${tagHtml(c.visible_tag)}
+        </div>
+        <div class="detail-grid">
+          <div class="detail-item"><span class="dl">胜率(原始→归一化):</span> <span class="dv">${c.wr.toFixed(1)}%</span> → <span style="color:var(--accent);">${c.wr_norm.toFixed(0)}</span></div>
+          <div class="detail-item"><span class="dl">选率(原始→归一化):</span> <span class="dv">${c.pr.toFixed(2)}%</span> → <span style="color:var(--accent);">${c.pr_norm.toFixed(0)}</span></div>
+          <div class="detail-item"><span class="dl">UGC*(原始→归一化):</span> <span class="dv">${c.ugc.toFixed(1)}/10</span> → <span style="color:var(--accent);">${c.ugc_norm.toFixed(0)}</span></div>
+          <div class="detail-item"><span class="dl">基础分:</span> <span class="dv">${c.base}</span></div>
+          <div class="detail-item"><span class="dl">权重模式:</span> <span class="dv" style="color:var(--accent);">${c.multiplier===1.0?(streak>=3?'连胜':streak<=-3?'连败':'标准'):'标准'}</span></div>
+          ${c.bt>0?`<div class="detail-item"><span class="dl">黑科技加成:</span> <span class="dv" style="color:var(--green)">+${c.bt}</span> ${c.bt_pitch?'<span style="font-size:10px;color:var(--accent);">('+c.bt_pitch+')</span>':''}</div>`:''}
+          ${(c.syn||0)>0?`<div class="detail-item"><span class="dl">套装加成:</span> <span class="dv" style="color:var(--purple)">+${c.syn}</span> ${c.synergy_info?'<span style="font-size:10px;color:var(--purple);">('+c.synergy_info+')</span>':''}</div>`:''}
+          ${c._special_rule?`<div class="detail-item" style="grid-column:1/-1;"><span style="color:var(--yellow);font-size:11px;">⚠ ${c._special_rule}</span></div>`:''}
+        </div>
+      </div>`;
+    });
+    resultsEl.innerHTML = html;
+  } catch (e) {
+    resultsEl.innerHTML = `<div class="loading-inline" style="color:var(--red);">⚠️ 计算失败: ${e.message}</div>`;
+  }
+}
+
+// ==================== 二次刷新模拟 ====================
+function simulateRefresh() {
+  const cards = document.querySelectorAll('.sim-card');
+  if (cards.length === 0) { alert("请先进行一次模拟推荐"); return; }
+  cards.forEach(card => {
+    if (card.classList.contains('ref')) {
+      const emojiEl = card.querySelector('span[style*="font-size:28px"]');
+      if (emojiEl && !emojiEl.dataset.crossed) {
+        emojiEl.textContent = '❌';
+        emojiEl.dataset.crossed = 'true';
+        const noteEl = document.createElement('div');
+        noteEl.style.cssText = 'color:var(--red);font-size:11px;margin-top:4px;';
+        noteEl.textContent = '⚠ 刷新机会已用完，建议从剩余符文中选择';
+        card.appendChild(noteEl);
+      }
+    }
+  });
+}
+
+// ==================== 黑科技组合 ====================
+async function loadBlacktech() {
+  if (btData) {
+    renderBlacktech();
+    return;
+  }
+  try {
+    const resp = await fetch(`${API}/api/blacktech`);
+    btData = await resp.json();
+    renderBlacktech();
+  } catch (e) {
+    document.getElementById("bt-grid").innerHTML = `<div class="loading-inline">加载失败: ${e.message}</div>`;
+  }
+}
+
+function renderBlacktech() {
+  if (!btData) return;
+  const q = (document.getElementById("bt-search")?.value||"").toLowerCase();
+  const combos = btData.combos.filter(c =>
+    !q || (c.label||"").toLowerCase().includes(q) || c.aug1.toLowerCase().includes(q) || c.aug2.toLowerCase().includes(q) || (c.pitch||"").toLowerCase().includes(q)
+  );
+  document.getElementById("bt-count").textContent = combos.length;
+
+  let html = "";
+  combos.forEach(c => {
+    html += `<div class="bt-card">
+      <div class="bt-label">${c.label||"通用组合"}</div>
+      <div class="bt-augs">${c.aug1} + ${c.aug2}</div>
+      <div class="bt-pitch">💡 ${c.pitch||""}</div>
+      <div class="bt-meta">适配: ${c.hero_type||""} | 组合胜率: ${c.avg_winrate}%</div>
+    </div>`;
+  });
+  document.getElementById("bt-grid").innerHTML = html || '<div class="loading-inline">无匹配组合</div>';
+
+  const hbt = btData.hero_blacktech.filter(h =>
+    !q || h.hero.toLowerCase().includes(q) || h.augment.toLowerCase().includes(q)
+  );
+  document.getElementById("hbt-count").textContent = btData.total_hero_blacktech;
+  let tbody = "";
+  hbt.slice(0, 100).forEach(h => {
+    tbody += `<tr><td>${h.hero}</td><td>${h.augment}</td><td>${h.rating||""}</td><td>${h.tag||""}</td>
+      <td style="max-width:250px;overflow:hidden;text-overflow:ellipsis;">${h.reason||""}</td></tr>`;
+  });
+  document.getElementById("hbt-tbody").innerHTML = tbody;
+}
+
+function filterBlacktech() { renderBlacktech(); }
+
+// ==================== 总览面板 ====================
+let overviewData = null;
+
+async function loadOverviewFull() {
+  const statusEl = document.getElementById("ov-status");
+  statusEl.textContent = "⏳ 正在计算所有英雄的推荐数量...（约需30秒）";
+  statusEl.style.color = "var(--yellow)";
+
+  try {
+    const resp = await fetch(`${API}/api/overview/full`);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    overviewData = await resp.json();
+    statusEl.textContent = `✅ 计算完成！共${overviewData.heroes.length}个英雄`;
+    statusEl.style.color = "var(--green)";
+    renderOverview(overviewData);
+  } catch (e) {
+    statusEl.textContent = `❌ 加载失败: ${e.message}`;
+    statusEl.style.color = "var(--red)";
+  }
+}
+
+function renderOverview(data) {
+  const { heroes: heroStats, summary, params: p } = data;
+  const levels = ["白银", "黄金", "棱彩"];
+  const lColors = {"白银":"#c0c0c0","黄金":"#ffd700","棱彩":"#a855f7"};
+
+  // 汇总统计卡片
+  let summaryHtml = `
+    <div class="overview-card">
+      <h5>📌 当前参数设置</h5>
+      <div style="font-size:12px;line-height:1.8;">
+        每级目标: <b style="color:var(--accent);">${p.TARGET_RECOMMEND_PER_LEVEL}</b><br>
+        最少/最多: <b>${p.MIN_RECOMMEND_PER_LEVEL}</b> ~ <b>${p.MAX_RECOMMEND_PER_LEVEL}</b><br>
+        建议刷新: 底部 <b style="color:var(--red);">${p.REFRESH_BOTTOM_PERCENT}%</b>
+      </div>
+    </div>
+    <div class="overview-card">
+      <h5>📊 总推荐数（三级合计）</h5>
+      <div class="ov-value" style="color:var(--green);">${summary.total.mean}</div>
+      <div class="ov-range">均值 | 中位数${summary.total.median} | 范围${summary.total.min}~${summary.total.max} | 标准差${summary.total.std}</div>
+    </div>`;
+
+  levels.forEach(lv => {
+    const s = summary[lv];
+    summaryHtml += `<div class="overview-card">
+      <h5 style="color:${lColors[lv]};">${lv}推荐数</h5>
+      <div class="ov-value" style="color:${lColors[lv]};">${s.mean}</div>
+      <div class="ov-range">均值 | 中位数${s.median} | 范围${s.min}~${s.max} | 标准差${s.std}</div>
+    </div>`;
+  });
+  document.getElementById("ov-summary").innerHTML = summaryHtml;
+
+  // 详细列表
+  const maxRec = Math.max(...heroStats.map(h => h.total_rec), 1);
+  let tableHtml = `<table class="overview-table">
+    <thead><tr>
+      <th style="text-align:left;">英雄</th>
+      <th>总推荐</th>
+      <th style="color:#c0c0c0;">白银</th>
+      <th style="color:#ffd700;">黄金</th>
+      <th style="color:#a855f7;">棱彩</th>
+      <th style="width:150px;">分布</th>
+    </tr></thead><tbody>`;
+
+  heroStats.forEach(h => {
+    const s = h["白银"]||{}, g = h["黄金"]||{}, p = h["棱彩"]||{};
+    const barWidth = Math.round((h.total_rec / maxRec) * 140);
+    const sBar = Math.round(((s.rec||0) / Math.max(h.total_rec, 1)) * barWidth);
+    const gBar = Math.round(((g.rec||0) / Math.max(h.total_rec, 1)) * barWidth);
+    const pBar = barWidth - sBar - gBar;
+
+    // 颜色标记异常值
+    const totalColor = h.total_rec > 18 ? 'var(--red)' : h.total_rec < 6 ? 'var(--yellow)' : 'var(--green)';
+    const sColor = (s.rec||0) > 6 ? 'color:var(--red);font-weight:700' : (s.rec||0) < 2 ? 'color:var(--yellow)' : '';
+    const gColor = (g.rec||0) > 6 ? 'color:var(--red);font-weight:700' : (g.rec||0) < 2 ? 'color:var(--yellow)' : '';
+    const pColor = (p.rec||0) > 6 ? 'color:var(--red);font-weight:700' : (p.rec||0) < 2 ? 'color:var(--yellow)' : '';
+
+    tableHtml += `<tr>
+      <td style="cursor:pointer;" onclick="switchTab(document.querySelector('[data-panel=heroes]'));loadHeroDetail('${h.hero}')">${h.hero}</td>
+      <td style="font-weight:700;color:${totalColor};">${h.total_rec}</td>
+      <td style="${sColor}">${s.rec||0}<span style="color:var(--text2);font-size:10px;">/${s.total||0}</span></td>
+      <td style="${gColor}">${g.rec||0}<span style="color:var(--text2);font-size:10px;">/${g.total||0}</span></td>
+      <td style="${pColor}">${p.rec||0}<span style="color:var(--text2);font-size:10px;">/${p.total||0}</span></td>
+      <td>
+        <span class="ov-bar" style="width:${sBar}px;background:#c0c0c0;"></span><span class="ov-bar" style="width:${gBar}px;background:#ffd700;"></span><span class="ov-bar" style="width:${Math.max(pBar,0)}px;background:#a855f7;"></span>
+      </td>
+    </tr>`;
+  });
+  tableHtml += `</tbody></table>`;
+  document.getElementById("ov-detail").innerHTML = tableHtml;
+}
+
+// ==================== 工具函数 ====================
+function tagHtml(tag) {
+  if (!tag) return "";
+  const cls = tag==="最佳拍档"?"tag-best":tag==="潜力组合"?"tag-combo":tag==="强力单卡"?"tag-strong":tag==="娱乐"?"tag-ent":"";
+  return `<span class="tag ${cls}">${tag}</span>`;
+}
+
+function populateSelects() {
+  const simHero = document.getElementById("sim-hero");
+  heroes.forEach(h => {
+    simHero.innerHTML += `<option value="${h.name}">${h.name}</option>`;
+  });
+}
+
+function switchTab(el) {
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+  el.classList.add("active");
+  const panel = el.dataset.panel;
+  document.getElementById("panel-" + panel).classList.add("active");
+  if (panel === "blacktech") loadBlacktech();
+}
+
+function showToast(msg) {
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  setTimeout(() => el.classList.remove("show"), 2500);
+}
+
+// 启动
+init();
+</script>
+</body>
+</html>

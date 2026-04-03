@@ -7,11 +7,18 @@
 ```
 20_Study/
 ├── _README.md             ← 你在这里
-├── AI研究/                # 🤖 AI行业人物调研、访谈笔记、播客笔记
+├── AI研究/                # 🤖 AI行业调研、人物访谈、工具研究、播客笔记
 │   ├── Anthropic与Claude深度研究.md
 │   ├── Boris Cherny 访谈笔记 - Claude Code之父的AI编程进化论.md
 │   ├── Boris Power 调研 - OpenAI应用研究负责人.md
-│   └── Lex Fridman 452 播客笔记 - Anthropic三巨头访谈.md
+│   ├── Lex Fridman 452 播客笔记 - Anthropic三巨头访谈.md
+│   ├── Claude_Code_深度调研报告_2025-2026.md
+│   ├── Claude_Code_社区调研报告_2025-2026.md
+│   ├── Claude_Code_vs_Codex_深度调研.md
+│   ├── Claude_Code_与_Codex_CLI_深度调研报告.md
+│   ├── Harness_Engineering_上下文爆炸解决方案.md
+│   ├── Claude_Code_源码泄露事件深度调研_2026-03-31.md
+│   └── 宏观AI产品观_从工具到合作伙伴的范式转移.md
 ├── 投资调研/              # 📊 上市公司财报、深度调研报告
 │   ├── PDD_2025Q4_深度调研报告.md
 │   └── Tencent_2025Q4_深度调研报告.md
@@ -29,7 +36,7 @@
 
 | 二级目录 | 放什么 | 示例 |
 |---------|--------|------|
-| **AI研究/** | AI行业人物调研、公司研究、播客/访谈笔记 | Anthropic研究、OpenAI人物调研 |
+| **AI研究/** | AI行业人物调研、公司研究、AI工具调研、播客/访谈笔记 | Anthropic研究、Claude Code调研、OpenAI人物调研 |
 | **投资调研/** | 上市公司财报分析、行业深度调研报告 | PDD Q4财报、腾讯Q4财报 |
 | **游戏策划/** | 游戏设计理论、GDC笔记、案例分析 | 《游戏设计艺术》课程 |
 | **技术栈/** | 编程语言、框架、工具的学习笔记 | Python装饰器、Go并发 |
