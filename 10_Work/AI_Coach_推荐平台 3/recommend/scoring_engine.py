@@ -618,15 +618,22 @@ class ScoringEngine:
         ca_key = self.dl._champion_aug_stat_key(cid, augment_name)
         if ca_key is None or ca_key not in self.dl.champion_augment_stats:
             return False
-        hero_aug_wr = self.dl.champion_augment_stats[ca_key]["win_rate"]
         
-        # 获取该英雄所有符文的胜率
+        ca_stats = self.dl.champion_augment_stats[ca_key]
+        hero_aug_wr = ca_stats["win_rate"]
+        
+        # 过滤PR=0的幽灵数据：自身选取率为0则不可能是强力单卡
+        if ca_stats.get("show_rate", 0) <= 0:
+            return False
+        
+        # 获取该英雄所有符文的胜率（排除PR=0的幽灵数据，与WR Top5保护机制保持一致）
         # champion_augment_stats key是 ('56.0', '1038.0') 格式
         cid_dot = f"{cid}.0" if "." not in cid else cid
         all_wrs = []
         for (c, aug), stats in self.dl.champion_augment_stats.items():
             if str(c) == cid or str(c) == cid_dot:
-                all_wrs.append(stats["win_rate"])
+                if stats.get("show_rate", 0) > 0:  # 排除PR=0幽灵数据
+                    all_wrs.append(stats["win_rate"])
         
         if not all_wrs:
             return False
