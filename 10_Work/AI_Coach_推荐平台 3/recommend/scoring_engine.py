@@ -143,9 +143,16 @@ HERO_CORRECTION_MAX = 8.0   # 最多加8分
 HERO_CORRECTION_MIN = -5.0  # 最多扣5分
 
 # ==================== 推荐数量目标 ====================
-TARGET_RECOMMEND_PER_LEVEL = 5   # 每等级目标推荐数
-MIN_RECOMMEND_PER_LEVEL = 4      # 最少推荐数
-MAX_RECOMMEND_PER_LEVEL = 6      # 最多推荐数
+TARGET_RECOMMEND_PER_LEVEL = 6   # 每等级目标推荐数 (v3.9: 从5→6)
+MIN_RECOMMEND_PER_LEVEL = 5      # 最少推荐数 (v3.9: 从4→5)
+MAX_RECOMMEND_PER_LEVEL = 7      # 最多推荐数 (v3.9: 从6→7)
+
+# ==================== WR Top5 保护机制 (v3.9) ====================
+# 全局 WR 排名 Top5 的符文在其所在等级的分类阶段获得额外加分
+# 目的：确保高胜率符文不会因为缺少黑科技/羁绊加成而被挤出推荐
+# 仅影响等级内分类，不影响全局排名和评分公式
+WR_TOP_N = 5                     # 保护前 N 名
+WR_TOP_BONUS = 38                # 保护加分（足以覆盖最大 gap）
 
 # ==================== 标签定义 ====================
 TAG_POTENTIAL_COMBO = "潜力组合"    # 原"黑科技组合"
