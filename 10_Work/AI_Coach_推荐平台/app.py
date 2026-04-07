@@ -343,14 +343,25 @@ def calc_hero_scores(hero_name, streak=0):
                 else:
                     item["logo"] = "值得考虑"
 
+        # ====== pick率TOP5绿通 (v7.8) ======
+        # 每个英雄该等级 pick 率前5的符文直接"推荐选取"，标签"热门选择"
+        top_pick_augs = dl.get_hero_top_pickrate_augments(hero_id, augment_level=level, top_n=5)
+        top_pick_set = set(top_pick_augs)
+        for it in items:
+            if it["aug"] in top_pick_set and it["logo"] != "推荐选取":
+                it["logo"] = "推荐选取"
+                if it["tag"] is None or it["tag"] == "":
+                    it["tag"] = "热门选择"
+                it["green_pass"] = True  # 标记绿通来源
+
         # ====== 强力单卡标记 (v3.4) ======
         # 在连胜降级之前，先给所有符文判断强力单卡
         # 这样连胜降级时才能把"最佳拍档+强力单卡"后50%一起降级
         # 非连胜时：娱乐标签不生效，强力单卡可以覆盖娱乐
         # 连胜时：娱乐优先级高于强力单卡，不被覆盖
-        skip_tags = ("最佳拍档", "潜力组合")
+        skip_tags = ("最佳拍档", "潜力组合", "热门选择")
         if streak >= 3:
-            skip_tags = ("最佳拍档", "潜力组合", "娱乐")
+            skip_tags = ("最佳拍档", "潜力组合", "娱乐", "热门选择")
         for it in items:
             if it["tag"] not in skip_tags:
                 if engine._is_strong_card_for_hero(it["aug"], hero_id):
@@ -401,12 +412,13 @@ def calc_hero_scores(hero_name, streak=0):
                 if engine._is_strong_card_for_hero(it["aug"], hero_id):
                     it["tag"] = "强力单卡"
 
-        # ====== 标签可见性控制 (v3.4) ======
-        # 标签优先级：最佳拍档 > 潜力组合 > 娱乐(连胜时) > 强力单卡
+        # ====== 标签可见性控制 (v7.8) ======
+        # 标签优先级：最佳拍档 > 潜力组合 > 娱乐(连胜时) > 强力单卡 > 热门选择
         # 规则：
         # 1. 所有标签仅在"推荐选取"时可见（"值得考虑"不显示标签）
         # 2. 娱乐标签仅在连胜(streak>=3)时可见
         # 3. 连胜时，娱乐符文即使满足强力单卡条件，也保持"娱乐"标签
+        # 4. 热门选择：pick率TOP7绿通符文的标签，始终可见
 
         # 应用可见性
         for item in items:
@@ -798,11 +810,24 @@ def api_simulate():
                 else:
                     item["logo"] = "值得考虑"
 
+    # ====== pick率TOP7绿通 (v7.9) ======
+    top_pick_augs = dl.get_hero_top_pickrate_augments(hero_id, augment_level=level, top_n=7)
+    top_pick_set = set(top_pick_augs)
+    for it in items:
+        if it["aug"] in top_pick_set and it["logo"] != "推荐选取":
+            it["logo"] = "推荐选取"
+            if it["tag"] is None or it["tag"] == "":
+                it["tag"] = "热门选择"
+            it["green_pass"] = True
+
     # 标签可见性 — 强力单卡补充规则 (v3.6)
     # 所有模式统一判定：推荐选取中满足TOP15%且无其他标签的，标记为强力单卡
+    skip_tags = ("最佳拍档", "潜力组合", "热门选择")
+    if streak >= 3:
+        skip_tags = ("最佳拍档", "潜力组合", "娱乐", "热门选择")
     rec_items = [it for it in items if it["logo"] == "推荐选取"]
     for it in rec_items:
-        if it["tag"] is None:
+        if it["tag"] not in skip_tags and it["tag"] is None:
             if engine._is_strong_card_for_hero(it["aug"], hero_id):
                 it["tag"] = "强力单卡"
 

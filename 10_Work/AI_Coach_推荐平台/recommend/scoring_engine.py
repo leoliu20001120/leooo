@@ -143,22 +143,16 @@ HERO_CORRECTION_MAX = 8.0   # 最多加8分
 HERO_CORRECTION_MIN = -5.0  # 最多扣5分
 
 # ==================== 推荐数量目标 ====================
-TARGET_RECOMMEND_PER_LEVEL = 6   # 每等级目标推荐数 (v3.9: 从5→6)
-MIN_RECOMMEND_PER_LEVEL = 5      # 最少推荐数 (v3.9: 从4→5)
-MAX_RECOMMEND_PER_LEVEL = 7      # 最多推荐数 (v3.9: 从6→7)
-
-# ==================== WR Top5 保护机制 (v3.9) ====================
-# 全局 WR 排名 Top5 的符文在其所在等级的分类阶段获得额外加分
-# 目的：确保高胜率符文不会因为缺少黑科技/羁绊加成而被挤出推荐
-# 仅影响等级内分类，不影响全局排名和评分公式
-WR_TOP_N = 5                     # 保护前 N 名
-WR_TOP_BONUS = 38                # 保护加分（足以覆盖最大 gap）
+TARGET_RECOMMEND_PER_LEVEL = 5   # 每等级目标推荐数
+MIN_RECOMMEND_PER_LEVEL = 4      # 最少推荐数
+MAX_RECOMMEND_PER_LEVEL = 6      # 最多推荐数
 
 # ==================== 标签定义 ====================
 TAG_POTENTIAL_COMBO = "潜力组合"    # 原"黑科技组合"
 TAG_BEST_PARTNER = "最佳拍档"      # 原"英雄专属黑科技"
 TAG_STRONG_CARD = "强力单卡"       # 符文本身胜率特别高
 TAG_ENTERTAINMENT = "娱乐"          # 连胜用户特有
+TAG_HOT_PICK = "热门选择"            # pick率TOP7绿通
 
 # 强力单卡判定：英雄×符文胜率在该英雄所有符文中排TOP X%
 # TOP 15% 即取排名前15%的英雄×符文胜率作为强力单卡
@@ -618,22 +612,15 @@ class ScoringEngine:
         ca_key = self.dl._champion_aug_stat_key(cid, augment_name)
         if ca_key is None or ca_key not in self.dl.champion_augment_stats:
             return False
+        hero_aug_wr = self.dl.champion_augment_stats[ca_key]["win_rate"]
         
-        ca_stats = self.dl.champion_augment_stats[ca_key]
-        hero_aug_wr = ca_stats["win_rate"]
-        
-        # 过滤PR=0的幽灵数据：自身选取率为0则不可能是强力单卡
-        if ca_stats.get("show_rate", 0) <= 0:
-            return False
-        
-        # 获取该英雄所有符文的胜率（排除PR=0的幽灵数据，与WR Top5保护机制保持一致）
+        # 获取该英雄所有符文的胜率
         # champion_augment_stats key是 ('56.0', '1038.0') 格式
         cid_dot = f"{cid}.0" if "." not in cid else cid
         all_wrs = []
         for (c, aug), stats in self.dl.champion_augment_stats.items():
             if str(c) == cid or str(c) == cid_dot:
-                if stats.get("show_rate", 0) > 0:  # 排除PR=0幽灵数据
-                    all_wrs.append(stats["win_rate"])
+                all_wrs.append(stats["win_rate"])
         
         if not all_wrs:
             return False

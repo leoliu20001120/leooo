@@ -893,6 +893,42 @@ class DataLoader:
             return self.champion_name_map[std_name]
         return champion_name
 
+    def get_hero_top_pickrate_augments(self, champion_id, augment_level=None, top_n=5):
+        """
+        获取某英雄 pick 率 TOP N 的符文名列表（中文名）
+
+        Args:
+            champion_id: 英雄ID
+            augment_level: 符文等级（白银/黄金/棱彩），None 表示不限
+            top_n: 返回前N个
+
+        Returns:
+            list of 符文中文名，按 pick 率降序
+        """
+        cid = str(champion_id)
+        cid_dot = f"{cid}.0" if "." not in cid else cid
+
+        # 收集该英雄的所有符文 pick 率
+        aug_pr_list = []  # [(中文名, show_rate)]
+        for (c, aug_id), stats in self.champion_augment_stats.items():
+            if str(c) != cid and str(c) != cid_dot:
+                continue
+            # aug_id 是数字ID字符串，需要转成中文名
+            clean_id = str(int(float(aug_id))) if '.' in str(aug_id) else str(aug_id)
+            aug_cn = self.augment_id_map.get(clean_id)
+            if not aug_cn:
+                continue
+            # 如果指定了等级，过滤
+            if augment_level:
+                info = self.augment_info.get(aug_cn, {})
+                if info.get("等级", "") != augment_level:
+                    continue
+            aug_pr_list.append((aug_cn, stats["show_rate"]))
+
+        # 按 pick 率降序排列，取前 top_n
+        aug_pr_list.sort(key=lambda x: x[1], reverse=True)
+        return [name for name, _ in aug_pr_list[:top_n]]
+
     def get_synergy_for_augment(self, augment_name):
         """查询符文所属的官方套装"""
         results = []
