@@ -330,3 +330,41 @@ PDD 2025Q4 深度调研：
 - Last-Seen: 2026-03-30
 
 ---
+
+## [LRN-20260408-001] best_practice
+
+**Logged**: 2026-04-08T00:24:00+08:00
+**Priority**: critical
+**Status**: promoted
+**Area**: config
+**Promoted**: memory-system-v2.mdc (会话结束 Checklist), MEMORY.md (关键教训 #12), procedural/skills.md (Self-Improvement 工作流), procedural/tools.md (Self-Improvement 系统)
+
+### Summary
+Self-Improvement 从"声明式描述"升级为"流程强制执行"：在 always Rule 中加入会话结束 Checklist，强制每次会话回顾 6 种触发场景；统一 .learnings/ 写入路径消除混淆。
+
+### Details
+**问题根因**（调研于 2026-04-07~08）：
+1. 唯一的 always Rule（memory-system-v2.mdc）只管"事后记录"不管"事前检查"
+2. Self-Improvement 触发完全依赖 AI 自主判断，无自动化提醒机制
+3. Skill 内部的 `.learnings/` 空模板 vs 项目根的实际记录存在混淆
+4. 纠正效果快速衰减：03-25 纠正→03-30 后完全停止（8天无使用）
+5. 64% 的 episodic 日志标注为"Skills: 无"，rationalization 反模式持续复现
+
+**优化措施**：
+- O-2: 在 memory-system-v2.mdc 加入"会话结束 Checklist"（3 步：Self-Improvement 回顾→Episodic 日志→长期记忆更新）
+- O-6: 在 Skill 内部 .learnings/ 的 3 个文件中加入重定向说明，统一指向项目根
+- 同步更新：procedural/skills.md、procedural/tools.md、MEMORY.md 关键教训 #12
+
+**核心设计思想**：从"AI 自觉想起来"升级为"流程强制门禁"。
+
+### Metadata
+- Source: user_feedback + self_analysis
+- Related Files: .codebuddy/rules/memory-system-v2.mdc, .codebuddy/memory/MEMORY.md, .codebuddy/memory/procedural/skills.md, .codebuddy/memory/procedural/tools.md
+- Tags: self-improvement, harness, quality-gate, process-enforcement, config
+- Pattern-Key: harden.self_improvement_enforcement
+- See Also: LRN-20260325-001, LRN-20260325-008
+- Recurrence-Count: 3
+- First-Seen: 2026-03-25
+- Last-Seen: 2026-04-08
+
+---

@@ -87,26 +87,35 @@
 **已应用**: product-manager Rule 已植入完整分级审查段落
 
 ### 🔄 Self-Improvement 持续改进
-**触发**: 以下任一场景发生时，**必须**调用 `self-improvement` Skill
+**触发**: 以下任一场景发生时，**必须**记录到项目根目录 `.learnings/`
 
-| 触发场景 | 动作 |
-|---------|------|
-| 工具/命令执行失败 | 记录失败模式 + 根因 + 修复方案 |
-| 用户纠正我的方案（"不对"/"其实应该…"） | 立即触发，记录纠偏前后对比 |
-| 发现比当前更优的方法 | 记录 before/after + 为什么更好 |
-| 外部 API/工具不可用或行为异常 | 记录降级策略 |
-| 会话结束前 | 回顾本次是否有值得沉淀的改进点 |
-| **同类错误累计 ≥3 次** | **触发规则提炼（见下方自动化流程）** |
+> ⚠️ **写入路径**: 始终写入项目根 `/.learnings/`（非 `.codebuddy/skills/self-improving-agent-3.0.4/.learnings/`，后者仅为空模板）
+
+| 触发场景 | 写入目标 | 动作 |
+|---------|---------|------|
+| 工具/命令执行失败 | `.learnings/ERRORS.md` | 记录失败模式 + 根因 + 修复方案 |
+| 用户纠正我的方案（"不对"/"其实应该…"） | `.learnings/LEARNINGS.md` | category: correction，记录纠偏前后对比 |
+| 发现比当前更优的方法 | `.learnings/LEARNINGS.md` | category: best_practice，记录 before/after |
+| 外部 API/工具不可用或行为异常 | `.learnings/ERRORS.md` | 记录降级策略 |
+| 发现自己的知识过时或不准确 | `.learnings/LEARNINGS.md` | category: knowledge_gap |
+| 用户请求了当前不存在的能力 | `.learnings/FEATURE_REQUESTS.md` | 记录需求 + 建议实现方案 |
+| **会话结束前** | **（强制检查）** | **回顾上述 6 条，有则记录，无则在 episodic 标注 `Self-Improvement: 无新增`** |
+| **同类错误累计 ≥3 次** | **触发规则提炼** | **（见下方自动化流程）** |
+
+**会话结束 Checklist 联动**：
+- 此工作流的"会话结束前"触发 = `memory-system-v2.mdc` Rule 中的 **Step 1: Self-Improvement 回顾**
+- 两者是同一件事的两个引用点，确保不管从哪里读到都能执行
 
 **与记忆系统的分工**：
 - 记忆系统（episodic/procedural）= **记住做了什么、踩了什么坑**
-- self-improvement Skill = **系统化地分析为什么出错、怎么变更好**
-- 两者互补：self-improvement 产出的洞察 → 沉淀到 procedural/skills.md 错题本
+- `.learnings/` 目录 = **系统化地分析为什么出错、怎么变更好**
+- 两者互补：`.learnings/` 详细分析 → 提炼为 procedural/skills.md 错题本简洁条目 + 关键教训写入 MEMORY.md
 
 **反模式**：
 - ❌ "先把活干完再说" → 改进点会被遗忘
 - ❌ 只在 episodic 记一笔就了事 → 没有系统化分析
-- ✅ 触发时立即调用 Skill，哪怕只花 30 秒
+- ❌ 写到 Skill 内部的 `.learnings/` 模板文件 → 写错了位置，等于没写
+- ✅ 触发时立即记录到项目根 `.learnings/`，哪怕只花 30 秒
 
 ### 🔁 错误→规则自动化（Harness 自进化）
 **触发**: 每次向错题本写入新条目时

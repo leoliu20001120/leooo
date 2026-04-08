@@ -102,15 +102,23 @@ memory-management, planning-with-files, markitdown
 
 ## Self-Improvement 系统 (.learnings/)
 
-| 文件 | 用途 |
-|------|------|
-| `.learnings/LEARNINGS.md` | 教训/最佳实践/纠正记录（LRN-YYYYMMDD-XXX格式） |
-| `.learnings/ERRORS.md` | 命令/工具执行错误记录 |
-| `.learnings/FEATURE_REQUESTS.md` | 用户请求的缺失能力 |
+| 文件 | 路径 | 用途 |
+|------|------|------|
+| `LEARNINGS.md` | **项目根** `/.learnings/LEARNINGS.md` | 教训/最佳实践/纠正记录（LRN-YYYYMMDD-XXX格式） |
+| `ERRORS.md` | **项目根** `/.learnings/ERRORS.md` | 命令/工具执行错误记录（ERR-YYYYMMDD-XXX格式） |
+| `FEATURE_REQUESTS.md` | **项目根** `/.learnings/FEATURE_REQUESTS.md` | 用户请求的缺失能力（FEAT-YYYYMMDD-XXX格式） |
 
-**当前状态**: 10条Learning（1条 correction + 8条 best_practice + 1条 knowledge_gap），6条已promoted，2条pending，1条resolved
+> ⚠️ **路径注意**: 始终写入项目根目录 `/.learnings/`。
+> `.codebuddy/skills/self-improving-agent-3.0.4/.learnings/` 是 Skill 安装包的空模板，**禁止写入**。
+
+**当前状态**: 11条Learning（3条 correction + 7条 best_practice + 1条 resolved correction），6条已promoted，4条pending，1条resolved。ERRORS.md 和 FEATURE_REQUESTS.md 暂无记录。
+
+**会话结束强制回顾**（v3.1 新增，2026-04-08）:
+- 每次会话结束前，必须执行 `memory-system-v2.mdc` Rule 中的"会话结束 Checklist → Step 1"
+- 回顾 6 种触发场景 → 有则记录 → 无则在 episodic 标注 `Self-Improvement: 无新增`
+- 这是**流程强制**，不依赖 AI 自主想起来
 
 **与记忆系统的关系**:
-- `.learnings/` = 系统化分析（为什么错/怎么变好）
-- `procedural/skills.md` 错题本 = 简洁教训速查
+- `.learnings/` = 系统化分析（为什么错/怎么变好），详细格式
+- `procedural/skills.md` 错题本 = 简洁教训速查，一行一条
 - 两者互补，`.learnings/` 详细分析 → 提炼为错题本简洁条目 + 关键教训写入 MEMORY.md

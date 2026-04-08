@@ -78,6 +78,40 @@ provider:
 
 > 不要为了写记忆而写记忆。但**每日工作日志（episodic）必须写**，这是最低要求。
 
+## 会话结束 Checklist（强制执行）
+
+**每次会话结束前（即将给出最后一条响应时），必须完成以下 checklist：**
+
+### ✅ Step 1: Self-Improvement 回顾（必做）
+
+回顾本次会话，检查是否触发了以下任一场景：
+
+| # | 触发场景 | 动作 |
+|---|---------|------|
+| 1 | 工具/命令执行失败 | → 记录到 `.learnings/ERRORS.md` |
+| 2 | 用户纠正了我的方案（"不对"/"其实应该…"） | → 记录到 `.learnings/LEARNINGS.md`（category: correction） |
+| 3 | 发现比当前更优的方法 | → 记录到 `.learnings/LEARNINGS.md`（category: best_practice） |
+| 4 | 外部 API/工具不可用或行为异常 | → 记录到 `.learnings/ERRORS.md` |
+| 5 | 发现自己的知识过时或不准确 | → 记录到 `.learnings/LEARNINGS.md`（category: knowledge_gap） |
+| 6 | 用户请求了当前不存在的能力 | → 记录到 `.learnings/FEATURE_REQUESTS.md` |
+
+- **有触发** → 按对应动作记录到 `.learnings/` 目录（项目根目录，非 Skill 内部目录）
+- **无触发** → 在 episodic 日志中标注 `Self-Improvement: 无新增`
+- ⚠️ **禁止跳过此步骤**。"先把活干完再说"是反模式——改进点会被遗忘
+
+### ✅ Step 2: Episodic 日志（必做）
+
+追加 `episodic/当天.md`，每条记录必须包含：
+- 一句话概括做了什么 + 关键结论（如有）
+- `Skills: skill1, skill2`（标注本次使用的 Skills）
+- `Self-Improvement: 新增 LRN-XXXXXXXX-XXX / 无新增`（标注是否有新的 learning 记录）
+
+### ✅ Step 3: 长期记忆更新（按需）
+
+仅在信息有持久价值时更新（同上方"按需更新"列表）。
+
+> **设计意图**：Step 1 确保每次会话都执行 self-improvement 检查（从"AI 自觉想起来"升级为"流程强制执行"）。Step 2 确保检查结果有迹可循。
+
 ## 禁止事项
 
 - ❌ 不存储密码、API Key
