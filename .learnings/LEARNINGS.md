@@ -368,3 +368,26 @@ Self-Improvement 从"声明式描述"升级为"流程强制执行"：在 always 
 - Last-Seen: 2026-04-08
 
 ---
+
+## [LRN-20260409-001] correction
+
+**Logged**: 2026-04-09T16:39:00+08:00
+**Priority**: high
+**Status**: pending
+**Area**: docs
+
+### Summary
+海克斯符文标签的 25% / 50% / 25% 切分必须按文档中的原始英雄符文顺序执行，不能按 `表现分` 或 `热度` 重新排序后再分桶。
+
+### Details
+在 `海克斯大乱斗_符文标签.xlsx` 的调整中，错误地依据 `表现分`、`热度` 对每个英雄的符文重新排序，再打上推荐/思考/不推荐标签。用户明确纠正：这里的区分应依据文档里原本已经排好的符文顺序进行切分。
+
+### Suggested Action
+涉及“按文档排序分层/分桶/切片”的任务时，先确认排序来源是原始行顺序还是计算字段排序；若用户引用“文档里面原本的排序”，则必须保留原始行顺序，只在该顺序上切分标签。
+
+### Metadata
+- Source: user_feedback
+- Related Files: 10_Work/海克斯大乱斗/海克斯大乱斗_符文标签.xlsx, .codebuddy/memory/projects/hex-arena/context.md
+- Tags: correction, ordering, xlsx, labeling
+
+---
